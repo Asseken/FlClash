@@ -44,15 +44,15 @@ void main(List<String> args) {
 }
 EOF
 
-if ! [ -x "$(command -v shasum)" ] && [ -x "$(command -v sha1sum)" ]; then
+if ! [ -x "$(command -v sha256sum)" ] && [ -x "$(command -v sha1sum)" ]; then
   shopt -s expand_aliases
-  alias shasum="sha1sum"
+  alias sha256sum="sha1sum"
 fi
 
 if [[ "$OSTYPE" == "darwin"* ]]; then
-  PACKAGE_HASH=$(ls -lTR "$BUILD_TOOL_PKG_DIR" | shasum)
+  PACKAGE_HASH=$(ls -lTR "$BUILD_TOOL_PKG_DIR" | sha256sum)
 else
-  PACKAGE_HASH=$(ls -lR --full-time "$BUILD_TOOL_PKG_DIR" | shasum)
+  PACKAGE_HASH=$(ls -lR --full-time "$BUILD_TOOL_PKG_DIR" | sha256sum)
 fi
 
 PACKAGE_HASH_FILE=".package_hash"

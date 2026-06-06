@@ -252,6 +252,7 @@ enum ActionMethod {
   crash,
   setupConfig,
   deleteFile,
+  getCoreVersion,
 
   ///Android,
   setState,

@@ -105,6 +105,7 @@ const (
 	setupConfigMethod              Method = "setupConfig"
 	getConfigMethod                Method = "getConfig"
 	deleteFile                     Method = "deleteFile"
+	getVersionMethod               Method = "getCoreVersion"
 )
 
 type Method string

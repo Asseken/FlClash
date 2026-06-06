@@ -139,7 +139,7 @@ Future<int> _package(
   final distributorDir = p.join(
     rootDir,
     'plugins',
-    'flutter_distributor',
+    'fastforge',
     'packages',
     'flutter_distributor',
   );

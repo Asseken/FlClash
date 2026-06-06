@@ -55,6 +55,8 @@ mixin CoreInterface {
 
   FutureOr<String> getMemory();
 
+  Future<Map<String, dynamic>> getCoreVersion();
+
   FutureOr<void> resetTraffic();
 
   FutureOr<void> startLog();

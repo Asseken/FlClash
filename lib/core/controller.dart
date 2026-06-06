@@ -75,7 +75,9 @@ class CoreController {
     final homeDirPath = await appPath.homeDirPath;
     return _interface.init(InitParams(homeDir: homeDirPath, version: version));
   }
-
+  Future<Map<String, dynamic>> getCoreVersion() async {
+    return await _interface.getCoreVersion();
+  }
   Future<void> shutdown(bool isUser) async {
     await _interface.shutdown(isUser);
   }

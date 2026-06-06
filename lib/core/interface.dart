@@ -346,4 +346,12 @@ abstract class CoreHandlerInterface with CoreInterface {
   Future<String> getMemory() async {
     return await _invoke<String>(method: ActionMethod.getMemory) ?? '';
   }
+
+  @override
+  Future<Map<String, dynamic>> getCoreVersion() async {
+    final res = await _invoke<Map<String, dynamic>>(
+      method: ActionMethod.getCoreVersion,
+    );
+    return res ?? {};
+  }
 }

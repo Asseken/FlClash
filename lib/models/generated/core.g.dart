@@ -290,6 +290,7 @@ const _$ActionMethodEnumMap = {
   ActionMethod.crash: 'crash',
   ActionMethod.setupConfig: 'setupConfig',
   ActionMethod.deleteFile: 'deleteFile',
+  ActionMethod.getCoreVersion: 'getCoreVersion',
   ActionMethod.setState: 'setState',
   ActionMethod.startTun: 'startTun',
   ActionMethod.stopTun: 'stopTun',

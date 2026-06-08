@@ -70,7 +70,7 @@ class GoBuilder {
 
     final args = [
       'build',
-      '-ldflags=${config.goLdflags}',
+      '-ldflags=${config.goLdflags} -X ${coreVersion} -X ${coreBuildTime}',
       '-tags=${config.tags}',
       if (target.isLib) '-buildmode=c-shared',
       '-o',

@@ -327,3 +327,25 @@ Map<String, dynamic> _$ActionResultToJson(_ActionResult instance) =>
     };
 
 const _$ResultTypeEnumMap = {ResultType.success: 0, ResultType.error: -1};
+
+_coreVersionInfo _$coreVersionInfoFromJson(Map<String, dynamic> json) =>
+    _coreVersionInfo(
+      mihoName: json['Miho-name'] as String?,
+      buildTime: json['build-time'] as String?,
+      clientVersion: (json['client-version'] as num?)?.toInt(),
+      coreVersion: json['core-version'] as String?,
+      goArch: json['go-arch'] as String?,
+      goOs: json['go-os'] as String?,
+      goVersion: json['go-version'] as String?,
+    );
+
+Map<String, dynamic> _$coreVersionInfoToJson(_coreVersionInfo instance) =>
+    <String, dynamic>{
+      'Miho-name': instance.mihoName,
+      'build-time': instance.buildTime,
+      'client-version': instance.clientVersion,
+      'core-version': instance.coreVersion,
+      'go-arch': instance.goArch,
+      'go-os': instance.goOs,
+      'go-version': instance.goVersion,
+    };

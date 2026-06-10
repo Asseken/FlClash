@@ -488,3 +488,11 @@ List<Override> buildAppStateOverrides(AppState appState) {
     coreStatusProvider.overrideWithBuild((_, _) => appState.coreStatus),
   ];
 }
+
+@Riverpod(name: 'coreVersionInfoDataProvider', keepAlive: true)
+class _CoreVersionInfo extends _$CoreVersionInfo with AutoDisposeNotifierMixin {
+  @override
+  coreVersionInfo? build() {
+    return null;
+  }
+}

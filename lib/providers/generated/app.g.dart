@@ -1969,3 +1969,55 @@ abstract class _$LocationPermissions extends $Notifier<WifiSsidPermission> {
     element.handleCreate(ref, build);
   }
 }
+
+@ProviderFor(_CoreVersionInfo)
+final coreVersionInfoDataProvider = _CoreVersionInfoProvider._();
+
+final class _CoreVersionInfoProvider
+    extends $NotifierProvider<_CoreVersionInfo, coreVersionInfo?> {
+  _CoreVersionInfoProvider._()
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'coreVersionInfoDataProvider',
+        isAutoDispose: false,
+        dependencies: null,
+        $allTransitiveDependencies: null,
+      );
+
+  @override
+  String debugGetCreateSourceHash() => _$_coreVersionInfoHash();
+
+  @$internal
+  @override
+  _CoreVersionInfo create() => _CoreVersionInfo();
+
+  /// {@macro riverpod.override_with_value}
+  Override overrideWithValue(coreVersionInfo? value) {
+    return $ProviderOverride(
+      origin: this,
+      providerOverride: $SyncValueProvider<coreVersionInfo?>(value),
+    );
+  }
+}
+
+String _$_coreVersionInfoHash() => r'7846fb6ffaaee9e79a9429f360c0f849bf65e66b';
+
+abstract class _$CoreVersionInfo extends $Notifier<coreVersionInfo?> {
+  coreVersionInfo? build();
+  @$mustCallSuper
+  @override
+  void runBuild() {
+    final ref = this.ref as $Ref<coreVersionInfo?, coreVersionInfo?>;
+    final element =
+        ref.element
+            as $ClassProviderElement<
+              AnyNotifier<coreVersionInfo?, coreVersionInfo?>,
+              coreVersionInfo?,
+              Object?,
+              Object?
+            >;
+    element.handleCreate(ref, build);
+  }
+}

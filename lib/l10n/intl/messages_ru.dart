@@ -70,6 +70,7 @@ class MessageLookup extends MessageLookupByLibrary {
 
   final messages = _notInlinedMessages(_notInlinedMessages);
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
+    "RunOs": MessageLookupByLibrary.simpleMessage("Система"),
     "about": MessageLookupByLibrary.simpleMessage("О программе"),
     "accessControl": MessageLookupByLibrary.simpleMessage("Контроль доступа"),
     "accessControlAllowDesc": MessageLookupByLibrary.simpleMessage(
@@ -265,7 +266,10 @@ class MessageLookup extends MessageLookupByLibrary {
     "copyLink": MessageLookupByLibrary.simpleMessage("Копировать ссылку"),
     "copySuccess": MessageLookupByLibrary.simpleMessage("Копирование успешно"),
     "core": MessageLookupByLibrary.simpleMessage("Ядро"),
+    "coreBuild": MessageLookupByLibrary.simpleMessage("Время сборки"),
+    "coreName": MessageLookupByLibrary.simpleMessage("Имя ядра"),
     "coreStatus": MessageLookupByLibrary.simpleMessage("Основной статус"),
+    "coreVersion": MessageLookupByLibrary.simpleMessage("Версия ядра"),
     "country": MessageLookupByLibrary.simpleMessage("Страна"),
     "crashTest": MessageLookupByLibrary.simpleMessage("Тест на сбои"),
     "crashlytics": MessageLookupByLibrary.simpleMessage("Анализ сбоев"),

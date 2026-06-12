@@ -63,6 +63,7 @@ class MessageLookup extends MessageLookupByLibrary {
 
   final messages = _notInlinedMessages(_notInlinedMessages);
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
+    "RunOs": MessageLookupByLibrary.simpleMessage("実行システム"),
     "about": MessageLookupByLibrary.simpleMessage("について"),
     "accessControl": MessageLookupByLibrary.simpleMessage("アクセス制御"),
     "accessControlAllowDesc": MessageLookupByLibrary.simpleMessage(
@@ -198,7 +199,10 @@ class MessageLookup extends MessageLookupByLibrary {
     "copyLink": MessageLookupByLibrary.simpleMessage("リンクをコピー"),
     "copySuccess": MessageLookupByLibrary.simpleMessage("コピー成功"),
     "core": MessageLookupByLibrary.simpleMessage("コア"),
+    "coreBuild": MessageLookupByLibrary.simpleMessage("ビルド時間"),
+    "coreName": MessageLookupByLibrary.simpleMessage("コア名"),
     "coreStatus": MessageLookupByLibrary.simpleMessage("コアステータス"),
+    "coreVersion": MessageLookupByLibrary.simpleMessage("コアバージョン"),
     "country": MessageLookupByLibrary.simpleMessage("国"),
     "crashTest": MessageLookupByLibrary.simpleMessage("クラッシュテスト"),
     "crashlytics": MessageLookupByLibrary.simpleMessage("クラッシュ分析"),

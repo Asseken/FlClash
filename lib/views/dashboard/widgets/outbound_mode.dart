@@ -40,7 +40,7 @@ class OutboundMode extends StatelessWidget {
                 iconData: Icons.call_split_sharp,
               ),
               child: Padding(
-                padding: const EdgeInsets.only(top: 12, bottom: 12),
+                padding: const EdgeInsets.only(top: 12, bottom: 10),
                 child: RadioGroup<Mode>(
                   groupValue: mode,
                   onChanged: (value) {

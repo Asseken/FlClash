@@ -764,6 +764,31 @@ class AppLocalizations {
     return Intl.message('Core', name: 'core', desc: '', args: []);
   }
 
+  /// `Build Time`
+  String get coreBuild {
+    return Intl.message('Build Time', name: 'coreBuild', desc: '', args: []);
+  }
+
+  /// `Core Version`
+  String get coreVersion {
+    return Intl.message(
+      'Core Version',
+      name: 'coreVersion',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Core Name`
+  String get coreName {
+    return Intl.message('Core Name', name: 'coreName', desc: '', args: []);
+  }
+
+  /// `Run Os`
+  String get RunOs {
+    return Intl.message('Run Os', name: 'RunOs', desc: '', args: []);
+  }
+
   /// `Tab animation`
   String get tabAnimation {
     return Intl.message(

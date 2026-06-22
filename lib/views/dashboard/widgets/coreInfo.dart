@@ -23,12 +23,7 @@ class ShowCoreInfo extends StatelessWidget {
           return CommonCard(
             onPressed: () {},
             child: Padding(
-              padding: const EdgeInsets.only(
-                left: 10,
-                right: 10,
-                top: 10,
-                bottom: 10,
-              ),
+              padding: const EdgeInsets.all(10),
               child: Row(
                 mainAxisSize: MainAxisSize.min,
                 children: [

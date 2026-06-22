@@ -300,6 +300,7 @@ enum DashboardWidget {
   outboundModeV2(GridItem(crossAxisCellCount: 8, child: OutboundModeV2())),
   outboundMode(GridItem(crossAxisCellCount: 4, child: OutboundMode())),
   showCoreInfo(GridItem(crossAxisCellCount: 8, child: ShowCoreInfo())),
+  coreState(GridItem(crossAxisCellCount: 4, child: CoreState())),
   trafficUsage(GridItem(crossAxisCellCount: 4, child: TrafficUsage())),
   networkDetection(GridItem(crossAxisCellCount: 4, child: NetworkDetection())),
   tunButton(

@@ -784,6 +784,21 @@ class AppLocalizations {
     return Intl.message('Core Name', name: 'coreName', desc: '', args: []);
   }
 
+  /// `Stop`
+  String get coreStop {
+    return Intl.message('Stop', name: 'coreStop', desc: '', args: []);
+  }
+
+  /// `Start`
+  String get coreStart {
+    return Intl.message('Start', name: 'coreStart', desc: '', args: []);
+  }
+
+  /// `Restart`
+  String get coreRestart {
+    return Intl.message('Restart', name: 'coreRestart', desc: '', args: []);
+  }
+
   /// `Run Os`
   String get RunOs {
     return Intl.message('Run Os', name: 'RunOs', desc: '', args: []);

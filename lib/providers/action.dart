@@ -137,7 +137,8 @@ class SetupAction extends _$SetupAction {
   }
 
   Future<void> _handleStart() async {
-    startTime ??= DateTime.now();
+    _updateTimer?.cancel();
+    startTime = DateTime.now();
     //The local status must be updated when performing the run task
     ref.read(commonActionProvider.notifier).updateRunTime();
     ref.read(commonActionProvider.notifier).updateTraffic();

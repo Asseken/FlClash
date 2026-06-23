@@ -6,9 +6,9 @@ import '../../../common/constant.dart';
 import '../../../common/context.dart';
 import '../../../common/text.dart';
 import '../../../enum/enum.dart';
+import '../../../models/common.dart';
 import '../../../providers/action.dart';
 import '../../../providers/app.dart';
-import '../../../providers/state.dart';
 import '../../../state.dart';
 import '../../../widgets/card.dart';
 import '../../../widgets/text.dart';
@@ -32,6 +32,7 @@ class _CoreStateState extends State<CoreState> {
           final stopDisabled = coreStatus == CoreStatus.disconnected;
           final startDisabled = coreStatus == CoreStatus.connected;
           return CommonCard(
+            onPressed: () {},
             info: Info(
               label: appLocalizations.coreStatus,
               iconData: Icons.cable_outlined,
@@ -61,6 +62,10 @@ class _CoreStateState extends State<CoreState> {
                                 ref.read(coreStatusProvider.notifier).value =
                                     CoreStatus.disconnected;
                                 await coreController.shutdown(!isDisconnected);
+                                ref.read(trafficsProvider.notifier).clear();
+                                ref
+                                    .read(trafficsProvider.notifier)
+                                    .addTraffic(const Traffic());
                               },
                         child: TooltipText(
                           text: Text(

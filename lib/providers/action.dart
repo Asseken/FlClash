@@ -138,7 +138,7 @@ class SetupAction extends _$SetupAction {
 
   Future<void> _handleStart() async {
     _updateTimer?.cancel();
-    startTime = DateTime.now();
+    startTime ??= DateTime.now();
     //The local status must be updated when performing the run task
     ref.read(commonActionProvider.notifier).updateRunTime();
     ref.read(commonActionProvider.notifier).updateTraffic();
@@ -193,7 +193,6 @@ class SetupAction extends _$SetupAction {
         applyProfileDebounce(force: true, silence: true);
       } else {
         globalState.needInitStatus = false;
-        ref.read(runTimeProvider.notifier).value = 0;
         try {
           await applyProfile(
             force: true,
@@ -354,6 +353,7 @@ class SetupAction extends _$SetupAction {
       final code = await system.authorizeCore();
       switch (code) {
         case AuthorizeCode.success:
+          ref.read(realTunEnableProvider.notifier).value = enableTun;
           await ref.read(coreActionProvider.notifier).restartCore();
           return Result.error('');
         case AuthorizeCode.none:
@@ -524,6 +524,7 @@ class CoreAction extends _$CoreAction {
       final code = await system.authorizeCore();
       switch (code) {
         case AuthorizeCode.success:
+          ref.read(realTunEnableProvider.notifier).value = enableTun;
           await restartCore();
           return Result.error('');
         case AuthorizeCode.none:

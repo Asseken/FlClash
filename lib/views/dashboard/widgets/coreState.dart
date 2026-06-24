@@ -9,6 +9,7 @@ import '../../../enum/enum.dart';
 import '../../../models/common.dart';
 import '../../../providers/action.dart';
 import '../../../providers/app.dart';
+import '../../../providers/state.dart';
 import '../../../state.dart';
 import '../../../widgets/card.dart';
 import '../../../widgets/text.dart';
@@ -100,9 +101,13 @@ class _CoreStateState extends State<CoreState> {
                                 await globalState.container
                                     .read(coreActionProvider.notifier)
                                     .initCore();
-                                await ref
-                                    .read(setupActionProvider.notifier)
-                                    .updateStatus(true, isInit: true);
+                                if (ref.read(isStartProvider)) {
+                                  await ref
+                                      .read(setupActionProvider.notifier)
+                                      .updateStatus(true, isInit: true);
+                                } else {
+                                  await ref.read(setupActionProvider.notifier).applyProfile(force: true);
+                                }
                               },
                         child: TooltipText(
                           text: Text(

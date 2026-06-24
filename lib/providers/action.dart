@@ -193,6 +193,7 @@ class SetupAction extends _$SetupAction {
         applyProfileDebounce(force: true, silence: true);
       } else {
         globalState.needInitStatus = false;
+        ref.read(runTimeProvider.notifier).value = 0;
         try {
           await applyProfile(
             force: true,

@@ -5,6 +5,7 @@ import 'package:fl_clash/common/common.dart';
 import 'package:fl_clash/core/controller.dart';
 import 'package:fl_clash/state.dart';
 import 'package:fl_clash/widgets/widgets.dart';
+import 'package:fluent_ui/fluent_ui.dart';
 import 'package:flutter/material.dart';
 
 final _memoryStateNotifier = ValueNotifier<num>(0);
@@ -53,7 +54,7 @@ class _MemoryInfoState extends State<MemoryInfo> {
       child: RepaintBoundary(
         child: CommonCard(
           info: Info(
-            iconData: Icons.memory,
+            iconData: WindowsIcons.cpu,
             label: appLocalizations.memoryInfo,
           ),
           onPressed: () {

@@ -1,4 +1,5 @@
 import 'package:fl_clash/core/controller.dart';
+import 'package:fluent_ui/fluent_ui.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -36,7 +37,7 @@ class _CoreStateState extends State<CoreState> {
             onPressed: () {},
             info: Info(
               label: appLocalizations.coreStatus,
-              iconData: Icons.cable_outlined,
+              iconData: FluentIcons.charticulator_linking_sequence,
             ),
             child: Padding(
               padding: const EdgeInsets.all(1),

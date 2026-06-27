@@ -2,6 +2,7 @@ import 'package:fl_clash/common/common.dart';
 import 'package:fl_clash/providers/config.dart';
 import 'package:fl_clash/views/config/network.dart';
 import 'package:fl_clash/widgets/widgets.dart';
+import 'package:fluent_ui/fluent_ui.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -39,7 +40,7 @@ class TUNButton extends StatelessWidget {
         },
         info: Info(
           label: appLocalizations.tun,
-          iconData: Icons.stacked_line_chart,
+          iconData: WindowsIcons.ethernet,
         ),
         child: Container(
           padding: baseInfoEdgeInsets.copyWith(top: 4, bottom: 8, right: 8),
@@ -111,7 +112,7 @@ class SystemProxyButton extends StatelessWidget {
         },
         info: Info(
           label: appLocalizations.systemProxy,
-          iconData: Icons.shuffle,
+          iconData: FluentIcons.internet_sharing,
         ),
         child: Container(
           padding: baseInfoEdgeInsets.copyWith(top: 4, bottom: 8, right: 8),
@@ -186,7 +187,7 @@ class VpnButton extends StatelessWidget {
             },
           );
         },
-        info: const Info(label: 'VPN', iconData: Icons.stacked_line_chart),
+        info: const Info(label: 'VPN', iconData: WindowsIcons.vpn),
         child: Container(
           padding: baseInfoEdgeInsets.copyWith(top: 4, bottom: 8, right: 8),
           child: Row(

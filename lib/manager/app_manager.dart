@@ -6,6 +6,7 @@ import 'package:fl_clash/enum/enum.dart';
 import 'package:fl_clash/manager/window_manager.dart';
 import 'package:fl_clash/providers/providers.dart';
 import 'package:fl_clash/state.dart';
+import 'package:fluent_ui/fluent_ui.dart' hide Colors, IconButton;
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -263,8 +264,8 @@ class AppSidebarContainer extends ConsumerWidget {
                               state.copyWith(showLabel: !state.showLabel),
                         );
                   },
-                  icon: Icon(
-                    Icons.menu,
+                  icon: WindowsIcon(
+                    FluentIcons.context_menu,
                     color: context.colorScheme.onSurfaceVariant,
                   ),
                 ),

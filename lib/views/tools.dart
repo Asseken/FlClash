@@ -12,6 +12,7 @@ import 'package:fl_clash/views/backup_and_restore.dart';
 import 'package:fl_clash/views/config/config.dart';
 import 'package:fl_clash/views/hotkey.dart';
 import 'package:fl_clash/widgets/widgets.dart';
+import 'package:fluent_ui/fluent_ui.dart' hide Divider;
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
@@ -134,7 +135,7 @@ class _LocaleItem extends ConsumerWidget {
     final subTitle = locale ?? context.appLocalizations.defaultText;
     final currentLocale = utils.getLocaleForString(locale);
     return ListItem<Locale?>.options(
-      leading: const Icon(Icons.language_outlined),
+      leading: const WindowsIcon(WindowsIcons.locale_language),
       title: Text(context.appLocalizations.language),
       subtitle: Text(Intl.message(subTitle)),
       delegate: OptionsDelegate(

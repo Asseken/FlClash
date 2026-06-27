@@ -48,7 +48,7 @@ const GEOIP = 'GEOIP.dat';
 const GEOSITE = 'GEOSITE.dat';
 final double kHeaderHeight = system.isDesktop
     ? !system.isMacOS
-          ? 40
+          ? 30
           : 28
     : 0;
 const profilesDirectoryName = 'profiles';

@@ -15,6 +15,7 @@ import 'package:fl_clash/widgets/input.dart';
 import 'package:fl_clash/widgets/list.dart';
 import 'package:fl_clash/widgets/scaffold.dart';
 import 'package:fl_clash/widgets/text.dart';
+import 'package:fluent_ui/fluent_ui.dart' hide FilledButton, Colors, IconButton;
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
@@ -210,7 +211,7 @@ class _BackupAndRestoreState extends ConsumerState<BackupAndRestore>
           ListHeader(title: appLocalizations.remote),
           if (dav == null)
             ListItem(
-              leading: const Icon(Icons.account_box),
+              leading: const Icon(WindowsIcons.other_user),
               title: Text(appLocalizations.noInfo),
               subtitle: Text(appLocalizations.pleaseBindWebDAV),
               trailing: FilledButton.tonal(
@@ -222,7 +223,7 @@ class _BackupAndRestoreState extends ConsumerState<BackupAndRestore>
             )
           else ...[
             ListItem(
-              leading: const Icon(Icons.account_box),
+              leading: const Icon(WindowsIcons.other_user),
               title: TooltipText(
                 text: Text(
                   dav.user,

@@ -8,6 +8,7 @@ import 'package:fl_clash/providers/providers.dart';
 import 'package:fl_clash/state.dart';
 import 'package:fl_clash/views/profiles/overwrite/custom/widgets.dart';
 import 'package:fl_clash/widgets/widgets.dart';
+import 'package:fluent_ui/fluent_ui.dart' hide IconButton, FilledButton, Colors;
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:smooth_sheets/smooth_sheets.dart';
@@ -168,7 +169,7 @@ class _CustomRulesViewState extends ConsumerState<CustomRulesView>
           CommonMinIconButtonTheme(
             child: IconButton.filledTonal(
               onPressed: _handleDelete,
-              icon: const Icon(Icons.delete),
+              icon: const Icon(WindowsIcons.delete),
             ),
           ),
           const SizedBox(width: 2),

@@ -5,6 +5,7 @@ import 'package:fl_clash/enum/enum.dart';
 import 'package:fl_clash/providers/providers.dart';
 import 'package:fl_clash/views/config/scripts.dart';
 import 'package:fl_clash/widgets/widgets.dart';
+import 'package:fluent_ui/fluent_ui.dart' hide ListTile;
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -113,7 +114,7 @@ class ScriptContent extends ConsumerWidget {
                         style: context.textTheme.bodyLarge,
                       ),
                     ),
-                    const Icon(Icons.arrow_forward_ios, size: 18),
+                    const Icon(WindowsIcons.chevron_right, size: 18),
                   ],
                 ),
               ),

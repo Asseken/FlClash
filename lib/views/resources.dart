@@ -6,6 +6,7 @@ import 'package:fl_clash/models/models.dart';
 import 'package:fl_clash/providers/config.dart';
 import 'package:fl_clash/state.dart';
 import 'package:fl_clash/widgets/widgets.dart';
+import 'package:fluent_ui/fluent_ui.dart' hide Divider;
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:path/path.dart' hide context;
@@ -141,7 +142,7 @@ class _GeoDataListItemState extends State<GeoDataListItem> {
               runAlignment: WrapAlignment.center,
               children: [
                 CommonChip(
-                  avatar: const Icon(Icons.edit),
+                  avatar: const Icon(WindowsIcons.text_edit),
                   label: appLocalizations.edit,
                   onPressed: () {
                     _updateUrl(url, ref);
@@ -164,7 +165,7 @@ class _GeoDataListItemState extends State<GeoDataListItem> {
                                   ),
                                 )
                               : CommonChip(
-                                  avatar: const Icon(Icons.sync),
+                                  avatar: const Icon(WindowsIcons.sync),
                                   label: appLocalizations.sync,
                                   onPressed: () {
                                     _handleUpdateGeoDataItem();

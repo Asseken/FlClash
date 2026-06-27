@@ -6,6 +6,7 @@ import 'package:fl_clash/providers/providers.dart';
 import 'package:fl_clash/views/proxies/list.dart';
 import 'package:fl_clash/views/proxies/providers.dart';
 import 'package:fl_clash/widgets/widgets.dart';
+import 'package:fluent_ui/fluent_ui.dart' hide IconButton;
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -33,7 +34,7 @@ class _ProxiesViewState extends ConsumerState<ProxiesView> {
           onPressed: () {
             _proxiesTabKey.currentState?.scrollToGroupSelected();
           },
-          icon: const Icon(Icons.adjust, weight: 1),
+          icon: const Icon(WindowsIcons.location, weight: 1),
         ),
       CommonPopupBox(
         targetBuilder: (open) {
@@ -42,7 +43,7 @@ class _ProxiesViewState extends ConsumerState<ProxiesView> {
               final isMobile = ref.read(isMobileViewProvider);
               open(offset: Offset(0, isMobile ? 0 : 20));
             },
-            icon: const Icon(Icons.more_vert),
+            icon: const Icon(FluentIcons.more_vertical),
           );
         },
         popup: CommonPopupMenu(

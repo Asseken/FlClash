@@ -9,6 +9,7 @@ import 'package:fl_clash/providers/action.dart';
 import 'package:fl_clash/providers/app.dart';
 import 'package:fl_clash/state.dart';
 import 'package:fl_clash/widgets/widgets.dart';
+import 'package:fluent_ui/fluent_ui.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -60,7 +61,9 @@ class _ProvidersViewState extends ConsumerState<ProvidersView> {
       items: ruleProviders,
     );
     return AdaptiveSheetScaffold(
-      actions: [IconButtonData(icon: Icons.sync, onPressed: _updateProviders)],
+      actions: [
+        IconButtonData(icon: WindowsIcons.sync, onPressed: _updateProviders),
+      ],
       body: generateListView([...proxySection, ...ruleSection]),
       title: appLocalizations.providers,
     );
@@ -135,7 +138,7 @@ class ProviderItem extends StatelessWidget {
             runAlignment: WrapAlignment.center,
             children: [
               CommonChip(
-                avatar: const Icon(Icons.upload),
+                avatar: const Icon(FluentIcons.fabric_folder_upload),
                 label: context.appLocalizations.upload,
                 onPressed: _handleSideLoadProvider,
               ),
@@ -155,7 +158,7 @@ class ProviderItem extends StatelessWidget {
                             ),
                           )
                         : CommonChip(
-                            avatar: const Icon(Icons.sync),
+                            avatar: const Icon(WindowsIcons.sync),
                             label: context.appLocalizations.sync,
                             onPressed: _handleUpdateProvider,
                           );

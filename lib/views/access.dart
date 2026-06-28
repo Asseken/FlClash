@@ -283,7 +283,7 @@ class _AccessViewState extends ConsumerState<AccessView> {
               label: appLocalizations.action,
               subItems: [
                 PopupMenuItemData(
-                  icon: WindowsIcons.clickto_do,
+                  icon: WindowsIcons.effects,
                   label: appLocalizations.intelligentSelected,
                   onPressed: _intelligentSelected,
                 ),

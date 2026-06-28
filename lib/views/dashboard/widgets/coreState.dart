@@ -37,7 +37,7 @@ class _CoreStateState extends State<CoreState> {
             onPressed: () {},
             info: Info(
               label: appLocalizations.coreStatus,
-              iconData: FluentIcons.model_app_template32,
+              iconData: WindowsIcons.default_a_p_n,
             ),
             child: Padding(
               padding: const EdgeInsets.all(1),

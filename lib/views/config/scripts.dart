@@ -8,6 +8,7 @@ import 'package:fl_clash/providers/app.dart';
 import 'package:fl_clash/providers/database.dart';
 import 'package:fl_clash/state.dart';
 import 'package:fl_clash/widgets/widgets.dart';
+import 'package:fluent_ui/fluent_ui.dart' hide IconButton, FilledButton;
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -204,7 +205,7 @@ class _ScriptsViewState extends ConsumerState<ScriptsView> {
                 onPressed: () {
                   _handleDelScript(selectedScriptId);
                 },
-                icon: const Icon(Icons.delete),
+                icon: const Icon(WindowsIcons.delete),
               ),
             ),
             const SizedBox(width: 2),

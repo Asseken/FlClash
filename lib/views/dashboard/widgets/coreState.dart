@@ -37,7 +37,7 @@ class _CoreStateState extends State<CoreState> {
             onPressed: () {},
             info: Info(
               label: appLocalizations.coreStatus,
-              iconData: FluentIcons.charticulator_linking_sequence,
+              iconData: FluentIcons.model_app_template32,
             ),
             child: Padding(
               padding: const EdgeInsets.all(1),

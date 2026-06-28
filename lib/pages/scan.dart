@@ -5,6 +5,7 @@ import 'package:fl_clash/common/color.dart';
 import 'package:fl_clash/providers/action.dart';
 import 'package:fl_clash/state.dart';
 import 'package:fl_clash/widgets/activate_box.dart';
+import 'package:fluent_ui/fluent_ui.dart' hide IconButton, Colors;
 import 'package:flutter/material.dart';
 import 'package:mobile_scanner/mobile_scanner.dart';
 
@@ -61,7 +62,10 @@ class _ScanPageState extends State<ScanPage> with WidgetsBindingObserver {
 
   @override
   Widget build(BuildContext context) {
-    final double sideLength = min(400, MediaQuery.of(context).size.width * 0.67);
+    final double sideLength = min(
+      400,
+      MediaQuery.of(context).size.width * 0.67,
+    );
     final scanWindow = Rect.fromCenter(
       center: MediaQuery.sizeOf(context).center(Offset.zero),
       width: sideLength,
@@ -88,26 +92,26 @@ class _ScanPageState extends State<ScanPage> with WidgetsBindingObserver {
               onPressed: () {
                 Navigator.of(context).pop();
               },
-              icon: const Icon(Icons.close),
+              icon: const Icon(WindowsIcons.clear),
             ),
             actions: [
               ValueListenableBuilder<MobileScannerState>(
                 valueListenable: controller,
                 builder: (context, state, _) {
-                  var icon = const Icon(Icons.flash_off);
+                  var icon = const Icon(FluentIcons.flash_off);
                   var backgroundColor = Colors.black12;
                   switch (state.torchState) {
                     case TorchState.off:
-                      icon = const Icon(Icons.flash_off);
+                      icon = const Icon(FluentIcons.flash_off);
                       backgroundColor = Colors.black12;
                     case TorchState.on:
-                      icon = const Icon(Icons.flash_on);
+                      icon = const Icon(FluentIcons.lightning_bolt);
                       backgroundColor = Colors.orange;
                     case TorchState.unavailable:
-                      icon = const Icon(Icons.flash_off);
+                      icon = const Icon(FluentIcons.flash_off);
                       backgroundColor = Colors.transparent;
                     case TorchState.auto:
-                      icon = const Icon(Icons.flash_auto);
+                      icon = const Icon(FluentIcons.flash_auto);
                       backgroundColor = Colors.orange;
                   }
                   return Container(
@@ -143,7 +147,7 @@ class _ScanPageState extends State<ScanPage> with WidgetsBindingObserver {
               onPressed: globalState.container
                   .read(profilesActionProvider.notifier)
                   .addProfileFormQrCode,
-              icon: const Icon(Icons.photo_camera_back),
+              icon: const Icon(FluentIcons.photo2_add),
             ),
           ),
         ],

@@ -6,6 +6,7 @@ import 'package:fl_clash/models/common.dart';
 import 'package:fl_clash/providers/app.dart';
 import 'package:fl_clash/state.dart';
 import 'package:fl_clash/widgets/widgets.dart';
+import 'package:fluent_ui/fluent_ui.dart' hide IconButton;
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -217,7 +218,7 @@ class _EditorPageState extends ConsumerState<EditorPage> {
                             );
                           }
                         : null,
-                    icon: const Icon(Icons.save),
+                    icon: const Icon(WindowsIcons.save),
                   ),
                 ),
               ),
@@ -229,29 +230,29 @@ class _EditorPageState extends ConsumerState<EditorPage> {
                       final isMobile = ref.read(isMobileViewProvider);
                       open(offset: Offset(0, isMobile ? 0 : 20));
                     },
-                    icon: const Icon(Icons.more_vert),
+                    icon: const Icon(FluentIcons.more_vertical),
                   );
                 },
                 popup: CommonPopupMenu(
                   items: [
                     PopupMenuItemData(
-                      icon: Icons.search,
+                      icon: WindowsIcons.search,
                       label: appLocalizations.search,
                       onPressed: _handleSearch,
                     ),
                     PopupMenuItemData(
-                      icon: Icons.undo,
+                      icon: WindowsIcons.undo,
                       label: appLocalizations.undo,
                       onPressed: _controller.canUndo ? _controller.undo : null,
                     ),
                     PopupMenuItemData(
-                      icon: Icons.redo,
+                      icon: WindowsIcons.redo,
                       label: appLocalizations.redo,
                       onPressed: _controller.canRedo ? _controller.redo : null,
                     ),
                     if (widget.supportRemoteDownload && !readOnly)
                       PopupMenuItemData(
-                        icon: Icons.arrow_downward,
+                        icon: WindowsIcons.down,
                         label: appLocalizations.externalFetch,
                         subItems: [
                           PopupMenuItemData(
@@ -417,7 +418,7 @@ class FindPanel extends StatelessWidget implements PreferredSizeWidget {
                       : () {
                           controller.previousMatch();
                         },
-                  icon: Icons.arrow_upward,
+                  icon: WindowsIcons.up,
                 ),
                 _buildIconButton(
                   onPressed: value.result == null
@@ -425,12 +426,12 @@ class FindPanel extends StatelessWidget implements PreferredSizeWidget {
                       : () {
                           controller.nextMatch();
                         },
-                  icon: Icons.arrow_downward,
+                  icon: WindowsIcons.down,
                 ),
                 const SizedBox(width: 2),
                 IconButton.filledTonal(
                   onPressed: controller.close,
-                  icon: const Icon(Icons.close, size: 16),
+                  icon: const Icon(WindowsIcons.clear, size: 16),
                 ),
               ],
             ),

@@ -135,7 +135,7 @@ class _LocaleItem extends ConsumerWidget {
     final subTitle = locale ?? context.appLocalizations.defaultText;
     final currentLocale = utils.getLocaleForString(locale);
     return ListItem<Locale?>.options(
-      leading: const WindowsIcon(WindowsIcons.locale_language),
+      leading: const Icon(WindowsIcons.locale_language),
       title: Text(context.appLocalizations.language),
       subtitle: Text(Intl.message(subTitle)),
       delegate: OptionsDelegate(

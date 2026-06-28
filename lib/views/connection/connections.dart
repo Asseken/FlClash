@@ -4,6 +4,7 @@ import 'package:fl_clash/common/common.dart';
 import 'package:fl_clash/core/controller.dart';
 import 'package:fl_clash/models/models.dart';
 import 'package:fl_clash/widgets/widgets.dart';
+import 'package:fluent_ui/fluent_ui.dart' hide IconButton, Divider;
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:super_sliver_list/super_sliver_list.dart';
@@ -32,7 +33,7 @@ class _ConnectionsViewState extends ConsumerState<ConnectionsView> {
           coreController.closeConnections();
           await _updateConnections();
         },
-        icon: const Icon(Icons.delete_sweep_outlined),
+        icon: const Icon(WindowsIcons.delete),
       ),
     ];
   }
@@ -116,7 +117,7 @@ class _ConnectionsViewState extends ConsumerState<ConnectionsView> {
                     padding: EdgeInsets.zero,
                     visualDensity: VisualDensity.compact,
                     style: IconButton.styleFrom(minimumSize: Size.zero),
-                    icon: const Icon(Icons.block),
+                    icon: const Icon(WindowsIcons.blocked),
                     onPressed: () {
                       _handleBlockConnection(trackerInfo.id);
                     },

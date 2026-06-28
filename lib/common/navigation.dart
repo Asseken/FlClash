@@ -43,7 +43,7 @@ class Navigation {
         modes: [NavigationItemMode.desktop, NavigationItemMode.more],
       ),
       NavigationItem(
-        icon: const WindowsIcon(WindowsIcons.communications),
+        icon: const WindowsIcon(WindowsIcons.connect),
         label: PageLabel.connections,
         builder: (_) =>
             const ConnectionsView(key: GlobalObjectKey(PageLabel.connections)),

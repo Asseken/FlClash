@@ -9,6 +9,7 @@ import 'package:fl_clash/models/models.dart';
 import 'package:fl_clash/providers/config.dart';
 import 'package:fl_clash/state.dart';
 import 'package:fl_clash/widgets/widgets.dart';
+import 'package:fluent_ui/fluent_ui.dart' hide FilledButton, IconButton, Colors, SliderTheme, Slider, SliderThemeData;
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
@@ -91,17 +92,17 @@ class _ThemeModeItem extends ConsumerWidget {
     );
     final List<ThemeModeItem> themeModeItems = [
       ThemeModeItem(
-        iconData: Icons.auto_mode,
+        iconData: WindowsIcons.repeat_all,
         label: appLocalizations.auto,
         themeMode: ThemeMode.system,
       ),
       ThemeModeItem(
-        iconData: Icons.light_mode,
+        iconData: FluentIcons.lightbulb,
         label: appLocalizations.light,
         themeMode: ThemeMode.light,
       ),
       ThemeModeItem(
-        iconData: Icons.dark_mode,
+        iconData: FluentIcons.lightbulb_solid,
         label: appLocalizations.dark,
         themeMode: ThemeMode.dark,
       ),
@@ -110,7 +111,7 @@ class _ThemeModeItem extends ConsumerWidget {
       child: ItemCard(
         info: Info(
           label: appLocalizations.themeMode,
-          iconData: Icons.brightness_high,
+          iconData: WindowsIcons.developer_tools,
         ),
         child: Container(
           padding: const EdgeInsets.symmetric(horizontal: 16),
@@ -299,7 +300,7 @@ class _PrimaryColorItemState extends ConsumerState<_PrimaryColorItem> {
         child: ItemCard(
           info: Info(
             label: appLocalizations.themeColor,
-            iconData: Icons.palette,
+            iconData: WindowsIcons.color,
           ),
           actions: genActions([
             if (_removablePrimaryColor == null)
@@ -328,7 +329,7 @@ class _PrimaryColorItemState extends ConsumerState<_PrimaryColorItem> {
                 padding: const EdgeInsets.all(4),
                 visualDensity: VisualDensity.compact,
                 onPressed: _handleReset,
-                icon: const Icon(Icons.replay),
+                icon: const Icon(WindowsIcons.update_restore),
               ),
           ], space: 8),
           child: Container(
@@ -386,7 +387,7 @@ class _PrimaryColorItemState extends ConsumerState<_PrimaryColorItem> {
                                   iconSize: 30,
                                   icon: Icon(
                                     color: context.colorScheme.primary,
-                                    Icons.delete,
+                                    WindowsIcons.delete,
                                   ),
                                 ),
                               ),
@@ -403,7 +404,7 @@ class _PrimaryColorItemState extends ConsumerState<_PrimaryColorItem> {
                           iconSize: 32,
                           icon: Icon(
                             color: context.colorScheme.primary,
-                            Icons.add,
+                            WindowsIcons.add,
                           ),
                         ),
                       ),
@@ -429,7 +430,7 @@ class _PrueBlackItem extends ConsumerWidget {
     );
     return SliverToBoxAdapter(
       child: ListItem.switchItem(
-        leading: const Icon(Icons.contrast),
+        leading: const Icon(WindowsIcons.contrast),
         horizontalTitleGap: 12,
         title: Text(
           appLocalizations.pureBlackMode,
@@ -467,7 +468,7 @@ class _TextScaleFactorItem extends ConsumerWidget {
           Padding(
             padding: const EdgeInsets.only(bottom: 8),
             child: ListItem.switchItem(
-              leading: const Icon(Icons.text_fields),
+              leading: const Icon(FluentIcons.text_field),
               horizontalTitleGap: 12,
               title: Text(
                 appLocalizations.textScale,

@@ -24,7 +24,7 @@ class AdvancedConfigView extends StatelessWidget {
       ListItem.open(
         title: Text(appLocalizations.network),
         subtitle: Text(appLocalizations.networkDesc),
-        leading: const Icon(WindowsIcons.vpn),
+        leading: const Icon(WindowsIcons.ethernet_v_p_n),
         delegate: OpenDelegate(
           blur: false,
           widget: BaseScaffold(
@@ -42,7 +42,7 @@ class AdvancedConfigView extends StatelessWidget {
       ListItem.open(
         title: const Text('DNS'),
         subtitle: Text(appLocalizations.dnsDesc),
-        leading: const Icon(Icons.dns),
+        leading: const Icon(FluentIcons.server),
         delegate: OpenDelegate(
           widget: BaseScaffold(
             title: 'DNS',

@@ -265,7 +265,7 @@ class AppSidebarContainer extends ConsumerWidget {
                         );
                   },
                   icon: WindowsIcon(
-                    FluentIcons.context_menu,
+                    WindowsIcons.global_nav_button,
                     color: context.colorScheme.onSurfaceVariant,
                   ),
                 ),

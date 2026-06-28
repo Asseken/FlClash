@@ -7,6 +7,7 @@ import 'package:fl_clash/plugins/app.dart';
 import 'package:fl_clash/providers/providers.dart';
 import 'package:fl_clash/state.dart';
 import 'package:fl_clash/widgets/widgets.dart';
+import 'package:fluent_ui/fluent_ui.dart' hide FilledButton, IconButton, Card;
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -72,14 +73,14 @@ class _AccessViewState extends ConsumerState<AccessView> {
               key: const ValueKey(true),
               onPressed: onPressed,
               label: Text(appLocalizations.cancelSelectAll),
-              icon: const Icon(Icons.deselect),
+              icon: const Icon(FluentIcons.border_none),
             )
           : FloatingActionButton.extended(
               key: const ValueKey(false),
               tooltip: appLocalizations.selectAll,
               onPressed: onPressed,
               label: Text(appLocalizations.selectAll),
-              icon: const Icon(Icons.select_all),
+              icon: const Icon(FluentIcons.border_all),
             ),
     );
   }
@@ -255,44 +256,44 @@ class _AccessViewState extends ConsumerState<AccessView> {
             onPressed: () {
               open(offset: const Offset(0, 0));
             },
-            icon: const Icon(Icons.more_vert),
+            icon: const Icon(FluentIcons.more_vertical),
           );
         },
         popup: CommonPopupMenu(
           items: [
             PopupMenuItemData(
-              icon: Icons.swap_horiz,
+              icon: WindowsIcons.switch_widget,
               label: enable
                   ? appLocalizations.turnOff
                   : appLocalizations.turnOn,
               onPressed: _handleToggle,
             ),
             PopupMenuItemData(
-              icon: Icons.search,
+              icon: WindowsIcons.search,
               label: appLocalizations.search,
               onPressed: _handleSearch,
             ),
             PopupMenuItemData(
-              icon: Icons.tune,
+              icon: WindowsIcons.settings,
               label: appLocalizations.settings,
               onPressed: _handleToSetting,
             ),
             PopupMenuItemData(
-              icon: Icons.emergency_outlined,
+              icon: FluentIcons.collapse_menu,
               label: appLocalizations.action,
               subItems: [
                 PopupMenuItemData(
-                  icon: Icons.auto_awesome,
+                  icon: WindowsIcons.clickto_do,
                   label: appLocalizations.intelligentSelected,
                   onPressed: _intelligentSelected,
                 ),
                 PopupMenuItemData(
-                  icon: Icons.content_copy,
+                  icon: WindowsIcons.copy,
                   label: appLocalizations.clipboardExport,
                   onPressed: _exportToClipboard,
                 ),
                 PopupMenuItemData(
-                  icon: Icons.paste,
+                  icon: WindowsIcons.paste,
                   label: appLocalizations.clipboardImport,
                   onPressed: _importFormClipboard,
                 ),
@@ -498,8 +499,8 @@ class AccessControlPanel extends ConsumerStatefulWidget {
 class _AccessControlPanelState extends ConsumerState<AccessControlPanel> {
   IconData _getIconWithAccessControlMode(AccessControlMode mode) {
     return switch (mode) {
-      AccessControlMode.acceptSelected => Icons.adjust_outlined,
-      AccessControlMode.rejectSelected => Icons.block_outlined,
+      AccessControlMode.acceptSelected => WindowsIcons.location,
+      AccessControlMode.rejectSelected => FluentIcons.blocked,
     };
   }
 
@@ -522,9 +523,9 @@ class _AccessControlPanelState extends ConsumerState<AccessControlPanel> {
 
   IconData _getIconWithProxiesSortType(AccessSortType type) {
     return switch (type) {
-      AccessSortType.none => Icons.sort,
-      AccessSortType.name => Icons.sort_by_alpha,
-      AccessSortType.time => Icons.timeline,
+      AccessSortType.none => FluentIcons.default_settings,
+      AccessSortType.name => WindowsIcons.characters,
+      AccessSortType.time => WindowsIcons.market,
     };
   }
 

@@ -261,7 +261,7 @@ class _DashboardViewState extends ConsumerState<DashboardView> {
         body: Align(
           alignment: Alignment.topCenter,
           child: SingleChildScrollView(
-            padding: const EdgeInsets.all(16).copyWith(bottom: 88),
+            padding: const EdgeInsets.only(left: 16,top: 8,right: 16).copyWith(bottom: 88),
             child: isEdit
                 ? SystemBackBlock(
                     child: CommonPopScope(

@@ -483,7 +483,7 @@ class _ReorderableProfilesSheetState extends State<ReorderableProfilesSheet> {
       child: DecorationListItem(
         trailing: ReorderableDelayedDragStartListener(
           index: index,
-          child: const Icon(Icons.drag_handle),
+          child: const Icon(WindowsIcons.calculator_equal_to),
         ),
         title: Text(profile.realLabel),
       ),
@@ -500,7 +500,7 @@ class _ReorderableProfilesSheetState extends State<ReorderableProfilesSheet> {
     final appLocalizations = context.appLocalizations;
     return AdaptiveSheetScaffold(
       sheetTransparentToolBar: true,
-      actions: [IconButtonData(icon: Icons.check, onPressed: _handleSave)],
+      actions: [IconButtonData(icon: WindowsIcons.accept, onPressed: _handleSave)],
       body: Padding(
         padding: const EdgeInsets.only(bottom: 32),
         child: ReorderableListView.builder(

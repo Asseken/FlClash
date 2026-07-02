@@ -29,7 +29,7 @@ class InitErrorScreen extends StatelessWidget {
               Row(
                 children: [
                   Icon(
-                    Icons.report_problem,
+                    WindowsIcons.error,
                     color: colorScheme.error,
                     size: 32,
                   ),

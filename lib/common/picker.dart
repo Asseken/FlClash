@@ -12,13 +12,15 @@ class Picker {
       withData: withData,
       allowMultiple: false,
       initialDirectory: await appPath.downloadDirPath,
+      type: FileType.custom,
+      allowedExtensions: ['yaml', 'yml'],
     );
     return filePickerResult?.files.first;
   }
 
   Future<String?> saveFile(String fileName, Uint8List bytes) async {
     final path = await FilePicker.saveFile(
-      fileName: fileName,
+      fileName: '$fileName.yaml',
       initialDirectory: await appPath.downloadDirPath,
       bytes: bytes,
     );

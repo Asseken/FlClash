@@ -202,7 +202,33 @@ func handleGetTotalTraffic(onlyStatisticsProxy bool) string {
 	}
 	return string(data)
 }
+func handleGetDirectTraffic() string {
+	up, down := statistic.DefaultManager.NowDirectTraffic()
+	traffic := map[string]int64{
+		"up":   up,
+		"down": down,
+	}
+	data, err := json.Marshal(traffic)
+	if err != nil {
+		logError("Error: %s", err)
+		return ""
+	}
+	return string(data)
+}
 
+func handleGetDirectTotalTraffic() string {
+	up, down := statistic.DefaultManager.TotalDirectTraffic()
+	traffic := map[string]int64{
+		"up":   up,
+		"down": down,
+	}
+	data, err := json.Marshal(traffic)
+	if err != nil {
+		logError("Error: %s", err)
+		return ""
+	}
+	return string(data)
+}
 func handleResetTraffic() {
 	statistic.DefaultManager.ResetStatistic()
 }

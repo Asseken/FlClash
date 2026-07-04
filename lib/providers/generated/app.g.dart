@@ -426,6 +426,112 @@ abstract class _$TotalTraffic extends $Notifier<Traffic> {
   }
 }
 
+@ProviderFor(DirectTraffic)
+final directTrafficProvider = DirectTrafficProvider._();
+
+final class DirectTrafficProvider
+    extends $NotifierProvider<DirectTraffic, FixedList<Traffic>> {
+  DirectTrafficProvider._()
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'directTrafficProvider',
+        isAutoDispose: false,
+        dependencies: null,
+        $allTransitiveDependencies: null,
+      );
+
+  @override
+  String debugGetCreateSourceHash() => _$directTrafficHash();
+
+  @$internal
+  @override
+  DirectTraffic create() => DirectTraffic();
+
+  /// {@macro riverpod.override_with_value}
+  Override overrideWithValue(FixedList<Traffic> value) {
+    return $ProviderOverride(
+      origin: this,
+      providerOverride: $SyncValueProvider<FixedList<Traffic>>(value),
+    );
+  }
+}
+
+String _$directTrafficHash() => r'd9a7c7e977944ea816d55752ede46fa4fdf2e497';
+
+abstract class _$DirectTraffic extends $Notifier<FixedList<Traffic>> {
+  FixedList<Traffic> build();
+  @$mustCallSuper
+  @override
+  void runBuild() {
+    final ref = this.ref as $Ref<FixedList<Traffic>, FixedList<Traffic>>;
+    final element =
+        ref.element
+            as $ClassProviderElement<
+              AnyNotifier<FixedList<Traffic>, FixedList<Traffic>>,
+              FixedList<Traffic>,
+              Object?,
+              Object?
+            >;
+    element.handleCreate(ref, build);
+  }
+}
+
+@ProviderFor(TotalDirectTrafficProvider)
+final totalDirectTrafficProviderProvider =
+    TotalDirectTrafficProviderProvider._();
+
+final class TotalDirectTrafficProviderProvider
+    extends $NotifierProvider<TotalDirectTrafficProvider, Traffic> {
+  TotalDirectTrafficProviderProvider._()
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'totalDirectTrafficProviderProvider',
+        isAutoDispose: false,
+        dependencies: null,
+        $allTransitiveDependencies: null,
+      );
+
+  @override
+  String debugGetCreateSourceHash() => _$totalDirectTrafficProviderHash();
+
+  @$internal
+  @override
+  TotalDirectTrafficProvider create() => TotalDirectTrafficProvider();
+
+  /// {@macro riverpod.override_with_value}
+  Override overrideWithValue(Traffic value) {
+    return $ProviderOverride(
+      origin: this,
+      providerOverride: $SyncValueProvider<Traffic>(value),
+    );
+  }
+}
+
+String _$totalDirectTrafficProviderHash() =>
+    r'7cd8e0fa0df734bdd2640a0ff33027183de7828c';
+
+abstract class _$TotalDirectTrafficProvider extends $Notifier<Traffic> {
+  Traffic build();
+  @$mustCallSuper
+  @override
+  void runBuild() {
+    final ref = this.ref as $Ref<Traffic, Traffic>;
+    final element =
+        ref.element
+            as $ClassProviderElement<
+              AnyNotifier<Traffic, Traffic>,
+              Traffic,
+              Object?,
+              Object?
+            >;
+    element.handleCreate(ref, build);
+  }
+}
+
 @ProviderFor(LocalIp)
 final localIpProvider = LocalIpProvider._();
 

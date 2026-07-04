@@ -51,6 +51,10 @@ mixin CoreInterface {
 
   FutureOr<String> getTotalTraffic(bool onlyStatisticsProxy);
 
+  FutureOr<String> getDirectTotalTraffic();
+
+  FutureOr<String> getDirectTraffic();
+
   FutureOr<String> getCountryCode(String ip);
 
   FutureOr<String> getMemory();
@@ -285,6 +289,17 @@ abstract class CoreHandlerInterface with CoreInterface {
           data: onlyStatisticsProxy,
         ) ??
         '';
+  }
+
+  @override
+  Future<String> getDirectTotalTraffic() async {
+    return await _invoke<String>(method: ActionMethod.getDirectTotalTraffic) ??
+        '';
+  }
+
+  @override
+  Future<String> getDirectTraffic() async {
+    return await _invoke<String>(method: ActionMethod.getDirectTraffic) ?? '';
   }
 
   @override

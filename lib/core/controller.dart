@@ -75,9 +75,11 @@ class CoreController {
     final homeDirPath = await appPath.homeDirPath;
     return _interface.init(InitParams(homeDir: homeDirPath, version: version));
   }
+
   Future<Map<String, dynamic>> getCoreVersion() {
-    return  _interface.getCoreVersion();
+    return _interface.getCoreVersion();
   }
+
   Future<void> shutdown(bool isUser) async {
     await _interface.shutdown(isUser);
   }
@@ -247,6 +249,22 @@ class CoreController {
       return const Traffic();
     }
     return Traffic.fromJson(json.decode(totalTrafficString));
+  }
+
+  Future<Traffic> getDirectTraffic() async {
+    final trafficDirectString = await _interface.getDirectTraffic();
+    if (trafficDirectString.isEmpty) {
+      return const Traffic();
+    }
+    return Traffic.fromJson(json.decode(trafficDirectString));
+  }
+
+  Future<Traffic> getDirectTotalTraffic() async {
+    final totalDirectTrafficString = await _interface.getDirectTotalTraffic();
+    if (totalDirectTrafficString.isEmpty) {
+      return const Traffic();
+    }
+    return Traffic.fromJson(json.decode(totalDirectTrafficString));
   }
 
   Future<int> getMemory() async {

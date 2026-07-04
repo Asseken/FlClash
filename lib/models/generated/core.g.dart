@@ -270,6 +270,8 @@ const _$ActionMethodEnumMap = {
   ActionMethod.changeProxy: 'changeProxy',
   ActionMethod.getTraffic: 'getTraffic',
   ActionMethod.getTotalTraffic: 'getTotalTraffic',
+  ActionMethod.getDirectTraffic: 'getDirectTraffic',
+  ActionMethod.getDirectTotalTraffic: 'getDirectTotalTraffic',
   ActionMethod.resetTraffic: 'resetTraffic',
   ActionMethod.asyncTestDelay: 'asyncTestDelay',
   ActionMethod.getConnections: 'getConnections',

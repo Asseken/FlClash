@@ -27,7 +27,7 @@ class TrafficUsage extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
               icon,
-              const SizedBox(width: 8),
+              // const SizedBox(width: 1),
               Flexible(
                 flex: 1,
                 child: Text(
@@ -66,6 +66,11 @@ class TrafficUsage extends StatelessWidget {
               final totalTraffic = ref.watch(totalTrafficProvider);
               final upTotalTrafficValue = totalTraffic.up;
               final downTotalTrafficValue = totalTraffic.down;
+              final totalDirectTraffic = ref.watch(
+                totalDirectTrafficProviderProvider,
+              );
+              final upTotalDirectTrafficValue = totalDirectTraffic.up;
+              final downTotalDirectTrafficValue = totalDirectTraffic.down;
               return Padding(
                 padding: baseInfoEdgeInsets.copyWith(top: 0),
                 child: Column(
@@ -182,20 +187,62 @@ class TrafficUsage extends StatelessWidget {
                         ),
                       ),
                     ),
-                    _buildTrafficDataItem(
-                      context,
-                      Icon(Icons.arrow_upward, color: primaryColor, size: 14),
-                      upTotalTrafficValue,
+                    Row(
+                      children: [
+                        Text('P', style: context.textTheme.bodySmall),
+                        const SizedBox(width: 1),
+                        Flexible(
+                          child: _buildTrafficDataItem(
+                            context,
+                            Icon(
+                              Icons.arrow_upward,
+                              color: primaryColor,
+                              size: 14,
+                            ),
+                            upTotalTrafficValue,
+                          ),
+                        ),
+                        Flexible(
+                          child: _buildTrafficDataItem(
+                            context,
+                            Icon(
+                              Icons.arrow_downward,
+                              color: secondaryColor,
+                              size: 14,
+                            ),
+                            downTotalTrafficValue,
+                          ),
+                        ),
+                      ],
                     ),
                     const SizedBox(height: 8),
-                    _buildTrafficDataItem(
-                      context,
-                      Icon(
-                        Icons.arrow_downward,
-                        color: secondaryColor,
-                        size: 14,
-                      ),
-                      downTotalTrafficValue,
+                    Row(
+                      children: [
+                        Text('D', style: context.textTheme.bodySmall),
+                        const SizedBox(width: 1),
+                        Flexible(
+                          child: _buildTrafficDataItem(
+                            context,
+                            Icon(
+                              Icons.arrow_upward,
+                              color: primaryColor,
+                              size: 14,
+                            ),
+                            upTotalDirectTrafficValue,
+                          ),
+                        ),
+                        Flexible(
+                          child: _buildTrafficDataItem(
+                            context,
+                            Icon(
+                              Icons.arrow_downward,
+                              color: secondaryColor,
+                              size: 14,
+                            ),
+                            downTotalDirectTrafficValue,
+                          ),
+                        ),
+                      ],
                     ),
                   ],
                 ),

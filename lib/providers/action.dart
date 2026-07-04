@@ -62,6 +62,10 @@ class CommonAction extends _$CommonAction {
     ref.read(trafficsProvider.notifier).addTraffic(traffic);
     ref.read(totalTrafficProvider.notifier).value = await coreController
         .getTotalTraffic(onlyStatisticsProxy);
+    final directTraffic = await coreController.getDirectTraffic();
+    ref.read(directTrafficProvider.notifier).addTraffic(directTraffic);
+    ref.read(totalDirectTrafficProviderProvider.notifier).value =
+        await coreController.getDirectTotalTraffic();
   }
 
   Future<void> autoCheckUpdate() async {
@@ -209,7 +213,9 @@ class SetupAction extends _$SetupAction {
       await handleStop();
       coreController.resetTraffic();
       ref.read(trafficsProvider.notifier).clear();
+      ref.read(directTrafficProvider.notifier).clear();
       ref.read(totalTrafficProvider.notifier).value = const Traffic();
+      ref.read(totalDirectTrafficProviderProvider.notifier).value = const Traffic();
       ref.read(runTimeProvider.notifier).value = null;
       ref.read(checkIpNumProvider.notifier).add();
     }

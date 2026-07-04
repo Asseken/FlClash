@@ -118,7 +118,29 @@ class TotalTraffic extends _$TotalTraffic with AutoDisposeNotifierMixin {
     return const Traffic();
   }
 }
+@Riverpod(keepAlive: true)
+class DirectTraffic extends _$DirectTraffic with AutoDisposeNotifierMixin {
+  @override
+  FixedList<Traffic> build() {
+    return FixedList(0);
+  }
 
+  void addTraffic(Traffic value) {
+    this.value = state.copyWith()..add(value);
+  }
+
+  void clear() {
+    value = state.copyWith()..clear();
+  }
+}
+
+@Riverpod(keepAlive: true)
+class TotalDirectTrafficProvider extends _$TotalDirectTrafficProvider with AutoDisposeNotifierMixin {
+  @override
+  Traffic build() {
+    return const Traffic();
+  }
+}
 @Riverpod(keepAlive: true)
 class LocalIp extends _$LocalIp with AutoDisposeNotifierMixin {
   @override

@@ -275,6 +275,41 @@ class Windows {
       delay: const Duration(seconds: 1),
     );
     return res && retryStatus == WindowsHelperServiceStatus.running;
+ }
+
+  Future<bool> unregisterService() async {
+    final status = await checkService();
+
+    if (status == WindowsHelperServiceStatus.none) {
+      return true;
+    }
+
+    final command = [
+      '/c',
+      'taskkill',
+      '/F',
+      '/IM',
+      '$appHelperService.exe',
+      '&',
+      'sc',
+      'stop',
+      appHelperService,
+      '&',
+      'sc',
+      'delete',
+      appHelperService,
+    ].join(' ');
+
+    final res = runas('cmd.exe', command);
+
+    await Future.delayed(const Duration(milliseconds: 500));
+    final retryStatus = await retry(
+      task: checkService,
+      maxAttempts: 5,
+      retryIf: (status) => status != WindowsHelperServiceStatus.none,
+      delay: const Duration(seconds: 1),
+    );
+    return res && retryStatus == WindowsHelperServiceStatus.none;
   }
 
   Future<bool> registerTask(String appName) async {

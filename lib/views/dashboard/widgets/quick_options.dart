@@ -1,17 +1,66 @@
 import 'package:fl_clash/common/common.dart';
 import 'package:fl_clash/providers/config.dart';
+import 'package:fl_clash/providers/providers.dart';
 import 'package:fl_clash/views/config/network.dart';
 import 'package:fl_clash/widgets/widgets.dart';
-import 'package:fluent_ui/fluent_ui.dart';
+import 'package:fluent_ui/fluent_ui.dart' hide Tooltip;
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class TUNButton extends StatelessWidget {
+import '../../../enum/enum.dart';
+
+class TUNButton extends ConsumerStatefulWidget {
   const TUNButton({super.key});
+
+  @override
+  ConsumerState<TUNButton> createState() => _TUNButtonState();
+}
+
+class _TUNButtonState extends ConsumerState<TUNButton> {
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      ref.read(windowsHelperServiceProvider.notifier).refresh();
+    });
+  }
+
+  Future<void> _handleRegisterService() async {
+    if (windows == null) return;
+    await windows!.registerService();
+    if (mounted) {
+      ref.read(windowsHelperServiceProvider.notifier).refresh();
+    }
+    commonPrint.log(
+      'User RegisterWindowsService For Tun',
+      logLevel: LogLevel.info,
+    );
+  }
+
+  Future<void> _handleUnregisterService() async {
+    if (windows == null) return;
+    await windows!.unregisterService();
+    if (mounted) {
+      ref.read(windowsHelperServiceProvider.notifier).refresh();
+    }
+    commonPrint.log(
+      'User UnregisterWindowsService For TUN',
+      logLevel: LogLevel.info,
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
     final appLocalizations = context.appLocalizations;
+    final tunEnable = ref.watch(
+      patchClashConfigProvider.select((state) => state.tun.enable),
+    );
+    final serviceStatus = ref.watch(windowsHelperServiceProvider);
+
+    final settingsDisabled =
+        tunEnable || serviceStatus == WindowsHelperServiceStatus.running;
+    final deleteDisabled = tunEnable;
+
     return SizedBox(
       height: getWidgetHeight(1),
       child: CommonCard(
@@ -48,34 +97,69 @@ class TUNButton extends StatelessWidget {
             mainAxisSize: MainAxisSize.max,
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Flexible(
-                flex: 1,
-                child: TooltipText(
-                  text: Text(
-                    appLocalizations.options,
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
-                    style: Theme.of(
-                      context,
-                    ).textTheme.titleSmall?.adjustSize(-2).toLight,
+              if (system.isWindows)
+                Flexible(
+                  flex: 1,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      TooltipText(
+                        text: Text(
+                          appLocalizations.options,
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                          style: Theme.of(
+                            context,
+                          ).textTheme.titleSmall?.adjustSize(-2).toLight,
+                        ),
+                      ),
+                      const SizedBox(width: 4),
+                      Tooltip(
+                        message:
+                            '${appLocalizations.settings} (${appLocalizations.tun})',
+                        child: InkWell(
+                          onTap: settingsDisabled
+                              ? null
+                              : _handleRegisterService,
+                          child: Icon(
+                            WindowsIcons.settings,
+                            size: 18,
+                            color: settingsDisabled
+                                ? Theme.of(context).disabledColor
+                                : null,
+                          ),
+                        ),
+                      ),
+                      const SizedBox(width: 6),
+                      Tooltip(
+                        message:
+                            '${appLocalizations.delete} (${appLocalizations.tun})',
+                        child: InkWell(
+                          onTap: deleteDisabled
+                              ? null
+                              : _handleUnregisterService,
+                          child: Icon(
+                            WindowsIcons.delete,
+                            size: 18,
+                            color: deleteDisabled
+                                ? Theme.of(context).disabledColor
+                                : null,
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
                 ),
-              ),
-              Consumer(
-                builder: (_, ref, _) {
-                  final enable = ref.watch(
-                    patchClashConfigProvider.select(
-                      (state) => state.tun.enable,
-                    ),
-                  );
-                  return Switch(
-                    value: enable,
-                    onChanged: (value) {
-                      ref
-                          .read(patchClashConfigProvider.notifier)
-                          .update((state) => state.copyWith.tun(enable: value));
-                    },
-                  );
+              Switch(
+                value: tunEnable,
+                onChanged: (value) {
+                  ref
+                      .read(patchClashConfigProvider.notifier)
+                      .update((state) => state.copyWith.tun(enable: value));
+                  if (value) {
+                    _handleRegisterService();
+                  }
                 },
               ),
             ],

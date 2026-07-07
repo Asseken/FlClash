@@ -13,6 +13,23 @@ import 'package:wifi_ssid/wifi_ssid.dart';
 
 part 'generated/app.g.dart';
 
+@Riverpod(keepAlive: true)
+class WindowsHelperService extends _$WindowsHelperService
+    with AutoDisposeNotifierMixin {
+  @override
+  WindowsHelperServiceStatus build() {
+    return WindowsHelperServiceStatus.none;
+  }
+
+  Future<void> refresh() async {
+    if (!system.isWindows) {
+      value = WindowsHelperServiceStatus.none;
+      return;
+    }
+    value = await windows!.checkService();
+  }
+}
+
 @riverpod
 class RealTunEnable extends _$RealTunEnable with AutoDisposeNotifierMixin {
   @override
@@ -118,6 +135,7 @@ class TotalTraffic extends _$TotalTraffic with AutoDisposeNotifierMixin {
     return const Traffic();
   }
 }
+
 @Riverpod(keepAlive: true)
 class DirectTraffic extends _$DirectTraffic with AutoDisposeNotifierMixin {
   @override
@@ -135,12 +153,14 @@ class DirectTraffic extends _$DirectTraffic with AutoDisposeNotifierMixin {
 }
 
 @Riverpod(keepAlive: true)
-class TotalDirectTrafficProvider extends _$TotalDirectTrafficProvider with AutoDisposeNotifierMixin {
+class TotalDirectTrafficProvider extends _$TotalDirectTrafficProvider
+    with AutoDisposeNotifierMixin {
   @override
   Traffic build() {
     return const Traffic();
   }
 }
+
 @Riverpod(keepAlive: true)
 class LocalIp extends _$LocalIp with AutoDisposeNotifierMixin {
   @override

@@ -9,6 +9,66 @@ part of '../app.dart';
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // ignore_for_file: type=lint, type=warning
 
+@ProviderFor(WindowsHelperService)
+final windowsHelperServiceProvider = WindowsHelperServiceProvider._();
+
+final class WindowsHelperServiceProvider
+    extends
+        $NotifierProvider<WindowsHelperService, WindowsHelperServiceStatus> {
+  WindowsHelperServiceProvider._()
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'windowsHelperServiceProvider',
+        isAutoDispose: false,
+        dependencies: null,
+        $allTransitiveDependencies: null,
+      );
+
+  @override
+  String debugGetCreateSourceHash() => _$windowsHelperServiceHash();
+
+  @$internal
+  @override
+  WindowsHelperService create() => WindowsHelperService();
+
+  /// {@macro riverpod.override_with_value}
+  Override overrideWithValue(WindowsHelperServiceStatus value) {
+    return $ProviderOverride(
+      origin: this,
+      providerOverride: $SyncValueProvider<WindowsHelperServiceStatus>(value),
+    );
+  }
+}
+
+String _$windowsHelperServiceHash() =>
+    r'ed659535a92f6a807e7df746e49184e4fba296aa';
+
+abstract class _$WindowsHelperService
+    extends $Notifier<WindowsHelperServiceStatus> {
+  WindowsHelperServiceStatus build();
+  @$mustCallSuper
+  @override
+  void runBuild() {
+    final ref =
+        this.ref
+            as $Ref<WindowsHelperServiceStatus, WindowsHelperServiceStatus>;
+    final element =
+        ref.element
+            as $ClassProviderElement<
+              AnyNotifier<
+                WindowsHelperServiceStatus,
+                WindowsHelperServiceStatus
+              >,
+              WindowsHelperServiceStatus,
+              Object?,
+              Object?
+            >;
+    element.handleCreate(ref, build);
+  }
+}
+
 @ProviderFor(RealTunEnable)
 final realTunEnableProvider = RealTunEnableProvider._();
 

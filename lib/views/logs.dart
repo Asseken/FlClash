@@ -1,11 +1,12 @@
-import 'package:fl_clash/common/common.dart';
+﻿import 'package:fl_clash/common/common.dart';
 import 'package:fl_clash/enum/enum.dart';
 import 'package:fl_clash/models/models.dart';
 import 'package:fl_clash/providers/providers.dart';
 import 'package:fl_clash/state.dart';
 import 'package:fl_clash/widgets/widgets.dart';
-import 'package:fluent_ui/fluent_ui.dart' hide IconButton, Divider;
+import 'package:fluent_ui/fluent_ui.dart' hide IconButton, Divider, Colors;
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:super_sliver_list/super_sliver_list.dart';
 
@@ -73,9 +74,7 @@ class _LogsViewState extends ConsumerState<LogsView> {
   Future<void> _handleExport() async {
     final appLocalizations = context.appLocalizations;
     final res = await globalState.safeRun<bool>(() async {
-      return globalState.container
-          .read(logsProvider.notifier)
-          .exportLogs();
+      return globalState.container.read(logsProvider.notifier).exportLogs();
     }, title: appLocalizations.exportLogs);
     if (res != true) return;
     globalState.showMessage(
@@ -153,7 +152,6 @@ class _LogsViewState extends ConsumerState<LogsView> {
                   },
                 ),
               )
-              .separated(const Divider(height: 0))
               .toList();
           return Align(
             alignment: Alignment.topCenter,
@@ -195,37 +193,47 @@ class LogItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ListItem(
-      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
-      onTap: () {},
-      title: SelectableText(
-        log.payload,
-        style: context.textTheme.bodyLarge?.copyWith(
-          color: log.logLevel.color(context),
+    final primaryColor = globalState.theme.darken3PrimaryContainer;
+    return Padding(
+      padding: const EdgeInsets.fromLTRB(10, 4, 10, 4),
+      child: Container(
+        decoration: BoxDecoration(
+          border: Border.all(width: 0.5, color: primaryColor),
+          borderRadius: BorderRadius.circular(6),
         ),
-      ),
-      subtitle: Column(
-        children: [
-          const SizedBox(height: 16),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        child: ListItem(
+          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
+          onTap: () {},
+          title: SelectableText(
+            log.payload,
+            style: context.textTheme.bodyLarge?.copyWith(
+              color: log.logLevel.color(context),
+            ),
+          ),
+          subtitle: Column(
             children: [
-              CommonChip(
-                onPressed: () {
-                  if (onClick == null) return;
-                  onClick!(log.logLevel.name);
-                },
-                label: log.logLevel.name,
-              ),
-              Text(
-                log.dateTime,
-                style: context.textTheme.bodySmall?.copyWith(
-                  color: context.colorScheme.onSurface.opacity80,
-                ),
+              const SizedBox(height: 16),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  CommonChip(
+                    onPressed: () {
+                      if (onClick == null) return;
+                      onClick!(log.logLevel.name);
+                    },
+                    label: log.logLevel.name,
+                  ),
+                  Text(
+                    log.dateTime,
+                    style: context.textTheme.bodySmall?.copyWith(
+                      color: context.colorScheme.onSurface.opacity80,
+                    ),
+                  ),
+                ],
               ),
             ],
           ),
-        ],
+        ),
       ),
     );
   }

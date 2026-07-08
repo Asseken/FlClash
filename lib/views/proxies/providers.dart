@@ -119,55 +119,67 @@ class ProviderItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ListItem(
-      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
-      title: Text(provider.name),
-      subtitle: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          const SizedBox(height: 4),
-          if (provider.updateAt.microsecondsSinceEpoch > 0)
-            Text(_buildProviderDesc(context)),
-          const SizedBox(height: 4),
-          if (provider.subscriptionInfo != null)
-            SubscriptionInfoView(subscriptionInfo: provider.subscriptionInfo),
-          const SizedBox(height: 8),
-          Wrap(
-            runSpacing: 6,
-            spacing: 12,
-            runAlignment: WrapAlignment.center,
+    final primaryColor = globalState.theme.darken3PrimaryContainer;
+    return Padding(
+      padding: const EdgeInsets.fromLTRB(10, 4, 10, 4),
+      child: Container(
+        decoration: BoxDecoration(
+          border: Border.all(width: 0.5, color: primaryColor),
+          borderRadius: BorderRadius.circular(6),
+        ),
+        child: ListItem(
+          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
+          title: Text(provider.name),
+          subtitle: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              CommonChip(
-                avatar: const Icon(FluentIcons.fabric_folder_upload),
-                label: context.appLocalizations.upload,
-                onPressed: _handleSideLoadProvider,
-              ),
-              if (provider.vehicleType == 'HTTP')
-                Consumer(
-                  builder: (_, ref, _) {
-                    final isUpdating = ref.watch(
-                      isUpdatingProvider(provider.updatingKey),
-                    );
-                    return isUpdating
-                        ? const SizedBox(
-                            height: 30,
-                            width: 30,
-                            child: Padding(
-                              padding: EdgeInsets.all(2),
-                              child: CircularProgressIndicator(),
-                            ),
-                          )
-                        : CommonChip(
-                            avatar: const Icon(WindowsIcons.sync),
-                            label: context.appLocalizations.sync,
-                            onPressed: _handleUpdateProvider,
-                          );
-                  },
+              const SizedBox(height: 4),
+              if (provider.updateAt.microsecondsSinceEpoch > 0)
+                Text(_buildProviderDesc(context)),
+              const SizedBox(height: 4),
+              if (provider.subscriptionInfo != null)
+                SubscriptionInfoView(
+                  subscriptionInfo: provider.subscriptionInfo,
                 ),
+              const SizedBox(height: 8),
+              Wrap(
+                runSpacing: 6,
+                spacing: 12,
+                runAlignment: WrapAlignment.center,
+                children: [
+                  CommonChip(
+                    avatar: const Icon(FluentIcons.fabric_folder_upload),
+                    label: context.appLocalizations.upload,
+                    onPressed: _handleSideLoadProvider,
+                  ),
+                  if (provider.vehicleType == 'HTTP')
+                    Consumer(
+                      builder: (_, ref, _) {
+                        final isUpdating = ref.watch(
+                          isUpdatingProvider(provider.updatingKey),
+                        );
+                        return isUpdating
+                            ? const SizedBox(
+                                height: 30,
+                                width: 30,
+                                child: Padding(
+                                  padding: EdgeInsets.all(2),
+                                  child: CircularProgressIndicator(),
+                                ),
+                              )
+                            : CommonChip(
+                                avatar: const Icon(WindowsIcons.sync),
+                                label: context.appLocalizations.sync,
+                                onPressed: _handleUpdateProvider,
+                              );
+                      },
+                    ),
+                ],
+              ),
+              const SizedBox(height: 4),
             ],
           ),
-          const SizedBox(height: 4),
-        ],
+        ),
       ),
     );
   }

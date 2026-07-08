@@ -44,7 +44,7 @@ class ResourcesView extends StatelessWidget {
           return GeoDataListItem(geoItem: geoItem);
         },
         separatorBuilder: (BuildContext context, int index) {
-          return const Divider(height: 0);
+          return const SizedBox(height: 0,width: 0,);
         },
         itemCount: geoItems.length,
       ),
@@ -217,11 +217,19 @@ class _GeoDataListItemState extends State<GeoDataListItem> {
 
   @override
   Widget build(BuildContext context) {
-    return ListItem(
+    final primaryColor = globalState.theme.darken3PrimaryContainer;
+    return Padding(
+        padding: const EdgeInsets.fromLTRB(10, 4, 10, 4),
+        child: Container(
+            decoration: BoxDecoration(
+              border: Border.all(width: 0.5, color: primaryColor),
+              borderRadius: BorderRadius.circular(6),
+            ),
+            child:ListItem(
       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
       title: Text(geoItem.label),
       subtitle: _buildSubtitle(),
-    );
+            )));
   }
 }
 

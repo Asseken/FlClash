@@ -41,6 +41,7 @@ class TrackerInfoItem extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, ref) {
+    final primaryColor = globalState.theme.darken3PrimaryContainer;
     final value = ref.watch(
       patchClashConfigProvider.select(
         (state) =>
@@ -140,35 +141,44 @@ class TrackerInfoItem extends ConsumerWidget {
             ),
           )
         : null;
-    return ListItem(
-      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
-      onTap: () {
-        showExtend(
-          context,
-          builder: (_) {
-            return AdaptiveSheetScaffold(
-              body: TrackerInfoDetailView(trackerInfo: trackerInfo),
-              title: detailTitle,
+    return Padding(
+      padding: const EdgeInsets.fromLTRB(10, 4, 10, 4),
+      child: Container(
+        decoration: BoxDecoration(
+          border: Border.all(width: 0.5, color: primaryColor),
+          borderRadius: BorderRadius.circular(6),
+        ),
+        child: ListItem(
+          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
+          onTap: () {
+            showExtend(
+              context,
+              builder: (_) {
+                return AdaptiveSheetScaffold(
+                  body: TrackerInfoDetailView(trackerInfo: trackerInfo),
+                  title: detailTitle,
+                );
+              },
             );
           },
-        );
-      },
-      title: Column(
-        mainAxisSize: MainAxisSize.min,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Row(
+          title: Column(
             mainAxisSize: MainAxisSize.min,
-            mainAxisAlignment: MainAxisAlignment.center,
-            spacing: 12,
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              ?icon,
-              Flexible(child: title),
+              Row(
+                mainAxisSize: MainAxisSize.min,
+                mainAxisAlignment: MainAxisAlignment.center,
+                spacing: 12,
+                children: [
+                  ?icon,
+                  Flexible(child: title),
+                ],
+              ),
+              const SizedBox(height: 8),
+              subTitle,
             ],
           ),
-          const SizedBox(height: 8),
-          subTitle,
-        ],
+        ),
       ),
     );
   }

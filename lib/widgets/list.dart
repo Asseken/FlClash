@@ -498,7 +498,7 @@ List<Widget> generateSection({
   bool separated = true,
 }) {
   final genItems = separated
-      ? items.separated(const Divider(height: 0))
+      ? items.separated(const SizedBox(height: 0,width: 0,))
       : items;
   return [
     if (items.isNotEmpty && title != null)

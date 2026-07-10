@@ -100,7 +100,7 @@ class _MemoryInfoState extends State<MemoryInfo> {
                                       final traffic = memory.traffic;
                                       return Row(
                                         children: [
-                                          const FlutterLogo(),
+                                          const FlutterLogo(size: 17),
                                           Text(
                                             traffic.value,
                                             style: context
@@ -109,7 +109,7 @@ class _MemoryInfoState extends State<MemoryInfo> {
                                                 ?.toLight
                                                 .adjustSize(1),
                                           ),
-                                          const SizedBox(width: 8),
+                                          const SizedBox(width: 2),
                                           Text(
                                             traffic.unit,
                                             style: context
@@ -128,18 +128,31 @@ class _MemoryInfoState extends State<MemoryInfo> {
                                       final coreMemory = core.traffic;
                                       return Row(
                                         children: [
-                                          Image.asset('assets/images/Meta.png'),
-                                          Text(
-                                            coreMemory.value == '0'
-                                                ? '...'
-                                                : coreMemory.value,
-                                            style: context
-                                                .textTheme
-                                                .bodyMedium
-                                                ?.toLight
-                                                .adjustSize(1),
+                                          Image.asset(
+                                            'assets/images/Meta.png',
+                                            width: 17,
+                                            height: 17,
                                           ),
-                                          const SizedBox(width: 8),
+                                          coreMemory.value == '0'
+                                              ? Container(
+                                                  padding: const EdgeInsets.all(
+                                                    2,
+                                                  ),
+                                                  child: const AspectRatio(
+                                                    aspectRatio: 1,
+                                                    child:
+                                                        CommonCircleLoading(),
+                                                  ),
+                                                )
+                                              : Text(
+                                                  coreMemory.value,
+                                                  style: context
+                                                      .textTheme
+                                                      .bodyMedium
+                                                      ?.toLight
+                                                      .adjustSize(1),
+                                                ),
+                                          const SizedBox(width: 2),
                                           Text(
                                             coreMemory.unit,
                                             style: context
@@ -202,16 +215,25 @@ class _MemoryInfoState extends State<MemoryInfo> {
                                             width: 14,
                                             height: 14,
                                           ),
-                                          Text(
-                                            coreMemory.value == '0'
-                                                ? '...'
-                                                : coreMemory.value,
-                                            style: context
-                                                .textTheme
-                                                .bodySmall
-                                                ?.toLight
-                                                .adjustSize(1),
-                                          ),
+                                          coreMemory.value == '0'
+                                              ? Container(
+                                                  padding: const EdgeInsets.all(
+                                                    2,
+                                                  ),
+                                                  child: const AspectRatio(
+                                                    aspectRatio: 1,
+                                                    child:
+                                                        CommonCircleLoading(),
+                                                  ),
+                                                )
+                                              : Text(
+                                                  coreMemory.value,
+                                                  style: context
+                                                      .textTheme
+                                                      .bodySmall
+                                                      ?.toLight
+                                                      .adjustSize(1),
+                                                ),
                                           // const SizedBox(width: 3),
                                           Text(
                                             coreMemory.unit,

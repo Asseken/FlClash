@@ -31,12 +31,12 @@ class TrafficUsage extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
                     icon,
-                    const SizedBox(width: 8),
+                    const SizedBox(width: 2),
                     Flexible(
                       flex: 1,
                       child: Text(
                         trafficValue.traffic.value,
-                        style: context.textTheme.bodySmall,
+                        style: context.textTheme.bodyMedium,
                         maxLines: 1,
                       ),
                     ),
@@ -45,7 +45,7 @@ class TrafficUsage extends StatelessWidget {
               ),
               Text(
                 trafficValue.traffic.unit,
-                style: context.textTheme.bodySmall,
+                style: context.textTheme.bodyMedium,
               ),
             ],
           )
@@ -68,7 +68,7 @@ class TrafficUsage extends StatelessWidget {
                         style: context.textTheme.bodySmall?.copyWith(
                           fontSize:
                               (context.textTheme.bodySmall?.fontSize ?? 12) -
-                              1.9,
+                              2.2,
                         ),
                         maxLines: 1,
                       ),
@@ -79,7 +79,7 @@ class TrafficUsage extends StatelessWidget {
               Text(
                 trafficValue.traffic.unit,
                 style: context.textTheme.bodySmall?.copyWith(
-                  fontSize: (context.textTheme.bodySmall?.fontSize ?? 12) - 1.9,
+                  fontSize: (context.textTheme.bodySmall?.fontSize ?? 12) - 2.2,
                   fontFamily: 'monospace',
                 ),
               ),
@@ -123,9 +123,11 @@ class TrafficUsage extends StatelessWidget {
                   children: [
                     Flexible(
                       child: Container(
-                        padding: const EdgeInsets.symmetric(vertical: 8),
+                        padding: view == ViewMode.desktop
+                            ? const EdgeInsets.symmetric(vertical: 6)
+                            : const EdgeInsets.symmetric(vertical: 11),
                         child: Row(
-                          mainAxisSize: MainAxisSize.min,
+                          mainAxisSize: MainAxisSize.max,
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             AspectRatio(
@@ -234,17 +236,18 @@ class TrafficUsage extends StatelessWidget {
                         ? Column(
                             children: [
                               Row(
+                                crossAxisAlignment: CrossAxisAlignment.center,
                                 children: [
                                   isOnlyStatProxy
                                       ? Text(
                                           'Proxy:',
-                                          style: context.textTheme.bodySmall,
+                                          style: context.textTheme.bodyMedium,
                                         )
                                       : Text(
                                           'Total:',
-                                          style: context.textTheme.bodySmall,
+                                          style: context.textTheme.bodyMedium,
                                         ),
-                                  const SizedBox(width: 1),
+                                  const SizedBox(width: 3),
                                   Flexible(
                                     child: _buildTrafficDataItem(
                                       context,
@@ -271,12 +274,12 @@ class TrafficUsage extends StatelessWidget {
                                   ),
                                 ],
                               ),
-                              const SizedBox(height: 8),
+                              const SizedBox(height: 2),
                               Row(
                                 children: [
                                   Text(
                                     'Direct:',
-                                    style: context.textTheme.bodySmall,
+                                    style: context.textTheme.bodyMedium,
                                   ),
                                   const SizedBox(width: 1),
                                   Flexible(
@@ -317,6 +320,13 @@ class TrafficUsage extends StatelessWidget {
                                           style: context.textTheme.bodySmall
                                               ?.copyWith(
                                                 fontFamily: 'monospace',
+                                                fontSize:
+                                                    (context
+                                                            .textTheme
+                                                            .bodySmall
+                                                            ?.fontSize ??
+                                                        12) -
+                                                    2.2,
                                               ),
                                         )
                                       : Text(
@@ -324,6 +334,13 @@ class TrafficUsage extends StatelessWidget {
                                           style: context.textTheme.bodySmall
                                               ?.copyWith(
                                                 fontFamily: 'monospace',
+                                                fontSize:
+                                                    (context
+                                                            .textTheme
+                                                            .bodySmall
+                                                            ?.fontSize ??
+                                                        12) -
+                                                    2.2,
                                               ),
                                         ),
                                   Flexible(
@@ -332,7 +349,7 @@ class TrafficUsage extends StatelessWidget {
                                       Icon(
                                         Icons.arrow_upward,
                                         color: primaryColor,
-                                        size: 14,
+                                        size: 13,
                                       ),
                                       upTotalTrafficValue,
                                       view,
@@ -344,7 +361,7 @@ class TrafficUsage extends StatelessWidget {
                                       Icon(
                                         Icons.arrow_downward,
                                         color: secondaryColor,
-                                        size: 14,
+                                        size: 13,
                                       ),
                                       downTotalTrafficValue,
                                       view,
@@ -358,7 +375,16 @@ class TrafficUsage extends StatelessWidget {
                                   Text(
                                     'D',
                                     style: context.textTheme.bodySmall
-                                        ?.copyWith(fontFamily: 'monospace'),
+                                        ?.copyWith(
+                                          fontFamily: 'monospace',
+                                          fontSize:
+                                              (context
+                                                      .textTheme
+                                                      .bodySmall
+                                                      ?.fontSize ??
+                                                  12) -
+                                              2.2,
+                                        ),
                                   ),
                                   Flexible(
                                     child: _buildTrafficDataItem(
@@ -366,7 +392,7 @@ class TrafficUsage extends StatelessWidget {
                                       Icon(
                                         Icons.arrow_upward,
                                         color: primaryColor,
-                                        size: 14,
+                                        size: 13,
                                       ),
                                       upTotalDirectTrafficValue,
                                       view,
@@ -378,7 +404,7 @@ class TrafficUsage extends StatelessWidget {
                                       Icon(
                                         Icons.arrow_downward,
                                         color: secondaryColor,
-                                        size: 14,
+                                        size: 13,
                                       ),
                                       downTotalDirectTrafficValue,
                                       view,

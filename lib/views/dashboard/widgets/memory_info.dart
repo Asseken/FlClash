@@ -187,7 +187,16 @@ class _MemoryInfoState extends State<MemoryInfo> {
                                                 .textTheme
                                                 .bodySmall
                                                 ?.toLight
-                                                .adjustSize(1),
+                                                .adjustSize(1)
+                                                .copyWith(
+                                                  fontSize:
+                                                      (context
+                                                              .textTheme
+                                                              .bodySmall
+                                                              ?.fontSize ??
+                                                          12) -
+                                                      0.5,
+                                                ),
                                           ),
                                           // const SizedBox(width: 3),
                                           Text(
@@ -196,7 +205,16 @@ class _MemoryInfoState extends State<MemoryInfo> {
                                                 .textTheme
                                                 .bodySmall
                                                 ?.toLight
-                                                .adjustSize(1),
+                                                .adjustSize(1)
+                                                .copyWith(
+                                                  fontSize:
+                                                      (context
+                                                              .textTheme
+                                                              .bodySmall
+                                                              ?.fontSize ??
+                                                          12) -
+                                                      0.5,
+                                                ),
                                           ),
                                         ],
                                       );
@@ -232,7 +250,16 @@ class _MemoryInfoState extends State<MemoryInfo> {
                                                       .textTheme
                                                       .bodySmall
                                                       ?.toLight
-                                                      .adjustSize(1),
+                                                      .adjustSize(1)
+                                                      .copyWith(
+                                                        fontSize:
+                                                            (context
+                                                                    .textTheme
+                                                                    .bodySmall
+                                                                    ?.fontSize ??
+                                                                12) -
+                                                            0.5,
+                                                      ),
                                                 ),
                                           // const SizedBox(width: 3),
                                           Text(
@@ -241,7 +268,16 @@ class _MemoryInfoState extends State<MemoryInfo> {
                                                 .textTheme
                                                 .bodySmall
                                                 ?.toLight
-                                                .adjustSize(1),
+                                                .adjustSize(1)
+                                                .copyWith(
+                                                  fontSize:
+                                                      (context
+                                                              .textTheme
+                                                              .bodySmall
+                                                              ?.fontSize ??
+                                                          12) -
+                                                      0.5,
+                                                ),
                                           ),
                                         ],
                                       );

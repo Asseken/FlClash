@@ -764,6 +764,46 @@ class AppLocalizations {
     return Intl.message('Core', name: 'core', desc: '', args: []);
   }
 
+  /// `Build Time`
+  String get coreBuild {
+    return Intl.message('Build Time', name: 'coreBuild', desc: '', args: []);
+  }
+
+  /// `Core Version`
+  String get coreVersion {
+    return Intl.message(
+      'Core Version',
+      name: 'coreVersion',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Core Name`
+  String get coreName {
+    return Intl.message('Core Name', name: 'coreName', desc: '', args: []);
+  }
+
+  /// `Run Os`
+  String get RunOs {
+    return Intl.message('Run Os', name: 'RunOs', desc: '', args: []);
+  }
+
+  /// `Stop`
+  String get coreStop {
+    return Intl.message('Stop', name: 'coreStop', desc: '', args: []);
+  }
+
+  /// `Start`
+  String get coreStart {
+    return Intl.message('Start', name: 'coreStart', desc: '', args: []);
+  }
+
+  /// `Restart`
+  String get coreRestart {
+    return Intl.message('Restart', name: 'coreRestart', desc: '', args: []);
+  }
+
   /// `Tab animation`
   String get tabAnimation {
     return Intl.message(

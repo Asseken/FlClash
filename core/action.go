@@ -180,6 +180,15 @@ func handleAction(action *Action, result ActionResult) {
 			result.success(value)
 		})
 		return
+	case getDirectTrafficMethod:
+        result.success(handleGetDirectTraffic())
+    	return
+    case getDirectTotalTrafficMethod:
+        result.success(handleGetDirectTotalTraffic())
+    	return
+	case getVersionMethod:
+        result.success(handleGetVersion())
+        return
 	case crashMethod:
 		result.success(true)
 		handleCrash()

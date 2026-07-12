@@ -22,6 +22,23 @@ class RealTunEnable extends _$RealTunEnable with AutoDisposeNotifierMixin {
 }
 
 @Riverpod(keepAlive: true)
+class WindowsHelperService extends _$WindowsHelperService
+    with AutoDisposeNotifierMixin {
+  @override
+  WindowsHelperServiceStatus build() {
+    return WindowsHelperServiceStatus.none;
+  }
+
+  Future<void> refresh() async {
+    if (!system.isWindows) {
+      value = WindowsHelperServiceStatus.none;
+      return;
+    }
+    value = await windows!.checkService();
+  }
+}
+
+@Riverpod(keepAlive: true)
 class Logs extends _$Logs with AutoDisposeNotifierMixin {
   @override
   FixedList<Log> build() {
@@ -113,6 +130,30 @@ class Traffics extends _$Traffics with AutoDisposeNotifierMixin {
 
 @Riverpod(keepAlive: true)
 class TotalTraffic extends _$TotalTraffic with AutoDisposeNotifierMixin {
+  @override
+  Traffic build() {
+    return const Traffic();
+  }
+}
+
+@Riverpod(keepAlive: true)
+class DirectTraffic extends _$DirectTraffic with AutoDisposeNotifierMixin {
+  @override
+  FixedList<Traffic> build() {
+    return FixedList(0);
+  }
+
+  void addTraffic(Traffic value) {
+    this.value = state.copyWith()..add(value);
+  }
+
+  void clear() {
+    value = state.copyWith()..clear();
+  }
+}
+
+@Riverpod(keepAlive: true)
+class TotalDirectTrafficProvider extends _$TotalDirectTrafficProvider with AutoDisposeNotifierMixin {
   @override
   Traffic build() {
     return const Traffic();
@@ -487,4 +528,12 @@ List<Override> buildAppStateOverrides(AppState appState) {
     ),
     coreStatusProvider.overrideWithBuild((_, _) => appState.coreStatus),
   ];
+}
+
+@Riverpod(name: 'coreVersionInfoDataProvider', keepAlive: true)
+class _CoreVersionInfo extends _$CoreVersionInfo with AutoDisposeNotifierMixin {
+  @override
+  coreVersionInfo? build() {
+    return null;
+  }
 }

@@ -51,6 +51,10 @@ mixin CoreInterface {
 
   FutureOr<String> getTotalTraffic(bool onlyStatisticsProxy);
 
+  FutureOr<String> getDirectTotalTraffic();
+
+  FutureOr<String> getDirectTraffic();
+
   FutureOr<String> getCountryCode(String ip);
 
   FutureOr<String> getMemory();
@@ -72,6 +76,7 @@ mixin CoreInterface {
   FutureOr<bool> closeConnections();
 
   FutureOr<bool> resetConnections();
+  Future<Map<String, dynamic>> getCoreVersion();
 }
 
 abstract class CoreHandlerInterface with CoreInterface {
@@ -286,6 +291,17 @@ abstract class CoreHandlerInterface with CoreInterface {
   }
 
   @override
+  Future<String> getDirectTotalTraffic() async {
+    return await _invoke<String>(method: ActionMethod.getDirectTotalTraffic) ??
+        '';
+  }
+
+  @override
+  Future<String> getDirectTraffic() async {
+    return await _invoke<String>(method: ActionMethod.getDirectTraffic) ?? '';
+  }
+
+  @override
   Future<String> deleteFile(String path) async {
     return await _invoke<String>(method: ActionMethod.deleteFile, data: path) ??
         '';
@@ -343,5 +359,12 @@ abstract class CoreHandlerInterface with CoreInterface {
   @override
   Future<String> getMemory() async {
     return await _invoke<String>(method: ActionMethod.getMemory) ?? '';
+  }
+  @override
+  Future<Map<String, dynamic>> getCoreVersion() async {
+    final res = await _invoke<Map<String, dynamic>>(
+      method: ActionMethod.getCoreVersion,
+    );
+    return res ?? {};
   }
 }

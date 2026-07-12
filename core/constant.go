@@ -85,6 +85,8 @@ const (
 	changeProxyMethod              Method = "changeProxy"
 	getTrafficMethod               Method = "getTraffic"
 	getTotalTrafficMethod          Method = "getTotalTraffic"
+	getDirectTrafficMethod         Method = "getDirectTraffic"
+    getDirectTotalTrafficMethod    Method = "getDirectTotalTraffic"
 	resetTrafficMethod             Method = "resetTraffic"
 	asyncTestDelayMethod           Method = "asyncTestDelay"
 	getConnectionsMethod           Method = "getConnections"
@@ -107,6 +109,7 @@ const (
 	setupConfigMethod              Method = "setupConfig"
 	getConfigMethod                Method = "getConfig"
 	deleteFile                     Method = "deleteFile"
+	getVersionMethod               Method = "getCoreVersion"
 )
 
 type Method string

@@ -62,6 +62,10 @@ class CommonAction extends _$CommonAction {
     ref.read(trafficsProvider.notifier).addTraffic(traffic);
     ref.read(totalTrafficProvider.notifier).value = await coreController
         .getTotalTraffic(onlyStatisticsProxy);
+    final directTraffic = await coreController.getDirectTraffic();
+    ref.read(directTrafficProvider.notifier).addTraffic(directTraffic);
+    ref.read(totalDirectTrafficProviderProvider.notifier).value =
+    await coreController.getDirectTotalTraffic();
   }
 
   Future<void> autoCheckUpdate() async {
@@ -137,7 +141,8 @@ class SetupAction extends _$SetupAction {
   }
 
   Future<void> _handleStart() async {
-    startTime ??= DateTime.now();
+    _updateTimer?.cancel();
+    startTime = DateTime.now();
     //The local status must be updated when performing the run task
     ref.read(commonActionProvider.notifier).updateRunTime();
     ref.read(commonActionProvider.notifier).updateTraffic();
@@ -192,7 +197,7 @@ class SetupAction extends _$SetupAction {
         applyProfileDebounce(force: true, silence: true);
       } else {
         globalState.needInitStatus = false;
-        ref.read(runTimeProvider.notifier).value = 0;
+        // ref.read(runTimeProvider.notifier).value = 0;
         try {
           await applyProfile(
             force: true,
@@ -353,6 +358,7 @@ class SetupAction extends _$SetupAction {
       final code = await system.authorizeCore();
       switch (code) {
         case AuthorizeCode.success:
+          ref.read(realTunEnableProvider.notifier).value = enableTun;
           await ref.read(coreActionProvider.notifier).restartCore();
           return Result.error('');
         case AuthorizeCode.none:
@@ -495,6 +501,11 @@ class CoreAction extends _$CoreAction {
     } else {
       await ref.read(proxiesActionProvider.notifier).updateGroups();
     }
+    final coreVersionInfoData = await coreController.getCoreVersion();
+    if (coreVersionInfoData.isNotEmpty) {
+      ref.read(coreVersionInfoDataProvider.notifier).value = coreVersionInfo
+          .fromJson(coreVersionInfoData);
+    }
   }
 
   Future<void> connectCore() async {
@@ -518,6 +529,7 @@ class CoreAction extends _$CoreAction {
       final code = await system.authorizeCore();
       switch (code) {
         case AuthorizeCode.success:
+          ref.read(realTunEnableProvider.notifier).value = enableTun;
           await restartCore();
           return Result.error('');
         case AuthorizeCode.none:

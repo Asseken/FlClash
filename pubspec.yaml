@@ -83,6 +83,7 @@ dependencies:
     path: plugins/rust_api
   setup:
     path: plugins/setup
+  fluent_ui: ^4.15.1
 dev_dependencies:
   flutter_test:
     sdk: flutter
@@ -105,7 +106,6 @@ flutter:
     - assets/data/
     - assets/fonts/
     - assets/images/
-    - assets/images/avatar/
     - assets/images/empty/
     - assets/images/icon/
   fonts:

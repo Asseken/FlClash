@@ -246,6 +246,20 @@ func getTraffic(onlyStatisticsProxy bool) *C.char {
 	return data
 }
 
+//export getDirectTotalTraffic
+func getDirectTotalTraffic() *C.char {
+	data := C.CString(handleGetDirectTotalTraffic())
+	defer C.free(unsafe.Pointer(data))
+	return data
+}
+
+//export getDirectTraffic
+func getDirectTraffic() *C.char {
+	data := C.CString(handleGetDirectTraffic())
+	defer C.free(unsafe.Pointer(data))
+	return data
+}
+
 func sendMessage(message Message) {
 	if eventListener == nil {
 		return

@@ -232,6 +232,8 @@ enum ActionMethod {
   changeProxy,
   getTraffic,
   getTotalTraffic,
+  getDirectTraffic,
+  getDirectTotalTraffic,
   resetTraffic,
   asyncTestDelay,
   getConnections,
@@ -252,6 +254,7 @@ enum ActionMethod {
   crash,
   setupConfig,
   deleteFile,
+  getCoreVersion,
 
   ///Android,
   setState,
@@ -313,7 +316,9 @@ enum DashboardWidget {
     platforms: desktopPlatforms,
   ),
   intranetIp(GridItem(crossAxisCellCount: 4, child: IntranetIP())),
-  memoryInfo(GridItem(crossAxisCellCount: 4, child: MemoryInfo()));
+  memoryInfo(GridItem(crossAxisCellCount: 4, child: MemoryInfo())),
+  showCoreInfo(GridItem(crossAxisCellCount: 8, child: ShowCoreInfo())),
+  oreState(GridItem(crossAxisCellCount: 4, child: CoreState())),;
 
   final GridItem widget;
   final List<SupportPlatform> platforms;

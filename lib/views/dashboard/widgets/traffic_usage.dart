@@ -4,18 +4,23 @@ import 'package:fl_clash/common/common.dart';
 import 'package:fl_clash/providers/app.dart';
 import 'package:fl_clash/state.dart';
 import 'package:fl_clash/widgets/widgets.dart';
+import 'package:fluent_ui/fluent_ui.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import '../../../enum/enum.dart';
+import '../../../providers/config.dart';
 
 class TrafficUsage extends StatelessWidget {
   const TrafficUsage({super.key});
 
   Widget _buildTrafficDataItem(
-    BuildContext context,
-    Icon icon,
-    num trafficValue,
-  ) {
-    return Row(
+      BuildContext context,
+      Icon icon,
+      num trafficValue,
+      view,
+      ) {
+    return view == ViewMode.desktop
+        ? Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       mainAxisSize: MainAxisSize.max,
       children: [
@@ -26,12 +31,12 @@ class TrafficUsage extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
               icon,
-              const SizedBox(width: 8),
+              const SizedBox(width: 2),
               Flexible(
                 flex: 1,
                 child: Text(
                   trafficValue.traffic.value,
-                  style: context.textTheme.bodySmall,
+                  style: context.textTheme.bodyMedium,
                   maxLines: 1,
                 ),
               ),
@@ -40,7 +45,43 @@ class TrafficUsage extends StatelessWidget {
         ),
         Text(
           trafficValue.traffic.unit,
-          style: context.textTheme.bodySmall?.toLighter,
+          style: context.textTheme.bodyMedium,
+        ),
+      ],
+    )
+        : Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      mainAxisSize: MainAxisSize.max,
+      children: [
+        Flexible(
+          flex: 1,
+          child: Row(
+            mainAxisSize: MainAxisSize.max,
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+              icon,
+              // const SizedBox(width: 4),
+              Flexible(
+                flex: 1,
+                child: Text(
+                  trafficValue.traffic.value,
+                  style: context.textTheme.bodySmall?.copyWith(
+                    fontSize:
+                    (context.textTheme.bodySmall?.fontSize ?? 12) -
+                        2.2,
+                  ),
+                  maxLines: 1,
+                ),
+              ),
+            ],
+          ),
+        ),
+        Text(
+          trafficValue.traffic.unit,
+          style: context.textTheme.bodySmall?.copyWith(
+            fontSize: (context.textTheme.bodySmall?.fontSize ?? 12) - 2.2,
+            fontFamily: 'monospace',
+          ),
         ),
       ],
     );
@@ -57,7 +98,7 @@ class TrafficUsage extends StatelessWidget {
         child: CommonCard(
           info: Info(
             label: appLocalizations.trafficUsage,
-            iconData: Icons.data_saver_off,
+            iconData: FluentIcons.donut_chart,
           ),
           onPressed: () {},
           child: Consumer(
@@ -65,6 +106,12 @@ class TrafficUsage extends StatelessWidget {
               final totalTraffic = ref.watch(totalTrafficProvider);
               final upTotalTrafficValue = totalTraffic.up;
               final downTotalTrafficValue = totalTraffic.down;
+              final totalDirectTraffic = ref.watch(totalDirectTrafficProviderProvider);
+              final upTotalDirectTrafficValue = totalDirectTraffic.up;
+              final downTotalDirectTrafficValue = totalDirectTraffic.down;
+              final appSetting = ref.watch(appSettingProvider);
+              final bool isOnlyStatProxy = appSetting.onlyStatisticsProxy;
+              final view = ref.watch(viewModeProvider);
               return Padding(
                 padding: baseInfoEdgeInsets.copyWith(top: 0),
                 child: Column(
@@ -74,7 +121,9 @@ class TrafficUsage extends StatelessWidget {
                   children: [
                     Flexible(
                       child: Container(
-                        padding: const EdgeInsets.symmetric(vertical: 12),
+                        padding: view == ViewMode.desktop
+                            ? const EdgeInsets.symmetric(vertical: 6)
+                            : const EdgeInsets.symmetric(vertical: 11),
                         child: Row(
                           mainAxisSize: MainAxisSize.max,
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -94,7 +143,7 @@ class TrafficUsage extends StatelessWidget {
                                 ],
                               ),
                             ),
-                            const SizedBox(width: 8),
+                            const SizedBox(width: 4),
                             Flexible(
                               child: LayoutBuilder(
                                 builder: (_, container) {
@@ -123,7 +172,7 @@ class TrafficUsage extends StatelessWidget {
                                   }
                                   return Column(
                                     crossAxisAlignment:
-                                        CrossAxisAlignment.start,
+                                    CrossAxisAlignment.start,
                                     children: [
                                       Row(
                                         mainAxisSize: MainAxisSize.min,
@@ -135,7 +184,7 @@ class TrafficUsage extends StatelessWidget {
                                               color: primaryColor,
                                               shape: RoundedSuperellipseBorder(
                                                 borderRadius:
-                                                    BorderRadius.circular(3),
+                                                BorderRadius.circular(3),
                                               ),
                                             ),
                                           ),
@@ -159,7 +208,7 @@ class TrafficUsage extends StatelessWidget {
                                               color: secondaryColor,
                                               shape: RoundedSuperellipseBorder(
                                                 borderRadius:
-                                                    BorderRadius.circular(3),
+                                                BorderRadius.circular(3),
                                               ),
                                             ),
                                           ),
@@ -181,20 +230,187 @@ class TrafficUsage extends StatelessWidget {
                         ),
                       ),
                     ),
-                    _buildTrafficDataItem(
-                      context,
-                      Icon(Icons.arrow_upward, color: primaryColor, size: 14),
-                      upTotalTrafficValue,
-                    ),
-                    const SizedBox(height: 8),
-                    _buildTrafficDataItem(
-                      context,
-                      Icon(
-                        Icons.arrow_downward,
-                        color: secondaryColor,
-                        size: 14,
-                      ),
-                      downTotalTrafficValue,
+                    view == ViewMode.desktop
+                        ? Column(
+                      children: [
+                        Row(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            isOnlyStatProxy
+                                ? Text(
+                              'Proxy:',
+                              style: context.textTheme.bodyMedium,
+                            )
+                                : Text(
+                              'Total:',
+                              style: context.textTheme.bodyMedium,
+                            ),
+                            const SizedBox(width: 3),
+                            Flexible(
+                              child: _buildTrafficDataItem(
+                                context,
+                                Icon(
+                                  Icons.arrow_upward,
+                                  color: primaryColor,
+                                  size: 14,
+                                ),
+                                upTotalTrafficValue,
+                                view,
+                              ),
+                            ),
+                            Flexible(
+                              child: _buildTrafficDataItem(
+                                context,
+                                Icon(
+                                  Icons.arrow_downward,
+                                  color: secondaryColor,
+                                  size: 14,
+                                ),
+                                downTotalTrafficValue,
+                                view,
+                              ),
+                            ),
+                          ],
+                        ),
+                        const SizedBox(height: 2),
+                        Row(
+                          children: [
+                            Text(
+                              'Direct:',
+                              style: context.textTheme.bodyMedium,
+                            ),
+                            const SizedBox(width: 1),
+                            Flexible(
+                              child: _buildTrafficDataItem(
+                                context,
+                                Icon(
+                                  Icons.arrow_upward,
+                                  color: primaryColor,
+                                  size: 14,
+                                ),
+                                upTotalDirectTrafficValue,
+                                view,
+                              ),
+                            ),
+                            Flexible(
+                              child: _buildTrafficDataItem(
+                                context,
+                                Icon(
+                                  Icons.arrow_downward,
+                                  color: secondaryColor,
+                                  size: 14,
+                                ),
+                                downTotalDirectTrafficValue,
+                                view,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ],
+                    )
+                        : Column(
+                      children: [
+                        Row(
+                          children: [
+                            isOnlyStatProxy
+                                ? Text(
+                              'P',
+                              style: context.textTheme.bodySmall
+                                  ?.copyWith(
+                                fontFamily: 'monospace',
+                                fontSize:
+                                (context
+                                    .textTheme
+                                    .bodySmall
+                                    ?.fontSize ??
+                                    12) -
+                                    2.2,
+                              ),
+                            )
+                                : Text(
+                              'T',
+                              style: context.textTheme.bodySmall
+                                  ?.copyWith(
+                                fontFamily: 'monospace',
+                                fontSize:
+                                (context
+                                    .textTheme
+                                    .bodySmall
+                                    ?.fontSize ??
+                                    12) -
+                                    2.2,
+                              ),
+                            ),
+                            Flexible(
+                              child: _buildTrafficDataItem(
+                                context,
+                                Icon(
+                                  Icons.arrow_upward,
+                                  color: primaryColor,
+                                  size: 13,
+                                ),
+                                upTotalTrafficValue,
+                                view,
+                              ),
+                            ),
+                            Flexible(
+                              child: _buildTrafficDataItem(
+                                context,
+                                Icon(
+                                  Icons.arrow_downward,
+                                  color: secondaryColor,
+                                  size: 13,
+                                ),
+                                downTotalTrafficValue,
+                                view,
+                              ),
+                            ),
+                          ],
+                        ),
+                        const SizedBox(height: 2),
+                        Row(
+                          children: [
+                            Text(
+                              'D',
+                              style: context.textTheme.bodySmall
+                                  ?.copyWith(
+                                fontFamily: 'monospace',
+                                fontSize:
+                                (context
+                                    .textTheme
+                                    .bodySmall
+                                    ?.fontSize ??
+                                    12) -
+                                    2.2,
+                              ),
+                            ),
+                            Flexible(
+                              child: _buildTrafficDataItem(
+                                context,
+                                Icon(
+                                  Icons.arrow_upward,
+                                  color: primaryColor,
+                                  size: 13,
+                                ),
+                                upTotalDirectTrafficValue,
+                                view,
+                              ),
+                            ),
+                            Flexible(
+                              child: _buildTrafficDataItem(
+                                context,
+                                Icon(
+                                  Icons.arrow_downward,
+                                  color: secondaryColor,
+                                  size: 13,
+                                ),
+                                downTotalDirectTrafficValue,
+                                view,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ],
                     ),
                   ],
                 ),

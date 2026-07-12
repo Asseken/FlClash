@@ -83,6 +83,7 @@ class MessageLookup extends MessageLookupByLibrary {
 
   final messages = _notInlinedMessages(_notInlinedMessages);
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
+    "RunOs": MessageLookupByLibrary.simpleMessage("Run Os"),
     "about": MessageLookupByLibrary.simpleMessage("About"),
     "accessControl": MessageLookupByLibrary.simpleMessage("AccessControl"),
     "accessControlAllowDesc": MessageLookupByLibrary.simpleMessage(
@@ -270,7 +271,13 @@ class MessageLookup extends MessageLookupByLibrary {
     "copyLink": MessageLookupByLibrary.simpleMessage("Copy link"),
     "copySuccess": MessageLookupByLibrary.simpleMessage("Copy success"),
     "core": MessageLookupByLibrary.simpleMessage("Core"),
+    "coreBuild": MessageLookupByLibrary.simpleMessage("Build Time"),
+    "coreName": MessageLookupByLibrary.simpleMessage("Core Name"),
+    "coreRestart": MessageLookupByLibrary.simpleMessage("Restart"),
+    "coreStart": MessageLookupByLibrary.simpleMessage("Start"),
     "coreStatus": MessageLookupByLibrary.simpleMessage("Core status"),
+    "coreStop": MessageLookupByLibrary.simpleMessage("Stop"),
+    "coreVersion": MessageLookupByLibrary.simpleMessage("Core Version"),
     "country": MessageLookupByLibrary.simpleMessage("Country"),
     "crashTest": MessageLookupByLibrary.simpleMessage("Crash test"),
     "crashlytics": MessageLookupByLibrary.simpleMessage("Crash Analysis"),

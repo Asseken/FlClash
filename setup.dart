@@ -162,9 +162,9 @@ Future<int> _package(
     'activate',
     '-s',
     'git',
-    'https://github.com/chen08209/flutter_distributor.git',
+    'https://github.com/Asseken/fastforge.git',
     '--git-ref',
-    'FlClash',
+    'dev',
     '--git-path',
     'packages/flutter_distributor',
   ]);

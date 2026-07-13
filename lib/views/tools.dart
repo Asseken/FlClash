@@ -12,6 +12,7 @@ import 'package:fl_clash/views/backup_and_restore.dart';
 import 'package:fl_clash/views/config/config.dart';
 import 'package:fl_clash/views/hotkey.dart';
 import 'package:fl_clash/widgets/widgets.dart';
+import 'package:fluent_ui/fluent_ui.dart' hide Divider;
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
@@ -138,7 +139,7 @@ class _LocaleItem extends ConsumerWidget {
     final subTitle = locale ?? context.appLocalizations.defaultText;
     final currentLocale = utils.getLocaleForString(locale);
     return ListItem<Locale?>.options(
-      leading: const Icon(Icons.language_outlined),
+      leading: const Icon(WindowsIcons.locale_language),
       title: Text(context.appLocalizations.language),
       subtitle: Text(Intl.message(subTitle)),
       delegate: OptionsDelegate(
@@ -162,7 +163,7 @@ class _ThemeItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListItem.open(
-      leading: const Icon(Icons.style),
+      leading: const Icon(WindowsIcons.color),
       title: Text(context.appLocalizations.theme),
       subtitle: Text(context.appLocalizations.themeDesc),
       delegate: const OpenDelegate(widget: ThemeView()),
@@ -176,7 +177,7 @@ class _BackupItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListItem.open(
-      leading: const Icon(Icons.cloud_sync),
+      leading: const Icon(FluentIcons.sync_to_p_c),
       title: Text(context.appLocalizations.backupAndRestore),
       subtitle: Text(context.appLocalizations.backupAndRestoreDesc),
       delegate: const OpenDelegate(widget: BackupAndRestore()),
@@ -190,7 +191,7 @@ class _HotkeyItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListItem.open(
-      leading: const Icon(Icons.keyboard),
+      leading: const Icon(WindowsIcons.keyboard_settings),
       title: Text(context.appLocalizations.hotkeyManagement),
       subtitle: Text(context.appLocalizations.hotkeyManagementDesc),
       delegate: const OpenDelegate(widget: HotKeyView()),
@@ -204,7 +205,7 @@ class _LoopbackItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListItem(
-      leading: const Icon(Icons.lock),
+      leading: const Icon(WindowsIcons.lock),
       title: Text(context.appLocalizations.loopback),
       subtitle: Text(context.appLocalizations.loopbackDesc),
       onTap: () {
@@ -223,7 +224,7 @@ class _AccessItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListItem.open(
-      leading: const Icon(Icons.view_list),
+      leading: const Icon(WindowsIcons.all_apps),
       title: Text(context.appLocalizations.accessControl),
       subtitle: Text(context.appLocalizations.accessControlDesc),
       delegate: const OpenDelegate(widget: AccessView()),
@@ -237,7 +238,7 @@ class _ConfigItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListItem.open(
-      leading: const Icon(Icons.edit),
+      leading: const Icon(FluentIcons.content_settings),
       title: Text(context.appLocalizations.basicConfig),
       subtitle: Text(context.appLocalizations.basicConfigDesc),
       delegate: const OpenDelegate(widget: ConfigView()),
@@ -251,7 +252,7 @@ class _AdvancedConfigItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListItem.open(
-      leading: const Icon(Icons.build),
+      leading: const Icon(FluentIcons.customer_assets),
       title: Text(context.appLocalizations.advancedConfig),
       subtitle: Text(context.appLocalizations.advancedConfigDesc),
       delegate: const OpenDelegate(widget: AdvancedConfigView()),
@@ -265,7 +266,7 @@ class _SettingItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListItem.open(
-      leading: const Icon(Icons.settings),
+      leading: const Icon(FluentIcons.auto_deploy_settings),
       title: Text(context.appLocalizations.application),
       subtitle: Text(context.appLocalizations.applicationDesc),
       delegate: const OpenDelegate(widget: ApplicationSettingView()),
@@ -279,7 +280,7 @@ class _DisclaimerItem extends ConsumerWidget {
   @override
   Widget build(BuildContext context, ref) {
     return ListItem(
-      leading: const Icon(Icons.gavel),
+      leading: const Icon(FluentIcons.decision_solid),
       title: Text(context.appLocalizations.disclaimer),
       onTap: () async {
         final isDisclaimerAccepted = await globalState.showDisclaimer();
@@ -297,7 +298,7 @@ class _InfoItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListItem.open(
-      leading: const Icon(Icons.info),
+      leading: const Icon(WindowsIcons.info),
       title: Text(context.appLocalizations.about),
       delegate: const OpenDelegate(widget: AboutView()),
     );
@@ -310,7 +311,7 @@ class _DeveloperItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListItem.open(
-      leading: const Icon(Icons.developer_board),
+      leading: const Icon(FluentIcons.device_run),
       title: Text(context.appLocalizations.developerMode),
       delegate: const OpenDelegate(widget: DeveloperView()),
     );

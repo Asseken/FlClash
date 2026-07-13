@@ -8,6 +8,7 @@ import 'package:fl_clash/providers/providers.dart';
 import 'package:fl_clash/state.dart';
 import 'package:fl_clash/views/profiles/overwrite/custom/proxy_providers.dart';
 import 'package:fl_clash/widgets/widgets.dart';
+import 'package:fluent_ui/fluent_ui.dart' hide Colors, Card, FilledButton;
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:smooth_sheets/smooth_sheets.dart';
@@ -237,7 +238,7 @@ class _ProxyGroupItem extends ConsumerWidget {
                     child: Container(
                       padding: const EdgeInsets.all(12),
                       color: Colors.transparent,
-                      child: const Icon(Icons.drag_handle),
+                      child: const Icon(WindowsIcons.calculator_equal_to),
                     ),
                   ),
                 ],
@@ -518,7 +519,7 @@ class _EditProxyGroupViewState extends ConsumerState<_EditProxyGroupView> {
                   : (!includeAllProviders
                         ? _NumberCard(number: use.length)
                         : const _CheckIcon()),
-              const Icon(Icons.arrow_forward_ios),
+              const Icon(WindowsIcons.chevron_right),
             ],
           ),
           onPressed: _handleToProvidersView,
@@ -701,7 +702,7 @@ class _EditProxyGroupViewState extends ConsumerState<_EditProxyGroupView> {
                   : (!includeAllProxies
                         ? _NumberCard(number: proxies.length)
                         : const _CheckIcon()),
-              const Icon(Icons.arrow_forward_ios),
+              const Icon(WindowsIcons.chevron_right),
             ],
           ),
           onPressed: _handleToProxiesView,
@@ -856,7 +857,7 @@ class _EditProxyGroupViewState extends ConsumerState<_EditProxyGroupView> {
         : double.maxFinite;
     return AdaptiveSheetScaffold(
       sheetTransparentToolBar: true,
-      actions: [IconButtonData(icon: Icons.check, onPressed: _handleSave)],
+      actions: [IconButtonData(icon: WindowsIcons.accept, onPressed: _handleSave)],
       body: SizedBox(
         height: height,
         child: ListView(
@@ -935,7 +936,7 @@ class _CheckIcon extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.all(6),
       child: Icon(
-        Icons.check_circle_outline,
+        FluentIcons.completed,
         size: 20.ap,
         color: Colors.greenAccent.harmonizeWith(context.colorScheme.primary),
       ),

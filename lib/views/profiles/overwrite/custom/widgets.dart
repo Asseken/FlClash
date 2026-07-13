@@ -1,6 +1,7 @@
 import 'package:fl_clash/common/common.dart';
 import 'package:fl_clash/state.dart';
 import 'package:fl_clash/widgets/widgets.dart';
+import 'package:fluent_ui/fluent_ui.dart' hide IconButton;
 import 'package:flutter/material.dart';
 
 class InfoMessageButton extends StatelessWidget {
@@ -15,7 +16,7 @@ class InfoMessageButton extends StatelessWidget {
         onPressed: () {
           globalState.showMessage(message: TextSpan(text: message));
         },
-        icon: Icon(Icons.info, size: 20.ap, color: context.colorScheme.error),
+        icon: Icon(WindowsIcons.info, size: 20.ap, color: context.colorScheme.error),
       ),
     );
   }

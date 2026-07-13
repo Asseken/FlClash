@@ -5,6 +5,7 @@ import 'package:fl_clash/models/models.dart' hide FileInfo;
 import 'package:fl_clash/providers/providers.dart';
 import 'package:fl_clash/state.dart';
 import 'package:fl_clash/widgets/widgets.dart';
+import 'package:fluent_ui/fluent_ui.dart' hide Colors, FilledButton, IconButton;
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:smooth_sheets/smooth_sheets.dart';
@@ -106,7 +107,7 @@ class _EditProxiesViewState extends ConsumerState<EditProxiesView>
                     onPressed: () {
                       _handleRemove(proxyName);
                     },
-                    icon: const Icon(Icons.remove, size: 18),
+                    icon: const Icon(WindowsIcons.remove, size: 18),
                     padding: EdgeInsets.zero,
                   ),
                 ),
@@ -124,7 +125,7 @@ class _EditProxiesViewState extends ConsumerState<EditProxiesView>
                       child: Container(
                         color: Colors.transparent,
                         padding: const EdgeInsets.all(12),
-                        child: const Icon(Icons.drag_handle),
+                        child: const Icon(WindowsIcons.calculator_equal_to),
                       ),
                     ),
                   ],
@@ -217,7 +218,7 @@ class _EditProxiesViewState extends ConsumerState<EditProxiesView>
                             },
                             icon: Icon(
                               size: 16.ap,
-                              Icons.info_outline,
+                              WindowsIcons.info,
                               color: context.colorScheme.onSurfaceVariant,
                             ),
                           ),
@@ -390,7 +391,7 @@ class _AddProxiesViewState extends ConsumerState<_AddProxiesView>
             trailing: CommonMinIconButtonTheme(
               child: IconButton.filledTonal(
                 onPressed: onAdd,
-                icon: const Icon(Icons.add, size: 18),
+                icon: const Icon(WindowsIcons.add, size: 18),
               ),
             ),
           ),

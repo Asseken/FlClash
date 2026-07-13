@@ -8,6 +8,7 @@ import 'package:fl_clash/providers/app.dart';
 import 'package:fl_clash/providers/config.dart';
 import 'package:fl_clash/state.dart';
 import 'package:fl_clash/widgets/widgets.dart';
+import 'package:fluent_ui/fluent_ui.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:path/path.dart' hide context;
@@ -201,7 +202,7 @@ class _GeoResourceListItemState extends ConsumerState<_GeoResourceListItem> {
                   runAlignment: WrapAlignment.center,
                   children: [
                     CommonChip(
-                      avatar: const Icon(Icons.edit),
+                      avatar: const Icon(WindowsIcons.text_edit),
                       label: appLocalizations.edit,
                       onPressed: () {
                         _updateUrl(url);
@@ -221,7 +222,7 @@ class _GeoResourceListItemState extends ConsumerState<_GeoResourceListItem> {
                                   ),
                                 )
                               : CommonChip(
-                                  avatar: const Icon(Icons.sync),
+                                  avatar: const Icon(WindowsIcons.sync),
                                   label: appLocalizations.sync,
                                   onPressed: () {
                                     _handleUpdateGeoDataItem();

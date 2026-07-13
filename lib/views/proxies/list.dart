@@ -6,6 +6,7 @@ import 'package:fl_clash/models/models.dart';
 import 'package:fl_clash/providers/config.dart';
 import 'package:fl_clash/providers/state.dart';
 import 'package:fl_clash/widgets/widgets.dart';
+import 'package:fluent_ui/fluent_ui.dart' hide IconButton, ButtonStyle;
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -562,7 +563,7 @@ class _ListHeaderState extends State<ListHeader> {
                       tapTargetSize: MaterialTapTargetSize.shrinkWrap,
                     ),
                     iconSize: 19,
-                    icon: const Icon(Icons.adjust),
+                    icon: const Icon(WindowsIcons.location),
                   ),
                   const SizedBox(width: 2),
                   IconButton(
@@ -573,7 +574,7 @@ class _ListHeaderState extends State<ListHeader> {
                     style: const ButtonStyle(
                       tapTargetSize: MaterialTapTargetSize.shrinkWrap,
                     ),
-                    icon: const Icon(Icons.network_ping),
+                    icon: const Icon(WindowsIcons.market),
                   ),
                   const SizedBox(width: 6),
                 ] else

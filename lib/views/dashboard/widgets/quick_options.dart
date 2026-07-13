@@ -196,7 +196,7 @@ class SystemProxyButton extends StatelessWidget {
         },
         info: Info(
           label: appLocalizations.systemProxy,
-          iconData: Icons.shuffle,
+          iconData: FluentIcons.internet_sharing,
         ),
         child: Container(
           padding: baseInfoEdgeInsets.copyWith(top: 4, bottom: 8, right: 8),
@@ -271,7 +271,7 @@ class VpnButton extends StatelessWidget {
             },
           );
         },
-        info: const Info(label: 'VPN', iconData: Icons.stacked_line_chart),
+        info: const Info(label: 'VPN', iconData: WindowsIcons.vpn),
         child: Container(
           padding: baseInfoEdgeInsets.copyWith(top: 4, bottom: 8, right: 8),
           child: Row(

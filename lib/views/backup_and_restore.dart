@@ -15,6 +15,7 @@ import 'package:fl_clash/widgets/input.dart';
 import 'package:fl_clash/widgets/list.dart';
 import 'package:fl_clash/widgets/scaffold.dart';
 import 'package:fl_clash/widgets/text.dart';
+import 'package:fluent_ui/fluent_ui.dart' hide FilledButton, Colors, IconButton;
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
@@ -210,7 +211,7 @@ class _BackupAndRestoreState extends ConsumerState<BackupAndRestore>
           ListHeader(title: appLocalizations.remote),
           if (dav == null)
             ListItem(
-              leading: const Icon(Icons.account_box),
+              leading: const Icon(WindowsIcons.other_user),
               title: Text(appLocalizations.noInfo),
               subtitle: Text(appLocalizations.pleaseBindWebDAV),
               trailing: FilledButton.tonal(
@@ -222,7 +223,7 @@ class _BackupAndRestoreState extends ConsumerState<BackupAndRestore>
             )
           else ...[
             ListItem(
-              leading: const Icon(Icons.account_box),
+              leading: const Icon(WindowsIcons.other_user),
               title: TooltipText(
                 text: Text(
                   dav.user,
@@ -455,7 +456,7 @@ class _WebDAVFormDialogState extends ConsumerState<WebDAVFormDialog> {
               maxLines: 5,
               minLines: 1,
               decoration: InputDecoration(
-                prefixIcon: const Icon(Icons.link),
+                prefixIcon: const Icon(WindowsIcons.link),
                 border: const OutlineInputBorder(),
                 labelText: appLocalizations.address,
                 helperText: appLocalizations.addressHelp,
@@ -471,7 +472,7 @@ class _WebDAVFormDialogState extends ConsumerState<WebDAVFormDialog> {
               controller: _userController,
               inputFormatters: TextInputLimits.limit(TextInputLimits.userName),
               decoration: InputDecoration(
-                prefixIcon: const Icon(Icons.account_circle),
+                prefixIcon: const Icon(WindowsIcons.other_user),
                 border: const OutlineInputBorder(),
                 labelText: appLocalizations.account,
               ),
@@ -492,11 +493,11 @@ class _WebDAVFormDialogState extends ConsumerState<WebDAVFormDialog> {
                   ),
                   obscureText: obscure,
                   decoration: InputDecoration(
-                    prefixIcon: const Icon(Icons.password),
+                    prefixIcon: const Icon(FluentIcons.password_field),
                     border: const OutlineInputBorder(),
                     suffixIcon: IconButton(
                       icon: Icon(
-                        obscure ? Icons.visibility : Icons.visibility_off,
+                        obscure ? WindowsIcons.hide : WindowsIcons.red_eye,
                       ),
                       onPressed: () {
                         _obscureController.value = !obscure;

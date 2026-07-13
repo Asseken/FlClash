@@ -7,6 +7,7 @@ import 'package:fl_clash/enum/enum.dart';
 import 'package:fl_clash/providers/providers.dart';
 import 'package:fl_clash/state.dart';
 import 'package:fl_clash/widgets/widgets.dart';
+import 'package:fluent_ui/fluent_ui.dart' hide IconButton, Tooltip, Colors, FilledButton;
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -88,7 +89,7 @@ class _DashboardViewState extends ConsumerState<DashboardView> {
                         ),
                         onPressed: _handleConnection,
                         icon: const Icon(
-                          Icons.check,
+                          WindowsIcons.check_mark,
                           fontWeight: FontWeight.w900,
                         ),
                       )
@@ -130,11 +131,11 @@ class _DashboardViewState extends ConsumerState<DashboardView> {
                               ),
                             ),
                             CoreStatus.connected => const Icon(
-                              Icons.check_sharp,
+                              WindowsIcons.check_mark,
                               fontWeight: FontWeight.w900,
                             ),
                             CoreStatus.disconnected => const Icon(
-                              Icons.restart_alt_sharp,
+                              WindowsIcons.update_restore,
                               fontWeight: FontWeight.w900,
                             ),
                           },
@@ -163,19 +164,19 @@ class _DashboardViewState extends ConsumerState<DashboardView> {
             onPressed: () {
               _showAddWidgetsModal();
             },
-            icon: const Icon(Icons.add_circle),
+            icon: const Icon(WindowsIcons.add),
           ),
         ),
       FadeRotationScaleBox(
         child: isEdit
             ? IconButton(
                 key: const ValueKey(true),
-                icon: const Icon(Icons.save, key: ValueKey('save-icon')),
+                icon: const Icon(WindowsIcons.save, key: ValueKey('save-icon')),
                 onPressed: _handleUpdateIsEdit,
               )
             : IconButton(
                 key: const ValueKey(false),
-                icon: const Icon(Icons.edit, key: ValueKey('edit-icon')),
+                icon: const Icon(WindowsIcons.edit, key: ValueKey('edit-icon')),
                 onPressed: _handleUpdateIsEdit,
               ),
       ),

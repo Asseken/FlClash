@@ -10,6 +10,7 @@ import 'package:fl_clash/pages/editor.dart';
 import 'package:fl_clash/providers/action.dart';
 import 'package:fl_clash/state.dart';
 import 'package:fl_clash/widgets/widgets.dart';
+import 'package:fluent_ui/fluent_ui.dart';
 import 'package:flutter/material.dart';
 
 class EditProfileView extends StatefulWidget {
@@ -312,12 +313,12 @@ class _EditProfileViewState extends State<EditProfileView> {
                           spacing: 12,
                           children: [
                             CommonChip(
-                              avatar: const Icon(Icons.edit),
+                              avatar: const Icon(FluentIcons.code_edit),
                               label: appLocalizations.edit,
                               onPressed: _editProfileFile,
                             ),
                             CommonChip(
-                              avatar: const Icon(Icons.upload),
+                              avatar: const Icon(FluentIcons.fabric_folder_upload),
                               label: appLocalizations.upload,
                               onPressed: _uploadProfileFile,
                             ),
@@ -344,7 +345,7 @@ class _EditProfileViewState extends State<EditProfileView> {
             heroTag: null,
             onPressed: _handleConfirm,
             label: Text(appLocalizations.save),
-            icon: const Icon(Icons.save),
+            icon: const Icon(WindowsIcons.save),
           ),
         ),
         child: Form(

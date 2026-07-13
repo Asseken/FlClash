@@ -3,6 +3,7 @@ import 'package:fl_clash/models/common.dart';
 import 'package:fl_clash/providers/app.dart';
 import 'package:fl_clash/state.dart';
 import 'package:fl_clash/widgets/inherited.dart';
+import 'package:fluent_ui/fluent_ui.dart' hide IconButton;
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
@@ -133,17 +134,17 @@ class _AdaptiveSheetScaffoldState extends State<AdaptiveSheetScaffold> {
 
   IconData get backIconData {
     if (kIsWeb) {
-      return Icons.arrow_back;
+      return WindowsIcons.back;
     }
     switch (Theme.of(context).platform) {
       case TargetPlatform.android:
       case TargetPlatform.fuchsia:
       case TargetPlatform.linux:
       case TargetPlatform.windows:
-        return Icons.arrow_back;
+        return WindowsIcons.back;
       case TargetPlatform.iOS:
       case TargetPlatform.macOS:
-        return Icons.arrow_back_ios_new_rounded;
+        return WindowsIcons.chevron_left;
     }
   }
 
@@ -201,7 +202,7 @@ class _AdaptiveSheetScaffoldState extends State<AdaptiveSheetScaffold> {
         ? (useCloseIcon
               ? buildIconButton(
                   IconButtonData(
-                    icon: Icons.close,
+                    icon: WindowsIcons.clear,
                     onPressed: context.safeNestedPop,
                   ),
                 )

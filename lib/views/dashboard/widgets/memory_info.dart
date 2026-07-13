@@ -90,165 +90,201 @@ class _MemoryInfoState extends State<MemoryInfo> {
                         height: globalState.measure.bodyMediumHeight + 2,
                         child: view == ViewMode.desktop
                             ? Row(
-                          mainAxisAlignment:
-                          MainAxisAlignment.spaceBetween,
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            ValueListenableBuilder(
-                              valueListenable: _memoryStateNotifier,
-                              builder: (_, memory, _) {
-                                final traffic = memory.traffic;
-                                return Row(
-                                  children: [
-                                    const FlutterLogo(size: 17),
-                                    Text(
-                                      traffic.value,
-                                      style: context
-                                          .textTheme
-                                          .bodyMedium
-                                          ?.toLight
-                                          .adjustSize(1),
-                                    ),
-                                    const SizedBox(width: 2),
-                                    Text(
-                                      traffic.unit,
-                                      style: context
-                                          .textTheme
-                                          .bodyMedium
-                                          ?.toLight
-                                          .adjustSize(1),
-                                    ),
-                                  ],
-                                );
-                              },
-                            ),
-                            ValueListenableBuilder(
-                              valueListenable: _coreStateNotifier,
-                              builder: (_, core, _) {
-                                final coreMemory = core.traffic;
-                                return Row(
-                                  children: [
-                                    Image.asset(
-                                      'assets/images/Meta.png',
-                                      width: 17,
-                                      height: 17,
-                                    ),
-                                    coreMemory.value == '0'
-                                        ? Container(
-                                      padding: const EdgeInsets.all(
-                                        2,
-                                      ),
-                                      child: const AspectRatio(
-                                        aspectRatio: 1,
-                                        child:
-                                        CommonCircleLoading(),
-                                      ),
-                                    )
-                                        : Text(
-                                      coreMemory.value,
-                                      style: context
-                                          .textTheme
-                                          .bodyMedium
-                                          ?.toLight
-                                          .adjustSize(1),
-                                    ),
-                                    const SizedBox(width: 2),
-                                    Text(
-                                      coreMemory.unit,
-                                      style: context
-                                          .textTheme
-                                          .bodyMedium
-                                          ?.toLight
-                                          .adjustSize(1),
-                                    ),
-                                  ],
-                                );
-                              },
-                            ),
-                          ],
-                        )
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: [
+                                  ValueListenableBuilder(
+                                    valueListenable: _memoryStateNotifier,
+                                    builder: (_, memory, _) {
+                                      final traffic = memory.traffic;
+                                      return Row(
+                                        children: [
+                                          const FlutterLogo(size: 17),
+                                          Text(
+                                            traffic.value,
+                                            style: context
+                                                .textTheme
+                                                .bodyMedium
+                                                ?.toLight
+                                                .adjustSize(1),
+                                          ),
+                                          const SizedBox(width: 2),
+                                          Text(
+                                            traffic.unit,
+                                            style: context
+                                                .textTheme
+                                                .bodyMedium
+                                                ?.toLight
+                                                .adjustSize(1),
+                                          ),
+                                        ],
+                                      );
+                                    },
+                                  ),
+                                  ValueListenableBuilder(
+                                    valueListenable: _coreStateNotifier,
+                                    builder: (_, core, _) {
+                                      final coreMemory = core.traffic;
+                                      return Row(
+                                        children: [
+                                          Image.asset(
+                                            'assets/images/Meta.png',
+                                            width: 17,
+                                            height: 17,
+                                          ),
+                                          coreMemory.value == '0'
+                                              ? Container(
+                                                  padding: const EdgeInsets.all(
+                                                    2,
+                                                  ),
+                                                  child: const AspectRatio(
+                                                    aspectRatio: 1,
+                                                    child:
+                                                        CommonCircleLoading(),
+                                                  ),
+                                                )
+                                              : Text(
+                                                  coreMemory.value,
+                                                  style: context
+                                                      .textTheme
+                                                      .bodyMedium
+                                                      ?.toLight
+                                                      .adjustSize(1),
+                                                ),
+                                          const SizedBox(width: 2),
+                                          Text(
+                                            coreMemory.unit,
+                                            style: context
+                                                .textTheme
+                                                .bodyMedium
+                                                ?.toLight
+                                                .adjustSize(1),
+                                          ),
+                                        ],
+                                      );
+                                    },
+                                  ),
+                                ],
+                              )
                             : Row(
-                          mainAxisAlignment:
-                          MainAxisAlignment.spaceBetween,
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            ValueListenableBuilder(
-                              valueListenable: _memoryStateNotifier,
-                              builder: (_, memory, _) {
-                                final traffic = memory.traffic;
-                                return Row(
-                                  mainAxisAlignment:
-                                  MainAxisAlignment.start,
-                                  children: [
-                                    const FlutterLogo(size: 14),
-                                    Text(
-                                      traffic.value,
-                                      style: context
-                                          .textTheme
-                                          .bodySmall
-                                          ?.toLight
-                                          .adjustSize(1),
-                                    ),
-                                    // const SizedBox(width: 3),
-                                    Text(
-                                      traffic.unit,
-                                      style: context
-                                          .textTheme
-                                          .bodySmall
-                                          ?.toLight
-                                          .adjustSize(1),
-                                    ),
-                                  ],
-                                );
-                              },
-                            ),
-                            ValueListenableBuilder(
-                              valueListenable: _coreStateNotifier,
-                              builder: (_, core, _) {
-                                final coreMemory = core.traffic;
-                                return Row(
-                                  mainAxisAlignment:
-                                  MainAxisAlignment.start,
-                                  children: [
-                                    Image.asset(
-                                      'assets/images/Meta.png',
-                                      width: 14,
-                                      height: 14,
-                                    ),
-                                    coreMemory.value == '0'
-                                        ? Container(
-                                      padding: const EdgeInsets.all(
-                                        2,
-                                      ),
-                                      child: const AspectRatio(
-                                        aspectRatio: 1,
-                                        child:
-                                        CommonCircleLoading(),
-                                      ),
-                                    )
-                                        : Text(
-                                      coreMemory.value,
-                                      style: context
-                                          .textTheme
-                                          .bodySmall
-                                          ?.toLight
-                                          .adjustSize(1),
-                                    ),
-                                    // const SizedBox(width: 3),
-                                    Text(
-                                      coreMemory.unit,
-                                      style: context
-                                          .textTheme
-                                          .bodySmall
-                                          ?.toLight
-                                          .adjustSize(1),
-                                    ),
-                                  ],
-                                );
-                              },
-                            ),
-                          ],
-                        ),
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: [
+                                  ValueListenableBuilder(
+                                    valueListenable: _memoryStateNotifier,
+                                    builder: (_, memory, _) {
+                                      final traffic = memory.traffic;
+                                      return Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.start,
+                                        children: [
+                                          const FlutterLogo(size: 14),
+                                          Text(
+                                            traffic.value,
+                                            style: context
+                                                .textTheme
+                                                .bodySmall
+                                                ?.toLight
+                                                .adjustSize(1)
+                                                .copyWith(
+                                                  fontSize:
+                                                      (context
+                                                              .textTheme
+                                                              .bodySmall
+                                                              ?.fontSize ??
+                                                          12) -
+                                                      0.5,
+                                                ),
+                                          ),
+                                          // const SizedBox(width: 3),
+                                          Text(
+                                            traffic.unit,
+                                            style: context
+                                                .textTheme
+                                                .bodySmall
+                                                ?.toLight
+                                                .adjustSize(1)
+                                                .copyWith(
+                                                  fontSize:
+                                                      (context
+                                                              .textTheme
+                                                              .bodySmall
+                                                              ?.fontSize ??
+                                                          12) -
+                                                      0.5,
+                                                ),
+                                          ),
+                                        ],
+                                      );
+                                    },
+                                  ),
+                                  ValueListenableBuilder(
+                                    valueListenable: _coreStateNotifier,
+                                    builder: (_, core, _) {
+                                      final coreMemory = core.traffic;
+                                      return Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.start,
+                                        children: [
+                                          Image.asset(
+                                            'assets/images/Meta.png',
+                                            width: 14,
+                                            height: 14,
+                                          ),
+                                          coreMemory.value == '0'
+                                              ? Container(
+                                                  padding: const EdgeInsets.all(
+                                                    2,
+                                                  ),
+                                                  child: const AspectRatio(
+                                                    aspectRatio: 1,
+                                                    child:
+                                                        CommonCircleLoading(),
+                                                  ),
+                                                )
+                                              : Text(
+                                                  coreMemory.value,
+                                                  style: context
+                                                      .textTheme
+                                                      .bodySmall
+                                                      ?.toLight
+                                                      .adjustSize(1)
+                                                      .copyWith(
+                                                        fontSize:
+                                                            (context
+                                                                    .textTheme
+                                                                    .bodySmall
+                                                                    ?.fontSize ??
+                                                                12) -
+                                                            0.5,
+                                                      ),
+                                                ),
+                                          // const SizedBox(width: 3),
+                                          Text(
+                                            coreMemory.unit,
+                                            style: context
+                                                .textTheme
+                                                .bodySmall
+                                                ?.toLight
+                                                .adjustSize(1)
+                                                .copyWith(
+                                                  fontSize:
+                                                      (context
+                                                              .textTheme
+                                                              .bodySmall
+                                                              ?.fontSize ??
+                                                          12) -
+                                                      0.5,
+                                                ),
+                                          ),
+                                        ],
+                                      );
+                                    },
+                                  ),
+                                ],
+                              ),
                       ),
                     );
                   },

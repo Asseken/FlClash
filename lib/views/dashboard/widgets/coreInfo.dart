@@ -35,7 +35,7 @@ class ShowCoreInfo extends StatelessWidget {
                       children: [
                         TooltipText(
                           text: Text(
-                            '${appLocalizations.coreName}',
+                            appLocalizations.coreName,
                             style: context.textTheme.bodyMedium?.toLight
                                 .adjustSize(1),
                             maxLines: 1,
@@ -45,7 +45,7 @@ class ShowCoreInfo extends StatelessWidget {
                         TooltipText(
                           text: Text(
                             '${coreInfo?.mihoName}',
-                            style: context.textTheme.bodyMedium?.toLight
+                            style: context.textTheme.bodySmall?.toLight
                                 .adjustSize(1),
                             maxLines: 1,
                             overflow: TextOverflow.ellipsis,
@@ -62,7 +62,7 @@ class ShowCoreInfo extends StatelessWidget {
                       children: [
                         TooltipText(
                           text: Text(
-                            '${appLocalizations.coreVersion}',
+                            appLocalizations.coreVersion,
                             style: context.textTheme.bodyMedium?.toLight
                                 .adjustSize(1),
                             // maxLines: 1,
@@ -72,7 +72,7 @@ class ShowCoreInfo extends StatelessWidget {
                         TooltipText(
                           text: Text(
                             '${coreInfo?.coreVersion}',
-                            style: context.textTheme.bodyMedium?.toLight
+                            style: context.textTheme.bodySmall?.toLight
                                 .adjustSize(1),
                             maxLines: 1,
                             overflow: TextOverflow.ellipsis,
@@ -89,7 +89,7 @@ class ShowCoreInfo extends StatelessWidget {
                       children: [
                         TooltipText(
                           text: Text(
-                            '${appLocalizations.RunOs}',
+                            appLocalizations.RunOs,
                             style: context.textTheme.bodyMedium?.toLight
                                 .adjustSize(1),
                             // maxLines: 1,
@@ -99,7 +99,7 @@ class ShowCoreInfo extends StatelessWidget {
                         TooltipText(
                           text: Text(
                             '${coreInfo?.goOs}-${coreInfo?.goArch}',
-                            style: context.textTheme.bodyMedium?.toLight
+                            style: context.textTheme.bodySmall?.toLight
                                 .adjustSize(1),
                             maxLines: 1,
                             overflow: TextOverflow.ellipsis,

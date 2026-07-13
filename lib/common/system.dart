@@ -224,6 +224,15 @@ class Windows {
     // if (qcResult.exitCode != 0 || !qcOutput.contains(appPath.helperPath)) {
     //   return WindowsHelperServiceStatus.none;
     // }
+    final qcResult = await Process.run('sc', ['qc', appHelperService]);
+    final qcOutput = qcResult.stdout.toString();
+    if (qcResult.exitCode != 0) {
+      return WindowsHelperServiceStatus.none;
+    }
+    if (!qcOutput.contains(appPath.helperPath)) {
+      // Service exists but binary path doesn't match (e.g. old version residue)
+      return WindowsHelperServiceStatus.presence;
+    }
     final result = await Process.run('sc', ['query', appHelperService]);
     if (result.exitCode != 0) {
       return WindowsHelperServiceStatus.none;
@@ -242,33 +251,38 @@ class Windows {
       return true;
     }
 
-    final command = [
-      '/c',
-      if (status == WindowsHelperServiceStatus.presence) ...[
-        'taskkill',
-        '/F',
-        '/IM',
-        '$appHelperService.exe'
-            ' & '
-            'sc',
-        'delete',
+    final command = <String>['/c'];
+    if (status == WindowsHelperServiceStatus.presence) {
+      // Service exists (possibly stale path from old version).
+      // Use sc config to update binPath instead of delete+create,
+      // which avoids race conditions with pending service deletion.
+      command.addAll([
+        'sc',
+        'config',
+        appHelperService,
+        'binPath= "${appPath.helperPath}"',
+        'start= auto',
+        '&',
+        'sc',
+        'stop',
         appHelperService,
         '&',
-      ],
-      'sc',
-      'create',
-      appHelperService,
-      'binPath= "${appPath.helperPath}"',
-      'start= auto',
-      '&&',
-      'sc',
-      'start',
-      appHelperService,
-    ].join(' ');
+      ]);
+    } else {
+      command.addAll([
+        'sc',
+        'create',
+        appHelperService,
+        'binPath= "${appPath.helperPath}"',
+        'start= auto',
+        '&',
+      ]);
+    }
+    command.addAll(['sc', 'start', appHelperService]);
 
-    final res = runas('cmd.exe', command);
+    final res = runas('cmd.exe', command.join(' '));
 
-    await Future.delayed(const Duration(milliseconds: 300));
+    await Future.delayed(const Duration(milliseconds: 500));
     final retryStatus = await retry(
       task: checkService,
       maxAttempts: 5,
@@ -287,11 +301,6 @@ class Windows {
 
     final command = [
       '/c',
-      'taskkill',
-      '/F',
-      '/IM',
-      '$appHelperService.exe',
-      '&',
       'sc',
       'stop',
       appHelperService,

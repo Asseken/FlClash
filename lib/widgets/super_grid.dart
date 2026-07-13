@@ -7,6 +7,7 @@ import 'package:fl_clash/enum/enum.dart';
 import 'package:fl_clash/widgets/activate_box.dart';
 import 'package:fl_clash/widgets/card.dart';
 import 'package:fl_clash/widgets/grid.dart';
+import 'package:fluent_ui/fluent_ui.dart' hide IconButton;
 import 'package:flutter/material.dart';
 import 'package:flutter/physics.dart';
 
@@ -740,7 +741,7 @@ class _DeletableContainerState extends State<_DeletableContainer>
                   iconSize: 20,
                   padding: const EdgeInsets.all(2),
                   onPressed: _handleDel,
-                  icon: const Icon(Icons.close),
+                  icon: const Icon(WindowsIcons.clear),
                 ),
               ),
             ),

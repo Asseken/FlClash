@@ -8,6 +8,7 @@ import 'package:fl_clash/widgets/inherited.dart';
 import 'package:fl_clash/widgets/null_status.dart';
 import 'package:fl_clash/widgets/pop_scope.dart';
 import 'package:fl_clash/widgets/scaffold.dart';
+import 'package:fluent_ui/fluent_ui.dart' hide FilledButton, IconButton, Checkbox;
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -385,7 +386,7 @@ class _ListInputPageState extends ConsumerState<ListInputPage> {
             CommonMinIconButtonTheme(
               child: IconButton.filledTonal(
                 onPressed: _handleDelete,
-                icon: const Icon(Icons.delete),
+                icon: const Icon(WindowsIcons.delete),
               ),
             ),
             const SizedBox(width: 2),
@@ -393,7 +394,7 @@ class _ListInputPageState extends ConsumerState<ListInputPage> {
             CommonMinIconButtonTheme(
               child: IconButton.filledTonal(
                 onPressed: _handleReset,
-                icon: const Icon(Icons.replay),
+                icon: const Icon(WindowsIcons.update_restore),
               ),
             ),
             const SizedBox(width: 2),
@@ -637,7 +638,7 @@ class _MapInputPageState extends ConsumerState<MapInputPage> {
             CommonMinIconButtonTheme(
               child: IconButton.filledTonal(
                 onPressed: _handleDelete,
-                icon: const Icon(Icons.delete),
+                icon: const Icon(WindowsIcons.delete),
               ),
             ),
             const SizedBox(width: 2),
@@ -648,7 +649,7 @@ class _MapInputPageState extends ConsumerState<MapInputPage> {
             CommonMinIconButtonTheme(
               child: IconButton.filledTonal(
                 onPressed: _handleReset,
-                icon: const Icon(Icons.replay),
+                icon: const Icon(WindowsIcons.update_restore),
               ),
             ),
             const SizedBox(width: 2),

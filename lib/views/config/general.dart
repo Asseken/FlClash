@@ -4,6 +4,7 @@ import 'package:fl_clash/models/models.dart';
 import 'package:fl_clash/providers/providers.dart';
 import 'package:fl_clash/state.dart';
 import 'package:fl_clash/widgets/widgets.dart';
+import 'package:fluent_ui/fluent_ui.dart' hide Divider, IconButton;
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -21,7 +22,7 @@ class LogLevelItem extends ConsumerWidget {
       patchClashConfigProvider.select((state) => state.logLevel),
     );
     return ListItem<LogLevel>.options(
-      leading: const Icon(Icons.info_outline),
+      leading: const Icon(WindowsIcons.info),
       title: Text(appLocalizations.logLevel),
       subtitle: Text(logLevel.name),
       dialogTitle: appLocalizations.logLevel,
@@ -74,7 +75,7 @@ class UaItem extends ConsumerWidget {
       patchClashConfigProvider.select((state) => state.globalUa),
     );
     return ListItem(
-      leading: const Icon(Icons.computer_outlined),
+      leading: const Icon(FluentIcons.devices2),
       title: Text(appLocalizations.userAgent),
       subtitle: Text(globalUa ?? appLocalizations.defaultText),
       onTap: () => _handleShowUaDialog(ref),
@@ -267,7 +268,7 @@ class KeepAliveIntervalItem extends ConsumerWidget {
       patchClashConfigProvider.select((state) => state.keepAliveInterval),
     );
     return ListItem.input(
-      leading: const Icon(Icons.timer_outlined),
+      leading: const Icon(FluentIcons.timer),
       title: Text(appLocalizations.keepAliveIntervalDesc),
       subtitle: Text(appLocalizations.secondsCount(keepAliveInterval)),
       dialogTitle: appLocalizations.keepAliveIntervalDesc,
@@ -308,7 +309,7 @@ class TestUrlItem extends ConsumerWidget {
       appSettingProvider.select((state) => state.testUrl),
     );
     return ListItem.input(
-      leading: const Icon(Icons.timeline),
+      leading: const Icon(WindowsIcons.market),
       title: Text(appLocalizations.testUrl),
       subtitle: Text(testUrl),
       resetValue: defaultTestUrl,
@@ -350,7 +351,7 @@ class PortItem extends ConsumerWidget {
       patchClashConfigProvider.select((state) => state.mixedPort),
     );
     return ListItem(
-      leading: const Icon(Icons.adjust_outlined),
+      leading: const Icon(FluentIcons.location_outline),
       title: Text(appLocalizations.port),
       subtitle: Text('$mixedPort'),
       onTap: () {
@@ -370,7 +371,7 @@ class HostsItem extends ConsumerWidget {
       patchClashConfigProvider.select((state) => state.hosts),
     );
     return ListItem.open(
-      leading: const Icon(Icons.view_list_outlined),
+      leading: const Icon(FluentIcons.server_processes),
       title: const Text('Hosts'),
       subtitle: Text(appLocalizations.hostsDesc),
       blur: false,
@@ -401,7 +402,7 @@ class Ipv6Item extends ConsumerWidget {
       patchClashConfigProvider.select((state) => state.ipv6),
     );
     return ListItem.toggle(
-      leading: const Icon(Icons.water_outlined),
+      leading: const Icon(WindowsIcons.wifi),
       title: const Text('IPv6'),
       subtitle: Text(appLocalizations.ipv6Desc),
       value: ipv6,
@@ -424,7 +425,7 @@ class AppendSystemDNSItem extends ConsumerWidget {
       networkSettingProvider.select((state) => state.appendSystemDns),
     );
     return ListItem.toggle(
-      leading: const Icon(Icons.dns_outlined),
+      leading: const Icon(FluentIcons.server),
       title: Text(appLocalizations.appendSystemDns),
       subtitle: Text(appLocalizations.appendSystemDnsTip),
       value: appendSystemDNS,
@@ -447,7 +448,7 @@ class AllowLanItem extends ConsumerWidget {
       patchClashConfigProvider.select((state) => state.allowLan),
     );
     return ListItem.toggle(
-      leading: const Icon(Icons.device_hub),
+      leading: const Icon(FluentIcons.streaming),
       title: Text(appLocalizations.allowLan),
       subtitle: Text(appLocalizations.allowLanDesc),
       value: allowLan,
@@ -469,9 +470,8 @@ class UnifiedDelayItem extends ConsumerWidget {
     final unifiedDelay = ref.watch(
       patchClashConfigProvider.select((state) => state.unifiedDelay),
     );
-
     return ListItem.toggle(
-      leading: const Icon(Icons.compress_outlined),
+      leading: const Icon(FluentIcons.chevron_fold10),
       title: Text(appLocalizations.unifiedDelay),
       subtitle: Text(appLocalizations.unifiedDelayDesc),
       value: unifiedDelay,
@@ -495,9 +495,8 @@ class FindProcessItem extends ConsumerWidget {
         (state) => state.findProcessMode == FindProcessMode.always,
       ),
     );
-
     return ListItem.toggle(
-      leading: const Icon(Icons.polymer_outlined),
+      leading: const Icon(WindowsIcons.search_and_apps),
       title: Text(appLocalizations.findProcessMode),
       subtitle: Text(appLocalizations.findProcessModeDesc),
       value: findProcess,
@@ -526,7 +525,7 @@ class TcpConcurrentItem extends ConsumerWidget {
       patchClashConfigProvider.select((state) => state.tcpConcurrent),
     );
     return ListItem.toggle(
-      leading: const Icon(Icons.double_arrow_outlined),
+      leading: const Icon(FluentIcons.double_chevron_right8),
       title: Text(appLocalizations.tcpConcurrent),
       subtitle: Text(appLocalizations.tcpConcurrentDesc),
       value: tcpConcurrent,
@@ -551,7 +550,7 @@ class GeodataLoaderItem extends ConsumerWidget {
       ),
     );
     return ListItem.toggle(
-      leading: const Icon(Icons.memory),
+      leading: const Icon(WindowsIcons.smartcard_virtual),
       title: Text(appLocalizations.geodataLoader),
       subtitle: Text(appLocalizations.geodataLoaderDesc),
       value: isMemconservative,
@@ -582,7 +581,7 @@ class ExternalControllerItem extends ConsumerWidget {
       ),
     );
     return ListItem.toggle(
-      leading: const Icon(Icons.api_outlined),
+      leading: const Icon(WindowsIcons.dictionary_cloud),
       title: Text(appLocalizations.externalController),
       subtitle: Text(appLocalizations.externalControllerDesc),
       value: hasExternalController,

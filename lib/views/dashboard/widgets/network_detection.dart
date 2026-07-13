@@ -3,6 +3,7 @@ import 'package:fl_clash/enum/enum.dart';
 import 'package:fl_clash/providers/app.dart';
 import 'package:fl_clash/state.dart';
 import 'package:fl_clash/widgets/widgets.dart';
+import 'package:fluent_ui/fluent_ui.dart' hide IconButton, Colors;
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -55,7 +56,7 @@ class _NetworkDetectionState extends ConsumerState<NetworkDetection> {
                           _countryCodeToEmoji(ipInfo.countryCode),
                           style: emojiTextStyle,
                         )
-                      : Icon(Icons.network_check, color: titleTextStyle),
+                      : Icon(WindowsIcons.mob_wifi4, color: titleTextStyle),
                   const SizedBox(width: 8),
                   Flexible(
                     flex: 1,
@@ -84,7 +85,7 @@ class _NetworkDetectionState extends ConsumerState<NetworkDetection> {
                       },
                       icon: Icon(
                         size: 16.ap,
-                        Icons.info_outline,
+                        WindowsIcons.info,
                         color: context.colorScheme.onSurfaceVariant,
                       ),
                     ),

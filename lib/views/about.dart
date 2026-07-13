@@ -1,11 +1,11 @@
 import 'dart:async';
 
 import 'package:fl_clash/common/common.dart';
-import 'package:fl_clash/l10n/l10n.dart';
 import 'package:fl_clash/providers/providers.dart';
 import 'package:fl_clash/state.dart';
 import 'package:fl_clash/widgets/list.dart';
 import 'package:fl_clash/widgets/scaffold.dart';
+import 'package:fluent_ui/fluent_ui.dart' hide ListTile;
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -52,7 +52,7 @@ class AboutView extends StatelessWidget {
           onTap: () {
             globalState.openUrl('https://github.com/$repository');
           },
-          trailing: const Icon(Icons.launch),
+          trailing: const Icon(WindowsIcons.open_in_new_window),
         ),
         ListItem(
           title: Text(appLocalizations.core),
@@ -61,7 +61,7 @@ class AboutView extends StatelessWidget {
               'https://github.com/Asseken/mihomo/tree/Meta',
             );
           },
-          trailing: const Icon(Icons.launch),
+          trailing: const Icon(WindowsIcons.open_in_new_window),
         ),
       ],
     );

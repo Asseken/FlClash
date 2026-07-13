@@ -8,6 +8,7 @@ import 'package:fl_clash/providers/providers.dart';
 import 'package:fl_clash/state.dart';
 import 'package:fl_clash/views/profiles/overwrite/custom/widgets.dart';
 import 'package:fl_clash/widgets/widgets.dart';
+import 'package:fluent_ui/fluent_ui.dart' hide IconButton, FilledButton, Colors;
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:smooth_sheets/smooth_sheets.dart';
@@ -168,7 +169,7 @@ class _CustomRulesViewState extends ConsumerState<CustomRulesView>
           CommonMinIconButtonTheme(
             child: IconButton.filledTonal(
               onPressed: _handleDelete,
-              icon: const Icon(Icons.delete),
+              icon: const Icon(WindowsIcons.delete),
             ),
           ),
           const SizedBox(width: 2),
@@ -455,7 +456,7 @@ class _AddOrEditRuleViewState extends ConsumerState<_AddOrEditRuleView> {
               color: context.colorScheme.onSurfaceVariant,
             ),
           ),
-          const Icon(Icons.arrow_forward_ios),
+          const Icon(WindowsIcons.chevron_right),
         ],
       ),
     );
@@ -514,7 +515,7 @@ class _AddOrEditRuleViewState extends ConsumerState<_AddOrEditRuleView> {
               ),
             ),
           ),
-          const Icon(Icons.arrow_forward_ios),
+          const Icon(WindowsIcons.chevron_right),
         ],
       ),
     );
@@ -559,7 +560,7 @@ class _AddOrEditRuleViewState extends ConsumerState<_AddOrEditRuleView> {
                         ),
                       );
                     },
-                    icon: Icon(Icons.info, size: 16.ap, color: foregroundColor),
+                    icon: Icon(WindowsIcons.info, size: 16.ap, color: foregroundColor),
                   ),
                 ),
               Flexible(
@@ -576,7 +577,7 @@ class _AddOrEditRuleViewState extends ConsumerState<_AddOrEditRuleView> {
                 ),
               ),
               const SizedBox(width: 4),
-              Icon(Icons.arrow_forward_ios, color: foregroundColor),
+              Icon(WindowsIcons.chevron_right, color: foregroundColor),
             ],
           ),
         );
@@ -620,7 +621,7 @@ class _AddOrEditRuleViewState extends ConsumerState<_AddOrEditRuleView> {
                   ),
                 ),
               ),
-              const Icon(Icons.arrow_forward_ios),
+              const Icon(WindowsIcons.chevron_right),
             ],
           ),
         );
@@ -663,7 +664,7 @@ class _AddOrEditRuleViewState extends ConsumerState<_AddOrEditRuleView> {
         ? globalState.container.read(viewSizeProvider).height * 0.60
         : double.maxFinite;
     return AdaptiveSheetScaffold(
-      actions: [IconButtonData(icon: Icons.check, onPressed: _handleSave)],
+      actions: [IconButtonData(icon: WindowsIcons.accept, onPressed: _handleSave)],
       sheetTransparentToolBar: true,
       body: Container(
         constraints: BoxConstraints(maxHeight: height),
@@ -757,7 +758,7 @@ class _RuleTypeSelectedView extends ConsumerWidget {
                 subtitle: Text(ruleAction.getDesc(context)),
                 title: Text(ruleAction.name),
                 trailing: ruleAction == currentRuleAction
-                    ? const Icon(Icons.check)
+                    ? const Icon(WindowsIcons.accept)
                     : null,
               ),
             );
@@ -788,7 +789,7 @@ class _RuleTargetSelectedView extends ConsumerWidget {
           text: Text(title, maxLines: 1, overflow: TextOverflow.ellipsis),
         ),
         isSelected: isSelected,
-        trailing: isSelected ? const Icon(Icons.check) : null,
+        trailing: isSelected ? const Icon(WindowsIcons.accept) : null,
       ),
     );
   }
@@ -926,7 +927,7 @@ class _RuleProviderSelectedView extends ConsumerWidget {
     return DecorationListItem(
       onPressed: onPressed,
       isSelected: isSelected,
-      trailing: isSelected ? const Icon(Icons.check) : null,
+      trailing: isSelected ? const Icon(WindowsIcons.accept) : null,
       title: title,
     );
   }
@@ -997,7 +998,7 @@ class _SubRuleSelectedView extends ConsumerWidget {
       isSelected: isSelected,
       onPressed: onPressed,
       title: title,
-      trailing: isSelected ? const Icon(Icons.check) : null,
+      trailing: isSelected ? const Icon(WindowsIcons.accept) : null,
     );
   }
 

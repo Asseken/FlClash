@@ -7,6 +7,7 @@ import 'package:fl_clash/manager/window_manager.dart';
 import 'package:fl_clash/providers/providers.dart';
 import 'package:fl_clash/state.dart';
 import 'package:fl_clash/widgets/animated_visibility.dart';
+import 'package:fluent_ui/fluent_ui.dart' hide IconButton, Colors;
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -254,7 +255,7 @@ class AppSidebarContainer extends ConsumerWidget {
                             );
                       },
                       icon: Icon(
-                        Icons.menu,
+                        WindowsIcons.global_nav_button,
                         color: context.colorScheme.onSurfaceVariant,
                       ),
                     ),

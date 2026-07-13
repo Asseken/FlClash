@@ -6,6 +6,7 @@ import 'package:fl_clash/core/core.dart';
 import 'package:fl_clash/enum/enum.dart';
 import 'package:fl_clash/providers/providers.dart';
 import 'package:fl_clash/widgets/widgets.dart';
+import 'package:fluent_ui/fluent_ui.dart' hide IconButton, Tooltip, Colors, FilledButton;
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -61,19 +62,19 @@ class _DashboardViewState extends ConsumerState<DashboardView> {
             onPressed: () {
               _showAddWidgetsModal();
             },
-            icon: const Icon(Icons.add_circle),
+            icon: const Icon(WindowsIcons.add),
           ),
         ),
       FadeRotationScaleBox(
         child: isEdit
             ? IconButton(
                 key: const ValueKey(true),
-                icon: const Icon(Icons.save, key: ValueKey('save-icon')),
+                icon: const Icon(WindowsIcons.save, key: ValueKey('save-icon')),
                 onPressed: _handleSaveAndExit,
               )
             : IconButton(
                 key: const ValueKey(false),
-                icon: const Icon(Icons.edit, key: ValueKey('edit-icon')),
+                icon: const Icon(WindowsIcons.edit, key: ValueKey('edit-icon')),
                 onPressed: _handleEnterEdit,
               ),
       ),
@@ -323,7 +324,7 @@ class _AddedContainerState extends State<_AddedContainer> {
                 iconSize: 20,
                 padding: const EdgeInsets.all(2),
                 onPressed: _handleAdd,
-                icon: const Icon(Icons.add),
+                icon: const Icon(WindowsIcons.add),
               ),
             ),
           ),

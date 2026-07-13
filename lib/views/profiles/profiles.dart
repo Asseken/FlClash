@@ -5,6 +5,7 @@ import 'package:fl_clash/providers/providers.dart';
 import 'package:fl_clash/state.dart';
 import 'package:fl_clash/views/profiles/overwrite/overwrite.dart';
 import 'package:fl_clash/widgets/widgets.dart';
+import 'package:fluent_ui/fluent_ui.dart' hide IconButton;
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -75,7 +76,7 @@ class _ProfilesViewState extends State<ProfilesView> {
               onPressed: () {
                 _updateProfiles(profiles);
               },
-              icon: const Icon(Icons.sync),
+              icon: const Icon(WindowsIcons.sync),
             ),
             IconButton(
               onPressed: () {
@@ -86,7 +87,7 @@ class _ProfilesViewState extends State<ProfilesView> {
                   },
                 );
               },
-              icon: const Icon(Icons.sort),
+              icon: const Icon(WindowsIcons.bulleted_list),
               iconSize: 26,
             ),
           ]
@@ -96,7 +97,7 @@ class _ProfilesViewState extends State<ProfilesView> {
   Widget _buildFAB() {
     return CommonFloatingActionButton(
       onPressed: _handleShowAddExtendPage,
-      icon: const Icon(Icons.add),
+      icon: const Icon(FluentIcons.add_field),
       label: context.appLocalizations.addProfile,
     );
   }
@@ -303,14 +304,14 @@ class ProfileItem extends StatelessWidget {
                         popup: CommonPopupMenu(
                           items: [
                             PopupMenuItemData(
-                              icon: Icons.edit_outlined,
+                              icon: FluentIcons.code_edit,
                               label: appLocalizations.edit,
                               onPressed: () {
                                 _handleShowEditExtendPage(context);
                               },
                             ),
                             PopupMenuItemData(
-                              icon: Icons.visibility_outlined,
+                              icon: WindowsIcons.red_eye,
                               label: appLocalizations.preview,
                               onPressed: () {
                                 _handlePreview(context);
@@ -318,7 +319,7 @@ class ProfileItem extends StatelessWidget {
                             ),
                             if (profile.type == ProfileType.url) ...[
                               PopupMenuItemData(
-                                icon: Icons.sync_alt_sharp,
+                                icon: FluentIcons.cloud_import_export,
                                 label: appLocalizations.sync,
                                 onPressed: () {
                                   updateProfile();
@@ -326,11 +327,11 @@ class ProfileItem extends StatelessWidget {
                               ),
                             ],
                             PopupMenuItemData(
-                              icon: Icons.emergency_outlined,
+                              icon: FluentIcons.expand_menu,
                               label: appLocalizations.more,
                               subItems: [
                                 PopupMenuItemData(
-                                  icon: Icons.extension_outlined,
+                                  icon: WindowsIcons.add_remote_device,
                                   label: appLocalizations.override,
                                   onPressed: () {
                                     _handlePushGenProfilePage(
@@ -341,7 +342,7 @@ class ProfileItem extends StatelessWidget {
                                 ),
                                 if (profile.type == ProfileType.url) ...[
                                   PopupMenuItemData(
-                                    icon: Icons.copy,
+                                    icon: FluentIcons.cloud_link,
                                     label: appLocalizations.copyLink,
                                     onPressed: () {
                                       _handleCopyLink(context);
@@ -349,7 +350,7 @@ class ProfileItem extends StatelessWidget {
                                   ),
                                 ],
                                 PopupMenuItemData(
-                                  icon: Icons.file_copy_outlined,
+                                  icon: FluentIcons.download_document,
                                   label: appLocalizations.exportFile,
                                   onPressed: () {
                                     _handleExportFile(context);
@@ -359,7 +360,7 @@ class ProfileItem extends StatelessWidget {
                             ),
                             PopupMenuItemData(
                               danger: true,
-                              icon: Icons.delete_outlined,
+                              icon: WindowsIcons.delete,
                               label: appLocalizations.delete,
                               onPressed: () {
                                 _handleDeleteProfile(context);
@@ -372,7 +373,7 @@ class ProfileItem extends StatelessWidget {
                             onPressed: () {
                               open();
                             },
-                            icon: const Icon(Icons.more_vert),
+                            icon: const Icon(FluentIcons.more_vertical),
                           );
                         },
                       ),
@@ -467,7 +468,7 @@ class _ReorderableProfilesSheetState extends State<ReorderableProfilesSheet> {
       child: DecorationListItem(
         trailing: ReorderableDelayedDragStartListener(
           index: index,
-          child: const Icon(Icons.drag_handle),
+          child: const Icon(WindowsIcons.calculator_equal_to),
         ),
         title: Text(profile.realLabel),
       ),
@@ -484,7 +485,7 @@ class _ReorderableProfilesSheetState extends State<ReorderableProfilesSheet> {
     final appLocalizations = context.appLocalizations;
     return AdaptiveSheetScaffold(
       sheetTransparentToolBar: true,
-      actions: [IconButtonData(icon: Icons.check, onPressed: _handleSave)],
+      actions: [IconButtonData(icon: WindowsIcons.accept, onPressed: _handleSave)],
       body: Padding(
         padding: const EdgeInsets.only(bottom: 32),
         child: ReorderableListView.builder(

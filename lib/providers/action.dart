@@ -213,7 +213,9 @@ class SetupAction extends _$SetupAction {
       await handleStop();
       coreController.resetTraffic();
       ref.read(trafficsProvider.notifier).clear();
+      ref.read(directTrafficProvider.notifier).clear();
       ref.read(totalTrafficProvider.notifier).value = const Traffic();
+      ref.read(totalDirectTrafficProviderProvider.notifier).value = const Traffic();
       ref.read(runTimeProvider.notifier).value = null;
       ref.read(checkIpNumProvider.notifier).add();
     }

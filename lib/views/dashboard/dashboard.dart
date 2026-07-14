@@ -376,7 +376,7 @@ class _AddedContainerState extends State<_AddedContainer> {
                 iconSize: 20,
                 padding: const EdgeInsets.all(2),
                 onPressed: _handleAdd,
-                icon: const Icon(Icons.add),
+                icon: const Icon(WindowsIcons.add),
               ),
             ),
           ),

@@ -71,7 +71,7 @@ Future<T?> showSheet<T>({
       isScrollControlled: props.isScrollControlled,
       context: context,
       backgroundColor: props.backgroundColor,
-      constraints: BoxConstraints(maxWidth: props.maxWidth ?? 360),
+      constraints: BoxConstraints(maxWidth: props.maxWidth ?? 427),
       filter: props.blur ? commonFilter : null,
       builder: (_) {
         return SheetProvider(

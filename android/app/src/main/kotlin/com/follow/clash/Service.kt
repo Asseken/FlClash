@@ -14,6 +14,9 @@ import com.follow.clash.service.RemoteService
 import com.follow.clash.service.models.NotificationParams
 import com.follow.clash.service.models.VpnOptions
 import kotlinx.coroutines.suspendCancellableCoroutine
+import kotlinx.coroutines.withTimeout
+import kotlinx.coroutines.flow.filterNotNull
+import kotlinx.coroutines.flow.first
 import kotlin.coroutines.resume
 import kotlin.coroutines.resumeWithException
 
@@ -33,6 +36,17 @@ object Service {
             it(message)
         }
     }
+
+//    /**
+//     * 等待 AIDL 服务连接建立（含超时），用于 bind() 后等待连接就绪。
+//     */
+//    suspend fun waitForConnected(timeoutMillis: Long = 15000): Result<Unit> {
+//        return runCatching {
+//            withTimeout(timeoutMillis) {
+//                delegate.serviceState.filterNotNull().first()
+//            }
+//        }.map {}
+//    }
 
     fun bind() {
         delegate.bind()

@@ -1,4 +1,4 @@
-import 'package:fl_clash/core/controller.dart';
+﻿import 'package:fl_clash/core/controller.dart';
 import 'package:fluent_ui/fluent_ui.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -6,6 +6,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../common/constant.dart';
 import '../../../common/context.dart';
 import '../../../common/text.dart';
+import '../../../core/androidCoreUpdate.dart';
 import '../../../enum/enum.dart';
 import '../../../models/common.dart';
 import '../../../providers/action.dart';
@@ -34,7 +35,9 @@ class _CoreStateState extends State<CoreState> {
           final stopDisabled = coreStatus == CoreStatus.disconnected;
           final startDisabled = coreStatus == CoreStatus.connected;
           return CommonCard(
-            onPressed: () {},
+            onPressed: () async {
+              await androidCoreUpdate?.autoCheckCoreUpdate();
+            },
             info: Info(
               label: appLocalizations.coreStatus,
               iconData: WindowsIcons.default_a_p_n,

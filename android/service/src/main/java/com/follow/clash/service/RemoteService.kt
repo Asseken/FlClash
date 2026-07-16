@@ -33,6 +33,8 @@ class RemoteService : Service(),
                 }
                 State.runTime = 0
                 result.onResult(0)
+//                stopSelf()
+//                android.os.Process.killProcess(android.os.Process.myPid())
             }
         }
     }
@@ -131,7 +133,6 @@ class RemoteService : Service(),
             State.notificationParamsFlow.tryEmit(params)
         }
 
-
         override fun startService(
             options: VpnOptions,
             runtime: Long,
@@ -185,6 +186,10 @@ class RemoteService : Service(),
         }
     }
 
+    override fun onCreate() {
+        super.onCreate()
+        Core.initialize(this)
+    }
     override fun onBind(intent: Intent?): IBinder {
         return binder
     }

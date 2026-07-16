@@ -26,6 +26,7 @@ class CommonService : Service(), IBaseService,
 
     override fun onCreate() {
         super.onCreate()
+//        Core.initialize(this)
         handleCreate()
     }
 
@@ -35,6 +36,7 @@ class CommonService : Service(), IBaseService,
     }
 
     override fun onLowMemory() {
+//        Core.callForceGC()
         Core.forceGC()
         super.onLowMemory()
     }

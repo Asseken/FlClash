@@ -1,9 +1,13 @@
 package com.follow.clash.plugins
 
+import android.content.Context
+import java.io.File
 import com.follow.clash.RunState
 import com.follow.clash.Service
 import com.follow.clash.State
 import com.follow.clash.common.Components
+import com.follow.clash.common.GlobalState
+import com.follow.clash.core.CoreUpdater
 import com.follow.clash.invokeMethodOnMainThread
 import com.follow.clash.models.SharedState
 import com.google.gson.Gson
@@ -20,8 +24,10 @@ import kotlinx.coroutines.sync.withPermit
 class ServicePlugin : FlutterPlugin, MethodChannel.MethodCallHandler,
     CoroutineScope by CoroutineScope(SupervisorJob() + Dispatchers.Default) {
     private lateinit var flutterMethodChannel: MethodChannel
+    private lateinit var appContext: Context
 
     override fun onAttachedToEngine(flutterPluginBinding: FlutterPlugin.FlutterPluginBinding) {
+        appContext = flutterPluginBinding.applicationContext
         flutterMethodChannel = MethodChannel(
             flutterPluginBinding.binaryMessenger, "${Components.PACKAGE_NAME}/service"
         )
@@ -33,37 +39,19 @@ class ServicePlugin : FlutterPlugin, MethodChannel.MethodCallHandler,
     }
 
     override fun onMethodCall(call: MethodCall, result: MethodChannel.Result) = when (call.method) {
-        "init" -> {
-            handleInit(result)
-        }
-
-        "shutdown" -> {
-            handleShutdown(result)
-        }
-
-        "invokeAction" -> {
-            handleInvokeAction(call, result)
-        }
-
-        "getRunTime" -> {
-            handleGetRunTime(result)
-        }
-
-        "syncState" -> {
-            handleSyncState(call, result)
-        }
-
-        "start" -> {
-            handleStart(result)
-        }
-
-        "stop" -> {
-            handleStop(result)
-        }
-
-        else -> {
-            result.notImplemented()
-        }
+        "init" -> handleInit(result)
+        "shutdown" -> handleShutdown(result)
+        "invokeAction" -> handleInvokeAction(call, result)
+        "getRunTime" -> handleGetRunTime(result)
+        "syncState" -> handleSyncState(call, result)
+        "start" -> handleStart(result)
+        "stop" -> handleStop(result)
+        "getRuntimeAbi" -> handleGetRuntimeAbi(result)
+        "getCoreFilePath" -> handleGetCoreFilePath(result)
+        "replaceCoreFile" -> handleReplaceCoreFile(call, result)
+        "replaceCoreVersionedFile" -> handleReplaceCoreVersionedFile(call, result)
+        "deleteCoreBackup" -> handleDeleteCoreBackup(result)
+        else -> result.notImplemented()
     }
 
     private fun handleInvokeAction(call: MethodCall, result: MethodChannel.Result) {
@@ -114,18 +102,30 @@ class ServicePlugin : FlutterPlugin, MethodChannel.MethodCallHandler,
         }
     }
 
-
     fun handleInit(result: MethodChannel.Result) {
         Service.bind()
         launch {
-            Service.setEventListener {
-                handleSendEvent(it)
-            }.onSuccess {
-                result.success("")
-            }.onFailure {
-                result.success(it.message)
+            // 循环重试：bind() 启动绑定后，setEventListener 的 useService(5s)
+            // 会等待服务连接 + 执行 AIDL 调用。
+            // killProcess 后系统可能延迟重建 :remote 进程，重试确保有足够时间。
+            val maxAttempts = 6  // 每次最多等 5s，总共最多 ~30s
+            var lastError = ""
+            for (i in 1..maxAttempts) {
+                val eventResult = Service.setEventListener {
+                    handleSendEvent(it)
+                }
+                eventResult.onSuccess {
+                    result.success("")
+                    return@launch
+                }
+                eventResult.onFailure { e ->
+                    lastError = e.message ?: e.toString()
+                }
+                if (i < maxAttempts) {
+                    kotlinx.coroutines.delay(1000)  // 每次失败后等 1s 再试
+                }
             }
-
+            result.success(lastError)
         }
         Service.onServiceDisconnected = ::onServiceDisconnected
     }
@@ -134,6 +134,55 @@ class ServicePlugin : FlutterPlugin, MethodChannel.MethodCallHandler,
         launch {
             State.handleSyncState()
             result.success(State.runTime)
+        }
+    }
+
+    // 返回设备运行时 ABI，用于匹配 Github Releases 中的架构
+    private fun handleGetRuntimeAbi(result: MethodChannel.Result) {
+        result.success(CoreUpdater.getPrimaryAbi())
+    }
+
+    private fun handleGetCoreFilePath(result: MethodChannel.Result) {
+        result.success(File(File(appContext.filesDir, "libs"), "libclash.so").absolutePath)
+    }
+
+    private fun handleReplaceCoreFile(call: MethodCall, result: MethodChannel.Result) {
+        val path = call.arguments<String>() ?: run {
+            result.error("INVALID_ARGS", "No path provided", null)
+            return
+        }
+        val errMsg = CoreUpdater.replaceCoreFile(appContext, path)
+        if (errMsg == null) {
+            result.success(true)
+        } else {
+            result.error("REPLACE_FAILED", errMsg, null)
+        }
+    }
+
+    private fun handleReplaceCoreVersionedFile(call: MethodCall, result: MethodChannel.Result) {
+        val args = call.arguments as? Map<*, *>
+        val tmpPath = args?.get("tmpPath") as? String ?: run {
+            result.error("INVALID_ARGS", "tmpPath required", null)
+            return
+        }
+        val targetName = args?.get("targetName") as? String ?: run {
+            result.error("INVALID_ARGS", "targetName required", null)
+            return
+        }
+        val errMsg = CoreUpdater.replaceCoreVersionedFile(appContext, tmpPath, targetName)
+        if (errMsg == null) {
+            result.success(true)
+        } else {
+            result.error("REPLACE_FAILED", errMsg, null)
+        }
+    }
+
+    private fun handleDeleteCoreBackup(result: MethodChannel.Result) {
+        val errMsg = CoreUpdater.deleteBackupCoreFile(appContext)
+        if (errMsg == null) {
+            result.success(true)
+        } else {
+            result.error("DELETE_BACKUP_FAILED", errMsg, null)
         }
     }
 }

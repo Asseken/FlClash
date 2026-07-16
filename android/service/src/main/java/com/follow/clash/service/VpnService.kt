@@ -40,6 +40,7 @@ class VpnService : SystemVpnService(), IBaseService,
 
     override fun onCreate() {
         super.onCreate()
+//        Core.initialize(this)
         handleCreate()
     }
 
@@ -98,6 +99,7 @@ class VpnService : SystemVpnService(), IBaseService,
 
 
     override fun onLowMemory() {
+//        Core.callForceGC()
         Core.forceGC()
         super.onLowMemory()
     }
@@ -246,6 +248,7 @@ class VpnService : SystemVpnService(), IBaseService,
 
     override fun stop() {
         loader.cancel()
+//        Core.callStopTun()
         Core.stopTun()
         stopSelf()
     }

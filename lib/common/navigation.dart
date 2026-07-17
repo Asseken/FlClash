@@ -14,7 +14,7 @@ class Navigation {
     return [
       NavigationItem(
         keep: false,
-        icon: const Icon(WindowsIcons.connect),
+        icon: const Icon(FluentIcons.view_dashboard),
         label: PageLabel.dashboard,
         builder: (_) =>
             const DashboardView(key: GlobalObjectKey(PageLabel.dashboard)),
@@ -43,7 +43,7 @@ class Navigation {
         modes: [NavigationItemMode.desktop, NavigationItemMode.more],
       ),
       NavigationItem(
-        icon: const Icon(WindowsIcons.communications),
+        icon: const Icon(WindowsIcons.connect),
         label: PageLabel.connections,
         builder: (_) =>
             const ConnectionsView(key: GlobalObjectKey(PageLabel.connections)),

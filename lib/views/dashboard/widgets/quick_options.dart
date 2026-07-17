@@ -45,7 +45,7 @@ class _TUNButtonState extends ConsumerState<TUNButton> {
     }
     commonPrint.log(
       'User UnregisterWindowsService For TUN',
-      logLevel: LogLevel.info,
+      logLevel: LogLevel.warning,
     );
   }
 
@@ -59,7 +59,7 @@ class _TUNButtonState extends ConsumerState<TUNButton> {
 
     final settingsDisabled =
         tunEnable || serviceStatus == WindowsHelperServiceStatus.running;
-    final deleteDisabled = tunEnable;
+    final deleteDisabled = tunEnable || serviceStatus == WindowsHelperServiceStatus.none;
 
     return SizedBox(
       height: getWidgetHeight(1),

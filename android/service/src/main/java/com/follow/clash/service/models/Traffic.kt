@@ -16,8 +16,13 @@ data class DirectTraffic(
     val down: Long,
 )
 
-val Traffic.speedText: String
-    get() = "Proxy: ${up.formatBytes}/s↑  ${down.formatBytes}/s↓"
+fun Traffic.getSpeedText(isTotal: Boolean): String {
+    return if (isTotal) {
+        "Proxy: ${up.formatBytes}/s↑  ${down.formatBytes}/s↓"
+    } else {
+        "Total: ${up.formatBytes}/s↑  ${down.formatBytes}/s↓"
+    }
+}
 
 val DirectTraffic.speedText: String
     get() = "Direct: ${up.formatBytes}/s↑  ${down.formatBytes}/s↓"
@@ -26,7 +31,7 @@ fun Core.getSpeedTrafficText(onlyStatisticsProxy: Boolean): String {
     try {
         val res = getTraffic(onlyStatisticsProxy)
         val traffic = gson.fromJson(res, Traffic::class.java)
-        return traffic.speedText
+        return traffic.getSpeedText(onlyStatisticsProxy)
     } catch (e: Exception) {
         GlobalState.log(e.message + "")
         return ""

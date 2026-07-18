@@ -70,7 +70,7 @@ class GoBuilder {
 
     final args = [
       'build',
-      '-ldflags=${config.goLdflags} -X ${coreVersion} -X ${coreBuildTime}',
+      "-ldflags=${config.goLdflags} -X ${coreVersion} -X ${coreBuildTime} -extldflags \"-Wl,-z,max-page-size=16384 -Wl,-z,common-page-size=16384\"",
       '-tags=${config.tags}',
       if (target.isLib) '-buildmode=c-shared',
       '-o',

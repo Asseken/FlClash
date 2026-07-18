@@ -12,7 +12,7 @@ import 'util.dart';
 
 DateTime nowBuildTime = DateTime.now();
 const String coreVersion =
-    'github.com/metacubex/mihomo/constant.Version=v1.19.28';
+    'github.com/metacubex/mihomo/constant.Version=v1.19.29';
 final String coreBuildTime =
     'github.com/metacubex/mihomo/constant.BuildTime=${nowBuildTime.year}-${nowBuildTime.month}-${nowBuildTime.day}_${nowBuildTime.hour}:${nowBuildTime.minute}:${nowBuildTime.second}';
 
@@ -70,7 +70,7 @@ class GoBuilder {
 
     final args = [
       'build',
-      '-ldflags=${config.goLdflags} -X ${coreVersion} -X ${coreBuildTime}',
+      '-ldflags=${config.goLdflags} -X ${coreVersion} -X ${coreBuildTime} -extldflags \"-Wl,-z,max-page-size=16384 -Wl,-z,common-page-size=16384\"',
       '-tags=${config.tags}',
       if (target.isLib) '-buildmode=c-shared',
       '-o',

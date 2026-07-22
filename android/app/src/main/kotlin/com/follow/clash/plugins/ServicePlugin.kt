@@ -1,5 +1,6 @@
 package com.follow.clash.plugins
 
+import android.content.Context
 import com.follow.clash.RunState
 import com.follow.clash.Service
 import com.follow.clash.State
@@ -16,12 +17,15 @@ import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.sync.Semaphore
 import kotlinx.coroutines.sync.withPermit
+import com.follow.clash.common.GlobalState
+import com.follow.clash.core.CoreUpdater
 
 class ServicePlugin : FlutterPlugin, MethodChannel.MethodCallHandler,
     CoroutineScope by CoroutineScope(SupervisorJob() + Dispatchers.Default) {
     private lateinit var flutterMethodChannel: MethodChannel
-
+    private lateinit var appContext: Context
     override fun onAttachedToEngine(flutterPluginBinding: FlutterPlugin.FlutterPluginBinding) {
+        appContext = flutterPluginBinding.applicationContext
         flutterMethodChannel = MethodChannel(
             flutterPluginBinding.binaryMessenger, "${Components.PACKAGE_NAME}/service"
         )
@@ -60,7 +64,10 @@ class ServicePlugin : FlutterPlugin, MethodChannel.MethodCallHandler,
         "stop" -> {
             handleStop(result)
         }
-
+        "getRuntimeAbi" -> handleGetRuntimeAbi(result)
+        "replaceCoreVersionedFile" -> {
+            handleReplaceCoreVersionedFile(call, result)
+        }
         else -> {
             result.notImplemented()
         }
@@ -90,7 +97,7 @@ class ServicePlugin : FlutterPlugin, MethodChannel.MethodCallHandler,
         result.success(true)
     }
 
-    val semaphore = Semaphore(10)
+    private val semaphore = Semaphore(10)
 
     fun handleSendEvent(value: String?) {
         launch(Dispatchers.Main) {
@@ -134,6 +141,28 @@ class ServicePlugin : FlutterPlugin, MethodChannel.MethodCallHandler,
         launch {
             State.handleSyncState()
             result.success(State.runTime)
+        }
+    }
+    // 返回设备运行时 ABI，用于匹配 Github Releases 中的架构
+    private fun handleGetRuntimeAbi(result: MethodChannel.Result) {
+        result.success(CoreUpdater.getPrimaryAbi())
+    }
+
+    private fun handleReplaceCoreVersionedFile(call: MethodCall, result: MethodChannel.Result) {
+        val args = call.arguments as? Map<*, *>
+        val tmpPath = args?.get("tmpPath") as? String ?: run {
+            result.error("INVALID_ARGS", "tmpPath required", null)
+            return
+        }
+        val targetName = args?.get("targetName") as? String ?: run {
+            result.error("INVALID_ARGS", "targetName required", null)
+            return
+        }
+        val errMsg = CoreUpdater.replaceCoreVersionedFile(appContext, tmpPath, targetName)
+        if (errMsg == null) {
+            result.success(true)
+        } else {
+            result.error("REPLACE_FAILED", errMsg, null)
         }
     }
 }

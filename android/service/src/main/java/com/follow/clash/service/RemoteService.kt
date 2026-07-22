@@ -24,6 +24,30 @@ import kotlin.coroutines.resume
 
 class RemoteService : Service(),
     CoroutineScope by CoroutineScope(SupervisorJob() + Dispatchers.Default) {
+
+    /** Send a nullable result string chunked for AIDL through [block]. */
+    private fun sendChunkedAidl(
+        result: String?,
+        block: (chunk: ByteArray, isLast: Boolean, ack: IAckInterface) -> Unit,
+    ) {
+        launch {
+            runCatching {
+                val chunks = result?.chunkedForAidl() ?: listOf()
+                for ((index, chunk) in chunks.withIndex()) {
+                    suspendCancellableCoroutine { cont ->
+                        block(
+                            chunk,
+                            index == chunks.lastIndex,
+                            object : IAckInterface.Stub() {
+                                override fun onAck() { cont.resume(Unit) }
+                            },
+                        )
+                    }
+                }
+            }
+        }
+    }
+
     private fun handleStopService(result: IResultInterface) {
         launch {
             runLock.withLock {
@@ -76,26 +100,7 @@ class RemoteService : Service(),
 
     private val binder = object : IRemoteInterface.Stub() {
         override fun invokeAction(data: String, callback: ICallbackInterface) {
-            Core.invokeAction(data) {
-                launch {
-                    runCatching {
-                        val chunks = it?.chunkedForAidl() ?: listOf()
-                        for ((index, chunk) in chunks.withIndex()) {
-                            suspendCancellableCoroutine { cont ->
-                                callback.onResult(
-                                    chunk,
-                                    index == chunks.lastIndex,
-                                    object : IAckInterface.Stub() {
-                                        override fun onAck() {
-                                            cont.resume(Unit)
-                                        }
-                                    },
-                                )
-                            }
-                        }
-                    }
-                }
-            }
+            Core.invokeAction(data) { sendChunkedAidl(it) { chunk, isLast, ack -> callback.onResult(chunk, isLast, ack) } }
         }
 
         override fun quickSetup(
@@ -105,24 +110,7 @@ class RemoteService : Service(),
             onStarted: IVoidInterface
         ) {
             Core.quickSetup(initParamsString, setupParamsString) {
-                launch {
-                    runCatching {
-                        val chunks = it?.chunkedForAidl() ?: listOf()
-                        for ((index, chunk) in chunks.withIndex()) {
-                            suspendCancellableCoroutine { cont ->
-                                callback.onResult(
-                                    chunk,
-                                    index == chunks.lastIndex,
-                                    object : IAckInterface.Stub() {
-                                        override fun onAck() {
-                                            cont.resume(Unit)
-                                        }
-                                    },
-                                )
-                            }
-                        }
-                    }
-                }
+                sendChunkedAidl(it) { chunk, isLast, ack -> callback.onResult(chunk, isLast, ack) }
             }
             onStarted()
         }
@@ -150,25 +138,9 @@ class RemoteService : Service(),
             GlobalState.log("RemoveEventListener ${eventListener == null}")
             when (eventListener != null) {
                 true -> Core.callSetEventListener {
-                    launch {
-                        runCatching {
-                            val id = UUID.randomUUID().toString()
-                            val chunks = it?.chunkedForAidl() ?: listOf()
-                            for ((index, chunk) in chunks.withIndex()) {
-                                suspendCancellableCoroutine { cont ->
-                                    eventListener.onEvent(
-                                        id,
-                                        chunk,
-                                        index == chunks.lastIndex,
-                                        object : IAckInterface.Stub() {
-                                            override fun onAck() {
-                                                cont.resume(Unit)
-                                            }
-                                        },
-                                    )
-                                }
-                            }
-                        }
+                    sendChunkedAidl(it) { chunk, isLast, ack ->
+                        val id = UUID.randomUUID().toString()
+                        eventListener.onEvent(id, chunk, isLast, ack)
                     }
                 }
 
@@ -184,7 +156,10 @@ class RemoteService : Service(),
             return State.runTime
         }
     }
-
+    override fun onCreate() {
+        super.onCreate()
+        Core.initialize(this)
+    }
     override fun onBind(intent: Intent?): IBinder {
         return binder
     }

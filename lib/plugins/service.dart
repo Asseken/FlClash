@@ -104,6 +104,24 @@ class Service {
   void removeListener(ServiceListener listener) {
     _listeners.remove(listener);
   }
+
+  // 获取设备运行时 ABI（如 arm64-v8a），用于匹配核心下载包
+  Future<String> getRuntimeAbi() async {
+    return await methodChannel.invokeMethod<String>('getRuntimeAbi') ?? '';
+  }
+
+  // 将已下载的 .so 保存为零填充版本化文件名（如 libclashn011930.so）
+  // 写入同时清理旧版本化 .so 文件
+  Future<bool> replaceCoreVersionedFile(
+    String tmpPath,
+    String targetName,
+  ) async {
+    final result = await methodChannel.invokeMethod<bool>(
+      'replaceCoreVersionedFile',
+      {'tmpPath': tmpPath, 'targetName': targetName},
+    );
+    return result ?? false;
+  }
 }
 
 Service? get service => system.isAndroid ? Service() : null;

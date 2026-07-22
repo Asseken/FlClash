@@ -57,6 +57,7 @@ const clashConfigKey = 'clash_config';
 const configKey = 'config';
 const double dialogCommonWidth = 300;
 const repository = 'Asseken/FlClash';
+const coreRepository ='Asseken/FlcashCore';
 const defaultExternalController = '127.0.0.1:9090';
 const maxMobileWidth = 600;
 const maxLaptopWidth = 840;

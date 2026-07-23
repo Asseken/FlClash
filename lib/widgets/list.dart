@@ -390,10 +390,11 @@ class ListItem<T> extends StatelessWidget {
               value: inputDelegate.value,
               suffixText: inputDelegate.suffixText,
               resetValue: inputDelegate.resetValue,
-              // inputFormatters: inputDelegate.maxLength == null
-              //     ? null
-              //     : TextInputLimits.limit(inputDelegate.maxLength!),
-              // keyboardType: inputDelegate.keyboardType,
+              inputFormatters: inputDelegate.maxLength == null
+                  ? null
+                  : TextInputLimits.limit(inputDelegate.maxLength!),
+              keyboardType: inputDelegate.keyboardType,
+              maxLength: inputDelegate.maxLength,
               validator: inputDelegate.validator,
             ),
           );

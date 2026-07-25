@@ -98,21 +98,8 @@ class Service {
     return await methodChannel.invokeMethod<String>('getRuntimeAbi') ?? '';
   }
 
-  /// 获取 Android 上最终会被替换的 libclash.so 目标路径
-  Future<String> getCoreFilePath() async {
-    return await methodChannel.invokeMethod<String>('getCoreFilePath') ?? '';
-  }
-
-  /// 通知 Native 层将已下载的临时 .so 文件替换到正确位置并写标记
-  Future<bool> replaceCoreFile(String localPath) async {
-    final result = await methodChannel.invokeMethod<bool>(
-      'replaceCoreFile',
-      localPath,
-    );
-    return result ?? false;
-  }
-
   /// 将已下载的 .so 保存为版本化文件名（如 libclashn1928.so）
+  /// 写入同时清理旧版本化 .so 文件
   Future<bool> replaceCoreVersionedFile(
     String tmpPath,
     String targetName,
@@ -120,14 +107,6 @@ class Service {
     final result = await methodChannel.invokeMethod<bool>(
       'replaceCoreVersionedFile',
       {'tmpPath': tmpPath, 'targetName': targetName},
-    );
-    return result ?? false;
-  }
-
-  /// 删除 Android 核心备份文件 libclash.so.bak
-  Future<bool> deleteCoreBackup() async {
-    final result = await methodChannel.invokeMethod<bool>(
-      'deleteCoreBackup',
     );
     return result ?? false;
   }

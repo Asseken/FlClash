@@ -47,10 +47,7 @@ class ServicePlugin : FlutterPlugin, MethodChannel.MethodCallHandler,
         "start" -> handleStart(result)
         "stop" -> handleStop(result)
         "getRuntimeAbi" -> handleGetRuntimeAbi(result)
-        "getCoreFilePath" -> handleGetCoreFilePath(result)
-        "replaceCoreFile" -> handleReplaceCoreFile(call, result)
         "replaceCoreVersionedFile" -> handleReplaceCoreVersionedFile(call, result)
-        "deleteCoreBackup" -> handleDeleteCoreBackup(result)
         else -> result.notImplemented()
     }
 
@@ -105,9 +102,6 @@ class ServicePlugin : FlutterPlugin, MethodChannel.MethodCallHandler,
     fun handleInit(result: MethodChannel.Result) {
         Service.bind()
         launch {
-            // 循环重试：bind() 启动绑定后，setEventListener 的 useService(5s)
-            // 会等待服务连接 + 执行 AIDL 调用。
-            // killProcess 后系统可能延迟重建 :remote 进程，重试确保有足够时间。
             val maxAttempts = 6  // 每次最多等 5s，总共最多 ~30s
             var lastError = ""
             for (i in 1..maxAttempts) {
@@ -142,23 +136,6 @@ class ServicePlugin : FlutterPlugin, MethodChannel.MethodCallHandler,
         result.success(CoreUpdater.getPrimaryAbi())
     }
 
-    private fun handleGetCoreFilePath(result: MethodChannel.Result) {
-        result.success(File(File(appContext.filesDir, "libs"), "libclash.so").absolutePath)
-    }
-
-    private fun handleReplaceCoreFile(call: MethodCall, result: MethodChannel.Result) {
-        val path = call.arguments<String>() ?: run {
-            result.error("INVALID_ARGS", "No path provided", null)
-            return
-        }
-        val errMsg = CoreUpdater.replaceCoreFile(appContext, path)
-        if (errMsg == null) {
-            result.success(true)
-        } else {
-            result.error("REPLACE_FAILED", errMsg, null)
-        }
-    }
-
     private fun handleReplaceCoreVersionedFile(call: MethodCall, result: MethodChannel.Result) {
         val args = call.arguments as? Map<*, *>
         val tmpPath = args?.get("tmpPath") as? String ?: run {
@@ -174,15 +151,6 @@ class ServicePlugin : FlutterPlugin, MethodChannel.MethodCallHandler,
             result.success(true)
         } else {
             result.error("REPLACE_FAILED", errMsg, null)
-        }
-    }
-
-    private fun handleDeleteCoreBackup(result: MethodChannel.Result) {
-        val errMsg = CoreUpdater.deleteBackupCoreFile(appContext)
-        if (errMsg == null) {
-            result.success(true)
-        } else {
-            result.error("DELETE_BACKUP_FAILED", errMsg, null)
         }
     }
 }

@@ -5,5 +5,5 @@ export 'outbound_mode.dart';
 export 'quick_options.dart';
 export 'traffic_usage.dart';
 export 'memory_info.dart';
-export 'coreInfo.dart';
+export 'core_info.dart';
 export 'coreState.dart';

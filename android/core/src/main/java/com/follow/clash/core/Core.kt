@@ -13,17 +13,6 @@ data object Core {
     private const val TAG = "Core"
 
 
-    private var _manualClashPath: String? = null
-
-    /** Set by ServicePlugin when Flutter passes a specific version tag */
-    fun setManualClashPath(path: String) {
-        _manualClashPath = path
-    }
-
-    fun clearManualClashPath() {
-        _manualClashPath = null
-    }
-
     // JNI: dlopen + dlsym the specified libclash*.so
     private external fun nativeInitClash(libPath: String): Boolean
 
@@ -72,9 +61,9 @@ data object Core {
     }
 
     /**
-     * 初始化核�?.so 加载�?
-     * 1) 确保 [filesDir/libs/] 下存�?libcore.so + libclash.so（首次从 APK 提取�?
-     * 2) 通过 System.load 从同一目录加载,链接器解析DT_NEEDED时找到已加载的libclash，保证后续替�?libclash.so 后重启进程即可生�?
+     * 初始化核.so 加载
+     * 1) 确保 [filesDir/libs/] 下存libcore.so + libclash.so（首次从 APK 提取?
+     * 2) 通过 System.load 从同一目录加载,链接器解析DT_NEEDED时找到已加载的libclash，保证后续替?libclash.so 后重启进程即可?
      */
     fun initialize(context: Context) {
         if (loaded) return
@@ -84,11 +73,9 @@ data object Core {
             val libCorePath = File(libDir, "libcore.so").absolutePath
 
             // Determine which libclash to load:
-            // 1) Manual path set via setManualClashPath (from Flutter update)
-            // 2) Versioned file libclashn*.so (from previous update)
-            // 3) Default libclash.so (bundled / replaced by replaceCoreFile)
-            val clashTarget: String = _manualClashPath?.takeIf { it.isNotEmpty() }
-                ?: CoreUpdater.findVersionedClash(libDir)
+            // 1) Versioned file libclashn*.so (from previous update)
+            // 2) Default libclash.so (bundled / fallback)
+            val clashTarget: String = CoreUpdater.findVersionedClash(libDir)
                 ?: "libclash.so"
             val libClashPath = File(libDir, clashTarget).absolutePath
 
@@ -102,11 +89,11 @@ data object Core {
             Log.d(TAG, "nativeInitClash completed for $clashTarget")
             loaded = true
 
-            _manualClashPath = null
-    }
+            loaded = true
+        }
 
     }
-    /** 确保 .so 已加载，否则�?IllegalStateException。所�?JNI 入口前调用�?*/
+    /** 确保 .so 已加载，否则?IllegalStateException。所?JNI 入口前调用?*/
     private fun ensureLoaded() {
         if (!loaded) {
             throw IllegalStateException(
@@ -213,7 +200,7 @@ data object Core {
         )
     }
 
-    // traffic / memory 等获取函�?
+    // traffic / memory 等获取函?
 
     external fun getTraffic(onlyStatisticsProxy: Boolean): String
 

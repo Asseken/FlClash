@@ -73,7 +73,15 @@ call_tun_interface_resolve_process_impl(void *tun_interface, const int protocol,
                                         const char *source,
                                         const char *target,
                                         const int uid) {
+    // Push a local frame so that all local refs created inside (new_string,
+    // CallObjectMethod, etc.) are freed when we PopLocalFrame. This callback is
+    // called from Go / C on a non-Java thread and local refs would otherwise
+    // accumulate and overflow the local reference table (default 512 entries).
     ATTACH_JNI();
+    if (env->PushLocalFrame(16) < 0) {
+        // Out of memory — bail out gracefully
+        return nullptr;
+    }
     const auto packageName = reinterpret_cast<jstring>(env->CallObjectMethod(
             static_cast<jobject>(tun_interface),
             m_tun_interface_resolve_process,
@@ -81,7 +89,10 @@ call_tun_interface_resolve_process_impl(void *tun_interface, const int protocol,
             new_string(source),
             new_string(target),
             uid));
-    return get_string(packageName);
+    // get_string() malloc's the result in native heap, so it survives the pop.
+    char *result = get_string(packageName);
+    env->PopLocalFrame(nullptr);
+    return result;
 }
 
 static void call_invoke_interface_result_impl(void *invoke_interface, const char *data) {
@@ -108,9 +119,13 @@ Java_com_follow_clash_core_Core_nativeInitClash(JNIEnv *env, jobject /*thiz*/,
     }
     LOGD("dlopen succeeded");
 
-    // Resolve all Go-exported C functions
-#define RESOLVE(name)  g_##name = reinterpret_cast<name##_fn>(dlsym(handle, #name)); \
-    if (!g_##name) { LOGD("dlsym " #name " = %p", (void*)g_##name); }
+    // Resolve all Go-exported C functions (from libclash.h).
+    // Critical symbols: if any of these fails to resolve, the core cannot function.
+    // Non-critical symbols stay NULL and the corresponding JNI methods are no-ops.
+    // (The RESOLVE macro below was used for logging each symbol; kept as reference.)
+
+//#define RESOLVE(name)  g_##name = reinterpret_cast<name##_fn>(dlsym(handle, #name)); \
+//    if (!g_##name) { LOGD("dlsym " #name " = %p", (void*)g_##name); }
 
     g_invokeAction      = (invokeAction_fn)     dlsym(handle, "invokeAction");
     g_startTUN          = (startTUN_fn)         dlsym(handle, "startTUN");
@@ -124,6 +139,15 @@ Java_com_follow_clash_core_Core_nativeInitClash(JNIEnv *env, jobject /*thiz*/,
     g_suspend           = (suspend_fn)          dlsym(handle, "suspend");
     g_forceGC           = (forceGC_fn)          dlsym(handle, "forceGC");
     g_updateDns         = (updateDns_fn)        dlsym(handle, "updateDns");
+
+    // Require the four entry-point functions — without these the core is unusable.
+    if (!g_invokeAction || !g_startTUN || !g_quickSetup || !g_setEventListener) {
+        LOGE("Critical symbol(s) missing: invokeAction=%p startTUN=%p quickSetup=%p setEventListener=%p",
+             (void*)g_invokeAction, (void*)g_startTUN, (void*)g_quickSetup, (void*)g_setEventListener);
+        dlclose(handle);
+        env->ReleaseStringUTFChars(libPath, path);
+        return JNI_FALSE;
+    }
 
     // Set bride function POINTERS defined in libclash.so as extern variables.
     // These are global variables inside the loaded .so.

@@ -6,7 +6,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../common/constant.dart';
 import '../../../common/context.dart';
 import '../../../common/text.dart';
-import '../../../core/androidCoreUpdate.dart';
 import '../../../enum/enum.dart';
 import '../../../models/common.dart';
 import '../../../providers/action.dart';
@@ -35,9 +34,7 @@ class _CoreStateState extends State<CoreState> {
           final stopDisabled = coreStatus == CoreStatus.disconnected;
           final startDisabled = coreStatus == CoreStatus.connected;
           return CommonCard(
-            onPressed: () async {
-              await androidCoreUpdate?.autoCheckCoreUpdate();
-            },
+            onPressed: () {},
             info: Info(
               label: appLocalizations.coreStatus,
               iconData: WindowsIcons.default_a_p_n,
@@ -110,7 +107,9 @@ class _CoreStateState extends State<CoreState> {
                                       .read(setupActionProvider.notifier)
                                       .updateStatus(true, isInit: true);
                                 } else {
-                                  await ref.read(setupActionProvider.notifier).applyProfile(force: true);
+                                  await ref
+                                      .read(setupActionProvider.notifier)
+                                      .applyProfile(force: true);
                                 }
                               },
                         child: TooltipText(

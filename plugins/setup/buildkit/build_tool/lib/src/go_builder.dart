@@ -14,7 +14,7 @@ DateTime nowBuildTime = DateTime.now();
 const String coreVersion =
     'github.com/metacubex/mihomo/constant.Version=v1.19.29';
 final String coreBuildTime =
-    'github.com/metacubex/mihomo/constant.BuildTime=${nowBuildTime.year}-${nowBuildTime.month}-${nowBuildTime.day}_${nowBuildTime.hour}:${nowBuildTime.minute}:${nowBuildTime.second}';
+    'github.com/metacubex/mihomo/constant.BuildTime=${nowBuildTime.year}-${nowBuildTime.month}-${nowBuildTime.day}:${nowBuildTime.hour}';
 
 final _log = Logger('go_builder');
 

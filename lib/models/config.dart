@@ -212,6 +212,10 @@ abstract class ThemeProps with _$ThemeProps {
     @Default(DynamicSchemeVariant.content) DynamicSchemeVariant schemeVariant,
     @Default(false) bool pureBlack,
     @Default(TextScale()) TextScale textScale,
+    @Default('') String backgroundImage,
+    @Default(1.0) double backgroundOpacity,
+    @Default([]) List<String> backgroundImages,
+    @Default(true) bool backgroundImageEnabled,
   }) = _ThemeProps;
 
   factory ThemeProps.fromJson(Map<String, Object?> json) =>

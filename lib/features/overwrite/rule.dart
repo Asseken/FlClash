@@ -7,6 +7,7 @@ import 'package:fl_clash/models/clash_config.dart';
 import 'package:fl_clash/models/state.dart';
 import 'package:fl_clash/state.dart';
 import 'package:fl_clash/widgets/widgets.dart';
+import 'package:fluent_ui/fluent_ui.dart' hide IconButton, Colors, FilledButton;
 import 'package:flutter/material.dart';
 
 final ruleItemHeight =
@@ -74,7 +75,7 @@ class RuleItem extends StatelessWidget {
             ),
           );
         },
-        icon: Icon(Icons.info, size: 16.ap, color: context.colorScheme.error),
+        icon: Icon(WindowsIcons.info, size: 16.ap, color: context.colorScheme.error),
       ),
     );
   }
@@ -319,7 +320,7 @@ class _AddOrEditRuleDialogState extends State<AddOrEditRuleDialog> {
                     controller: _contentController,
                     decoration: InputDecoration(
                       border: const OutlineInputBorder(),
-                      labelText: appLocalizations.content,
+                      labelText: _ruleAction.getDesc(context),
                     ),
                     validator: (_) {
                       if (_contentController.text.isEmpty) {

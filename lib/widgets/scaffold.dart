@@ -241,7 +241,10 @@ class CommonScaffoldState extends State<CommonScaffold> {
   List<Widget> _buildActions(bool hasSearch, List<Widget> actions) {
     if (_isSearch) {
       return genActions([
-        IconButton(onPressed: _handleClear, icon: const Icon(WindowsIcons.clear)),
+        IconButton(
+          onPressed: _handleClear,
+          icon: const Icon(WindowsIcons.clear),
+        ),
       ]);
     }
     return genActions([
@@ -266,7 +269,7 @@ class CommonScaffoldState extends State<CommonScaffold> {
 
   PreferredSizeWidget _buildAppBar(VoidCallback? backAction) {
     return PreferredSize(
-      preferredSize: const Size.fromHeight(kToolbarHeight-20),
+      preferredSize: const Size.fromHeight(kToolbarHeight - 20),
       child: Stack(
         alignment: Alignment.bottomCenter,
         children: [
@@ -280,6 +283,8 @@ class CommonScaffoldState extends State<CommonScaffold> {
                           ? false
                           : true,
                       animateColor: true,
+                      backgroundColor: Colors.transparent,
+                      // surfaceTintColor: Colors.transparent,
                       centerTitle: widget.centerTitle ?? false,
                       leading: _buildLeading(backAction),
                       title: _buildTitle(state.searchState),

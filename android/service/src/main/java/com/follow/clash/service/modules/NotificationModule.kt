@@ -42,7 +42,7 @@ private val NotificationParams.extended: ExtendedNotificationParams
     get() = ExtendedNotificationParams(
         title,
         stopText,
-        Core.getSpeedTrafficText(onlyStatisticsProxy),Core.getSpeedDirectTrafficText(),
+        Core.getSpeedTrafficText(onlyStatisticsProxy),Core.getSpeedDirectTrafficText(onlyStatisticsProxy),
     )
 
 internal class NotificationModule(

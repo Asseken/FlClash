@@ -557,5 +557,12 @@
   "geoSkipped": "{name} skipped",
   "geoUpdated": "{name} updated",
   "secondsCount": "{count} seconds",
-  "entriesCount": "{count} entries"
+  "entriesCount": "{count} entries",
+  "backgroundImage": "Background Image",
+  "backgroundImageDesc": "Set global background image",
+  "backgroundOpacity": "Opacity",
+  "pickImage": "Pick Image",
+  "removeImage": "Remove Image",
+  "noBackgroundImage": "No background images",
+  "noBackgroundImageDesc": "Pick an image to use as the app background"
 }

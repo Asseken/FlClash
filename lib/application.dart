@@ -138,7 +138,33 @@ class ApplicationState extends ConsumerState<Application> {
           appSettingProvider.select((state) => state.locale),
         );
         final themeProps = ref.watch(themeSettingProvider);
-        return MaterialApp(
+        final hasBackgroundImage = themeProps.backgroundImageEnabled &&
+            themeProps.backgroundImage.isNotEmpty;
+
+        ColorScheme _lightCs = _getAppColorScheme(
+          brightness: Brightness.light,
+          primaryColor: themeProps.primaryColor,
+        );
+        ColorScheme _darkCs = _getAppColorScheme(
+          brightness: Brightness.dark,
+          primaryColor: themeProps.primaryColor,
+        ).toPureBlack(themeProps.pureBlack);
+        if (hasBackgroundImage) {
+          _lightCs = _makeTransparent(_lightCs);
+          _darkCs = _makeTransparent(_darkCs);
+        } else {
+          // Revert to original colors when background is disabled
+          _lightCs = _getAppColorScheme(
+            brightness: Brightness.light,
+            primaryColor: themeProps.primaryColor,
+          );
+          _darkCs = _getAppColorScheme(
+            brightness: Brightness.dark,
+            primaryColor: themeProps.primaryColor,
+          ).toPureBlack(themeProps.pureBlack);
+        }
+
+        Widget app = MaterialApp(
           debugShowCheckedModeBanner: false,
           navigatorKey: globalState.navigatorKey,
           localizationsDelegates: const [
@@ -147,14 +173,32 @@ class ApplicationState extends ConsumerState<Application> {
             GlobalCupertinoLocalizations.delegate,
             GlobalWidgetsLocalizations.delegate,
           ],
-          builder: (_, child) {
-            return AppEnvManager(
+          builder: (context, child) {
+            Widget body = AppEnvManager(
               child: _buildApp(
                 child: _buildPlatformState(
                   child: _buildState(child: _buildPlatformApp(child: child!)),
                 ),
               ),
             );
+            if (hasBackgroundImage) {
+              body = Stack(
+                children: [
+                  Positioned.fill(
+                    child: Opacity(
+                      opacity: themeProps.backgroundOpacity,
+                      child: Image.file(
+                        File(themeProps.backgroundImage),
+                        fit: BoxFit.cover,
+                        errorBuilder: (_, _, _) => const SizedBox.shrink(),
+                      ),
+                    ),
+                  ),
+                  body,
+                ],
+              );
+            }
+            return body;
           },
           scrollBehavior: BaseScrollBehavior(),
           title: appName,
@@ -164,21 +208,23 @@ class ApplicationState extends ConsumerState<Application> {
           theme: ThemeData(
             useMaterial3: true,
             pageTransitionsTheme: _pageTransitionsTheme,
-            colorScheme: _getAppColorScheme(
-              brightness: Brightness.light,
-              primaryColor: themeProps.primaryColor,
-            ),
+            colorScheme: _lightCs,
+            scaffoldBackgroundColor: hasBackgroundImage
+                ? Colors.transparent
+                : null,
           ),
           darkTheme: ThemeData(
             useMaterial3: true,
             pageTransitionsTheme: _pageTransitionsTheme,
-            colorScheme: _getAppColorScheme(
-              brightness: Brightness.dark,
-              primaryColor: themeProps.primaryColor,
-            ).toPureBlack(themeProps.pureBlack),
+            colorScheme: _darkCs,
+            scaffoldBackgroundColor: hasBackgroundImage
+                ? Colors.transparent
+                : null,
           ),
           home: child!,
         );
+
+        return app;
       },
       child: const HomePage(),
     );
@@ -193,3 +239,13 @@ class ApplicationState extends ConsumerState<Application> {
     super.dispose();
   }
 }
+
+ColorScheme _makeTransparent(ColorScheme cs) => cs.copyWith(
+  surface: Colors.transparent,
+  surfaceContainer: Colors.transparent,
+  surfaceContainerHighest: Colors.transparent,
+  surfaceContainerHigh: Colors.transparent,
+  surfaceContainerLow: Colors.transparent,
+  surfaceDim: Colors.transparent,
+  surfaceBright: Colors.transparent,
+);

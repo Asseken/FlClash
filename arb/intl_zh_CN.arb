@@ -557,5 +557,12 @@
   "geoSkipped": "{name} 已跳过",
   "geoUpdated": "{name} 已更新",
   "secondsCount": "{count} 秒",
-  "entriesCount": "{count} 个条目"
+  "entriesCount": "{count} 个条目",
+  "backgroundImage": "背景图片",
+  "backgroundImageDesc": "设置全局背景图片",
+  "backgroundOpacity": "透明度",
+  "pickImage": "选择图片",
+  "removeImage": "移除图片",
+  "noBackgroundImage": "暂无背景图片",
+  "noBackgroundImageDesc": "选择一张图片作为应用背景"
 }

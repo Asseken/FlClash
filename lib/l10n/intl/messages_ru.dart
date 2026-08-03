@@ -184,6 +184,13 @@ class MessageLookup extends MessageLookupByLibrary {
     "autoUpdateInterval": MessageLookupByLibrary.simpleMessage(
       "Интервал автообновления (минуты)",
     ),
+    "backgroundImage": MessageLookupByLibrary.simpleMessage(
+      "Фоновое изображение",
+    ),
+    "backgroundImageDesc": MessageLookupByLibrary.simpleMessage(
+      "Установить глобальное фоновое изображение",
+    ),
+    "backgroundOpacity": MessageLookupByLibrary.simpleMessage("Прозрачность"),
     "backup": MessageLookupByLibrary.simpleMessage("Резервное копирование"),
     "backupAndRestore": MessageLookupByLibrary.simpleMessage(
       "Резервное копирование и восстановление",
@@ -622,6 +629,12 @@ class MessageLookup extends MessageLookupByLibrary {
     "networkSpeed": MessageLookupByLibrary.simpleMessage("Скорость сети"),
     "networkType": MessageLookupByLibrary.simpleMessage("Тип сети"),
     "neutralScheme": MessageLookupByLibrary.simpleMessage("Нейтральные"),
+    "noBackgroundImage": MessageLookupByLibrary.simpleMessage(
+      "Нет фоновых изображений",
+    ),
+    "noBackgroundImageDesc": MessageLookupByLibrary.simpleMessage(
+      "Выберите изображение для фона приложения",
+    ),
     "noData": MessageLookupByLibrary.simpleMessage("Нет данных"),
     "noHotKey": MessageLookupByLibrary.simpleMessage("Нет горячей клавиши"),
     "noInfo": MessageLookupByLibrary.simpleMessage("Нет информации"),
@@ -684,6 +697,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "palette": MessageLookupByLibrary.simpleMessage("Палитра"),
     "password": MessageLookupByLibrary.simpleMessage("Пароль"),
     "paste": MessageLookupByLibrary.simpleMessage("Вставить"),
+    "pickImage": MessageLookupByLibrary.simpleMessage("Выбрать изображение"),
     "pleaseBindWebDAV": MessageLookupByLibrary.simpleMessage(
       "Пожалуйста, привяжите WebDAV",
     ),
@@ -791,6 +805,7 @@ class MessageLookup extends MessageLookupByLibrary {
       "Удалённое назначение",
     ),
     "remove": MessageLookupByLibrary.simpleMessage("Удалить"),
+    "removeImage": MessageLookupByLibrary.simpleMessage("Удалить изображение"),
     "rename": MessageLookupByLibrary.simpleMessage("Переименовать"),
     "request": MessageLookupByLibrary.simpleMessage("Запрос"),
     "requests": MessageLookupByLibrary.simpleMessage("Запросы"),

@@ -1,4 +1,5 @@
 import 'package:fl_clash/common/common.dart';
+import 'package:fluent_ui/fluent_ui.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/svg.dart';
@@ -188,7 +189,7 @@ class _ThemeAwareSvg extends StatelessWidget {
   const _ThemeAwareSvg(this.assetPath);
 
   String _colorToHex(Color color) {
-    return color.toARGB32().toRadixString(16).substring(2);
+    return color.toARGB32().toRadixString(16).padLeft(8, '0').substring(2);
   }
 
   @override
@@ -219,7 +220,7 @@ class _ThemeAwareSvg extends StatelessWidget {
           );
           return SvgPicture.string(svgString, width: 200, height: 200);
         } else if (snapshot.hasError) {
-          return const Icon(Icons.error);
+          return const Icon(WindowsIcons.info);
         }
         return const SizedBox(width: 200, height: 200);
       },

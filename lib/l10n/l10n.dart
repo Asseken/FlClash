@@ -4533,6 +4533,71 @@ class AppLocalizations {
       args: [count],
     );
   }
+
+  /// `Background Image`
+  String get backgroundImage {
+    return Intl.message(
+      'Background Image',
+      name: 'backgroundImage',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Set global background image`
+  String get backgroundImageDesc {
+    return Intl.message(
+      'Set global background image',
+      name: 'backgroundImageDesc',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Opacity`
+  String get backgroundOpacity {
+    return Intl.message(
+      'Opacity',
+      name: 'backgroundOpacity',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Pick Image`
+  String get pickImage {
+    return Intl.message('Pick Image', name: 'pickImage', desc: '', args: []);
+  }
+
+  /// `Remove Image`
+  String get removeImage {
+    return Intl.message(
+      'Remove Image',
+      name: 'removeImage',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `No background images`
+  String get noBackgroundImage {
+    return Intl.message(
+      'No background images',
+      name: 'noBackgroundImage',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Pick an image to use as the app background`
+  String get noBackgroundImageDesc {
+    return Intl.message(
+      'Pick an image to use as the app background',
+      name: 'noBackgroundImageDesc',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<AppLocalizations> {

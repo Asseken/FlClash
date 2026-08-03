@@ -278,6 +278,14 @@ _ThemeProps _$ThemePropsFromJson(Map<String, dynamic> json) => _ThemeProps(
   textScale: json['textScale'] == null
       ? const TextScale()
       : TextScale.fromJson(json['textScale'] as Map<String, dynamic>),
+  backgroundImage: json['backgroundImage'] as String? ?? '',
+  backgroundOpacity: (json['backgroundOpacity'] as num?)?.toDouble() ?? 1.0,
+  backgroundImages:
+      (json['backgroundImages'] as List<dynamic>?)
+          ?.map((e) => e as String)
+          .toList() ??
+      const [],
+  backgroundImageEnabled: json['backgroundImageEnabled'] as bool? ?? true,
 );
 
 Map<String, dynamic> _$ThemePropsToJson(_ThemeProps instance) =>
@@ -288,6 +296,10 @@ Map<String, dynamic> _$ThemePropsToJson(_ThemeProps instance) =>
       'schemeVariant': _$DynamicSchemeVariantEnumMap[instance.schemeVariant]!,
       'pureBlack': instance.pureBlack,
       'textScale': instance.textScale,
+      'backgroundImage': instance.backgroundImage,
+      'backgroundOpacity': instance.backgroundOpacity,
+      'backgroundImages': instance.backgroundImages,
+      'backgroundImageEnabled': instance.backgroundImageEnabled,
     };
 
 const _$ThemeModeEnumMap = {

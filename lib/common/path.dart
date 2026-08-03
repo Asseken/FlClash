@@ -125,6 +125,11 @@ class AppPath {
     return join(directory.path, 'icons');
   }
 
+  Future<String> get backgroundDirPath async {
+    final path = await homeDirPath;
+    return join(path, 'background');
+  }
+
   Future<String> getProvidersRootPath() async {
     final directory = await profilesPath;
     return join(directory, 'providers');

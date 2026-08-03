@@ -557,5 +557,12 @@
   "geoSkipped": "{name} пропущено",
   "geoUpdated": "{name} обновлено",
   "secondsCount": "{count} секунд",
-  "entriesCount": "{count} записей"
+  "entriesCount": "{count} записей",
+  "backgroundImage": "Фоновое изображение",
+  "backgroundImageDesc": "Установить глобальное фоновое изображение",
+  "backgroundOpacity": "Прозрачность",
+  "pickImage": "Выбрать изображение",
+  "removeImage": "Удалить изображение",
+  "noBackgroundImage": "Нет фоновых изображений",
+  "noBackgroundImageDesc": "Выберите изображение для фона приложения"
 }

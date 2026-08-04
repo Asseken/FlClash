@@ -2,7 +2,7 @@ import 'package:fl_clash/common/common.dart';
 import 'package:fl_clash/providers/config.dart';
 import 'package:fl_clash/views/config/network.dart';
 import 'package:fl_clash/widgets/widgets.dart';
-import 'package:fluent_ui/fluent_ui.dart' hide Tooltip;
+import 'package:fluent_ui/fluent_ui.dart' hide Tooltip, Colors;
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -68,8 +68,8 @@ class TUNButton extends StatelessWidget {
                       (state) => state.tun.enable,
                     ),
                   );
-                  return Switch(
-                    value: enable,
+                  return ToggleSwitch(
+                    checked: enable,
                     onChanged: (value) {
                       ref
                           .read(patchClashConfigProvider.notifier)
@@ -138,9 +138,8 @@ class SystemProxyButton extends StatelessWidget {
                   final systemProxy = ref.watch(
                     networkSettingProvider.select((state) => state.systemProxy),
                   );
-                  return Switch(
-                    materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                    value: systemProxy,
+                  return ToggleSwitch(
+                    checked: systemProxy,
                     onChanged: (value) {
                       ref
                           .read(networkSettingProvider.notifier)
@@ -212,8 +211,8 @@ class VpnButton extends StatelessWidget {
                   final enable = ref.watch(
                     vpnSettingProvider.select((state) => state.enable),
                   );
-                  return Switch(
-                    value: enable,
+                  return ToggleSwitch(
+                    checked: enable,
                     onChanged: (value) {
                       ref
                           .read(vpnSettingProvider.notifier)

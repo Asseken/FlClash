@@ -10,6 +10,7 @@ import 'package:fl_clash/manager/manager.dart';
 import 'package:fl_clash/plugins/app.dart';
 import 'package:fl_clash/providers/providers.dart';
 import 'package:fl_clash/state.dart';
+import 'package:fluent_ui/fluent_ui.dart' hide IconButton, Colors;
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -138,7 +139,8 @@ class ApplicationState extends ConsumerState<Application> {
           appSettingProvider.select((state) => state.locale),
         );
         final themeProps = ref.watch(themeSettingProvider);
-        final hasBackgroundImage = themeProps.backgroundImageEnabled &&
+        final hasBackgroundImage =
+            themeProps.backgroundImageEnabled &&
             themeProps.backgroundImage.isNotEmpty;
 
         ColorScheme _lightCs = _getAppColorScheme(
@@ -164,64 +166,82 @@ class ApplicationState extends ConsumerState<Application> {
           ).toPureBlack(themeProps.pureBlack);
         }
 
-        Widget app = MaterialApp(
-          debugShowCheckedModeBanner: false,
-          navigatorKey: globalState.navigatorKey,
-          localizationsDelegates: const [
-            AppLocalizations.delegate,
-            GlobalMaterialLocalizations.delegate,
-            GlobalCupertinoLocalizations.delegate,
-            GlobalWidgetsLocalizations.delegate,
-          ],
-          builder: (context, child) {
-            Widget body = AppEnvManager(
-              child: _buildApp(
-                child: _buildPlatformState(
-                  child: _buildState(child: _buildPlatformApp(child: child!)),
+        final fluentBrightness = switch (themeProps.themeMode) {
+          ThemeMode.light => Brightness.light,
+          ThemeMode.dark => Brightness.dark,
+          ThemeMode.system => MediaQuery.of(context).platformBrightness,
+        };
+        final Widget app = FluentTheme(
+          data: FluentThemeData(
+            brightness: fluentBrightness,
+            accentColor: Color(
+              themeProps.primaryColor ?? defaultPrimaryColor,
+            ).toAccentColor(),
+            visualDensity: const VisualDensity(horizontal: 0, vertical: 2),
+            scaffoldBackgroundColor: fluentBrightness == Brightness.light
+                ? _lightCs.surfaceContainer
+                : _darkCs.surfaceContainer,
+          ),
+          child: MaterialApp(
+            debugShowCheckedModeBanner: false,
+            navigatorKey: globalState.navigatorKey,
+            localizationsDelegates: const [
+              AppLocalizations.delegate,
+              FluentLocalizations.delegate,
+              GlobalMaterialLocalizations.delegate,
+              GlobalCupertinoLocalizations.delegate,
+              GlobalWidgetsLocalizations.delegate,
+            ],
+            builder: (context, child) {
+              Widget body = AppEnvManager(
+                child: _buildApp(
+                  child: _buildPlatformState(
+                    child: _buildState(child: _buildPlatformApp(child: child!)),
+                  ),
                 ),
-              ),
-            );
-            if (hasBackgroundImage) {
-              body = Stack(
-                children: [
-                  Positioned.fill(
-                    child: Opacity(
-                      opacity: themeProps.backgroundOpacity,
-                      child: Image.file(
-                        File(themeProps.backgroundImage),
-                        fit: BoxFit.cover,
-                        errorBuilder: (_, _, _) => const SizedBox.shrink(),
+              );
+              if (hasBackgroundImage) {
+                body = Stack(
+                  children: [
+                    Positioned.fill(
+                      child: Opacity(
+                        opacity: themeProps.backgroundOpacity,
+                        child: Image.file(
+                          File(themeProps.backgroundImage),
+                          fit: BoxFit.cover,
+                          errorBuilder: (_, _, _) => const SizedBox.shrink(),
+                        ),
                       ),
                     ),
-                  ),
-                  body,
-                ],
-              );
-            }
-            return body;
-          },
-          scrollBehavior: BaseScrollBehavior(),
-          title: appName,
-          locale: utils.getLocaleForString(locale),
-          supportedLocales: AppLocalizations.delegate.supportedLocales,
-          themeMode: themeProps.themeMode,
-          theme: ThemeData(
-            useMaterial3: true,
-            pageTransitionsTheme: _pageTransitionsTheme,
-            colorScheme: _lightCs,
-            scaffoldBackgroundColor: hasBackgroundImage
-                ? Colors.transparent
-                : null,
+                    body,
+                  ],
+                );
+              }
+              return body;
+            },
+            scrollBehavior: BaseScrollBehavior(),
+            title: appName,
+            locale: utils.getLocaleForString(locale),
+            supportedLocales: AppLocalizations.delegate.supportedLocales,
+            themeMode: themeProps.themeMode,
+            theme: ThemeData(
+              useMaterial3: true,
+              pageTransitionsTheme: _pageTransitionsTheme,
+              colorScheme: _lightCs,
+              scaffoldBackgroundColor: hasBackgroundImage
+                  ? Colors.transparent
+                  : null,
+            ),
+            darkTheme: ThemeData(
+              useMaterial3: true,
+              pageTransitionsTheme: _pageTransitionsTheme,
+              colorScheme: _darkCs,
+              scaffoldBackgroundColor: hasBackgroundImage
+                  ? Colors.transparent
+                  : null,
+            ),
+            home: child!,
           ),
-          darkTheme: ThemeData(
-            useMaterial3: true,
-            pageTransitionsTheme: _pageTransitionsTheme,
-            colorScheme: _darkCs,
-            scaffoldBackgroundColor: hasBackgroundImage
-                ? Colors.transparent
-                : null,
-          ),
-          home: child!,
         );
 
         return app;

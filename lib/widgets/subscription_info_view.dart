@@ -1,5 +1,6 @@
 import 'package:fl_clash/common/common.dart';
 import 'package:fl_clash/models/models.dart';
+import 'package:fluent_ui/fluent_ui.dart';
 import 'package:flutter/material.dart';
 
 class SubscriptionInfoView extends StatelessWidget {
@@ -17,8 +18,8 @@ class SubscriptionInfoView extends StatelessWidget {
     }
     final use = subscriptionInfo!.upload + subscriptionInfo!.download;
     final total = subscriptionInfo!.total;
-    final progress = use / total;
-
+    // final progress = use / total;
+    final progress = (use / total * 100).clamp(0.0, 100.0);
     final useShow = use.traffic.show;
     final totalShow = total.traffic.show;
     final expireShow =
@@ -30,10 +31,13 @@ class SubscriptionInfoView extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        LinearProgressIndicator(
-          minHeight: 6,
-          value: progress,
-          backgroundColor: context.colorScheme.primary.opacity15,
+        SizedBox(
+          width: double.infinity,
+          child: ProgressBar(
+            strokeWidth: 6,
+            value: progress,
+            backgroundColor: context.colorScheme.primary.opacity15,
+          ),
         ),
         const SizedBox(height: 8),
         Text(

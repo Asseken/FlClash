@@ -5,6 +5,7 @@ import 'package:fl_clash/enum/enum.dart';
 import 'package:fl_clash/providers/app.dart';
 import 'package:fl_clash/state.dart';
 import 'package:fl_clash/widgets/inherited.dart';
+import 'package:fluent_ui/fluent_ui.dart' hide ListTile, Colors, Divider;
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
@@ -424,8 +425,8 @@ class ListItem<T> extends StatelessWidget {
             switchDelegate.onChanged!(!switchDelegate.value);
           }
         },
-        trailing: Switch(
-          value: switchDelegate.value,
+        trailing: ToggleSwitch(
+          checked: switchDelegate.value,
           onChanged: switchDelegate.onChanged,
         ),
       );

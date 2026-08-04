@@ -2,7 +2,7 @@ import 'package:fl_clash/common/common.dart';
 import 'package:fl_clash/providers/config.dart';
 import 'package:fl_clash/views/config/network.dart';
 import 'package:fl_clash/widgets/widgets.dart';
-import 'package:fluent_ui/fluent_ui.dart' hide Tooltip;
+import 'package:fluent_ui/fluent_ui.dart' hide Tooltip, Colors;
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -59,7 +59,8 @@ class _TUNButtonState extends ConsumerState<TUNButton> {
 
     final settingsDisabled =
         tunEnable || serviceStatus == WindowsHelperServiceStatus.running;
-    final deleteDisabled = tunEnable || serviceStatus == WindowsHelperServiceStatus.none;
+    final deleteDisabled =
+        tunEnable || serviceStatus == WindowsHelperServiceStatus.none;
 
     return SizedBox(
       height: getWidgetHeight(1),
@@ -117,7 +118,7 @@ class _TUNButtonState extends ConsumerState<TUNButton> {
                       const SizedBox(width: 4),
                       Tooltip(
                         message:
-                        '${appLocalizations.settings} (${appLocalizations.tun})',
+                            '${appLocalizations.settings} (${appLocalizations.tun})',
                         child: InkWell(
                           onTap: settingsDisabled
                               ? null
@@ -134,7 +135,7 @@ class _TUNButtonState extends ConsumerState<TUNButton> {
                       const SizedBox(width: 6),
                       Tooltip(
                         message:
-                        '${appLocalizations.delete} (${appLocalizations.tun})',
+                            '${appLocalizations.delete} (${appLocalizations.tun})',
                         child: InkWell(
                           onTap: deleteDisabled
                               ? null
@@ -151,8 +152,8 @@ class _TUNButtonState extends ConsumerState<TUNButton> {
                     ],
                   ),
                 ),
-              Switch(
-                value: tunEnable,
+              ToggleSwitch(
+                checked: tunEnable,
                 onChanged: (value) {
                   ref
                       .read(patchClashConfigProvider.notifier)
@@ -222,9 +223,8 @@ class SystemProxyButton extends StatelessWidget {
                   final systemProxy = ref.watch(
                     networkSettingProvider.select((state) => state.systemProxy),
                   );
-                  return Switch(
-                    materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                    value: systemProxy,
+                  return ToggleSwitch(
+                    checked: systemProxy,
                     onChanged: (value) {
                       ref
                           .read(networkSettingProvider.notifier)
@@ -296,8 +296,8 @@ class VpnButton extends StatelessWidget {
                   final enable = ref.watch(
                     vpnSettingProvider.select((state) => state.enable),
                   );
-                  return Switch(
-                    value: enable,
+                  return ToggleSwitch(
+                    checked: enable,
                     onChanged: (value) {
                       ref
                           .read(vpnSettingProvider.notifier)

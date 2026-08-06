@@ -280,7 +280,7 @@ class CommonScaffoldState extends State<CommonScaffold> {
                           : true,
                       animateColor: true,
                       backgroundColor: Colors.transparent,
-                      // surfaceTintColor: Colors.transparent,
+                      surfaceTintColor: Colors.transparent,
                       centerTitle: widget.centerTitle ?? false,
                       leading: _buildLeading(backAction),
                       title: _buildTitle(state.searchState),

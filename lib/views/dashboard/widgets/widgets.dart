@@ -7,3 +7,4 @@ export 'traffic_usage.dart';
 export 'memory_info.dart';
 export 'coreInfo.dart';
 export 'coreState.dart';
+export 'delayTest.dart';

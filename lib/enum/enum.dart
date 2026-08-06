@@ -266,7 +266,8 @@ enum DashboardWidget {
   intranetIp(GridItem(crossAxisCellCount: 4, child: IntranetIP())),
   memoryInfo(GridItem(crossAxisCellCount: 4, child: MemoryInfo())),
   showCoreInfo(GridItem(crossAxisCellCount: 8, child: ShowCoreInfo())),
-  oreState(GridItem(crossAxisCellCount: 4, child: CoreState()));
+  coreState(GridItem(crossAxisCellCount: 4, child: CoreState())),
+  latencyTest(GridItem(crossAxisCellCount: 4, child: LatencyTest()));
 
   final GridItem widget;
   final List<SupportPlatform> platforms;

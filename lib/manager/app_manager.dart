@@ -6,12 +6,12 @@ import 'package:fl_clash/enum/enum.dart';
 import 'package:fl_clash/models/models.dart';
 import 'package:fl_clash/providers/providers.dart';
 import 'package:fl_clash/state.dart';
-import 'package:fl_clash/widgets/animated_visibility.dart';
 import 'package:fluent_ui/fluent_ui.dart' hide IconButton, Colors;
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
+import 'package:window_manager/window_manager.dart';
 
 class AppStateManager extends ConsumerStatefulWidget {
   final Widget child;
@@ -138,7 +138,8 @@ class AppEnvManager extends StatelessWidget {
 
 class AppSidebarContainer extends ConsumerWidget {
   final Widget child;
-
+  // static：跨 build 保留置顶状态，且构造器可恢复 const
+  static final isPinNotifier = ValueNotifier<bool>(false);
   const AppSidebarContainer({super.key, required this.child});
 
   void _updateSideBarWidth(WidgetRef ref, double contentWidth) {
@@ -165,6 +166,16 @@ class AppSidebarContainer extends ConsumerWidget {
         focusNode.requestFocus();
       }
     });
+  }
+
+  Future<void> _updatePin() async {
+    try {
+      final isAlwaysOnTop = await windowManager.isAlwaysOnTop();
+      await windowManager.setAlwaysOnTop(!isAlwaysOnTop);
+      isPinNotifier.value = await windowManager.isAlwaysOnTop();
+    } catch (e) {
+      commonPrint.log('updatePin failed: $e', logLevel: LogLevel.warning);
+    }
   }
 
   List<NavigationPaneItem> _buildPaneItems(
@@ -244,20 +255,49 @@ class AppSidebarContainer extends ConsumerWidget {
         ),
       ),
       child: NavigationView(
-        titleBar: const SizedBox.shrink(),
+        titleBar: system.isMacOS
+            ? SizedBox(
+                height: 26,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisSize: MainAxisSize.max,
+                  children: [
+                    IconButton(
+                      visualDensity: VisualDensity.compact,
+                      padding: EdgeInsets.zero,
+                      constraints: const BoxConstraints(),
+                      iconSize: 22,
+                      onPressed: () async {
+                        _updatePin();
+                      },
+                      icon: ValueListenableBuilder(
+                        valueListenable: isPinNotifier,
+                        builder: (_, value, _) {
+                          return value
+                              ? const Icon(Icons.push_pin)
+                              : const Icon(Icons.push_pin_outlined);
+                        },
+                      ),
+                    ),
+                    const SizedBox(width: 16),
+                  ],
+                ),
+              )
+            : const SizedBox.shrink(),
         contentShape: const RoundedRectangleBorder(),
         pane: NavigationPane(
           displayMode: showLabel
               ? PaneDisplayMode.expanded
               : PaneDisplayMode.compact,
-          size: const NavigationPaneSize(compactWidth: 58, openWidth: 130),
+          size: const NavigationPaneSize(compactWidth: 60, openWidth: 130),
           selected: currentIndex,
           onChanged: (i) {
             _handleToPage(navigationItems[i].label);
           },
           indicator: StickyNavigationIndicator(
-            indicatorSize: 4,
-            leftPadding: 4,
+            indicatorSize: 3,
+            leftPadding: 6,
             color: Theme.of(context).colorScheme.primary,
           ),
           items: [
@@ -306,6 +346,9 @@ class AppSidebarContainer extends ConsumerWidget {
     final navigationState = ref.watch(navigationStateProvider);
     final navigationItems = navigationState.navigationItems;
     final isMobileView = navigationState.viewMode == ViewMode.mobile;
+    if (isMobileView) {
+      return child;
+    }
     final currentIndex = navigationState.currentIndex;
     final showLabel = ref.watch(appSettingProvider).showLabel;
     return _buildFluentShell(

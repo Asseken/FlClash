@@ -240,14 +240,14 @@ class AppSidebarContainer extends ConsumerWidget {
           displayMode: showLabel
               ? PaneDisplayMode.expanded
               : PaneDisplayMode.compact,
-          size: const NavigationPaneSize(compactWidth: 58, openWidth: 130),
+          size: const NavigationPaneSize(compactWidth: 60, openWidth: 130),
           selected: currentIndex,
           onChanged: (i) {
             _handleToPage(navigationItems[i].label);
           },
           indicator: StickyNavigationIndicator(
-            indicatorSize: 4,
-            leftPadding: 4,
+            indicatorSize: 3,
+            leftPadding: 6,
             color: Theme.of(context).colorScheme.primary,
           ),
           items: [

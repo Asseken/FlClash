@@ -32,6 +32,20 @@ class _LatencyTestState extends ConsumerState<LatencyTest> {
   static bool _hasAutoTested = false;
   // 跨 State 重建保留测速结果：State 重建后恢复上次的延迟数据
   static final Map<String, Delay?> _cachedDelays = {};
+  // 测速版本号：新一轮测试递增，旧轮结果回来时若版本已过时则丢弃
+  int _testVersion = 0;
+  // 记录上次测试的节点名，切换节点时对比触发重测（static 跨 State 重建保留）
+  static String? _lastProxyName;
+  // 记录 isStart 上次值：区分"刚开启代理"与"切节点"
+  static bool _preIsStart = false;
+
+  void _scheduleTest() {
+    debouncer.call(
+      'delayTest',
+      _test,
+      duration: const Duration(milliseconds: 300),
+    );
+  }
 
   @override
   void initState() {
@@ -39,6 +53,7 @@ class _LatencyTestState extends ConsumerState<LatencyTest> {
     for (final site in _sites) {
       _delayNotifiers[site.$1] = ValueNotifier<Delay?>(_cachedDelays[site.$1]);
     }
+    _preIsStart = ref.read(isStartProvider);
     ref.listenManual(isStartProvider, (prev, next) {
       if (prev == false && next == true) {
         _test();
@@ -56,6 +71,7 @@ class _LatencyTestState extends ConsumerState<LatencyTest> {
 
   @override
   void dispose() {
+    debouncer.cancel('delayTest');
     for (final notifier in _delayNotifiers.values) {
       notifier.dispose();
     }
@@ -78,27 +94,38 @@ class _LatencyTestState extends ConsumerState<LatencyTest> {
     }
   }
 
+  // 计算当前选中的真实节点名（isStart=false 时为 null）
+  String? _getCurrentProxyName() {
+    final isStart = ref.read(isStartProvider);
+    if (!isStart) {
+      return null;
+    }
+    final groups = ref.read(groupsProvider);
+    final selectedMap = ref.read(selectedMapProvider);
+    final groupName =
+        ref.read(currentProfileProvider)?.currentGroupName ??
+        GroupName.GLOBAL.name;
+    final state = computeRealSelectedProxyState(
+      groupName,
+      groups: groups,
+      selectedMap: selectedMap,
+    );
+    return state.proxyName.isEmpty ? null : state.proxyName;
+  }
+
   Future<void> _test() async {
+    final version = ++_testVersion;
     final isStart = ref.read(isStartProvider);
     final String? proxyName;
     if (isStart) {
-      final groups = ref.read(groupsProvider);
-      final selectedMap = ref.read(selectedMapProvider);
-      final groupName =
-          ref.read(currentProfileProvider)?.currentGroupName ??
-          GroupName.GLOBAL.name;
-      final state = computeRealSelectedProxyState(
-        groupName,
-        groups: groups,
-        selectedMap: selectedMap,
-      );
-      if (state.proxyName.isEmpty) {
+      proxyName = _getCurrentProxyName();
+      if (proxyName == null) {
         for (final notifier in _delayNotifiers.values) {
           notifier.value = null;
         }
         return;
       }
-      proxyName = state.proxyName;
+      _lastProxyName = proxyName;
     } else {
       proxyName = null;
     }
@@ -112,9 +139,11 @@ class _LatencyTestState extends ConsumerState<LatencyTest> {
         final delay = proxyName != null
             ? await coreController.getDelay(site.$2, proxyName)
             : await _testHttp(site.$2, site.$1);
-        _cachedDelays[site.$1] = delay;
-        if (mounted) {
-          notifier.value = delay;
+        if (version == _testVersion) {
+          _cachedDelays[site.$1] = delay;
+          if (mounted) {
+            notifier.value = delay;
+          }
         }
       }),
     );
@@ -189,6 +218,23 @@ class _LatencyTestState extends ConsumerState<LatencyTest> {
   Widget build(BuildContext context) {
     ref.watch(selectedMapProvider);
     ref.watch(groupsProvider);
+    ref.watch(currentProfileProvider);
+    final isStart = ref.read(isStartProvider);
+    // isStart 刚变化（开启/关闭代理）时，跳过 proxyName 对比——开启由 isStart 监听触发一次
+    if (isStart != _preIsStart) {
+      _preIsStart = isStart;
+    } else {
+      // 首次 build 只初始化 _lastProxyName（首次测速由 _hasAutoTested 处理），避免重复触发
+      final proxyName = _getCurrentProxyName();
+      if (_lastProxyName == null) {
+        _lastProxyName = proxyName;
+      } else if (proxyName != _lastProxyName) {
+        _lastProxyName = proxyName;
+        if (isStart) {
+          _scheduleTest();
+        }
+      }
+    }
     final descTextStyle = context.textTheme.titleSmall?.copyWith(
       color: context.colorScheme.onSurfaceVariant,
     );

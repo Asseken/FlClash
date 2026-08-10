@@ -36,8 +36,6 @@ class _LatencyTestState extends ConsumerState<LatencyTest> {
   int _testVersion = 0;
   // 记录上次测试的节点名，切换节点时对比触发重测（static 跨 State 重建保留）
   static String? _lastProxyName;
-  // 记录 isStart 上次值：区分"刚开启代理"与"切节点"
-  static bool _preIsStart = false;
 
   void _scheduleTest() {
     debouncer.call(
@@ -53,12 +51,6 @@ class _LatencyTestState extends ConsumerState<LatencyTest> {
     for (final site in _sites) {
       _delayNotifiers[site.$1] = ValueNotifier<Delay?>(_cachedDelays[site.$1]);
     }
-    _preIsStart = ref.read(isStartProvider);
-    ref.listenManual(isStartProvider, (prev, next) {
-      if (prev == false && next == true) {
-        _test();
-      }
-    });
     if (!_hasAutoTested) {
       _hasAutoTested = true;
       WidgetsBinding.instance.addPostFrameCallback((_) {
@@ -115,26 +107,11 @@ class _LatencyTestState extends ConsumerState<LatencyTest> {
 
   Future<void> _test() async {
     final version = ++_testVersion;
-    final isStart = ref.read(isStartProvider);
-    final String? proxyName;
-    if (isStart) {
-      proxyName = _getCurrentProxyName();
-      if (proxyName == null) {
-        for (final notifier in _delayNotifiers.values) {
-          notifier.value = null;
-        }
-        return;
-      }
-      _lastProxyName = proxyName;
-    } else {
-      proxyName = null;
-    }
+    // 未开启代理时 proxyName 为 null，走 HTTP 直连测；开启时走核心节点测
+    final proxyName = _getCurrentProxyName();
     await Future.wait(
       _sites.map((site) async {
-        final notifier = _delayNotifiers.putIfAbsent(
-          site.$1,
-          () => ValueNotifier<Delay?>(_cachedDelays[site.$1]),
-        );
+        final notifier = _delayNotifiers[site.$1]!;
         notifier.value = Delay(name: site.$1, url: site.$2, value: 0);
         final delay = proxyName != null
             ? await coreController.getDelay(site.$2, proxyName)
@@ -219,20 +196,14 @@ class _LatencyTestState extends ConsumerState<LatencyTest> {
     ref.watch(selectedMapProvider);
     ref.watch(groupsProvider);
     ref.watch(currentProfileProvider);
+    ref.watch(isStartProvider);
     final isStart = ref.read(isStartProvider);
-    // isStart 刚变化（开启/关闭代理）时，跳过 proxyName 对比——开启由 isStart 监听触发一次
-    if (isStart != _preIsStart) {
-      _preIsStart = isStart;
-    } else {
-      // 首次 build 只初始化 _lastProxyName（首次测速由 _hasAutoTested 处理），避免重复触发
-      final proxyName = _getCurrentProxyName();
-      if (_lastProxyName == null) {
-        _lastProxyName = proxyName;
-      } else if (proxyName != _lastProxyName) {
-        _lastProxyName = proxyName;
-        if (isStart) {
-          _scheduleTest();
-        }
+    // 对比当前节点名：变化（开启代理 null→节点名 / 切节点 / 切组）且代理开启时重测
+    final proxyName = _getCurrentProxyName();
+    if (proxyName != _lastProxyName) {
+      _lastProxyName = proxyName;
+      if (isStart) {
+        _scheduleTest();
       }
     }
     final descTextStyle = context.textTheme.titleSmall?.copyWith(
@@ -297,13 +268,7 @@ class _LatencyTestState extends ConsumerState<LatencyTest> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   for (final site in _sites)
-                    _buildSiteRow(
-                      site,
-                      _delayNotifiers.putIfAbsent(
-                        site.$1,
-                        () => ValueNotifier<Delay?>(_cachedDelays[site.$1]),
-                      ),
-                    ),
+                    _buildSiteRow(site, _delayNotifiers[site.$1]!),
                 ],
               ),
             ],

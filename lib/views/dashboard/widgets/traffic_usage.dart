@@ -14,77 +14,77 @@ class TrafficUsage extends StatelessWidget {
   const TrafficUsage({super.key});
 
   Widget _buildTrafficDataItem(
-      BuildContext context,
-      Icon icon,
-      num trafficValue,
-      view,
-      ) {
+    BuildContext context,
+    Icon icon,
+    num trafficValue,
+    view,
+  ) {
     return view == ViewMode.desktop
         ? Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      mainAxisSize: MainAxisSize.max,
-      children: [
-        Flexible(
-          flex: 1,
-          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             mainAxisSize: MainAxisSize.max,
-            mainAxisAlignment: MainAxisAlignment.start,
             children: [
-              icon,
-              const SizedBox(width: 2),
               Flexible(
                 flex: 1,
-                child: Text(
-                  trafficValue.traffic.value,
-                  style: context.textTheme.bodyMedium,
-                  maxLines: 1,
+                child: Row(
+                  mainAxisSize: MainAxisSize.max,
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    icon,
+                    const SizedBox(width: 2),
+                    Flexible(
+                      flex: 1,
+                      child: Text(
+                        trafficValue.traffic.value,
+                        style: context.textTheme.bodyMedium,
+                        maxLines: 1,
+                      ),
+                    ),
+                  ],
                 ),
               ),
+              Text(
+                trafficValue.traffic.unit,
+                style: context.textTheme.bodyMedium,
+              ),
             ],
-          ),
-        ),
-        Text(
-          trafficValue.traffic.unit,
-          style: context.textTheme.bodyMedium,
-        ),
-      ],
-    )
+          )
         : Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      mainAxisSize: MainAxisSize.max,
-      children: [
-        Flexible(
-          flex: 1,
-          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             mainAxisSize: MainAxisSize.max,
-            mainAxisAlignment: MainAxisAlignment.start,
             children: [
-              icon,
-              // const SizedBox(width: 4),
               Flexible(
                 flex: 1,
-                child: Text(
-                  trafficValue.traffic.value,
-                  style: context.textTheme.bodySmall?.copyWith(
-                    fontSize:
-                    (context.textTheme.bodySmall?.fontSize ?? 12) -
-                        2.2,
-                  ),
-                  maxLines: 1,
+                child: Row(
+                  mainAxisSize: MainAxisSize.max,
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    icon,
+                    // const SizedBox(width: 4),
+                    Flexible(
+                      flex: 1,
+                      child: Text(
+                        trafficValue.traffic.value,
+                        style: context.textTheme.bodySmall?.copyWith(
+                          fontSize:
+                              (context.textTheme.bodySmall?.fontSize ?? 12) -
+                              2.2,
+                        ),
+                        maxLines: 1,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              Text(
+                trafficValue.traffic.unit,
+                style: context.textTheme.bodySmall?.copyWith(
+                  fontSize: (context.textTheme.bodySmall?.fontSize ?? 12) - 2.2,
+                  fontFamily: 'monospace',
                 ),
               ),
             ],
-          ),
-        ),
-        Text(
-          trafficValue.traffic.unit,
-          style: context.textTheme.bodySmall?.copyWith(
-            fontSize: (context.textTheme.bodySmall?.fontSize ?? 12) - 2.2,
-            fontFamily: 'monospace',
-          ),
-        ),
-      ],
-    );
+          );
   }
 
   @override
@@ -106,12 +106,21 @@ class TrafficUsage extends StatelessWidget {
               final totalTraffic = ref.watch(totalTrafficProvider);
               final upTotalTrafficValue = totalTraffic.up;
               final downTotalTrafficValue = totalTraffic.down;
-              final totalDirectTraffic = ref.watch(totalDirectTrafficProviderProvider);
+              final totalDirectTraffic = ref.watch(
+                totalDirectTrafficProviderProvider,
+              );
               final upTotalDirectTrafficValue = totalDirectTraffic.up;
               final downTotalDirectTrafficValue = totalDirectTraffic.down;
               final appSetting = ref.watch(appSettingProvider);
               final bool isOnlyStatProxy = appSetting.onlyStatisticsProxy;
               final view = ref.watch(viewModeProvider);
+              // 第二行：isOnlyStatProxy=false 时显示 Proxy 流量（Total - Direct），true 时显示 Direct 流量
+              final secondUp = isOnlyStatProxy
+                  ? upTotalDirectTrafficValue
+                  : upTotalTrafficValue - upTotalDirectTrafficValue;
+              final secondDown = isOnlyStatProxy
+                  ? downTotalDirectTrafficValue
+                  : downTotalTrafficValue - downTotalDirectTrafficValue;
               return Padding(
                 padding: baseInfoEdgeInsets.copyWith(top: 0),
                 child: Column(
@@ -172,7 +181,7 @@ class TrafficUsage extends StatelessWidget {
                                   }
                                   return Column(
                                     crossAxisAlignment:
-                                    CrossAxisAlignment.start,
+                                        CrossAxisAlignment.start,
                                     children: [
                                       Row(
                                         mainAxisSize: MainAxisSize.min,
@@ -184,7 +193,7 @@ class TrafficUsage extends StatelessWidget {
                                               color: primaryColor,
                                               shape: RoundedSuperellipseBorder(
                                                 borderRadius:
-                                                BorderRadius.circular(3),
+                                                    BorderRadius.circular(3),
                                               ),
                                             ),
                                           ),
@@ -208,7 +217,7 @@ class TrafficUsage extends StatelessWidget {
                                               color: secondaryColor,
                                               shape: RoundedSuperellipseBorder(
                                                 borderRadius:
-                                                BorderRadius.circular(3),
+                                                    BorderRadius.circular(3),
                                               ),
                                             ),
                                           ),
@@ -232,186 +241,186 @@ class TrafficUsage extends StatelessWidget {
                     ),
                     view == ViewMode.desktop
                         ? Column(
-                      children: [
-                        Row(
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            isOnlyStatProxy
-                                ? Text(
-                              'Proxy:',
-                              style: context.textTheme.bodyMedium,
-                            )
-                                : Text(
-                              'Total:',
-                              style: context.textTheme.bodyMedium,
-                            ),
-                            const SizedBox(width: 3),
-                            Flexible(
-                              child: _buildTrafficDataItem(
-                                context,
-                                Icon(
-                                  Icons.arrow_upward,
-                                  color: primaryColor,
-                                  size: 14,
-                                ),
-                                upTotalTrafficValue,
-                                view,
+                            children: [
+                              Row(
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: [
+                                  isOnlyStatProxy
+                                      ? Text(
+                                          'Proxy:',
+                                          style: context.textTheme.bodyMedium,
+                                        )
+                                      : Text(
+                                          'Total:',
+                                          style: context.textTheme.bodyMedium,
+                                        ),
+                                  const SizedBox(width: 3),
+                                  Flexible(
+                                    child: _buildTrafficDataItem(
+                                      context,
+                                      Icon(
+                                        Icons.arrow_upward,
+                                        color: primaryColor,
+                                        size: 14,
+                                      ),
+                                      upTotalTrafficValue,
+                                      view,
+                                    ),
+                                  ),
+                                  Flexible(
+                                    child: _buildTrafficDataItem(
+                                      context,
+                                      Icon(
+                                        Icons.arrow_downward,
+                                        color: secondaryColor,
+                                        size: 14,
+                                      ),
+                                      downTotalTrafficValue,
+                                      view,
+                                    ),
+                                  ),
+                                ],
                               ),
-                            ),
-                            Flexible(
-                              child: _buildTrafficDataItem(
-                                context,
-                                Icon(
-                                  Icons.arrow_downward,
-                                  color: secondaryColor,
-                                  size: 14,
-                                ),
-                                downTotalTrafficValue,
-                                view,
+                              const SizedBox(height: 2),
+                              Row(
+                                children: [
+                                  Text(
+                                    isOnlyStatProxy ? 'Direct:' : 'Proxy:',
+                                    style: context.textTheme.bodyMedium,
+                                  ),
+                                  const SizedBox(width: 1),
+                                  Flexible(
+                                    child: _buildTrafficDataItem(
+                                      context,
+                                      Icon(
+                                        Icons.arrow_upward,
+                                        color: primaryColor,
+                                        size: 14,
+                                      ),
+                                      secondUp,
+                                      view,
+                                    ),
+                                  ),
+                                  Flexible(
+                                    child: _buildTrafficDataItem(
+                                      context,
+                                      Icon(
+                                        Icons.arrow_downward,
+                                        color: secondaryColor,
+                                        size: 14,
+                                      ),
+                                      secondDown,
+                                      view,
+                                    ),
+                                  ),
+                                ],
                               ),
-                            ),
-                          ],
-                        ),
-                        const SizedBox(height: 2),
-                        Row(
-                          children: [
-                            Text(
-                              'Direct:',
-                              style: context.textTheme.bodyMedium,
-                            ),
-                            const SizedBox(width: 1),
-                            Flexible(
-                              child: _buildTrafficDataItem(
-                                context,
-                                Icon(
-                                  Icons.arrow_upward,
-                                  color: primaryColor,
-                                  size: 14,
-                                ),
-                                upTotalDirectTrafficValue,
-                                view,
-                              ),
-                            ),
-                            Flexible(
-                              child: _buildTrafficDataItem(
-                                context,
-                                Icon(
-                                  Icons.arrow_downward,
-                                  color: secondaryColor,
-                                  size: 14,
-                                ),
-                                downTotalDirectTrafficValue,
-                                view,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ],
-                    )
+                            ],
+                          )
                         : Column(
-                      children: [
-                        Row(
-                          children: [
-                            isOnlyStatProxy
-                                ? Text(
-                              'P',
-                              style: context.textTheme.bodySmall
-                                  ?.copyWith(
-                                fontFamily: 'monospace',
-                                fontSize:
-                                (context
-                                    .textTheme
-                                    .bodySmall
-                                    ?.fontSize ??
-                                    12) -
-                                    2.2,
+                            children: [
+                              Row(
+                                children: [
+                                  isOnlyStatProxy
+                                      ? Text(
+                                          'P',
+                                          style: context.textTheme.bodySmall
+                                              ?.copyWith(
+                                                fontFamily: 'monospace',
+                                                fontSize:
+                                                    (context
+                                                            .textTheme
+                                                            .bodySmall
+                                                            ?.fontSize ??
+                                                        12) -
+                                                    2.2,
+                                              ),
+                                        )
+                                      : Text(
+                                          'T',
+                                          style: context.textTheme.bodySmall
+                                              ?.copyWith(
+                                                fontFamily: 'monospace',
+                                                fontSize:
+                                                    (context
+                                                            .textTheme
+                                                            .bodySmall
+                                                            ?.fontSize ??
+                                                        12) -
+                                                    2.2,
+                                              ),
+                                        ),
+                                  Flexible(
+                                    child: _buildTrafficDataItem(
+                                      context,
+                                      Icon(
+                                        Icons.arrow_upward,
+                                        color: primaryColor,
+                                        size: 13,
+                                      ),
+                                      upTotalTrafficValue,
+                                      view,
+                                    ),
+                                  ),
+                                  Flexible(
+                                    child: _buildTrafficDataItem(
+                                      context,
+                                      Icon(
+                                        Icons.arrow_downward,
+                                        color: secondaryColor,
+                                        size: 13,
+                                      ),
+                                      downTotalTrafficValue,
+                                      view,
+                                    ),
+                                  ),
+                                ],
                               ),
-                            )
-                                : Text(
-                              'T',
-                              style: context.textTheme.bodySmall
-                                  ?.copyWith(
-                                fontFamily: 'monospace',
-                                fontSize:
-                                (context
-                                    .textTheme
-                                    .bodySmall
-                                    ?.fontSize ??
-                                    12) -
-                                    2.2,
+                              const SizedBox(height: 2),
+                              Row(
+                                children: [
+                                  Text(
+                                    isOnlyStatProxy ? 'D' : 'P',
+                                    style: context.textTheme.bodySmall
+                                        ?.copyWith(
+                                          fontFamily: 'monospace',
+                                          fontSize:
+                                              (context
+                                                      .textTheme
+                                                      .bodySmall
+                                                      ?.fontSize ??
+                                                  12) -
+                                              2.2,
+                                        ),
+                                  ),
+                                  Flexible(
+                                    child: _buildTrafficDataItem(
+                                      context,
+                                      Icon(
+                                        Icons.arrow_upward,
+                                        color: primaryColor,
+                                        size: 13,
+                                      ),
+                                      secondUp,
+                                      view,
+                                    ),
+                                  ),
+                                  Flexible(
+                                    child: _buildTrafficDataItem(
+                                      context,
+                                      Icon(
+                                        Icons.arrow_downward,
+                                        color: secondaryColor,
+                                        size: 13,
+                                      ),
+                                      secondDown,
+                                      view,
+                                    ),
+                                  ),
+                                ],
                               ),
-                            ),
-                            Flexible(
-                              child: _buildTrafficDataItem(
-                                context,
-                                Icon(
-                                  Icons.arrow_upward,
-                                  color: primaryColor,
-                                  size: 13,
-                                ),
-                                upTotalTrafficValue,
-                                view,
-                              ),
-                            ),
-                            Flexible(
-                              child: _buildTrafficDataItem(
-                                context,
-                                Icon(
-                                  Icons.arrow_downward,
-                                  color: secondaryColor,
-                                  size: 13,
-                                ),
-                                downTotalTrafficValue,
-                                view,
-                              ),
-                            ),
-                          ],
-                        ),
-                        const SizedBox(height: 2),
-                        Row(
-                          children: [
-                            Text(
-                              'D',
-                              style: context.textTheme.bodySmall
-                                  ?.copyWith(
-                                fontFamily: 'monospace',
-                                fontSize:
-                                (context
-                                    .textTheme
-                                    .bodySmall
-                                    ?.fontSize ??
-                                    12) -
-                                    2.2,
-                              ),
-                            ),
-                            Flexible(
-                              child: _buildTrafficDataItem(
-                                context,
-                                Icon(
-                                  Icons.arrow_upward,
-                                  color: primaryColor,
-                                  size: 13,
-                                ),
-                                upTotalDirectTrafficValue,
-                                view,
-                              ),
-                            ),
-                            Flexible(
-                              child: _buildTrafficDataItem(
-                                context,
-                                Icon(
-                                  Icons.arrow_downward,
-                                  color: secondaryColor,
-                                  size: 13,
-                                ),
-                                downTotalDirectTrafficValue,
-                                view,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ],
-                    ),
+                            ],
+                          ),
                   ],
                 ),
               );

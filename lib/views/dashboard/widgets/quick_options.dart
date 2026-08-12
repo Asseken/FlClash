@@ -98,6 +98,16 @@ class _TUNButtonState extends ConsumerState<TUNButton> {
             mainAxisSize: MainAxisSize.max,
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
+              TooltipText(
+                text: Text(
+                  appLocalizations.options,
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                  style: Theme.of(
+                    context,
+                  ).textTheme.titleSmall?.adjustSize(-2).toLight,
+                ),
+              ),
               if (system.isWindows)
                 Flexible(
                   flex: 1,
@@ -105,16 +115,6 @@ class _TUNButtonState extends ConsumerState<TUNButton> {
                     mainAxisAlignment: MainAxisAlignment.start,
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
-                      TooltipText(
-                        text: Text(
-                          appLocalizations.options,
-                          maxLines: 1,
-                          overflow: TextOverflow.ellipsis,
-                          style: Theme.of(
-                            context,
-                          ).textTheme.titleSmall?.adjustSize(-2).toLight,
-                        ),
-                      ),
                       const SizedBox(width: 4),
                       Tooltip(
                         message:

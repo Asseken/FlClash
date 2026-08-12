@@ -38,11 +38,20 @@ fun Core.getSpeedTrafficText(onlyStatisticsProxy: Boolean): String {
     }
 }
 
-fun Core.getSpeedDirectTrafficText(): String {
+fun Core.getSpeedDirectTrafficText(onlyStatisticsProxy: Boolean): String {
     try {
-        val res = getDirectTraffic()
-        val Directtraffic = gson.fromJson(res, DirectTraffic::class.java)
-        return Directtraffic.speedText
+        // onlyStatisticsProxy=true → Direct 直连流量；false → Proxy 代理流量
+        val res = if (onlyStatisticsProxy) {
+            getDirectTraffic()
+        } else {
+            getTraffic(true)
+        }
+        val traffic = gson.fromJson(res, DirectTraffic::class.java)
+        return if (onlyStatisticsProxy) {
+            traffic.speedText
+        } else {
+            "Proxy: ${traffic.up.formatBytes}/s↑  ${traffic.down.formatBytes}/s↓"
+        }
     } catch (e: Throwable) {
         GlobalState.log(e.message + "")
         return ""

@@ -129,6 +129,13 @@ class DesktopCoreUpdate {
         retryDelay: const Duration(milliseconds: 500),
       );
 
+      // On macOS / Linux the copied file may lack the executable bit because the
+      // download temp file has default umask permissions (644).  Process.start()
+      // requires +x, so set it explicitly.  Windows ignores this (no-op).
+      // We set the target even on the first successful attempt so that the
+      // recovered backup (below) also gets +x if needed.
+      await _ensureExecutable(coreExePath);
+
       // 清理临时文件
       await Future.delayed(const Duration(milliseconds: 200));
       try {
@@ -181,6 +188,7 @@ class DesktopCoreUpdate {
         final bakFile = File(bakPath);
         if (await bakFile.exists()) {
           await bakFile.copy(coreExePath);
+          await _ensureExecutable(coreExePath);
           commonPrint.log(
             'Core update failed, restored backup: $e',
             logLevel: LogLevel.warning,
@@ -247,6 +255,28 @@ class DesktopCoreUpdate {
           logLevel: LogLevel.debug,
         );
         await Future.delayed(retryDelay);
+      }
+    }
+  }
+
+  /// Set the executable permission bits (owner + group + other) on [path].
+  /// No-op on Windows — `Process.start` on Windows uses the file extension,
+  /// not the POSIX executable bit.
+  static Future<void> _ensureExecutable(String path) async {
+    if (!system.isWindows) {
+      try {
+        final result = await Process.run('chmod', ['+x', path]);
+        if (result.exitCode != 0) {
+          commonPrint.log(
+            'chmod +x failed (exit ${result.exitCode}): ${result.stderr}',
+            logLevel: LogLevel.warning,
+          );
+        }
+      } catch (e) {
+        commonPrint.log(
+          'chmod +x failed: $e',
+          logLevel: LogLevel.warning,
+        );
       }
     }
   }

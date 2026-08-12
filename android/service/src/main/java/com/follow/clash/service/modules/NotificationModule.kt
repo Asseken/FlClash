@@ -42,7 +42,7 @@ data class ExtendedNotificationParams(
 
 val NotificationParams.extended: ExtendedNotificationParams
     get() = ExtendedNotificationParams(
-        title, stopText, onlyStatisticsProxy, Core.getSpeedTrafficText(onlyStatisticsProxy),Core.getSpeedDirectTrafficText()
+        title, stopText, onlyStatisticsProxy, Core.getSpeedTrafficText(onlyStatisticsProxy),Core.getSpeedDirectTrafficText(onlyStatisticsProxy)
     )
 
 class NotificationModule(private val service: Service) : Module() {

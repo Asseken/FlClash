@@ -265,9 +265,7 @@ class CommonScaffoldState extends State<CommonScaffold> {
 
   PreferredSizeWidget _buildAppBar(VoidCallback? backAction) {
     return PreferredSize(
-      preferredSize: system.isMacOS
-          ? const Size.fromHeight(kToolbarHeight)
-          : const Size.fromHeight(kToolbarHeight - 20),
+      preferredSize: const Size.fromHeight(kToolbarHeight - 20),
       child: Stack(
         alignment: Alignment.bottomCenter,
         children: [

@@ -11,6 +11,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
+import 'package:window_manager/window_manager.dart';
 
 class AppStateManager extends ConsumerStatefulWidget {
   final Widget child;
@@ -140,7 +141,8 @@ class AppEnvManager extends StatelessWidget {
 
 class AppSidebarContainer extends ConsumerWidget {
   final Widget child;
-
+  // static：跨 build 保留置顶状态，且构造器可恢复 const
+  static final isPinNotifier = ValueNotifier<bool>(false);
   const AppSidebarContainer({super.key, required this.child});
 
   void _updateSideBarWidth(WidgetRef ref, double contentWidth) {
@@ -155,6 +157,16 @@ class AppSidebarContainer extends ConsumerWidget {
     globalState.container
         .read(currentPageLabelProvider.notifier)
         .toPage(pageLabel);
+  }
+
+  Future<void> _updatePin() async {
+    try {
+      final isAlwaysOnTop = await windowManager.isAlwaysOnTop();
+      await windowManager.setAlwaysOnTop(!isAlwaysOnTop);
+      isPinNotifier.value = await windowManager.isAlwaysOnTop();
+    } catch (e) {
+      commonPrint.log('updatePin failed: $e', logLevel: LogLevel.warning);
+    }
   }
 
   List<NavigationPaneItem> _buildPaneItems(
@@ -234,7 +246,36 @@ class AppSidebarContainer extends ConsumerWidget {
         ),
       ),
       child: NavigationView(
-        titleBar: const SizedBox.shrink(),
+        titleBar: system.isMacOS
+            ? SizedBox(
+                height: 26,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisSize: MainAxisSize.max,
+                  children: [
+                    IconButton(
+                      visualDensity: VisualDensity.compact,
+                      padding: EdgeInsets.zero,
+                      constraints: const BoxConstraints(),
+                      iconSize: 22,
+                      onPressed: () async {
+                        _updatePin();
+                      },
+                      icon: ValueListenableBuilder(
+                        valueListenable: isPinNotifier,
+                        builder: (_, value, _) {
+                          return value
+                              ? const Icon(Icons.push_pin)
+                              : const Icon(Icons.push_pin_outlined);
+                        },
+                      ),
+                    ),
+                    const SizedBox(width: 16),
+                  ],
+                ),
+              )
+            : const SizedBox.shrink(),
         contentShape: const RoundedRectangleBorder(),
         pane: NavigationPane(
           displayMode: showLabel

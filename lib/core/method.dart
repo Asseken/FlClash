@@ -15,6 +15,8 @@ enum CoreMethod {
   changeProxy,
   getTraffic,
   getTotalTraffic,
+  getDirectTraffic,
+  getDirectTotalTraffic,
   resetTraffic,
   asyncTestDelay,
   getConnections,
@@ -36,6 +38,7 @@ enum CoreMethod {
   setupConfig,
   clearEffect,
   updateDns,
+  getCoreVersion,
 }
 
 class CoreMethodCall {

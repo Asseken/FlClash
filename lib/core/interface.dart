@@ -15,6 +15,8 @@ mixin CoreInterface {
 
   Future<CoreLifecycleResult> close();
 
+  Future<Map<String, dynamic>> getCoreVersion();
+
   Future<bool> init(InitParams params);
 
   Future<bool> get isInit;
@@ -55,6 +57,10 @@ mixin CoreInterface {
   FutureOr<Traffic> getTraffic(bool onlyStatisticsProxy);
 
   FutureOr<Traffic> getTotalTraffic(bool onlyStatisticsProxy);
+
+  FutureOr<Traffic> getDirectTotalTraffic();
+
+  FutureOr<Traffic> getDirectTraffic();
 
   FutureOr<String> getCountryCode(String ip);
 
@@ -308,12 +314,36 @@ abstract class CoreHandlerInterface with CoreInterface {
   }
 
   @override
+  Future<Traffic> getDirectTotalTraffic() async {
+    final data = await _invokeMethod<Map<String, dynamic>>(
+      method: CoreMethod.getDirectTotalTraffic,
+    );
+    return data == null ? const Traffic() : Traffic.fromJson(data);
+  }
+
+  @override
+  Future<Traffic> getDirectTraffic() async {
+    final data = await _invokeMethod<Map<String, dynamic>>(
+      method: CoreMethod.getDirectTraffic,
+    );
+    return data == null ? const Traffic() : Traffic.fromJson(data);
+  }
+
+  @override
   Future<String> clearEffect(int profileId) async {
     return await _invokeMethod<String>(
           method: CoreMethod.clearEffect,
           arguments: profileId,
         ) ??
         '';
+  }
+
+  @override
+  Future<Map<String, dynamic>> getCoreVersion() async {
+    final res = await _invokeMethod<Map<String, dynamic>>(
+      method: CoreMethod.getCoreVersion,
+    );
+    return res ?? {};
   }
 
   @override

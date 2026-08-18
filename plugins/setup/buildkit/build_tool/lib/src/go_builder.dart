@@ -13,6 +13,18 @@ import 'options.dart';
 import 'target.dart';
 import 'util.dart';
 
+DateTime nowBuildTime = DateTime.now();
+const String coreVersion =
+    'github.com/metacubex/mihomo/constant.Version=v1.19.29';
+final String coreBuildTime =
+    'github.com/metacubex/mihomo/constant.BuildTime=${nowBuildTime.year}-${nowBuildTime.month}-${nowBuildTime.day}:${nowBuildTime.hour}';
+
+String _16KBResolveGoLdflags(Target target, BuildConfig config) {
+  if (target.goos != 'android' || !target.isLib) {
+    return config.goLdflags;
+  }
+  return '${config.goLdflags} -extldflags -Wl,-z,max-page-size=16384,-z,common-page-size=16384';
+}
 final _log = Logger('go_builder');
 
 String _resolveCc(Target target) {
@@ -130,7 +142,7 @@ class GoBuilder {
 
   List<String> _buildArguments(Target target, {String? outFile}) => [
         'build',
-        '-ldflags=${config.goLdflags}',
+        '-ldflags=${_16KBResolveGoLdflags(target, config)} -X ${coreVersion} -X ${coreBuildTime}',
         '-tags=${config.tags}',
         if (target.isLib) '-buildmode=c-shared',
         if (outFile != null) ...['-o', outFile],

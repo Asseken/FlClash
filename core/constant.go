@@ -90,6 +90,8 @@ const (
 	changeProxyMethod              CoreMethod = "changeProxy"
 	getTrafficMethod               CoreMethod = "getTraffic"
 	getTotalTrafficMethod          CoreMethod = "getTotalTraffic"
+	getDirectTrafficMethod         CoreMethod = "getDirectTraffic"
+    getDirectTotalTrafficMethod    CoreMethod = "getDirectTotalTraffic"
 	resetTrafficMethod             CoreMethod = "resetTraffic"
 	asyncTestDelayMethod           CoreMethod = "asyncTestDelay"
 	getConnectionsMethod           CoreMethod = "getConnections"
@@ -112,6 +114,7 @@ const (
 	setupConfigMethod              CoreMethod = "setupConfig"
 	getConfigMethod                CoreMethod = "getConfig"
 	clearEffectMethod              CoreMethod = "clearEffect"
+	getVersionMethod               CoreMethod = "getCoreVersion"
 )
 
 type CoreMethod string

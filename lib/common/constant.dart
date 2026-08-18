@@ -64,7 +64,7 @@ const GEOIP = 'GEOIP.dat';
 const GEOSITE = 'GEOSITE.dat';
 final double kHeaderHeight = system.isDesktop
     ? !system.isMacOS
-          ? 40
+          ? 30
           : 28
     : 0;
 const profilesDirectoryName = 'profiles';
@@ -72,7 +72,7 @@ const localhost = '127.0.0.1';
 const clashConfigKey = 'clash_config';
 const configKey = 'config';
 const double dialogCommonWidth = 300;
-const repository = 'chen08209/FlClash';
+const repository = 'Asseken/FlClash';
 const defaultExternalController = '127.0.0.1:9090';
 const maxMobileWidth = 600;
 const maxLaptopWidth = 840;

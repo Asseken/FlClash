@@ -154,6 +154,15 @@ func handleMethodCall(call *MethodCall, response MethodResponse) {
 		}
 		response.success(handleGetTotalTraffic(onlyStatisticsProxy))
 		return
+	case getDirectTrafficMethod:
+        response.success(handleGetDirectTraffic())
+    	return
+    case getDirectTotalTrafficMethod:
+        response.success(handleGetDirectTotalTraffic())
+    	return
+	case getVersionMethod:
+        response.success(handleGetVersion())
+        return
 	case resetTrafficMethod:
 		handleResetTraffic()
 		response.success(true)

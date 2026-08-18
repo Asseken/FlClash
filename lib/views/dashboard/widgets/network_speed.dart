@@ -2,6 +2,7 @@ import 'package:fl_clash/common/common.dart';
 import 'package:fl_clash/models/models.dart';
 import 'package:fl_clash/providers/app.dart';
 import 'package:fl_clash/widgets/widgets.dart';
+import 'package:fluent_ui/fluent_ui.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -13,22 +14,30 @@ class NetworkSpeed extends StatefulWidget {
 }
 
 class _NetworkSpeedState extends State<NetworkSpeed> {
-  List<Point> initPoints = const [Point(0, 0), Point(1, 0)];
+  final List<Point> initPoints = const [Point(0, 0), Point(1, 0)];
 
-  List<Point> _getPoints(List<Traffic> traffics) {
-    final List<Point> trafficPoints = traffics
-        .toList()
-        .asMap()
-        .map(
-          (index, e) => MapEntry(
-            index,
-            Point((index + initPoints.length).toDouble(), e.speed.toDouble()),
-          ),
-        )
-        .values
-        .toList();
+  List<LineSeries> _getSeries(List<Traffic> traffics) {
+    final List<Point> upPoints = [];
+    final List<Point> downPoints = [];
 
-    return [...initPoints, ...trafficPoints];
+    traffics.toList().asMap().forEach((index, e) {
+      final x = (index + initPoints.length).toDouble();
+      upPoints.add(Point(x, e.up.toDouble()));
+      downPoints.add(Point(x, e.down.toDouble()));
+    });
+
+    return [
+      LineSeries(
+        points: [...initPoints, ...upPoints],
+        color: Theme.of(context).colorScheme.tertiary,
+        gradient: true,
+      ),
+      LineSeries(
+        points: [...initPoints, ...downPoints],
+        color: Theme.of(context).colorScheme.primary,
+        gradient: true,
+      ),
+    ];
   }
 
   Traffic _getLastTraffic(List<Traffic> traffics) {
@@ -60,7 +69,7 @@ class _NetworkSpeedState extends State<NetworkSpeed> {
                             padding: EdgeInsets.zero,
                             info: Info(
                               label: appLocalizations.networkSpeed,
-                              iconData: Icons.speed_sharp,
+                              iconData: WindowsIcons.speed_high,
                             ),
                           ),
                         ),
@@ -79,11 +88,7 @@ class _NetworkSpeedState extends State<NetworkSpeed> {
                       padding: const EdgeInsets.all(
                         16,
                       ).copyWith(bottom: 0, left: 0, right: 0),
-                      child: LineChart(
-                        gradient: true,
-                        color: Theme.of(context).colorScheme.primary,
-                        points: _getPoints(traffics),
-                      ),
+                      child: LineChart(series: _getSeries(traffics)),
                     ),
                   ),
                 ],

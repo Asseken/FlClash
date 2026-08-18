@@ -185,6 +185,22 @@ func handleGetTotalTraffic(onlyStatisticsProxy bool) Traffic {
 	}
 }
 
+func handleGetDirectTraffic() Traffic {
+	up, down := statistic.DefaultManager.NowDirectTraffic()
+	return Traffic{
+    		Up:   up,
+    		Down: down,
+    	}
+}
+
+func handleGetDirectTotalTraffic() Traffic {
+	up, down := statistic.DefaultManager.TotalDirectTraffic()
+	return Traffic{
+    		Up:   up,
+    		Down: down,
+    	}
+}
+
 func handleResetTraffic() {
 	statistic.DefaultManager.ResetStatistic()
 }
@@ -467,7 +483,21 @@ func handleClearEffect(profileId int64, response MethodResponse) {
 		response.success("")
 	}()
 }
+func handleGetVersion() map[string]interface{} {
+	runLock.Lock() //锁住，防止版本号在获取过程中被修改
+	clientVersion := version //可能在初始化之前被调用，导致版本号为0，所以放在锁内获取版本号，确保版本号的正确性
+	runLock.Unlock() //解锁，允许其他操作继续进行
 
+	return map[string]interface{}{
+		"client-version": clientVersion,//客户端版本
+		"Miho-name":      constant.MihomoName,//mihomo名称
+		"core-version":   constant.Version,//核心版本
+		"build-time":     constant.BuildTime,//构建时间
+		"go-version":     runtime.Version(),//运行时Go版本
+		"go-os":          runtime.GOOS, //运行时操作系统
+		"go-arch":        runtime.GOARCH,//运行时架构
+	}
+}
 func handleSetupConfig(params *SetupParams) string {
 	if !isInit.Load() {
 		return "not initialized"

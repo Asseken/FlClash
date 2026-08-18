@@ -75,6 +75,7 @@ class MessageLookup extends MessageLookupByLibrary {
 
   final messages = _notInlinedMessages(_notInlinedMessages);
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
+    "RunOs": MessageLookupByLibrary.simpleMessage("系统架构"),
     "about": MessageLookupByLibrary.simpleMessage("关于"),
     "accessControl": MessageLookupByLibrary.simpleMessage("访问控制"),
     "accessControlAllowDesc": MessageLookupByLibrary.simpleMessage(
@@ -188,7 +189,13 @@ class MessageLookup extends MessageLookupByLibrary {
     "copyLink": MessageLookupByLibrary.simpleMessage("复制链接"),
     "copySuccess": MessageLookupByLibrary.simpleMessage("复制成功"),
     "core": MessageLookupByLibrary.simpleMessage("内核"),
+    "coreBuild": MessageLookupByLibrary.simpleMessage("构建时间"),
+    "coreName": MessageLookupByLibrary.simpleMessage("内核代号"),
+    "coreRestart": MessageLookupByLibrary.simpleMessage("重启"),
+    "coreStart": MessageLookupByLibrary.simpleMessage("启动"),
     "coreStatus": MessageLookupByLibrary.simpleMessage("核心状态"),
+    "coreStop": MessageLookupByLibrary.simpleMessage("关闭"),
+    "coreVersion": MessageLookupByLibrary.simpleMessage("内核版本"),
     "country": MessageLookupByLibrary.simpleMessage("区域"),
     "crashDetected": MessageLookupByLibrary.simpleMessage("检测到崩溃"),
     "crashDetectedTip": MessageLookupByLibrary.simpleMessage(

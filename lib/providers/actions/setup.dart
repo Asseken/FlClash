@@ -136,6 +136,9 @@ class SetupAction extends _$SetupAction {
     resetCoreTraffic();
     ref.read(trafficsProvider.notifier).clear();
     ref.read(totalTrafficProvider.notifier).value = const Traffic();
+    ref.read(directTrafficProvider.notifier).clear();
+    ref.read(totalDirectTrafficProviderProvider.notifier).value =
+        const Traffic();
     ref.read(checkIpNumProvider.notifier).add();
   }
 

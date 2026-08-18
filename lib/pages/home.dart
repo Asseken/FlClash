@@ -41,6 +41,8 @@ class HomePage extends ConsumerWidget {
               final bottomNavigationBar = NavigationBarTheme(
                 data: _NavigationBarDefaultsM3(context),
                 child: NavigationBar(
+                  height: kBottomNavigationBarHeight,
+                  elevation: 0,
                   destinations: navigationItems
                       .map(
                         (e) => NavigationDestination(

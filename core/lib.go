@@ -249,6 +249,15 @@ func getTotalTraffic(onlyStatisticsProxy bool) *C.char {
 func getTraffic(onlyStatisticsProxy bool) *C.char {
 	return C.CString(marshalResult(handleGetTraffic(onlyStatisticsProxy)))
 }
+//export getDirectTotalTraffic
+func getDirectTotalTraffic() *C.char {
+	return C.CString(marshalResult(handleGetDirectTotalTraffic()))
+}
+
+//export getDirectTraffic
+func getDirectTraffic() *C.char {
+	return C.CString(marshalResult(handleGetDirectTraffic()))
+}
 
 func marshalResult(value any) string {
 	data, err := json.Marshal(value)

@@ -43,6 +43,8 @@ class CoreController {
 
   Future<CoreLifecycleResult> close() => _interface.close();
 
+  Future<Map<String, dynamic>> getCoreVersion() => _interface.getCoreVersion();
+
   static Future<void> initGeo() async {
     final homePath = await appPath.homeDirPath;
     final homeDir = Directory(homePath);
@@ -213,6 +215,14 @@ class CoreController {
 
   Future<Traffic> getTotalTraffic(bool onlyStatisticsProxy) async {
     return _interface.getTotalTraffic(onlyStatisticsProxy);
+  }
+
+  Future<Traffic> getDirectTraffic() async {
+    return await _interface.getDirectTraffic();
+  }
+
+  Future<Traffic> getDirectTotalTraffic() async {
+    return await _interface.getDirectTotalTraffic();
   }
 
   Future<int> getMemory() async {

@@ -67,6 +67,18 @@ Java_com_follow_clash_core_Core_getTotalTraffic(JNIEnv *env, jobject thiz,
 }
 
 extern "C"
+JNIEXPORT jstring JNICALL
+Java_com_follow_clash_core_Core_getDirectTraffic(JNIEnv *env, jobject thiz) {
+    return new_string(getDirectTraffic());
+}
+
+extern "C"
+JNIEXPORT jstring JNICALL
+Java_com_follow_clash_core_Core_getDirectTotalTraffic(JNIEnv *env, jobject thiz) {
+    return new_string(getDirectTotalTraffic());
+}
+
+extern "C"
 JNIEXPORT void JNICALL
 Java_com_follow_clash_core_Core_suspended(JNIEnv *env, jobject thiz, jboolean suspended) {
     suspend(suspended);
@@ -207,6 +219,16 @@ JNIEXPORT jstring JNICALL
 Java_com_follow_clash_core_Core_getTotalTraffic(JNIEnv *env, jobject thiz,
                                                 const jboolean only_statistics_proxy) {
     return env->NewStringUTF("{}");
+}
+
+extern "C"
+JNIEXPORT jstring JNICALL
+        Java_com_follow_clash_core_Core_getDirectTraffic(JNIEnv *env, jobject thiz) {
+}
+
+extern "C"
+JNIEXPORT jstring JNICALL
+        Java_com_follow_clash_core_Core_getDirectTotalTraffic(JNIEnv *env, jobject thiz) {
 }
 
 extern "C"

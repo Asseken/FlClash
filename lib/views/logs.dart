@@ -50,6 +50,12 @@ class _LogsViewState extends ConsumerState<LogsView> {
         },
         icon: const Icon(WindowsIcons.save_local),
       ),
+      IconButton(
+        onPressed: () {
+          _handleClear();
+        },
+        icon: const Icon(WindowsIcons.delete),
+      ),
     ];
   }
 
@@ -80,6 +86,13 @@ class _LogsViewState extends ConsumerState<LogsView> {
       title: appLocalizations.tip,
       message: TextSpan(text: appLocalizations.exportSuccess),
     );
+  }
+
+  Future<void> _handleClear() async {
+    if (_logs.isEmpty) return;
+    ref.read(logsProvider.notifier).clear();
+    _logs = [];
+    _logsStateNotifier.value = _logsStateNotifier.value.copyWith(logs: _logs);
   }
 
   void updateLogsThrottler() {

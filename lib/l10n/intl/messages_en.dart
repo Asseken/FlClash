@@ -501,6 +501,16 @@ class MessageLookup extends MessageLookupByLibrary {
     "inputRuleContent": MessageLookupByLibrary.simpleMessage(
       "Input rule content",
     ),
+    "installService": MessageLookupByLibrary.simpleMessage("Install Service"),
+    "installServiceFailed": MessageLookupByLibrary.simpleMessage(
+      "Helper service installation failed",
+    ),
+    "installServiceSuccess": MessageLookupByLibrary.simpleMessage(
+      "Helper service installed",
+    ),
+    "installServiceTip": MessageLookupByLibrary.simpleMessage(
+      "Installing the Helper service requires administrator privileges. A UAC prompt will appear.",
+    ),
     "intelligentSelected": MessageLookupByLibrary.simpleMessage(
       "Intelligent selection",
     ),
@@ -1046,6 +1056,18 @@ class MessageLookup extends MessageLookupByLibrary {
     "unifiedDelay": MessageLookupByLibrary.simpleMessage("Unified delay"),
     "unifiedDelayDesc": MessageLookupByLibrary.simpleMessage(
       "Remove extra delays such as handshaking",
+    ),
+    "uninstallService": MessageLookupByLibrary.simpleMessage(
+      "Uninstall Service",
+    ),
+    "uninstallServiceFailed": MessageLookupByLibrary.simpleMessage(
+      "Helper service uninstall failed",
+    ),
+    "uninstallServiceSuccess": MessageLookupByLibrary.simpleMessage(
+      "Helper service uninstalled",
+    ),
+    "uninstallServiceTip": MessageLookupByLibrary.simpleMessage(
+      "Uninstalling the Helper service will stop and remove FlClashHelperService. The Core currently managed by the service will also stop.",
     ),
     "unknown": MessageLookupByLibrary.simpleMessage("Unknown"),
     "unknownNetworkError": MessageLookupByLibrary.simpleMessage(

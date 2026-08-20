@@ -58,6 +58,9 @@ class SetupAction extends _$SetupAction {
 
   void _refreshRunningState() {
     _updateRunTime();
+    if (ref.read(coreStatusProvider) != CoreStatus.connected) {
+      return;
+    }
     unawaited(ref.read(commonActionProvider.notifier).updateTraffic());
   }
 

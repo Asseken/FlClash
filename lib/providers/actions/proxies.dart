@@ -20,6 +20,9 @@ class ProxiesAction extends _$ProxiesAction {
   }
 
   Future<void> updateGroups() async {
+    if (ref.read(coreStatusProvider) != CoreStatus.connected) {
+      return;
+    }
     try {
       commonPrint.log('updateGroups');
       ref.read(groupsProvider.notifier).value = await retry(

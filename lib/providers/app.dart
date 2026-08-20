@@ -141,7 +141,8 @@ class DirectTraffic extends _$DirectTraffic with AutoDisposeNotifierMixin {
 }
 
 @Riverpod(keepAlive: true)
-class TotalDirectTrafficProvider extends _$TotalDirectTrafficProvider with AutoDisposeNotifierMixin {
+class TotalDirectTrafficProvider extends _$TotalDirectTrafficProvider
+    with AutoDisposeNotifierMixin {
   @override
   Traffic build() {
     return const Traffic();
@@ -294,6 +295,23 @@ class _CoreStatus extends _$CoreStatus with AutoDisposeNotifierMixin {
   @override
   CoreStatus build() {
     return CoreStatus.disconnected;
+  }
+}
+
+@Riverpod(keepAlive: true)
+class WindowsHelperServiceInstalled extends _$WindowsHelperServiceInstalled
+    with AutoDisposeNotifierMixin {
+  @override
+  bool? build() {
+    return null;
+  }
+
+  Future<void> refresh() async {
+    value = await windows?.isServiceInstalled() ?? false;
+  }
+
+  void set(bool? installed) {
+    value = installed;
   }
 }
 

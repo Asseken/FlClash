@@ -7,6 +7,7 @@ import 'package:fl_clash/models/common.dart';
 import 'package:fl_clash/providers/app.dart';
 import 'package:fl_clash/state.dart';
 import 'package:fl_clash/widgets/widgets.dart';
+import 'package:fluent_ui/fluent_ui.dart' as fluent;
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -45,7 +46,9 @@ void main() {
     );
 
     final tile = tester.widget<ListTile>(find.byType(ListTile));
-    final control = tester.widget<Switch>(find.byType(Switch));
+    final control = tester.widget<fluent.ToggleSwitch>(
+      find.byType(fluent.ToggleSwitch),
+    );
 
     expect(tile.onTap, isNull);
     expect(control.onChanged, isNull);
@@ -322,10 +325,10 @@ void main() {
 
     await tester.tap(find.byType(Checkbox).first);
     await tester.pump();
-    expect(find.byIcon(Icons.delete), findsOneWidget);
+    expect(find.byIcon(fluent.WindowsIcons.delete), findsOneWidget);
     await tester.tap(find.text('Select all'));
     await tester.pump();
-    await tester.tap(find.byIcon(Icons.delete));
+    await tester.tap(find.byIcon(fluent.WindowsIcons.delete));
     await tester.pump();
     expect(find.text('No data'), findsOneWidget);
   });
@@ -372,7 +375,7 @@ void main() {
     await tester.pump();
     await tester.tap(find.text('Select all'));
     await tester.pump();
-    await tester.tap(find.byIcon(Icons.delete));
+    await tester.tap(find.byIcon(fluent.WindowsIcons.delete));
     await tester.pump();
     expect(find.text('No data'), findsOneWidget);
   });
@@ -422,21 +425,25 @@ class _TestApp extends StatelessWidget {
       overrides: [
         viewSizeProvider.overrideWithBuild((_, _) => const Size(1200, 1000)),
       ],
-      child: MaterialApp(
-        navigatorKey: globalState.navigatorKey,
-        localizationsDelegates: const [
-          AppLocalizations.delegate,
-          GlobalMaterialLocalizations.delegate,
-          GlobalCupertinoLocalizations.delegate,
-          GlobalWidgetsLocalizations.delegate,
-        ],
-        supportedLocales: AppLocalizations.delegate.supportedLocales,
-        builder: (context, child) {
-          globalState.measure = Measure.of(context, 1);
-          globalState.theme = CommonTheme.of(context, 1);
-          return child!;
-        },
-        home: child,
+      child: fluent.FluentTheme(
+        data: fluent.FluentThemeData(brightness: Brightness.light),
+        child: MaterialApp(
+          navigatorKey: globalState.navigatorKey,
+          localizationsDelegates: const [
+            AppLocalizations.delegate,
+            fluent.FluentLocalizations.delegate,
+            GlobalMaterialLocalizations.delegate,
+            GlobalCupertinoLocalizations.delegate,
+            GlobalWidgetsLocalizations.delegate,
+          ],
+          supportedLocales: AppLocalizations.delegate.supportedLocales,
+          builder: (context, child) {
+            globalState.measure = Measure.of(context, 1);
+            globalState.theme = CommonTheme.of(context, 1);
+            return child!;
+          },
+          home: child,
+        ),
       ),
     );
   }

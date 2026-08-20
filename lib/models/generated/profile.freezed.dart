@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // coverage:ignore-file
-// ignore_for_file: type=lint, type=warning, deprecated_member_use, deprecated_member_use_from_same_package
+// ignore_for_file: type=lint
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
 part of '../profile.dart';
@@ -9,7 +9,6 @@ part of '../profile.dart';
 // FreezedGenerator
 // **************************************************************************
 
-// GENERATED CODE - DO NOT MODIFY BY HAND
 // dart format off
 T _$identity<T>(T value) => value;
 
@@ -67,7 +66,7 @@ class _$SubscriptionInfoCopyWithImpl<$Res>
 /// Create a copy of SubscriptionInfo
 /// with the given fields replaced by the non-null parameter values.
 @pragma('vm:prefer-inline') @override $Res call({Object? upload = null,Object? download = null,Object? total = null,Object? expire = null,}) {
-  return _then(SubscriptionInfo(
+  return _then(_self.copyWith(
 upload: null == upload ? _self.upload : upload // ignore: cast_nullable_to_non_nullable
 as int,download: null == download ? _self.download : download // ignore: cast_nullable_to_non_nullable
 as int,total: null == total ? _self.total : total // ignore: cast_nullable_to_non_nullable
@@ -339,7 +338,7 @@ class _$ProfileCopyWithImpl<$Res>
 /// Create a copy of Profile
 /// with the given fields replaced by the non-null parameter values.
 @pragma('vm:prefer-inline') @override $Res call({Object? id = null,Object? label = null,Object? currentGroupName = freezed,Object? url = null,Object? lastUpdateDate = freezed,Object? autoUpdateDuration = null,Object? subscriptionInfo = freezed,Object? autoUpdate = null,Object? selectedMap = null,Object? unfoldSet = null,Object? overwriteType = null,Object? scriptId = freezed,Object? order = freezed,}) {
-  return _then(Profile(
+  return _then(_self.copyWith(
 id: null == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
 as int,label: null == label ? _self.label : label // ignore: cast_nullable_to_non_nullable
 as String,currentGroupName: freezed == currentGroupName ? _self.currentGroupName : currentGroupName // ignore: cast_nullable_to_non_nullable
@@ -506,7 +505,7 @@ return $default(_that.id,_that.label,_that.currentGroupName,_that.url,_that.last
 @JsonSerializable()
 
 class _Profile implements Profile {
-  const _Profile({required this.id, this.label = '', this.currentGroupName, this.url = '', this.lastUpdateDate, required this.autoUpdateDuration, this.subscriptionInfo, this.autoUpdate = true,  Map<String, String> selectedMap = const {},  Set<String> unfoldSet = const {}, this.overwriteType = OverwriteType.standard, this.scriptId, this.order}): _selectedMap = selectedMap,_unfoldSet = unfoldSet;
+  const _Profile({required this.id, this.label = '', this.currentGroupName, this.url = '', this.lastUpdateDate, required this.autoUpdateDuration, this.subscriptionInfo, this.autoUpdate = true, final  Map<String, String> selectedMap = const {}, final  Set<String> unfoldSet = const {}, this.overwriteType = OverwriteType.standard, this.scriptId, this.order}): _selectedMap = selectedMap,_unfoldSet = unfoldSet;
   factory _Profile.fromJson(Map<String, dynamic> json) => _$ProfileFromJson(json);
 
 @override final  int id;
@@ -671,7 +670,7 @@ class _$ProfileRuleLinkCopyWithImpl<$Res>
 /// Create a copy of ProfileRuleLink
 /// with the given fields replaced by the non-null parameter values.
 @pragma('vm:prefer-inline') @override $Res call({Object? profileId = freezed,Object? ruleId = null,Object? scene = freezed,Object? order = freezed,}) {
-  return _then(ProfileRuleLink(
+  return _then(_self.copyWith(
 profileId: freezed == profileId ? _self.profileId : profileId // ignore: cast_nullable_to_non_nullable
 as int?,ruleId: null == ruleId ? _self.ruleId : ruleId // ignore: cast_nullable_to_non_nullable
 as int,scene: freezed == scene ? _self.scene : scene // ignore: cast_nullable_to_non_nullable
@@ -940,7 +939,7 @@ class _$StandardOverwriteCopyWithImpl<$Res>
 /// Create a copy of StandardOverwrite
 /// with the given fields replaced by the non-null parameter values.
 @pragma('vm:prefer-inline') @override $Res call({Object? addedRules = null,Object? disabledRuleIds = null,}) {
-  return _then(StandardOverwrite(
+  return _then(_self.copyWith(
 addedRules: null == addedRules ? _self.addedRules : addedRules // ignore: cast_nullable_to_non_nullable
 as List<Rule>,disabledRuleIds: null == disabledRuleIds ? _self.disabledRuleIds : disabledRuleIds // ignore: cast_nullable_to_non_nullable
 as List<int>,
@@ -1084,7 +1083,7 @@ return $default(_that.addedRules,_that.disabledRuleIds);case _:
 @JsonSerializable()
 
 class _StandardOverwrite implements StandardOverwrite {
-  const _StandardOverwrite({ List<Rule> addedRules = const [],  List<int> disabledRuleIds = const []}): _addedRules = addedRules,_disabledRuleIds = disabledRuleIds;
+  const _StandardOverwrite({final  List<Rule> addedRules = const [], final  List<int> disabledRuleIds = const []}): _addedRules = addedRules,_disabledRuleIds = disabledRuleIds;
   factory _StandardOverwrite.fromJson(Map<String, dynamic> json) => _$StandardOverwriteFromJson(json);
 
  final  List<Rule> _addedRules;
@@ -1218,7 +1217,7 @@ class _$ScriptOverwriteCopyWithImpl<$Res>
 /// Create a copy of ScriptOverwrite
 /// with the given fields replaced by the non-null parameter values.
 @pragma('vm:prefer-inline') @override $Res call({Object? scriptId = freezed,}) {
-  return _then(ScriptOverwrite(
+  return _then(_self.copyWith(
 scriptId: freezed == scriptId ? _self.scriptId : scriptId // ignore: cast_nullable_to_non_nullable
 as int?,
   ));

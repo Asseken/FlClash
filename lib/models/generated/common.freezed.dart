@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // coverage:ignore-file
-// ignore_for_file: type=lint, type=warning, deprecated_member_use, deprecated_member_use_from_same_package
+// ignore_for_file: type=lint
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
 part of '../common.dart';
@@ -9,7 +9,6 @@ part of '../common.dart';
 // FreezedGenerator
 // **************************************************************************
 
-// GENERATED CODE - DO NOT MODIFY BY HAND
 // dart format off
 T _$identity<T>(T value) => value;
 /// @nodoc
@@ -64,7 +63,7 @@ class _$NavigationItemCopyWithImpl<$Res>
 /// Create a copy of NavigationItem
 /// with the given fields replaced by the non-null parameter values.
 @pragma('vm:prefer-inline') @override $Res call({Object? icon = null,Object? label = null,Object? description = freezed,Object? builder = null,Object? keep = null,Object? path = freezed,Object? modes = null,}) {
-  return _then(NavigationItem(
+  return _then(_self.copyWith(
 icon: null == icon ? _self.icon : icon // ignore: cast_nullable_to_non_nullable
 as Icon,label: null == label ? _self.label : label // ignore: cast_nullable_to_non_nullable
 as PageLabel,description: freezed == description ? _self.description : description // ignore: cast_nullable_to_non_nullable
@@ -213,7 +212,7 @@ return $default(_that.icon,_that.label,_that.description,_that.builder,_that.kee
 
 
 class _NavigationItem implements NavigationItem {
-  const _NavigationItem({required this.icon, required this.label, this.description, required this.builder, this.keep = true, this.path,  List<NavigationItemMode> modes = const [NavigationItemMode.mobile, NavigationItemMode.desktop]}): _modes = modes;
+  const _NavigationItem({required this.icon, required this.label, this.description, required this.builder, this.keep = true, this.path, final  List<NavigationItemMode> modes = const [NavigationItemMode.mobile, NavigationItemMode.desktop]}): _modes = modes;
   
 
 @override final  Icon icon;
@@ -348,7 +347,7 @@ class _$PackageCopyWithImpl<$Res>
 /// Create a copy of Package
 /// with the given fields replaced by the non-null parameter values.
 @pragma('vm:prefer-inline') @override $Res call({Object? packageName = null,Object? label = null,Object? system = null,Object? internet = null,Object? lastUpdateTime = null,}) {
-  return _then(Package(
+  return _then(_self.copyWith(
 packageName: null == packageName ? _self.packageName : packageName // ignore: cast_nullable_to_non_nullable
 as String,label: null == label ? _self.label : label // ignore: cast_nullable_to_non_nullable
 as String,system: null == system ? _self.system : system // ignore: cast_nullable_to_non_nullable
@@ -623,7 +622,7 @@ class _$MetadataCopyWithImpl<$Res>
 /// Create a copy of Metadata
 /// with the given fields replaced by the non-null parameter values.
 @pragma('vm:prefer-inline') @override $Res call({Object? uid = null,Object? network = null,Object? sourceIP = null,Object? sourcePort = null,Object? destinationIP = null,Object? destinationPort = null,Object? host = null,Object? dnsMode = freezed,Object? process = null,Object? processPath = null,Object? remoteDestination = null,Object? sourceGeoIP = null,Object? destinationGeoIP = null,Object? destinationIPASN = null,Object? sourceIPASN = null,Object? specialRules = null,Object? specialProxy = null,}) {
-  return _then(Metadata(
+  return _then(_self.copyWith(
 uid: null == uid ? _self.uid : uid // ignore: cast_nullable_to_non_nullable
 as int,network: null == network ? _self.network : network // ignore: cast_nullable_to_non_nullable
 as String,sourceIP: null == sourceIP ? _self.sourceIP : sourceIP // ignore: cast_nullable_to_non_nullable
@@ -782,7 +781,7 @@ return $default(_that.uid,_that.network,_that.sourceIP,_that.sourcePort,_that.de
 @JsonSerializable()
 
 class _Metadata implements Metadata {
-  const _Metadata({this.uid = 0, this.network = '', this.sourceIP = '', this.sourcePort = '', this.destinationIP = '', this.destinationPort = '', this.host = '', this.dnsMode, this.process = '', this.processPath = '', this.remoteDestination = '',  List<String> sourceGeoIP = const [],  List<String> destinationGeoIP = const [], this.destinationIPASN = '', this.sourceIPASN = '', this.specialRules = '', this.specialProxy = ''}): _sourceGeoIP = sourceGeoIP,_destinationGeoIP = destinationGeoIP;
+  const _Metadata({this.uid = 0, this.network = '', this.sourceIP = '', this.sourcePort = '', this.destinationIP = '', this.destinationPort = '', this.host = '', this.dnsMode, this.process = '', this.processPath = '', this.remoteDestination = '', final  List<String> sourceGeoIP = const [], final  List<String> destinationGeoIP = const [], this.destinationIPASN = '', this.sourceIPASN = '', this.specialRules = '', this.specialProxy = ''}): _sourceGeoIP = sourceGeoIP,_destinationGeoIP = destinationGeoIP;
   factory _Metadata.fromJson(Map<String, dynamic> json) => _$MetadataFromJson(json);
 
 @override@JsonKey() final  int uid;
@@ -946,7 +945,7 @@ class _$TrackerInfoCopyWithImpl<$Res>
 /// Create a copy of TrackerInfo
 /// with the given fields replaced by the non-null parameter values.
 @pragma('vm:prefer-inline') @override $Res call({Object? id = null,Object? upload = null,Object? download = null,Object? start = null,Object? metadata = null,Object? chains = null,Object? rule = null,Object? rulePayload = null,Object? downloadSpeed = freezed,Object? uploadSpeed = freezed,}) {
-  return _then(TrackerInfo(
+  return _then(_self.copyWith(
 id: null == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
 as String,upload: null == upload ? _self.upload : upload // ignore: cast_nullable_to_non_nullable
 as int,download: null == download ? _self.download : download // ignore: cast_nullable_to_non_nullable
@@ -1107,7 +1106,7 @@ return $default(_that.id,_that.upload,_that.download,_that.start,_that.metadata,
 @JsonSerializable()
 
 class _TrackerInfo implements TrackerInfo {
-  const _TrackerInfo({required this.id, this.upload = 0, this.download = 0, required this.start, required this.metadata, required  List<String> chains, required this.rule, required this.rulePayload, this.downloadSpeed, this.uploadSpeed}): _chains = chains;
+  const _TrackerInfo({required this.id, this.upload = 0, this.download = 0, required this.start, required this.metadata, required final  List<String> chains, required this.rule, required this.rulePayload, this.downloadSpeed, this.uploadSpeed}): _chains = chains;
   factory _TrackerInfo.fromJson(Map<String, dynamic> json) => _$TrackerInfoFromJson(json);
 
 @override final  String id;
@@ -1260,7 +1259,7 @@ class _$LogCopyWithImpl<$Res>
 /// Create a copy of Log
 /// with the given fields replaced by the non-null parameter values.
 @pragma('vm:prefer-inline') @override $Res call({Object? logLevel = null,Object? payload = null,Object? dateTime = null,}) {
-  return _then(Log(
+  return _then(_self.copyWith(
 logLevel: null == logLevel ? _self.logLevel : logLevel // ignore: cast_nullable_to_non_nullable
 as LogLevel,payload: null == payload ? _self.payload : payload // ignore: cast_nullable_to_non_nullable
 as String,dateTime: null == dateTime ? _self.dateTime : dateTime // ignore: cast_nullable_to_non_nullable
@@ -1526,7 +1525,7 @@ class _$LogsStateCopyWithImpl<$Res>
 /// Create a copy of LogsState
 /// with the given fields replaced by the non-null parameter values.
 @pragma('vm:prefer-inline') @override $Res call({Object? logs = null,Object? keywords = null,Object? query = null,Object? autoScrollToEnd = null,}) {
-  return _then(LogsState(
+  return _then(_self.copyWith(
 logs: null == logs ? _self.logs : logs // ignore: cast_nullable_to_non_nullable
 as List<Log>,keywords: null == keywords ? _self.keywords : keywords // ignore: cast_nullable_to_non_nullable
 as List<String>,query: null == query ? _self.query : query // ignore: cast_nullable_to_non_nullable
@@ -1672,7 +1671,7 @@ return $default(_that.logs,_that.keywords,_that.query,_that.autoScrollToEnd);cas
 
 
 class _LogsState implements LogsState {
-  const _LogsState({ List<Log> logs = const [],  List<String> keywords = const [], this.query = '', this.autoScrollToEnd = true}): _logs = logs,_keywords = keywords;
+  const _LogsState({final  List<Log> logs = const [], final  List<String> keywords = const [], this.query = '', this.autoScrollToEnd = true}): _logs = logs,_keywords = keywords;
   
 
  final  List<Log> _logs;
@@ -1804,7 +1803,7 @@ class _$TrackerInfosStateCopyWithImpl<$Res>
 /// Create a copy of TrackerInfosState
 /// with the given fields replaced by the non-null parameter values.
 @pragma('vm:prefer-inline') @override $Res call({Object? trackerInfos = null,Object? keywords = null,Object? query = null,Object? autoScrollToEnd = null,}) {
-  return _then(TrackerInfosState(
+  return _then(_self.copyWith(
 trackerInfos: null == trackerInfos ? _self.trackerInfos : trackerInfos // ignore: cast_nullable_to_non_nullable
 as List<TrackerInfo>,keywords: null == keywords ? _self.keywords : keywords // ignore: cast_nullable_to_non_nullable
 as List<String>,query: null == query ? _self.query : query // ignore: cast_nullable_to_non_nullable
@@ -1950,7 +1949,7 @@ return $default(_that.trackerInfos,_that.keywords,_that.query,_that.autoScrollTo
 
 
 class _TrackerInfosState implements TrackerInfosState {
-  const _TrackerInfosState({ List<TrackerInfo> trackerInfos = const [],  List<String> keywords = const [], this.query = '', this.autoScrollToEnd = true}): _trackerInfos = trackerInfos,_keywords = keywords;
+  const _TrackerInfosState({final  List<TrackerInfo> trackerInfos = const [], final  List<String> keywords = const [], this.query = '', this.autoScrollToEnd = true}): _trackerInfos = trackerInfos,_keywords = keywords;
   
 
  final  List<TrackerInfo> _trackerInfos;
@@ -2081,7 +2080,7 @@ class _$DAVPropsCopyWithImpl<$Res>
 /// Create a copy of DAVProps
 /// with the given fields replaced by the non-null parameter values.
 @pragma('vm:prefer-inline') @override $Res call({Object? uri = null,Object? user = null,Object? password = null,Object? fileName = null,}) {
-  return _then(DAVProps(
+  return _then(_self.copyWith(
 uri: null == uri ? _self.uri : uri // ignore: cast_nullable_to_non_nullable
 as String,user: null == user ? _self.user : user // ignore: cast_nullable_to_non_nullable
 as String,password: null == password ? _self.password : password // ignore: cast_nullable_to_non_nullable
@@ -2346,7 +2345,7 @@ class _$FileInfoCopyWithImpl<$Res>
 /// Create a copy of FileInfo
 /// with the given fields replaced by the non-null parameter values.
 @pragma('vm:prefer-inline') @override $Res call({Object? size = null,Object? lastModified = freezed,}) {
-  return _then(FileInfo(
+  return _then(_self.copyWith(
 size: null == size ? _self.size : size // ignore: cast_nullable_to_non_nullable
 as int,lastModified: freezed == lastModified ? _self.lastModified : lastModified // ignore: cast_nullable_to_non_nullable
 as DateTime?,
@@ -2609,7 +2608,7 @@ class _$VersionInfoCopyWithImpl<$Res>
 /// Create a copy of VersionInfo
 /// with the given fields replaced by the non-null parameter values.
 @pragma('vm:prefer-inline') @override $Res call({Object? clashName = null,Object? version = null,}) {
-  return _then(VersionInfo(
+  return _then(_self.copyWith(
 clashName: null == clashName ? _self.clashName : clashName // ignore: cast_nullable_to_non_nullable
 as String,version: null == version ? _self.version : version // ignore: cast_nullable_to_non_nullable
 as String,
@@ -2875,7 +2874,7 @@ class _$TrafficCopyWithImpl<$Res>
 /// Create a copy of Traffic
 /// with the given fields replaced by the non-null parameter values.
 @pragma('vm:prefer-inline') @override $Res call({Object? up = null,Object? down = null,}) {
-  return _then(Traffic(
+  return _then(_self.copyWith(
 up: null == up ? _self.up : up // ignore: cast_nullable_to_non_nullable
 as num,down: null == down ? _self.down : down // ignore: cast_nullable_to_non_nullable
 as num,
@@ -3138,7 +3137,7 @@ class _$TrafficShowCopyWithImpl<$Res>
 /// Create a copy of TrafficShow
 /// with the given fields replaced by the non-null parameter values.
 @pragma('vm:prefer-inline') @override $Res call({Object? value = null,Object? unit = null,}) {
-  return _then(TrafficShow(
+  return _then(_self.copyWith(
 value: null == value ? _self.value : value // ignore: cast_nullable_to_non_nullable
 as String,unit: null == unit ? _self.unit : unit // ignore: cast_nullable_to_non_nullable
 as String,
@@ -3401,7 +3400,7 @@ class _$GroupCopyWithImpl<$Res>
 /// Create a copy of Group
 /// with the given fields replaced by the non-null parameter values.
 @pragma('vm:prefer-inline') @override $Res call({Object? type = null,Object? all = null,Object? now = freezed,Object? hidden = freezed,Object? testUrl = freezed,Object? icon = null,Object? name = null,}) {
-  return _then(Group(
+  return _then(_self.copyWith(
 type: null == type ? _self.type : type // ignore: cast_nullable_to_non_nullable
 as GroupType,all: null == all ? _self.all : all // ignore: cast_nullable_to_non_nullable
 as List<Proxy>,now: freezed == now ? _self.now : now // ignore: cast_nullable_to_non_nullable
@@ -3550,7 +3549,7 @@ return $default(_that.type,_that.all,_that.now,_that.hidden,_that.testUrl,_that.
 @JsonSerializable()
 
 class _Group implements Group {
-  const _Group({@JsonKey(fromJson: GroupType.parse) required this.type,  List<Proxy> all = const [], this.now, this.hidden, this.testUrl, this.icon = '', required this.name}): _all = all;
+  const _Group({@JsonKey(fromJson: GroupType.parse) required this.type, final  List<Proxy> all = const [], this.now, this.hidden, this.testUrl, this.icon = '', required this.name}): _all = all;
   factory _Group.fromJson(Map<String, dynamic> json) => _$GroupFromJson(json);
 
 @override@JsonKey(fromJson: GroupType.parse) final  GroupType type;
@@ -3685,7 +3684,7 @@ class _$ColorSchemesCopyWithImpl<$Res>
 /// Create a copy of ColorSchemes
 /// with the given fields replaced by the non-null parameter values.
 @pragma('vm:prefer-inline') @override $Res call({Object? lightColorScheme = freezed,Object? darkColorScheme = freezed,}) {
-  return _then(ColorSchemes(
+  return _then(_self.copyWith(
 lightColorScheme: freezed == lightColorScheme ? _self.lightColorScheme : lightColorScheme // ignore: cast_nullable_to_non_nullable
 as ColorScheme?,darkColorScheme: freezed == darkColorScheme ? _self.darkColorScheme : darkColorScheme // ignore: cast_nullable_to_non_nullable
 as ColorScheme?,
@@ -3945,7 +3944,7 @@ class _$IpInfoCopyWithImpl<$Res>
 /// Create a copy of IpInfo
 /// with the given fields replaced by the non-null parameter values.
 @pragma('vm:prefer-inline') @override $Res call({Object? ip = null,Object? countryCode = null,}) {
-  return _then(IpInfo(
+  return _then(_self.copyWith(
 ip: null == ip ? _self.ip : ip // ignore: cast_nullable_to_non_nullable
 as String,countryCode: null == countryCode ? _self.countryCode : countryCode // ignore: cast_nullable_to_non_nullable
 as String,
@@ -4208,7 +4207,7 @@ class _$HotKeyActionCopyWithImpl<$Res>
 /// Create a copy of HotKeyAction
 /// with the given fields replaced by the non-null parameter values.
 @pragma('vm:prefer-inline') @override $Res call({Object? action = null,Object? key = freezed,Object? modifiers = null,}) {
-  return _then(HotKeyAction(
+  return _then(_self.copyWith(
 action: null == action ? _self.action : action // ignore: cast_nullable_to_non_nullable
 as HotAction,key: freezed == key ? _self.key : key // ignore: cast_nullable_to_non_nullable
 as int?,modifiers: null == modifiers ? _self.modifiers : modifiers // ignore: cast_nullable_to_non_nullable
@@ -4353,7 +4352,7 @@ return $default(_that.action,_that.key,_that.modifiers);case _:
 @JsonSerializable()
 
 class _HotKeyAction implements HotKeyAction {
-  const _HotKeyAction({required this.action, this.key,  Set<KeyboardModifier> modifiers = const {}}): _modifiers = modifiers;
+  const _HotKeyAction({required this.action, this.key, final  Set<KeyboardModifier> modifiers = const {}}): _modifiers = modifiers;
   factory _HotKeyAction.fromJson(Map<String, dynamic> json) => _$HotKeyActionFromJson(json);
 
 @override final  HotAction action;
@@ -4480,7 +4479,7 @@ class _$FieldCopyWithImpl<$Res>
 /// Create a copy of Field
 /// with the given fields replaced by the non-null parameter values.
 @pragma('vm:prefer-inline') @override $Res call({Object? label = null,Object? value = null,Object? validator = freezed,}) {
-  return _then(Field(
+  return _then(_self.copyWith(
 label: null == label ? _self.label : label // ignore: cast_nullable_to_non_nullable
 as String,value: null == value ? _self.value : value // ignore: cast_nullable_to_non_nullable
 as String,validator: freezed == validator ? _self.validator : validator // ignore: cast_nullable_to_non_nullable
@@ -4743,7 +4742,7 @@ class _$ResultCopyWithImpl<T,$Res>
 /// Create a copy of Result
 /// with the given fields replaced by the non-null parameter values.
 @pragma('vm:prefer-inline') @override $Res call({Object? data = freezed,Object? type = null,Object? message = null,}) {
-  return _then(Result(
+  return _then(_self.copyWith(
 data: freezed == data ? _self.data : data // ignore: cast_nullable_to_non_nullable
 as T?,type: null == type ? _self.type : type // ignore: cast_nullable_to_non_nullable
 as ResultType,message: null == message ? _self.message : message // ignore: cast_nullable_to_non_nullable
@@ -5009,7 +5008,7 @@ class _$ScriptCopyWithImpl<$Res>
 /// Create a copy of Script
 /// with the given fields replaced by the non-null parameter values.
 @pragma('vm:prefer-inline') @override $Res call({Object? id = null,Object? label = null,Object? lastUpdateTime = null,}) {
-  return _then(Script(
+  return _then(_self.copyWith(
 id: null == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
 as int,label: null == label ? _self.label : label // ignore: cast_nullable_to_non_nullable
 as String,lastUpdateTime: null == lastUpdateTime ? _self.lastUpdateTime : lastUpdateTime // ignore: cast_nullable_to_non_nullable
@@ -5275,7 +5274,7 @@ class _$DelayStateCopyWithImpl<$Res>
 /// Create a copy of DelayState
 /// with the given fields replaced by the non-null parameter values.
 @pragma('vm:prefer-inline') @override $Res call({Object? delay = null,Object? group = null,}) {
-  return _then(DelayState(
+  return _then(_self.copyWith(
 delay: null == delay ? _self.delay : delay // ignore: cast_nullable_to_non_nullable
 as int,group: null == group ? _self.group : group // ignore: cast_nullable_to_non_nullable
 as bool,
@@ -5535,7 +5534,7 @@ class _$UpdatingMessageCopyWithImpl<$Res>
 /// Create a copy of UpdatingMessage
 /// with the given fields replaced by the non-null parameter values.
 @pragma('vm:prefer-inline') @override $Res call({Object? label = null,Object? message = null,}) {
-  return _then(UpdatingMessage(
+  return _then(_self.copyWith(
 label: null == label ? _self.label : label // ignore: cast_nullable_to_non_nullable
 as String,message: null == message ? _self.message : message // ignore: cast_nullable_to_non_nullable
 as String,
@@ -5795,7 +5794,7 @@ class _$IconButtonDataCopyWithImpl<$Res>
 /// Create a copy of IconButtonData
 /// with the given fields replaced by the non-null parameter values.
 @pragma('vm:prefer-inline') @override $Res call({Object? icon = null,Object? onPressed = null,}) {
-  return _then(IconButtonData(
+  return _then(_self.copyWith(
 icon: null == icon ? _self.icon : icon // ignore: cast_nullable_to_non_nullable
 as IconData,onPressed: null == onPressed ? _self.onPressed : onPressed // ignore: cast_nullable_to_non_nullable
 as VoidCallback,

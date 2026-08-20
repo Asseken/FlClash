@@ -154,47 +154,65 @@ void main() {
     expect(result.exitConfirmed, isTrue);
   });
 
-  test('Helper lease retries stop after a transport failure', () async {
-    var stopRequests = 0;
-    final client = _client(
-      _ResponseAdapter((options) {
-        if (options.path.endsWith('/start')) {
-          return _jsonResponse({'sessionId': _sessionId, 'pid': 6456});
-        }
-        stopRequests++;
-        if (stopRequests == 1) {
+  test(
+    'Helper lease terminates by PID when the Helper is unreachable',
+    () async {
+      var stopRequests = 0;
+      final client = _client(
+        _ResponseAdapter((options) {
+          if (options.path.endsWith('/start')) {
+            return _jsonResponse({'sessionId': _sessionId, 'pid': 6456});
+          }
+          stopRequests++;
           throw DioException(
             requestOptions: options,
             type: DioExceptionType.connectionError,
           );
-        }
-        return _jsonResponse({
-          'sessionId': _sessionId,
-          'stopped': false,
-          'reason': 'notRunning',
-        });
+        }),
+      );
+      final killArguments = <List<String>>[];
+      final lease = HelperCoreLease(
+        sessionId: _sessionId,
+        pid: 6456,
+        client: client,
+        runProcess: (arguments) async {
+          killArguments.add(arguments);
+          return ProcessResult(6456, 128, '', '');
+        },
+      );
+
+      final result = await lease.stop(const Duration(seconds: 1));
+      final cachedResult = await lease.stop(const Duration(seconds: 1));
+
+      expect(stopRequests, 1);
+      expect(killArguments, [
+        ['/PID', '6456', '/F'],
+      ]);
+      expect(result.stopped, isFalse);
+      expect(result.exitConfirmed, isTrue);
+      expect(cachedResult, same(result));
+    },
+  );
+
+  test('Helper lease stop confirms a PID kill by exit code', () async {
+    final client = _client(
+      _ResponseAdapter((options) {
+        throw DioException(
+          requestOptions: options,
+          type: DioExceptionType.connectionError,
+        );
       }),
     );
-    final launcher = WindowsHelperLauncher(client);
-    final lease = await launcher.start(
+    final lease = HelperCoreLease(
       sessionId: _sessionId,
-      address: 'test-address',
+      pid: 6456,
+      client: client,
+      runProcess: (arguments) async => ProcessResult(6456, 0, '', ''),
     );
 
-    await expectLater(
-      lease.stop(const Duration(seconds: 1)),
-      throwsA(
-        isA<WindowsHelperException>().having(
-          (error) => error.code,
-          'code',
-          'transportError',
-        ),
-      ),
-    );
     final result = await lease.stop(const Duration(seconds: 1));
 
-    expect(stopRequests, 2);
-    expect(result.stopped, isFalse);
+    expect(result.stopped, isTrue);
     expect(result.exitConfirmed, isTrue);
   });
 

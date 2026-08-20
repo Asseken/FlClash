@@ -479,13 +479,20 @@ final class HelperCoreLease implements CoreProcessLease {
   final int pid;
 
   final WindowsHelperClient _client;
+  final Future<ProcessResult> Function(List<String> arguments) _runProcess;
   Future<CoreProcessStopResult>? _stopOperation;
 
   HelperCoreLease({
     required this.sessionId,
     required this.pid,
     required WindowsHelperClient client,
-  }) : _client = client;
+    Future<ProcessResult> Function(List<String> arguments)? runProcess,
+  }) : _client = client,
+       _runProcess = runProcess ?? _defaultRunProcess;
+
+  static Future<ProcessResult> _defaultRunProcess(List<String> arguments) {
+    return Process.run('taskkill', arguments);
+  }
 
   @override
   CoreProcessOwner get owner => CoreProcessOwner.windowsHelper;
@@ -508,11 +515,46 @@ final class HelperCoreLease implements CoreProcessLease {
   }
 
   Future<CoreProcessStopResult> _stop() async {
-    final response = await _client.stop(sessionId);
-    return CoreProcessStopResult(
-      stopped: response.stopped,
-      exitConfirmed: true,
+    WindowsHelperException? stopError;
+    try {
+      final response = await _client.stop(sessionId);
+      return CoreProcessStopResult(
+        stopped: response.stopped,
+        exitConfirmed: true,
+      );
+    } on WindowsHelperException catch (error) {
+      stopError = error;
+    } catch (error) {
+      stopError = WindowsHelperException(
+        code: 'transportError',
+        message: 'Unable to stop Core through Helper',
+        details: error.toString(),
+      );
+    }
+    // The Helper is unreachable or could not confirm the Core exit (for
+    // example after its service was uninstalled). Terminate the Core by PID
+    // so the exit can be confirmed instead of parking an unresolvable lease.
+    commonPrint.log(
+      'Helper stop failed ($stopError); terminating Core by PID $pid',
+      logLevel: LogLevel.warning,
     );
+    try {
+      final result = await _runProcess(['/PID', '$pid', '/F']);
+      final confirmed = result.exitCode == 0 || result.exitCode == 128;
+      return CoreProcessStopResult(
+        stopped: result.exitCode == 0,
+        exitConfirmed: confirmed,
+      );
+    } catch (error) {
+      Error.throwWithStackTrace(
+        WindowsHelperException(
+          code: 'transportError',
+          message: 'Unable to stop Core through Helper',
+          details: '$stopError; PID termination failed: $error',
+        ),
+        StackTrace.current,
+      );
+    }
   }
 }
 

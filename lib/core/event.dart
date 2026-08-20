@@ -41,10 +41,16 @@ abstract mixin class CoreEventListener {
 }
 
 class CoreEventManager {
-  final _controller = StreamController<CoreEvent>();
+  late StreamController<CoreEvent> _controller;
+  StreamSubscription<CoreEvent>? _subscription;
 
   CoreEventManager._() {
-    _controller.stream.listen((event) {
+    _subscribe();
+  }
+
+  void _subscribe() {
+    _controller = StreamController<CoreEvent>();
+    _subscription = _controller.stream.listen((event) {
       for (final CoreEventListener listener in _listeners) {
         try {
           switch (event.type) {
@@ -84,6 +90,12 @@ class CoreEventManager {
   }
 
   static final CoreEventManager instance = CoreEventManager._();
+
+  @visibleForTesting
+  static void resetInstance() {
+    instance._subscription?.cancel();
+    instance._subscribe();
+  }
 
   final ObserverList<CoreEventListener> _listeners =
       ObserverList<CoreEventListener>();

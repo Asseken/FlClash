@@ -255,26 +255,56 @@ class Windows {
     return isRunning ? AuthorizeCode.success : AuthorizeCode.error;
   }
 
-  Future<bool> _waitForHelperService() async {
-    const timeout = Duration(seconds: 6);
+  Future<bool> isServiceInstalled() async {
+    return await windowsHelperClient.readiness(logFailure: false) ==
+        WindowsHelperReadiness.ready;
+  }
+
+  Future<bool> installService() async {
+    final readiness = await windowsHelperClient.readiness(logFailure: false);
+    if (readiness == WindowsHelperReadiness.ready) {
+      return true;
+    }
+    if (!runas(appPath.helperPath, 'install')) {
+      return false;
+    }
+    return _waitForHelperState(ready: true);
+  }
+
+  Future<bool> uninstallService() async {
+    if (!runas(appPath.helperPath, 'uninstall')) {
+      return false;
+    }
+    return _waitForHelperState(ready: false);
+  }
+
+  Future<bool> _waitForHelperState({
+    required bool ready,
+    Duration timeout = const Duration(seconds: 6),
+  }) async {
     const interval = Duration(seconds: 1);
-    const maxAttempts = 6;
     final stopwatch = Stopwatch()..start();
-    for (var attempt = 0; attempt < maxAttempts; attempt++) {
+    while (stopwatch.elapsed < timeout) {
       final remaining = timeout - stopwatch.elapsed;
-      if (remaining <= Duration.zero) return false;
-      final isRunning =
+      if (remaining <= Duration.zero) {
+        return false;
+      }
+      final isReady =
           await windowsHelperClient.readiness(
             timeout: remaining,
             logFailure: false,
           ) ==
           WindowsHelperReadiness.ready;
-      if (isRunning) return true;
-      final delay = timeout - stopwatch.elapsed;
-      if (delay <= Duration.zero || attempt == maxAttempts - 1) return false;
-      await Future.delayed(delay < interval ? delay : interval);
+      if (isReady == ready) {
+        return true;
+      }
+      await Future.delayed(interval);
     }
     return false;
+  }
+
+  Future<bool> _waitForHelperService() {
+    return _waitForHelperState(ready: true);
   }
 
   Future<bool> registerTask(String appName) async {

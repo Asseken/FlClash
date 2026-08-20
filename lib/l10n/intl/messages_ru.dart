@@ -522,6 +522,16 @@ class MessageLookup extends MessageLookupByLibrary {
     "inputRuleContent": MessageLookupByLibrary.simpleMessage(
       "Введите содержимое правила",
     ),
+    "installService": MessageLookupByLibrary.simpleMessage("Установить службу"),
+    "installServiceFailed": MessageLookupByLibrary.simpleMessage(
+      "Не удалось установить службу Helper",
+    ),
+    "installServiceSuccess": MessageLookupByLibrary.simpleMessage(
+      "Служба Helper установлена",
+    ),
+    "installServiceTip": MessageLookupByLibrary.simpleMessage(
+      "Для установки службы Helper требуются права администратора. Появится запрос UAC.",
+    ),
     "intelligentSelected": MessageLookupByLibrary.simpleMessage(
       "Интеллектуальный выбор",
     ),
@@ -1109,6 +1119,16 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "unifiedDelayDesc": MessageLookupByLibrary.simpleMessage(
       "Убрать дополнительные задержки, такие как рукопожатие",
+    ),
+    "uninstallService": MessageLookupByLibrary.simpleMessage("Удалить службу"),
+    "uninstallServiceFailed": MessageLookupByLibrary.simpleMessage(
+      "Не удалось удалить службу Helper",
+    ),
+    "uninstallServiceSuccess": MessageLookupByLibrary.simpleMessage(
+      "Служба Helper удалена",
+    ),
+    "uninstallServiceTip": MessageLookupByLibrary.simpleMessage(
+      "Удаление службы Helper остановит и удалит FlClashHelperService. Ядро, которым в данный момент управляет служба, также будет остановлено.",
     ),
     "unknown": MessageLookupByLibrary.simpleMessage("Неизвестно"),
     "unknownNetworkError": MessageLookupByLibrary.simpleMessage(

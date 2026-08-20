@@ -397,6 +397,16 @@ class MessageLookup extends MessageLookupByLibrary {
     "inputCorrectHotkey": MessageLookupByLibrary.simpleMessage("正しいホットキーを入力"),
     "inputProxyGroupName": MessageLookupByLibrary.simpleMessage("プロキシグループ名を入力"),
     "inputRuleContent": MessageLookupByLibrary.simpleMessage("ルール内容を入力"),
+    "installService": MessageLookupByLibrary.simpleMessage("サービスのインストール"),
+    "installServiceFailed": MessageLookupByLibrary.simpleMessage(
+      "Helper サービスのインストールに失敗しました",
+    ),
+    "installServiceSuccess": MessageLookupByLibrary.simpleMessage(
+      "Helper サービスをインストールしました",
+    ),
+    "installServiceTip": MessageLookupByLibrary.simpleMessage(
+      "Helper サービスのインストールには管理者権限が必要です。UAC プロンプトが表示されます。",
+    ),
     "intelligentSelected": MessageLookupByLibrary.simpleMessage("インテリジェント選択"),
     "internet": MessageLookupByLibrary.simpleMessage("インターネット"),
     "interval": MessageLookupByLibrary.simpleMessage("インターバル"),
@@ -850,6 +860,16 @@ class MessageLookup extends MessageLookupByLibrary {
     "unifiedDelay": MessageLookupByLibrary.simpleMessage("統一遅延"),
     "unifiedDelayDesc": MessageLookupByLibrary.simpleMessage(
       "ハンドシェイクなどの余分な遅延を削除",
+    ),
+    "uninstallService": MessageLookupByLibrary.simpleMessage("サービスのアンインストール"),
+    "uninstallServiceFailed": MessageLookupByLibrary.simpleMessage(
+      "Helper サービスのアンインストールに失敗しました",
+    ),
+    "uninstallServiceSuccess": MessageLookupByLibrary.simpleMessage(
+      "Helper サービスをアンインストールしました",
+    ),
+    "uninstallServiceTip": MessageLookupByLibrary.simpleMessage(
+      "Helper サービスのアンインストールにより FlClashHelperService が停止・削除され、サービスが管理している Core も停止します。",
     ),
     "unknown": MessageLookupByLibrary.simpleMessage("不明"),
     "unknownNetworkError": MessageLookupByLibrary.simpleMessage("不明なネットワークエラー"),

@@ -296,7 +296,7 @@ void main() {
 
   group('SetupAction', () {
     group('rapid status changes', () {
-      test('updates runtime and traffic while core start is pending', () async {
+      test('updates runtime but defers traffic polling until the core connects', () async {
         final startCompleter = Completer<bool>();
         final container = ProviderContainer(
           overrides: [
@@ -317,6 +317,11 @@ void main() {
         await Future<void>.delayed(const Duration(milliseconds: 1100));
 
         expect(container.read(runTimeProvider), greaterThan(initialRunTime));
+        expect(commonAction.updateTrafficCount, 0);
+
+        container.read(coreStatusProvider.notifier).value =
+            CoreStatus.connected;
+        await Future<void>.delayed(const Duration(milliseconds: 2100));
         expect(commonAction.updateTrafficCount, greaterThanOrEqualTo(2));
 
         startCompleter.complete(true);

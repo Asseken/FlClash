@@ -296,15 +296,8 @@ final class DesktopCoreLifecycle implements DesktopCoreLifecycleController {
     if (unconfirmedLease != null) {
       if (intent.target == _LifecycleTarget.closed) {
         await _stopUnconfirmedLease(unconfirmedLease, allowFailure: true);
-      } else if (intent.target == _LifecycleTarget.stopped) {
-        await _stopUnconfirmedLease(unconfirmedLease, allowFailure: false);
       } else {
-        throw _failure(
-          code: 'process_exit_unconfirmed',
-          phase: DesktopCorePhase.failed,
-          revision: intent.revision,
-          lease: unconfirmedLease,
-        );
+        await _stopUnconfirmedLease(unconfirmedLease, allowFailure: false);
       }
     }
     switch (intent.target) {

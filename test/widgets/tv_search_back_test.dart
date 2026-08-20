@@ -6,6 +6,7 @@ import 'package:fl_clash/pages/home.dart';
 import 'package:fl_clash/providers/providers.dart';
 import 'package:fl_clash/state.dart';
 import 'package:fl_clash/widgets/widgets.dart';
+import 'package:fluent_ui/fluent_ui.dart' as fluent;
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -50,7 +51,7 @@ void main() {
       ),
     );
 
-    await tester.tap(find.byIcon(Icons.search));
+    await tester.tap(find.byIcon(fluent.WindowsIcons.search));
     await tester.pumpAndSettle();
     expect(find.byType(TextField), findsOneWidget);
 
@@ -125,22 +126,26 @@ void main() {
     await tester.pumpWidget(
       UncontrolledProviderScope(
         container: container,
-        child: MaterialApp(
-          localizationsDelegates: const [
-            AppLocalizations.delegate,
-            GlobalMaterialLocalizations.delegate,
-            GlobalCupertinoLocalizations.delegate,
-            GlobalWidgetsLocalizations.delegate,
-          ],
-          supportedLocales: AppLocalizations.delegate.supportedLocales,
-          home: const HomePage(),
+        child: fluent.FluentTheme(
+          data: fluent.FluentThemeData(brightness: Brightness.light),
+          child: MaterialApp(
+            localizationsDelegates: const [
+              AppLocalizations.delegate,
+              fluent.FluentLocalizations.delegate,
+              GlobalMaterialLocalizations.delegate,
+              GlobalCupertinoLocalizations.delegate,
+              GlobalWidgetsLocalizations.delegate,
+            ],
+            supportedLocales: AppLocalizations.delegate.supportedLocales,
+            home: const HomePage(),
+          ),
         ),
       ),
     );
     await tester.pump();
-    expect(find.byType(NavigationRail), findsOneWidget);
+    expect(find.byType(fluent.NavigationView), findsOneWidget);
 
-    await tester.tap(find.byIcon(Icons.search));
+    await tester.tap(find.byIcon(fluent.WindowsIcons.search));
     await tester.pumpAndSettle();
     expect(find.byType(TextField), findsOneWidget);
     await tester.enterText(find.byType(TextField), 'needle');

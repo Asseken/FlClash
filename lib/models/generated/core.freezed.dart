@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // coverage:ignore-file
-// ignore_for_file: type=lint, type=warning, deprecated_member_use, deprecated_member_use_from_same_package
+// ignore_for_file: type=lint
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
 part of '../core.dart';
@@ -9,7 +9,6 @@ part of '../core.dart';
 // FreezedGenerator
 // **************************************************************************
 
-// GENERATED CODE - DO NOT MODIFY BY HAND
 // dart format off
 T _$identity<T>(T value) => value;
 
@@ -67,7 +66,7 @@ class _$SetupParamsCopyWithImpl<$Res>
 /// Create a copy of SetupParams
 /// with the given fields replaced by the non-null parameter values.
 @pragma('vm:prefer-inline') @override $Res call({Object? selectedMap = null,Object? testUrl = null,}) {
-  return _then(SetupParams(
+  return _then(_self.copyWith(
 selectedMap: null == selectedMap ? _self.selectedMap : selectedMap // ignore: cast_nullable_to_non_nullable
 as Map<String, String>,testUrl: null == testUrl ? _self.testUrl : testUrl // ignore: cast_nullable_to_non_nullable
 as String,
@@ -211,7 +210,7 @@ return $default(_that.selectedMap,_that.testUrl);case _:
 @JsonSerializable()
 
 class _SetupParams implements SetupParams {
-  const _SetupParams({@JsonKey(name: 'selected-map') required  Map<String, String> selectedMap, @JsonKey(name: 'test-url') required this.testUrl}): _selectedMap = selectedMap;
+  const _SetupParams({@JsonKey(name: 'selected-map') required final  Map<String, String> selectedMap, @JsonKey(name: 'test-url') required this.testUrl}): _selectedMap = selectedMap;
   factory _SetupParams.fromJson(Map<String, dynamic> json) => _$SetupParamsFromJson(json);
 
  final  Map<String, String> _selectedMap;
@@ -339,7 +338,7 @@ class _$UpdateParamsCopyWithImpl<$Res>
 /// Create a copy of UpdateParams
 /// with the given fields replaced by the non-null parameter values.
 @pragma('vm:prefer-inline') @override $Res call({Object? tun = null,Object? mixedPort = null,Object? allowLan = null,Object? findProcessMode = null,Object? mode = null,Object? logLevel = null,Object? ipv6 = null,Object? tcpConcurrent = null,Object? externalController = null,Object? unifiedDelay = null,Object? geoAutoUpdate = null,Object? geoUpdateInterval = null,}) {
-  return _then(UpdateParams(
+  return _then(_self.copyWith(
 tun: null == tun ? _self.tun : tun // ignore: cast_nullable_to_non_nullable
 as Tun,mixedPort: null == mixedPort ? _self.mixedPort : mixedPort // ignore: cast_nullable_to_non_nullable
 as int,allowLan: null == allowLan ? _self.allowLan : allowLan // ignore: cast_nullable_to_non_nullable
@@ -653,7 +652,7 @@ class _$VpnOptionsCopyWithImpl<$Res>
 /// Create a copy of VpnOptions
 /// with the given fields replaced by the non-null parameter values.
 @pragma('vm:prefer-inline') @override $Res call({Object? enable = null,Object? port = null,Object? ipv6 = null,Object? dnsHijacking = null,Object? accessControlProps = null,Object? allowBypass = null,Object? systemProxy = null,Object? bypassDomain = null,Object? stack = null,Object? routeAddress = null,}) {
-  return _then(VpnOptions(
+  return _then(_self.copyWith(
 enable: null == enable ? _self.enable : enable // ignore: cast_nullable_to_non_nullable
 as bool,port: null == port ? _self.port : port // ignore: cast_nullable_to_non_nullable
 as int,ipv6: null == ipv6 ? _self.ipv6 : ipv6 // ignore: cast_nullable_to_non_nullable
@@ -814,7 +813,7 @@ return $default(_that.enable,_that.port,_that.ipv6,_that.dnsHijacking,_that.acce
 @JsonSerializable()
 
 class _VpnOptions implements VpnOptions {
-  const _VpnOptions({required this.enable, required this.port, required this.ipv6, required this.dnsHijacking, required this.accessControlProps, required this.allowBypass, required this.systemProxy, required  List<String> bypassDomain, required this.stack,  List<String> routeAddress = const []}): _bypassDomain = bypassDomain,_routeAddress = routeAddress;
+  const _VpnOptions({required this.enable, required this.port, required this.ipv6, required this.dnsHijacking, required this.accessControlProps, required this.allowBypass, required this.systemProxy, required final  List<String> bypassDomain, required this.stack, final  List<String> routeAddress = const []}): _bypassDomain = bypassDomain,_routeAddress = routeAddress;
   factory _VpnOptions.fromJson(Map<String, dynamic> json) => _$VpnOptionsFromJson(json);
 
 @override final  bool enable;
@@ -973,7 +972,7 @@ class _$InitParamsCopyWithImpl<$Res>
 /// Create a copy of InitParams
 /// with the given fields replaced by the non-null parameter values.
 @pragma('vm:prefer-inline') @override $Res call({Object? homeDir = null,Object? version = null,}) {
-  return _then(InitParams(
+  return _then(_self.copyWith(
 homeDir: null == homeDir ? _self.homeDir : homeDir // ignore: cast_nullable_to_non_nullable
 as String,version: null == version ? _self.version : version // ignore: cast_nullable_to_non_nullable
 as int,
@@ -1239,7 +1238,7 @@ class _$ChangeProxyParamsCopyWithImpl<$Res>
 /// Create a copy of ChangeProxyParams
 /// with the given fields replaced by the non-null parameter values.
 @pragma('vm:prefer-inline') @override $Res call({Object? groupName = null,Object? proxyName = null,}) {
-  return _then(ChangeProxyParams(
+  return _then(_self.copyWith(
 groupName: null == groupName ? _self.groupName : groupName // ignore: cast_nullable_to_non_nullable
 as String,proxyName: null == proxyName ? _self.proxyName : proxyName // ignore: cast_nullable_to_non_nullable
 as String,
@@ -1505,7 +1504,7 @@ class _$UpdateGeoDataParamsCopyWithImpl<$Res>
 /// Create a copy of UpdateGeoDataParams
 /// with the given fields replaced by the non-null parameter values.
 @pragma('vm:prefer-inline') @override $Res call({Object? geoType = null,Object? geoName = null,}) {
-  return _then(UpdateGeoDataParams(
+  return _then(_self.copyWith(
 geoType: null == geoType ? _self.geoType : geoType // ignore: cast_nullable_to_non_nullable
 as String,geoName: null == geoName ? _self.geoName : geoName // ignore: cast_nullable_to_non_nullable
 as String,
@@ -1771,7 +1770,7 @@ class _$CoreEventCopyWithImpl<$Res>
 /// Create a copy of CoreEvent
 /// with the given fields replaced by the non-null parameter values.
 @pragma('vm:prefer-inline') @override $Res call({Object? type = null,Object? data = freezed,}) {
-  return _then(CoreEvent(
+  return _then(_self.copyWith(
 type: null == type ? _self.type : type // ignore: cast_nullable_to_non_nullable
 as CoreEventType,data: freezed == data ? _self.data : data // ignore: cast_nullable_to_non_nullable
 as dynamic,
@@ -2037,7 +2036,7 @@ class _$InvokeMessageCopyWithImpl<$Res>
 /// Create a copy of InvokeMessage
 /// with the given fields replaced by the non-null parameter values.
 @pragma('vm:prefer-inline') @override $Res call({Object? type = null,Object? data = freezed,}) {
-  return _then(InvokeMessage(
+  return _then(_self.copyWith(
 type: null == type ? _self.type : type // ignore: cast_nullable_to_non_nullable
 as InvokeMessageType,data: freezed == data ? _self.data : data // ignore: cast_nullable_to_non_nullable
 as dynamic,
@@ -2303,7 +2302,7 @@ class _$DelayCopyWithImpl<$Res>
 /// Create a copy of Delay
 /// with the given fields replaced by the non-null parameter values.
 @pragma('vm:prefer-inline') @override $Res call({Object? name = null,Object? url = null,Object? value = freezed,}) {
-  return _then(Delay(
+  return _then(_self.copyWith(
 name: null == name ? _self.name : name // ignore: cast_nullable_to_non_nullable
 as String,url: null == url ? _self.url : url // ignore: cast_nullable_to_non_nullable
 as String,value: freezed == value ? _self.value : value // ignore: cast_nullable_to_non_nullable
@@ -2572,7 +2571,7 @@ class _$NowCopyWithImpl<$Res>
 /// Create a copy of Now
 /// with the given fields replaced by the non-null parameter values.
 @pragma('vm:prefer-inline') @override $Res call({Object? name = null,Object? value = null,}) {
-  return _then(Now(
+  return _then(_self.copyWith(
 name: null == name ? _self.name : name // ignore: cast_nullable_to_non_nullable
 as String,value: null == value ? _self.value : value // ignore: cast_nullable_to_non_nullable
 as String,
@@ -2838,7 +2837,7 @@ class _$ProviderSubscriptionInfoCopyWithImpl<$Res>
 /// Create a copy of ProviderSubscriptionInfo
 /// with the given fields replaced by the non-null parameter values.
 @pragma('vm:prefer-inline') @override $Res call({Object? upload = null,Object? download = null,Object? total = null,Object? expire = null,}) {
-  return _then(ProviderSubscriptionInfo(
+  return _then(_self.copyWith(
 upload: null == upload ? _self.upload : upload // ignore: cast_nullable_to_non_nullable
 as int,download: null == download ? _self.download : download // ignore: cast_nullable_to_non_nullable
 as int,total: null == total ? _self.total : total // ignore: cast_nullable_to_non_nullable
@@ -3110,7 +3109,7 @@ class _$ExternalProviderCopyWithImpl<$Res>
 /// Create a copy of ExternalProvider
 /// with the given fields replaced by the non-null parameter values.
 @pragma('vm:prefer-inline') @override $Res call({Object? name = null,Object? type = null,Object? path = freezed,Object? count = null,Object? subscriptionInfo = freezed,Object? vehicleType = null,Object? updateAt = null,}) {
-  return _then(ExternalProvider(
+  return _then(_self.copyWith(
 name: null == name ? _self.name : name // ignore: cast_nullable_to_non_nullable
 as String,type: null == type ? _self.type : type // ignore: cast_nullable_to_non_nullable
 as String,path: freezed == path ? _self.path : path // ignore: cast_nullable_to_non_nullable
@@ -3415,7 +3414,7 @@ class _$ProxiesDataCopyWithImpl<$Res>
 /// Create a copy of ProxiesData
 /// with the given fields replaced by the non-null parameter values.
 @pragma('vm:prefer-inline') @override $Res call({Object? proxies = null,Object? all = null,}) {
-  return _then(ProxiesData(
+  return _then(_self.copyWith(
 proxies: null == proxies ? _self.proxies : proxies // ignore: cast_nullable_to_non_nullable
 as Map<String, dynamic>,all: null == all ? _self.all : all // ignore: cast_nullable_to_non_nullable
 as List<String>,
@@ -3559,7 +3558,7 @@ return $default(_that.proxies,_that.all);case _:
 @JsonSerializable()
 
 class _ProxiesData implements ProxiesData {
-  const _ProxiesData({required  Map<String, dynamic> proxies, required  List<String> all}): _proxies = proxies,_all = all;
+  const _ProxiesData({required final  Map<String, dynamic> proxies, required final  List<String> all}): _proxies = proxies,_all = all;
   factory _ProxiesData.fromJson(Map<String, dynamic> json) => _$ProxiesDataFromJson(json);
 
  final  Map<String, dynamic> _proxies;
@@ -3693,7 +3692,7 @@ class _$coreVersionInfoCopyWithImpl<$Res>
 /// Create a copy of coreVersionInfo
 /// with the given fields replaced by the non-null parameter values.
 @pragma('vm:prefer-inline') @override $Res call({Object? mihoName = freezed,Object? buildTime = freezed,Object? clientVersion = freezed,Object? coreVersion = freezed,Object? goArch = freezed,Object? goOs = freezed,Object? goVersion = freezed,}) {
-  return _then(coreVersionInfo(
+  return _then(_self.copyWith(
 mihoName: freezed == mihoName ? _self.mihoName : mihoName // ignore: cast_nullable_to_non_nullable
 as String?,buildTime: freezed == buildTime ? _self.buildTime : buildTime // ignore: cast_nullable_to_non_nullable
 as String?,clientVersion: freezed == clientVersion ? _self.clientVersion : clientVersion // ignore: cast_nullable_to_non_nullable

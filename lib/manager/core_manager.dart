@@ -101,6 +101,10 @@ class _CoreContainerState extends ConsumerState<CoreManager>
     super.onLoaded(providerName);
   }
 
+  static const _autoReconnectCooldown = Duration(seconds: 10);
+  static const _autoReconnectDelay = Duration(seconds: 2);
+  DateTime? _lastAutoReconnectAt;
+
   @override
   Future<void> onCrash(String message) async {
     if (ref.read(coreStatusProvider) != CoreStatus.connected) {
@@ -110,7 +114,26 @@ class _CoreContainerState extends ConsumerState<CoreManager>
     if (WidgetsBinding.instance.lifecycleState == AppLifecycleState.resumed) {
       context.showNotifier(message);
     }
+    _scheduleAutoReconnect();
     super.onCrash(message);
+  }
+
+  void _scheduleAutoReconnect() {
+    final now = DateTime.now();
+    final last = _lastAutoReconnectAt;
+    if (last != null && now.difference(last) < _autoReconnectCooldown) {
+      return;
+    }
+    _lastAutoReconnectAt = now;
+    Future.delayed(_autoReconnectDelay, () {
+      if (!mounted) {
+        return;
+      }
+      ref
+          .read(coreActionProvider.notifier)
+          .restartCore()
+          .catchError((Object _) {});
+    });
   }
 
   @override

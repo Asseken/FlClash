@@ -9,6 +9,7 @@ import 'package:fl_clash/views/access.dart';
 import 'package:fl_clash/views/dashboard/dashboard.dart';
 import 'package:fl_clash/views/logs.dart';
 import 'package:fl_clash/widgets/widgets.dart';
+import 'package:fluent_ui/fluent_ui.dart' as fluent;
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -179,30 +180,34 @@ void main() {
     await tester.pumpWidget(
       UncontrolledProviderScope(
         container: container,
-        child: MaterialApp(
-          localizationsDelegates: const [
-            AppLocalizations.delegate,
-            GlobalMaterialLocalizations.delegate,
-            GlobalCupertinoLocalizations.delegate,
-            GlobalWidgetsLocalizations.delegate,
-          ],
-          supportedLocales: AppLocalizations.delegate.supportedLocales,
-          home: CommonPopScope(
-            onPop: (_) {
-              rootBackCount++;
-              return false;
-            },
-            child: CommonScaffold(
-              title: 'Logs',
-              searchState: AppBarSearchState(onSearch: (_) {}),
-              body: const SizedBox(),
+        child: fluent.FluentTheme(
+          data: fluent.FluentThemeData(brightness: Brightness.light),
+          child: MaterialApp(
+            localizationsDelegates: const [
+              AppLocalizations.delegate,
+              fluent.FluentLocalizations.delegate,
+              GlobalMaterialLocalizations.delegate,
+              GlobalCupertinoLocalizations.delegate,
+              GlobalWidgetsLocalizations.delegate,
+            ],
+            supportedLocales: AppLocalizations.delegate.supportedLocales,
+            home: CommonPopScope(
+              onPop: (_) {
+                rootBackCount++;
+                return false;
+              },
+              child: CommonScaffold(
+                title: 'Logs',
+                searchState: AppBarSearchState(onSearch: (_) {}),
+                body: const SizedBox(),
+              ),
             ),
           ),
         ),
       ),
     );
 
-    await tester.tap(find.byIcon(Icons.search));
+    await tester.tap(find.byIcon(fluent.WindowsIcons.search));
     await tester.pumpAndSettle();
     expect(find.byType(TextField), findsOneWidget);
 
@@ -225,23 +230,27 @@ void main() {
     await tester.pumpWidget(
       UncontrolledProviderScope(
         container: container,
-        child: MaterialApp(
-          localizationsDelegates: const [
-            AppLocalizations.delegate,
-            GlobalMaterialLocalizations.delegate,
-            GlobalCupertinoLocalizations.delegate,
-            GlobalWidgetsLocalizations.delegate,
-          ],
-          supportedLocales: AppLocalizations.delegate.supportedLocales,
-          home: _PageActivityTestScope(
-            isActive: isActive,
-            child: const LogsView(),
+        child: fluent.FluentTheme(
+          data: fluent.FluentThemeData(brightness: Brightness.light),
+          child: MaterialApp(
+            localizationsDelegates: const [
+              AppLocalizations.delegate,
+              fluent.FluentLocalizations.delegate,
+              GlobalMaterialLocalizations.delegate,
+              GlobalCupertinoLocalizations.delegate,
+              GlobalWidgetsLocalizations.delegate,
+            ],
+            supportedLocales: AppLocalizations.delegate.supportedLocales,
+            home: _PageActivityTestScope(
+              isActive: isActive,
+              child: const LogsView(),
+            ),
           ),
         ),
       ),
     );
 
-    await tester.tap(find.byIcon(Icons.search));
+    await tester.tap(find.byIcon(fluent.WindowsIcons.search));
     await tester.pumpAndSettle();
     expect(find.byType(TextField), findsOneWidget);
 
@@ -308,9 +317,9 @@ void main() {
     );
     await tester.pump(const Duration(milliseconds: 301));
 
-    await tester.tap(find.byIcon(Icons.more_vert));
+    await tester.tap(find.byIcon(fluent.FluentIcons.more_vertical));
     await tester.pumpAndSettle();
-    await tester.tap(find.byIcon(Icons.search));
+    await tester.tap(find.byIcon(fluent.WindowsIcons.search));
     await tester.pumpAndSettle();
     expect(find.byType(TextField), findsOneWidget);
 
@@ -388,7 +397,7 @@ void main() {
     await tester.pump(const Duration(milliseconds: 500));
 
     final deleteButton = find.ancestor(
-      of: find.byIcon(Icons.close).first,
+      of: find.byIcon(fluent.WindowsIcons.clear).first,
       matching: find.byType(IconButton),
     );
     tester.widget<IconButton>(deleteButton).onPressed!();
@@ -416,20 +425,24 @@ class _DashboardTestApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      localizationsDelegates: const [
-        AppLocalizations.delegate,
-        GlobalMaterialLocalizations.delegate,
-        GlobalCupertinoLocalizations.delegate,
-        GlobalWidgetsLocalizations.delegate,
-      ],
-      supportedLocales: AppLocalizations.delegate.supportedLocales,
-      builder: (context, child) {
-        globalState.measure = Measure.of(context, 1);
-        globalState.theme = CommonTheme.of(context, 1);
-        return child!;
-      },
-      home: child,
+    return fluent.FluentTheme(
+      data: fluent.FluentThemeData(brightness: Brightness.light),
+      child: MaterialApp(
+        localizationsDelegates: const [
+          AppLocalizations.delegate,
+          fluent.FluentLocalizations.delegate,
+          GlobalMaterialLocalizations.delegate,
+          GlobalCupertinoLocalizations.delegate,
+          GlobalWidgetsLocalizations.delegate,
+        ],
+        supportedLocales: AppLocalizations.delegate.supportedLocales,
+        builder: (context, child) {
+          globalState.measure = Measure.of(context, 1);
+          globalState.theme = CommonTheme.of(context, 1);
+          return child!;
+        },
+        home: child,
+      ),
     );
   }
 }

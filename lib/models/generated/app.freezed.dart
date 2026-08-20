@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // coverage:ignore-file
-// ignore_for_file: type=lint, type=warning, deprecated_member_use, deprecated_member_use_from_same_package
+// ignore_for_file: type=lint
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
 part of '../app.dart';
@@ -9,7 +9,6 @@ part of '../app.dart';
 // FreezedGenerator
 // **************************************************************************
 
-// GENERATED CODE - DO NOT MODIFY BY HAND
 // dart format off
 T _$identity<T>(T value) => value;
 /// @nodoc
@@ -60,7 +59,7 @@ class _$AppStateCopyWithImpl<$Res>
 /// Create a copy of AppState
 /// with the given fields replaced by the non-null parameter values.
 @pragma('vm:prefer-inline') @override $Res call({Object? isInit = null,Object? pageLabel = null,Object? packages = null,Object? sortNum = null,Object? viewSize = null,Object? sideWidth = null,Object? delayMap = null,Object? groups = null,Object? checkIpNum = null,Object? brightness = null,Object? runTime = freezed,Object? providers = null,Object? localIp = freezed,Object? requests = null,Object? version = null,Object? logs = null,Object? traffics = null,Object? totalTraffic = null,Object? authorizedTunEnable = null,Object? loading = null,Object? systemUiOverlayStyle = null,Object? coreStatus = null,}) {
-  return _then(AppState(
+  return _then(_self.copyWith(
 isInit: null == isInit ? _self.isInit : isInit // ignore: cast_nullable_to_non_nullable
 as bool,pageLabel: null == pageLabel ? _self.pageLabel : pageLabel // ignore: cast_nullable_to_non_nullable
 as PageLabel,packages: null == packages ? _self.packages : packages // ignore: cast_nullable_to_non_nullable
@@ -233,7 +232,7 @@ return $default(_that.isInit,_that.pageLabel,_that.packages,_that.sortNum,_that.
 
 
 class _AppState implements AppState {
-  const _AppState({this.isInit = false, this.pageLabel = PageLabel.dashboard,  List<Package> packages = const [], this.sortNum = 0, required this.viewSize, this.sideWidth = 0,  DelayMap delayMap = const {},  List<Group> groups = const [], this.checkIpNum = 0, required this.brightness, this.runTime,  List<ExternalProvider> providers = const [], this.localIp, required this.requests, required this.version, required this.logs, required this.traffics, required this.totalTraffic, this.authorizedTunEnable = TunAuthorizationState.none, this.loading = false, required this.systemUiOverlayStyle, this.coreStatus = CoreStatus.connecting}): _packages = packages,_delayMap = delayMap,_groups = groups,_providers = providers;
+  const _AppState({this.isInit = false, this.pageLabel = PageLabel.dashboard, final  List<Package> packages = const [], this.sortNum = 0, required this.viewSize, this.sideWidth = 0, final  DelayMap delayMap = const {}, final  List<Group> groups = const [], this.checkIpNum = 0, required this.brightness, this.runTime, final  List<ExternalProvider> providers = const [], this.localIp, required this.requests, required this.version, required this.logs, required this.traffics, required this.totalTraffic, this.authorizedTunEnable = TunAuthorizationState.none, this.loading = false, required this.systemUiOverlayStyle, this.coreStatus = CoreStatus.connecting}): _packages = packages,_delayMap = delayMap,_groups = groups,_providers = providers;
   
 
 @override@JsonKey() final  bool isInit;

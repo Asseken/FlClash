@@ -57,14 +57,24 @@ class _CoreStateState extends State<CoreState> {
                                 );
                               }
                             : () async {
-                                await coreController.stopListener();
-                                ref.read(coreStatusProvider.notifier).value =
-                                    CoreStatus.disconnected;
-                                await coreController.stop();
-                                ref.read(trafficsProvider.notifier).clear();
-                                ref
-                                    .read(trafficsProvider.notifier)
-                                    .addTraffic(const Traffic());
+                                try {
+                                  await coreController.stopListener();
+                                  await coreController.stop();
+                                  ref.read(coreStatusProvider.notifier).value =
+                                      CoreStatus.disconnected;
+                                  ref.read(trafficsProvider.notifier).clear();
+                                  ref
+                                      .read(trafficsProvider.notifier)
+                                      .addTraffic(const Traffic());
+                                  ref
+                                      .read(directTrafficProvider.notifier)
+                                      .clear();
+                                  ref
+                                      .read(directTrafficProvider.notifier)
+                                      .addTraffic(const Traffic());
+                                } catch (error) {
+                                  globalState.showNotifier(error.toString());
+                                }
                               },
                         child: TooltipText(
                           text: Text(
@@ -96,9 +106,10 @@ class _CoreStateState extends State<CoreState> {
                                 await globalState.container
                                     .read(coreActionProvider.notifier)
                                     .startCore();
-                                await globalState.container
-                                    .read(coreActionProvider.notifier)
-                                    .initCore();
+                                if (ref.read(coreStatusProvider) !=
+                                    CoreStatus.connected) {
+                                  return;
+                                }
                                 if (ref.read(isStartProvider)) {
                                   await ref
                                       .read(setupActionProvider.notifier)
@@ -141,9 +152,13 @@ class _CoreStateState extends State<CoreState> {
                           if (res != true) {
                             return;
                           }
-                          globalState.container
-                              .read(coreActionProvider.notifier)
-                              .restartCore();
+                          try {
+                            await globalState.container
+                                .read(coreActionProvider.notifier)
+                                .restartCore();
+                          } catch (error) {
+                            globalState.showNotifier(error.toString());
+                          }
                         },
                         child: TooltipText(
                           text: Text(

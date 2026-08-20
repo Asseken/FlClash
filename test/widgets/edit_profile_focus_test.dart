@@ -7,6 +7,7 @@ import 'package:fl_clash/models/models.dart';
 import 'package:fl_clash/providers/providers.dart';
 import 'package:fl_clash/state.dart';
 import 'package:fl_clash/views/profiles/edit.dart';
+import 'package:fluent_ui/fluent_ui.dart' as fluent;
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
@@ -68,41 +69,45 @@ Future<FocusNode> pumpEditProfile(
   await tester.pumpWidget(
     UncontrolledProviderScope(
       container: container,
-      child: MaterialApp(
-        localizationsDelegates: const [
-          AppLocalizations.delegate,
-          GlobalMaterialLocalizations.delegate,
-          GlobalCupertinoLocalizations.delegate,
-          GlobalWidgetsLocalizations.delegate,
-        ],
-        supportedLocales: AppLocalizations.delegate.supportedLocales,
-        builder: (context, child) {
-          globalState.measure = Measure.of(context, 1);
-          globalState.theme = CommonTheme.of(context, 1);
-          return child!;
-        },
-        home: Scaffold(
-          body: Column(
-            children: [
-              Focus(focusNode: outsideFocus, child: const SizedBox()),
-              Expanded(
-                child: Navigator(
-                  pages: [
-                    MaterialPage(
-                      child: Builder(
-                        builder: (context) => Scaffold(
-                          body: EditProfileView(
-                            context: context,
-                            profile: profile ?? _urlProfile(),
+      child: fluent.FluentTheme(
+        data: fluent.FluentThemeData(brightness: Brightness.light),
+        child: MaterialApp(
+          localizationsDelegates: const [
+            AppLocalizations.delegate,
+            fluent.FluentLocalizations.delegate,
+            GlobalMaterialLocalizations.delegate,
+            GlobalCupertinoLocalizations.delegate,
+            GlobalWidgetsLocalizations.delegate,
+          ],
+          supportedLocales: AppLocalizations.delegate.supportedLocales,
+          builder: (context, child) {
+            globalState.measure = Measure.of(context, 1);
+            globalState.theme = CommonTheme.of(context, 1);
+            return child!;
+          },
+          home: Scaffold(
+            body: Column(
+              children: [
+                Focus(focusNode: outsideFocus, child: const SizedBox()),
+                Expanded(
+                  child: Navigator(
+                    pages: [
+                      MaterialPage(
+                        child: Builder(
+                          builder: (context) => Scaffold(
+                            body: EditProfileView(
+                              context: context,
+                              profile: profile ?? _urlProfile(),
+                            ),
                           ),
                         ),
                       ),
-                    ),
-                  ],
-                  onDidRemovePage: (_) {},
+                    ],
+                    onDidRemovePage: (_) {},
+                  ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
       ),

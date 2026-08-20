@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // coverage:ignore-file
-// ignore_for_file: type=lint, type=warning, deprecated_member_use, deprecated_member_use_from_same_package
+// ignore_for_file: type=lint
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
 part of '../state.dart';
@@ -9,7 +9,6 @@ part of '../state.dart';
 // FreezedGenerator
 // **************************************************************************
 
-// GENERATED CODE - DO NOT MODIFY BY HAND
 // dart format off
 T _$identity<T>(T value) => value;
 /// @nodoc
@@ -64,8 +63,8 @@ class _$VMCopyWithImpl<A,$Res>
 /// Create a copy of VM
 /// with the given fields replaced by the non-null parameter values.
 @pragma('vm:prefer-inline') @override $Res call({Object? a = freezed,}) {
-  return _then(VM(
-freezed == a ? _self.a : a // ignore: cast_nullable_to_non_nullable
+  return _then(_self.copyWith(
+a: freezed == a ? _self.a : a // ignore: cast_nullable_to_non_nullable
 as A,
   ));
 }
@@ -321,9 +320,9 @@ class _$VM2CopyWithImpl<A,B,$Res>
 /// Create a copy of VM2
 /// with the given fields replaced by the non-null parameter values.
 @pragma('vm:prefer-inline') @override $Res call({Object? a = freezed,Object? b = freezed,}) {
-  return _then(VM2(
-freezed == a ? _self.a : a // ignore: cast_nullable_to_non_nullable
-as A,freezed == b ? _self.b : b // ignore: cast_nullable_to_non_nullable
+  return _then(_self.copyWith(
+a: freezed == a ? _self.a : a // ignore: cast_nullable_to_non_nullable
+as A,b: freezed == b ? _self.b : b // ignore: cast_nullable_to_non_nullable
 as B,
   ));
 }
@@ -581,10 +580,10 @@ class _$VM3CopyWithImpl<A,B,C,$Res>
 /// Create a copy of VM3
 /// with the given fields replaced by the non-null parameter values.
 @pragma('vm:prefer-inline') @override $Res call({Object? a = freezed,Object? b = freezed,Object? c = freezed,}) {
-  return _then(VM3(
-freezed == a ? _self.a : a // ignore: cast_nullable_to_non_nullable
-as A,freezed == b ? _self.b : b // ignore: cast_nullable_to_non_nullable
-as B,freezed == c ? _self.c : c // ignore: cast_nullable_to_non_nullable
+  return _then(_self.copyWith(
+a: freezed == a ? _self.a : a // ignore: cast_nullable_to_non_nullable
+as A,b: freezed == b ? _self.b : b // ignore: cast_nullable_to_non_nullable
+as B,c: freezed == c ? _self.c : c // ignore: cast_nullable_to_non_nullable
 as C,
   ));
 }
@@ -844,11 +843,11 @@ class _$VM4CopyWithImpl<A,B,C,D,$Res>
 /// Create a copy of VM4
 /// with the given fields replaced by the non-null parameter values.
 @pragma('vm:prefer-inline') @override $Res call({Object? a = freezed,Object? b = freezed,Object? c = freezed,Object? d = freezed,}) {
-  return _then(VM4(
-freezed == a ? _self.a : a // ignore: cast_nullable_to_non_nullable
-as A,freezed == b ? _self.b : b // ignore: cast_nullable_to_non_nullable
-as B,freezed == c ? _self.c : c // ignore: cast_nullable_to_non_nullable
-as C,freezed == d ? _self.d : d // ignore: cast_nullable_to_non_nullable
+  return _then(_self.copyWith(
+a: freezed == a ? _self.a : a // ignore: cast_nullable_to_non_nullable
+as A,b: freezed == b ? _self.b : b // ignore: cast_nullable_to_non_nullable
+as B,c: freezed == c ? _self.c : c // ignore: cast_nullable_to_non_nullable
+as C,d: freezed == d ? _self.d : d // ignore: cast_nullable_to_non_nullable
 as D,
   ));
 }
@@ -1110,12 +1109,12 @@ class _$VM5CopyWithImpl<A,B,C,D,E,$Res>
 /// Create a copy of VM5
 /// with the given fields replaced by the non-null parameter values.
 @pragma('vm:prefer-inline') @override $Res call({Object? a = freezed,Object? b = freezed,Object? c = freezed,Object? d = freezed,Object? e = freezed,}) {
-  return _then(VM5(
-freezed == a ? _self.a : a // ignore: cast_nullable_to_non_nullable
-as A,freezed == b ? _self.b : b // ignore: cast_nullable_to_non_nullable
-as B,freezed == c ? _self.c : c // ignore: cast_nullable_to_non_nullable
-as C,freezed == d ? _self.d : d // ignore: cast_nullable_to_non_nullable
-as D,freezed == e ? _self.e : e // ignore: cast_nullable_to_non_nullable
+  return _then(_self.copyWith(
+a: freezed == a ? _self.a : a // ignore: cast_nullable_to_non_nullable
+as A,b: freezed == b ? _self.b : b // ignore: cast_nullable_to_non_nullable
+as B,c: freezed == c ? _self.c : c // ignore: cast_nullable_to_non_nullable
+as C,d: freezed == d ? _self.d : d // ignore: cast_nullable_to_non_nullable
+as D,e: freezed == e ? _self.e : e // ignore: cast_nullable_to_non_nullable
 as E,
   ));
 }
@@ -1379,7 +1378,7 @@ class _$ActivateStateCopyWithImpl<$Res>
 /// Create a copy of ActivateState
 /// with the given fields replaced by the non-null parameter values.
 @pragma('vm:prefer-inline') @override $Res call({Object? active = null,}) {
-  return _then(ActivateState(
+  return _then(_self.copyWith(
 active: null == active ? _self.active : active // ignore: cast_nullable_to_non_nullable
 as bool,
   ));
@@ -1636,7 +1635,7 @@ class _$InitStateCopyWithImpl<$Res>
 /// Create a copy of InitState
 /// with the given fields replaced by the non-null parameter values.
 @pragma('vm:prefer-inline') @override $Res call({Object? config = null,Object? profiles = null,}) {
-  return _then(InitState(
+  return _then(_self.copyWith(
 config: null == config ? _self.config : config // ignore: cast_nullable_to_non_nullable
 as Config,profiles: null == profiles ? _self.profiles : profiles // ignore: cast_nullable_to_non_nullable
 as List<Profile>,
@@ -1789,7 +1788,7 @@ return $default(_that.config,_that.profiles);case _:
 
 
 class _InitState implements InitState {
-  const _InitState({required this.config, required  List<Profile> profiles}): _profiles = profiles;
+  const _InitState({required this.config, required final  List<Profile> profiles}): _profiles = profiles;
   
 
 @override final  Config config;
@@ -1920,7 +1919,7 @@ class _$CommonMessageCopyWithImpl<$Res>
 /// Create a copy of CommonMessage
 /// with the given fields replaced by the non-null parameter values.
 @pragma('vm:prefer-inline') @override $Res call({Object? id = null,Object? text = null,Object? duration = null,Object? actionState = freezed,}) {
-  return _then(CommonMessage(
+  return _then(_self.copyWith(
 id: null == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
 as String,text: null == text ? _self.text : text // ignore: cast_nullable_to_non_nullable
 as String,duration: null == duration ? _self.duration : duration // ignore: cast_nullable_to_non_nullable
@@ -2210,7 +2209,7 @@ class _$MessageActionStateCopyWithImpl<$Res>
 /// Create a copy of MessageActionState
 /// with the given fields replaced by the non-null parameter values.
 @pragma('vm:prefer-inline') @override $Res call({Object? actionText = null,Object? action = null,}) {
-  return _then(MessageActionState(
+  return _then(_self.copyWith(
 actionText: null == actionText ? _self.actionText : actionText // ignore: cast_nullable_to_non_nullable
 as String,action: null == action ? _self.action : action // ignore: cast_nullable_to_non_nullable
 as VoidCallback,
@@ -2470,7 +2469,7 @@ class _$AppBarStateCopyWithImpl<$Res>
 /// Create a copy of AppBarState
 /// with the given fields replaced by the non-null parameter values.
 @pragma('vm:prefer-inline') @override $Res call({Object? actions = null,Object? searchState = freezed,Object? editState = freezed,}) {
-  return _then(AppBarState(
+  return _then(_self.copyWith(
 actions: null == actions ? _self.actions : actions // ignore: cast_nullable_to_non_nullable
 as List<Widget>,searchState: freezed == searchState ? _self.searchState : searchState // ignore: cast_nullable_to_non_nullable
 as AppBarSearchState?,editState: freezed == editState ? _self.editState : editState // ignore: cast_nullable_to_non_nullable
@@ -2639,7 +2638,7 @@ return $default(_that.actions,_that.searchState,_that.editState);case _:
 
 
 class _AppBarState implements AppBarState {
-  const _AppBarState({ List<Widget> actions = const [], this.searchState, this.editState}): _actions = actions;
+  const _AppBarState({final  List<Widget> actions = const [], this.searchState, this.editState}): _actions = actions;
   
 
  final  List<Widget> _actions;
@@ -2738,7 +2737,7 @@ $AppBarEditStateCopyWith<$Res>? get editState {
 /// @nodoc
 mixin _$AppBarSearchState {
 
- dynamic Function(String) get onSearch; bool get autoAddSearch; String? get query;
+  Function(String) get onSearch; bool get autoAddSearch; String? get query;
 /// Create a copy of AppBarSearchState
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -2769,7 +2768,7 @@ abstract mixin class $AppBarSearchStateCopyWith<$Res>  {
   factory $AppBarSearchStateCopyWith(AppBarSearchState value, $Res Function(AppBarSearchState) _then) = _$AppBarSearchStateCopyWithImpl;
 @useResult
 $Res call({
- dynamic Function(String) onSearch, bool autoAddSearch, String? query
+  Function(String) onSearch, bool autoAddSearch, String? query
 });
 
 
@@ -2787,9 +2786,9 @@ class _$AppBarSearchStateCopyWithImpl<$Res>
 /// Create a copy of AppBarSearchState
 /// with the given fields replaced by the non-null parameter values.
 @pragma('vm:prefer-inline') @override $Res call({Object? onSearch = null,Object? autoAddSearch = null,Object? query = freezed,}) {
-  return _then(AppBarSearchState(
+  return _then(_self.copyWith(
 onSearch: null == onSearch ? _self.onSearch : onSearch // ignore: cast_nullable_to_non_nullable
-as dynamic Function(String),autoAddSearch: null == autoAddSearch ? _self.autoAddSearch : autoAddSearch // ignore: cast_nullable_to_non_nullable
+as  Function(String),autoAddSearch: null == autoAddSearch ? _self.autoAddSearch : autoAddSearch // ignore: cast_nullable_to_non_nullable
 as bool,query: freezed == query ? _self.query : query // ignore: cast_nullable_to_non_nullable
 as String?,
   ));
@@ -2876,7 +2875,7 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( dynamic Function(String) onSearch,  bool autoAddSearch,  String? query)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function(  Function(String) onSearch,  bool autoAddSearch,  String? query)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _AppBarSearchState() when $default != null:
 return $default(_that.onSearch,_that.autoAddSearch,_that.query);case _:
@@ -2897,7 +2896,7 @@ return $default(_that.onSearch,_that.autoAddSearch,_that.query);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( dynamic Function(String) onSearch,  bool autoAddSearch,  String? query)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function(  Function(String) onSearch,  bool autoAddSearch,  String? query)  $default,) {final _that = this;
 switch (_that) {
 case _AppBarSearchState():
 return $default(_that.onSearch,_that.autoAddSearch,_that.query);case _:
@@ -2917,7 +2916,7 @@ return $default(_that.onSearch,_that.autoAddSearch,_that.query);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( dynamic Function(String) onSearch,  bool autoAddSearch,  String? query)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function(  Function(String) onSearch,  bool autoAddSearch,  String? query)?  $default,) {final _that = this;
 switch (_that) {
 case _AppBarSearchState() when $default != null:
 return $default(_that.onSearch,_that.autoAddSearch,_that.query);case _:
@@ -2935,7 +2934,7 @@ class _AppBarSearchState implements AppBarSearchState {
   const _AppBarSearchState({required this.onSearch, this.autoAddSearch = true, this.query = null});
   
 
-@override final  dynamic Function(String) onSearch;
+@override final   Function(String) onSearch;
 @override@JsonKey() final  bool autoAddSearch;
 @override@JsonKey() final  String? query;
 
@@ -2969,7 +2968,7 @@ abstract mixin class _$AppBarSearchStateCopyWith<$Res> implements $AppBarSearchS
   factory _$AppBarSearchStateCopyWith(_AppBarSearchState value, $Res Function(_AppBarSearchState) _then) = __$AppBarSearchStateCopyWithImpl;
 @override @useResult
 $Res call({
- dynamic Function(String) onSearch, bool autoAddSearch, String? query
+  Function(String) onSearch, bool autoAddSearch, String? query
 });
 
 
@@ -2989,7 +2988,7 @@ class __$AppBarSearchStateCopyWithImpl<$Res>
 @override @pragma('vm:prefer-inline') $Res call({Object? onSearch = null,Object? autoAddSearch = null,Object? query = freezed,}) {
   return _then(_AppBarSearchState(
 onSearch: null == onSearch ? _self.onSearch : onSearch // ignore: cast_nullable_to_non_nullable
-as dynamic Function(String),autoAddSearch: null == autoAddSearch ? _self.autoAddSearch : autoAddSearch // ignore: cast_nullable_to_non_nullable
+as  Function(String),autoAddSearch: null == autoAddSearch ? _self.autoAddSearch : autoAddSearch // ignore: cast_nullable_to_non_nullable
 as bool,query: freezed == query ? _self.query : query // ignore: cast_nullable_to_non_nullable
 as String?,
   ));
@@ -3001,7 +3000,7 @@ as String?,
 /// @nodoc
 mixin _$AppBarEditState {
 
- int get editCount; dynamic Function() get onExit;
+ int get editCount;  Function() get onExit;
 /// Create a copy of AppBarEditState
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -3032,7 +3031,7 @@ abstract mixin class $AppBarEditStateCopyWith<$Res>  {
   factory $AppBarEditStateCopyWith(AppBarEditState value, $Res Function(AppBarEditState) _then) = _$AppBarEditStateCopyWithImpl;
 @useResult
 $Res call({
- int editCount, dynamic Function() onExit
+ int editCount,  Function() onExit
 });
 
 
@@ -3050,10 +3049,10 @@ class _$AppBarEditStateCopyWithImpl<$Res>
 /// Create a copy of AppBarEditState
 /// with the given fields replaced by the non-null parameter values.
 @pragma('vm:prefer-inline') @override $Res call({Object? editCount = null,Object? onExit = null,}) {
-  return _then(AppBarEditState(
+  return _then(_self.copyWith(
 editCount: null == editCount ? _self.editCount : editCount // ignore: cast_nullable_to_non_nullable
 as int,onExit: null == onExit ? _self.onExit : onExit // ignore: cast_nullable_to_non_nullable
-as dynamic Function(),
+as  Function(),
   ));
 }
 
@@ -3138,7 +3137,7 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( int editCount,  dynamic Function() onExit)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( int editCount,   Function() onExit)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _AppBarEditState() when $default != null:
 return $default(_that.editCount,_that.onExit);case _:
@@ -3159,7 +3158,7 @@ return $default(_that.editCount,_that.onExit);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( int editCount,  dynamic Function() onExit)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( int editCount,   Function() onExit)  $default,) {final _that = this;
 switch (_that) {
 case _AppBarEditState():
 return $default(_that.editCount,_that.onExit);case _:
@@ -3179,7 +3178,7 @@ return $default(_that.editCount,_that.onExit);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( int editCount,  dynamic Function() onExit)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( int editCount,   Function() onExit)?  $default,) {final _that = this;
 switch (_that) {
 case _AppBarEditState() when $default != null:
 return $default(_that.editCount,_that.onExit);case _:
@@ -3198,7 +3197,7 @@ class _AppBarEditState implements AppBarEditState {
   
 
 @override@JsonKey() final  int editCount;
-@override final  dynamic Function() onExit;
+@override final   Function() onExit;
 
 /// Create a copy of AppBarEditState
 /// with the given fields replaced by the non-null parameter values.
@@ -3230,7 +3229,7 @@ abstract mixin class _$AppBarEditStateCopyWith<$Res> implements $AppBarEditState
   factory _$AppBarEditStateCopyWith(_AppBarEditState value, $Res Function(_AppBarEditState) _then) = __$AppBarEditStateCopyWithImpl;
 @override @useResult
 $Res call({
- int editCount, dynamic Function() onExit
+ int editCount,  Function() onExit
 });
 
 
@@ -3251,7 +3250,7 @@ class __$AppBarEditStateCopyWithImpl<$Res>
   return _then(_AppBarEditState(
 editCount: null == editCount ? _self.editCount : editCount // ignore: cast_nullable_to_non_nullable
 as int,onExit: null == onExit ? _self.onExit : onExit // ignore: cast_nullable_to_non_nullable
-as dynamic Function(),
+as  Function(),
   ));
 }
 
@@ -3310,7 +3309,7 @@ class _$StartButtonStateCopyWithImpl<$Res>
 /// Create a copy of StartButtonState
 /// with the given fields replaced by the non-null parameter values.
 @pragma('vm:prefer-inline') @override $Res call({Object? isPreload = null,Object? hasProfile = null,}) {
-  return _then(StartButtonState(
+  return _then(_self.copyWith(
 isPreload: null == isPreload ? _self.isPreload : isPreload // ignore: cast_nullable_to_non_nullable
 as bool,hasProfile: null == hasProfile ? _self.hasProfile : hasProfile // ignore: cast_nullable_to_non_nullable
 as bool,
@@ -3570,7 +3569,7 @@ class _$ProfilesStateCopyWithImpl<$Res>
 /// Create a copy of ProfilesState
 /// with the given fields replaced by the non-null parameter values.
 @pragma('vm:prefer-inline') @override $Res call({Object? profiles = null,Object? currentProfileId = freezed,}) {
-  return _then(ProfilesState(
+  return _then(_self.copyWith(
 profiles: null == profiles ? _self.profiles : profiles // ignore: cast_nullable_to_non_nullable
 as List<Profile>,currentProfileId: freezed == currentProfileId ? _self.currentProfileId : currentProfileId // ignore: cast_nullable_to_non_nullable
 as int?,
@@ -3714,7 +3713,7 @@ return $default(_that.profiles,_that.currentProfileId);case _:
 
 
 class _ProfilesState implements ProfilesState {
-  const _ProfilesState({required  List<Profile> profiles, required this.currentProfileId}): _profiles = profiles;
+  const _ProfilesState({required final  List<Profile> profiles, required this.currentProfileId}): _profiles = profiles;
   
 
  final  List<Profile> _profiles;
@@ -3836,7 +3835,7 @@ class _$NetworkDetectionStateCopyWithImpl<$Res>
 /// Create a copy of NetworkDetectionState
 /// with the given fields replaced by the non-null parameter values.
 @pragma('vm:prefer-inline') @override $Res call({Object? isLoading = null,Object? ipInfo = freezed,}) {
-  return _then(NetworkDetectionState(
+  return _then(_self.copyWith(
 isLoading: null == isLoading ? _self.isLoading : isLoading // ignore: cast_nullable_to_non_nullable
 as bool,ipInfo: freezed == ipInfo ? _self.ipInfo : ipInfo // ignore: cast_nullable_to_non_nullable
 as IpInfo?,
@@ -4120,7 +4119,7 @@ class _$TrayStateCopyWithImpl<$Res>
 /// Create a copy of TrayState
 /// with the given fields replaced by the non-null parameter values.
 @pragma('vm:prefer-inline') @override $Res call({Object? mode = null,Object? port = null,Object? autoLaunch = null,Object? systemProxy = null,Object? tunEnable = null,Object? isStart = null,Object? locale = freezed,Object? brightness = freezed,Object? groups = null,Object? selectedMap = null,Object? showTrayTitle = null,}) {
-  return _then(TrayState(
+  return _then(_self.copyWith(
 mode: null == mode ? _self.mode : mode // ignore: cast_nullable_to_non_nullable
 as Mode,port: null == port ? _self.port : port // ignore: cast_nullable_to_non_nullable
 as int,autoLaunch: null == autoLaunch ? _self.autoLaunch : autoLaunch // ignore: cast_nullable_to_non_nullable
@@ -4273,7 +4272,7 @@ return $default(_that.mode,_that.port,_that.autoLaunch,_that.systemProxy,_that.t
 
 
 class _TrayState implements TrayState {
-  const _TrayState({required this.mode, required this.port, required this.autoLaunch, required this.systemProxy, required this.tunEnable, required this.isStart, required this.locale, required this.brightness, required  List<Group> groups, required  Map<String, String> selectedMap, required this.showTrayTitle}): _groups = groups,_selectedMap = selectedMap;
+  const _TrayState({required this.mode, required this.port, required this.autoLaunch, required this.systemProxy, required this.tunEnable, required this.isStart, required this.locale, required this.brightness, required final  List<Group> groups, required final  Map<String, String> selectedMap, required this.showTrayTitle}): _groups = groups,_selectedMap = selectedMap;
   
 
 @override final  Mode mode;
@@ -4419,7 +4418,7 @@ class _$TrayTitleStateCopyWithImpl<$Res>
 /// Create a copy of TrayTitleState
 /// with the given fields replaced by the non-null parameter values.
 @pragma('vm:prefer-inline') @override $Res call({Object? traffic = null,Object? showTrayTitle = null,}) {
-  return _then(TrayTitleState(
+  return _then(_self.copyWith(
 traffic: null == traffic ? _self.traffic : traffic // ignore: cast_nullable_to_non_nullable
 as Traffic,showTrayTitle: null == showTrayTitle ? _self.showTrayTitle : showTrayTitle // ignore: cast_nullable_to_non_nullable
 as bool,
@@ -4697,7 +4696,7 @@ class _$NavigationStateCopyWithImpl<$Res>
 /// Create a copy of NavigationState
 /// with the given fields replaced by the non-null parameter values.
 @pragma('vm:prefer-inline') @override $Res call({Object? pageLabel = null,Object? navigationItems = null,Object? viewMode = null,Object? locale = freezed,Object? currentIndex = null,}) {
-  return _then(NavigationState(
+  return _then(_self.copyWith(
 pageLabel: null == pageLabel ? _self.pageLabel : pageLabel // ignore: cast_nullable_to_non_nullable
 as PageLabel,navigationItems: null == navigationItems ? _self.navigationItems : navigationItems // ignore: cast_nullable_to_non_nullable
 as List<NavigationItem>,viewMode: null == viewMode ? _self.viewMode : viewMode // ignore: cast_nullable_to_non_nullable
@@ -4844,7 +4843,7 @@ return $default(_that.pageLabel,_that.navigationItems,_that.viewMode,_that.local
 
 
 class _NavigationState implements NavigationState {
-  const _NavigationState({required this.pageLabel, required  List<NavigationItem> navigationItems, required this.viewMode, required this.locale, required this.currentIndex}): _navigationItems = navigationItems;
+  const _NavigationState({required this.pageLabel, required final  List<NavigationItem> navigationItems, required this.viewMode, required this.locale, required this.currentIndex}): _navigationItems = navigationItems;
   
 
 @override final  PageLabel pageLabel;
@@ -4972,7 +4971,7 @@ class _$GroupsStateCopyWithImpl<$Res>
 /// Create a copy of GroupsState
 /// with the given fields replaced by the non-null parameter values.
 @pragma('vm:prefer-inline') @override $Res call({Object? value = null,}) {
-  return _then(GroupsState(
+  return _then(_self.copyWith(
 value: null == value ? _self.value : value // ignore: cast_nullable_to_non_nullable
 as List<Group>,
   ));
@@ -5115,7 +5114,7 @@ return $default(_that.value);case _:
 
 
 class _GroupsState implements GroupsState {
-  const _GroupsState({required  List<Group> value}): _value = value;
+  const _GroupsState({required final  List<Group> value}): _value = value;
   
 
  final  List<Group> _value;
@@ -5235,7 +5234,7 @@ class _$NavigationItemsStateCopyWithImpl<$Res>
 /// Create a copy of NavigationItemsState
 /// with the given fields replaced by the non-null parameter values.
 @pragma('vm:prefer-inline') @override $Res call({Object? value = null,}) {
-  return _then(NavigationItemsState(
+  return _then(_self.copyWith(
 value: null == value ? _self.value : value // ignore: cast_nullable_to_non_nullable
 as List<NavigationItem>,
   ));
@@ -5378,7 +5377,7 @@ return $default(_that.value);case _:
 
 
 class _NavigationItemsState implements NavigationItemsState {
-  const _NavigationItemsState({required  List<NavigationItem> value}): _value = value;
+  const _NavigationItemsState({required final  List<NavigationItem> value}): _value = value;
   
 
  final  List<NavigationItem> _value;
@@ -5498,7 +5497,7 @@ class _$ProxiesListStateCopyWithImpl<$Res>
 /// Create a copy of ProxiesListState
 /// with the given fields replaced by the non-null parameter values.
 @pragma('vm:prefer-inline') @override $Res call({Object? groups = null,Object? currentUnfoldSet = null,Object? proxyCardType = null,}) {
-  return _then(ProxiesListState(
+  return _then(_self.copyWith(
 groups: null == groups ? _self.groups : groups // ignore: cast_nullable_to_non_nullable
 as List<Group>,currentUnfoldSet: null == currentUnfoldSet ? _self.currentUnfoldSet : currentUnfoldSet // ignore: cast_nullable_to_non_nullable
 as Set<String>,proxyCardType: null == proxyCardType ? _self.proxyCardType : proxyCardType // ignore: cast_nullable_to_non_nullable
@@ -5643,7 +5642,7 @@ return $default(_that.groups,_that.currentUnfoldSet,_that.proxyCardType);case _:
 
 
 class _ProxiesListState implements ProxiesListState {
-  const _ProxiesListState({required  List<Group> groups, required  Set<String> currentUnfoldSet, required this.proxyCardType}): _groups = groups,_currentUnfoldSet = currentUnfoldSet;
+  const _ProxiesListState({required final  List<Group> groups, required final  Set<String> currentUnfoldSet, required this.proxyCardType}): _groups = groups,_currentUnfoldSet = currentUnfoldSet;
   
 
  final  List<Group> _groups;
@@ -5773,7 +5772,7 @@ class _$ProxiesTabStateCopyWithImpl<$Res>
 /// Create a copy of ProxiesTabState
 /// with the given fields replaced by the non-null parameter values.
 @pragma('vm:prefer-inline') @override $Res call({Object? groups = null,Object? currentGroupName = freezed,Object? proxyCardType = null,}) {
-  return _then(ProxiesTabState(
+  return _then(_self.copyWith(
 groups: null == groups ? _self.groups : groups // ignore: cast_nullable_to_non_nullable
 as List<Group>,currentGroupName: freezed == currentGroupName ? _self.currentGroupName : currentGroupName // ignore: cast_nullable_to_non_nullable
 as String?,proxyCardType: null == proxyCardType ? _self.proxyCardType : proxyCardType // ignore: cast_nullable_to_non_nullable
@@ -5918,7 +5917,7 @@ return $default(_that.groups,_that.currentGroupName,_that.proxyCardType);case _:
 
 
 class _ProxiesTabState implements ProxiesTabState {
-  const _ProxiesTabState({required  List<Group> groups, required this.currentGroupName, required this.proxyCardType}): _groups = groups;
+  const _ProxiesTabState({required final  List<Group> groups, required this.currentGroupName, required this.proxyCardType}): _groups = groups;
   
 
  final  List<Group> _groups;
@@ -6042,7 +6041,7 @@ class _$ProxyGroupSelectorStateCopyWithImpl<$Res>
 /// Create a copy of ProxyGroupSelectorState
 /// with the given fields replaced by the non-null parameter values.
 @pragma('vm:prefer-inline') @override $Res call({Object? testUrl = freezed,Object? proxiesSortType = null,Object? proxyCardType = null,Object? sortNum = null,Object? groupType = null,Object? proxies = null,}) {
-  return _then(ProxyGroupSelectorState(
+  return _then(_self.copyWith(
 testUrl: freezed == testUrl ? _self.testUrl : testUrl // ignore: cast_nullable_to_non_nullable
 as String?,proxiesSortType: null == proxiesSortType ? _self.proxiesSortType : proxiesSortType // ignore: cast_nullable_to_non_nullable
 as ProxiesSortType,proxyCardType: null == proxyCardType ? _self.proxyCardType : proxyCardType // ignore: cast_nullable_to_non_nullable
@@ -6190,7 +6189,7 @@ return $default(_that.testUrl,_that.proxiesSortType,_that.proxyCardType,_that.so
 
 
 class _ProxyGroupSelectorState implements ProxyGroupSelectorState {
-  const _ProxyGroupSelectorState({required this.testUrl, required this.proxiesSortType, required this.proxyCardType, required this.sortNum, required this.groupType, required  List<Proxy> proxies}): _proxies = proxies;
+  const _ProxyGroupSelectorState({required this.testUrl, required this.proxiesSortType, required this.proxyCardType, required this.sortNum, required this.groupType, required final  List<Proxy> proxies}): _proxies = proxies;
   
 
 @override final  String? testUrl;
@@ -6320,7 +6319,7 @@ class _$MoreToolsSelectorStateCopyWithImpl<$Res>
 /// Create a copy of MoreToolsSelectorState
 /// with the given fields replaced by the non-null parameter values.
 @pragma('vm:prefer-inline') @override $Res call({Object? navigationItems = null,}) {
-  return _then(MoreToolsSelectorState(
+  return _then(_self.copyWith(
 navigationItems: null == navigationItems ? _self.navigationItems : navigationItems // ignore: cast_nullable_to_non_nullable
 as List<NavigationItem>,
   ));
@@ -6463,7 +6462,7 @@ return $default(_that.navigationItems);case _:
 
 
 class _MoreToolsSelectorState implements MoreToolsSelectorState {
-  const _MoreToolsSelectorState({required  List<NavigationItem> navigationItems}): _navigationItems = navigationItems;
+  const _MoreToolsSelectorState({required final  List<NavigationItem> navigationItems}): _navigationItems = navigationItems;
   
 
  final  List<NavigationItem> _navigationItems;
@@ -6583,7 +6582,7 @@ class _$PackageListSelectorStateCopyWithImpl<$Res>
 /// Create a copy of PackageListSelectorState
 /// with the given fields replaced by the non-null parameter values.
 @pragma('vm:prefer-inline') @override $Res call({Object? packages = null,Object? accessControlProps = null,}) {
-  return _then(PackageListSelectorState(
+  return _then(_self.copyWith(
 packages: null == packages ? _self.packages : packages // ignore: cast_nullable_to_non_nullable
 as List<Package>,accessControlProps: null == accessControlProps ? _self.accessControlProps : accessControlProps // ignore: cast_nullable_to_non_nullable
 as AccessControlProps,
@@ -6736,7 +6735,7 @@ return $default(_that.packages,_that.accessControlProps);case _:
 
 
 class _PackageListSelectorState implements PackageListSelectorState {
-  const _PackageListSelectorState({required  List<Package> packages, required this.accessControlProps}): _packages = packages;
+  const _PackageListSelectorState({required final  List<Package> packages, required this.accessControlProps}): _packages = packages;
   
 
  final  List<Package> _packages;
@@ -6867,7 +6866,7 @@ class _$ProxiesListHeaderSelectorStateCopyWithImpl<$Res>
 /// Create a copy of ProxiesListHeaderSelectorState
 /// with the given fields replaced by the non-null parameter values.
 @pragma('vm:prefer-inline') @override $Res call({Object? offset = null,Object? currentIndex = null,}) {
-  return _then(ProxiesListHeaderSelectorState(
+  return _then(_self.copyWith(
 offset: null == offset ? _self.offset : offset // ignore: cast_nullable_to_non_nullable
 as double,currentIndex: null == currentIndex ? _self.currentIndex : currentIndex // ignore: cast_nullable_to_non_nullable
 as int,
@@ -7127,7 +7126,7 @@ class _$ProxiesActionsStateCopyWithImpl<$Res>
 /// Create a copy of ProxiesActionsState
 /// with the given fields replaced by the non-null parameter values.
 @pragma('vm:prefer-inline') @override $Res call({Object? pageLabel = null,Object? type = null,Object? hasProviders = null,}) {
-  return _then(ProxiesActionsState(
+  return _then(_self.copyWith(
 pageLabel: null == pageLabel ? _self.pageLabel : pageLabel // ignore: cast_nullable_to_non_nullable
 as PageLabel,type: null == type ? _self.type : type // ignore: cast_nullable_to_non_nullable
 as ProxiesType,hasProviders: null == hasProviders ? _self.hasProviders : hasProviders // ignore: cast_nullable_to_non_nullable
@@ -7390,7 +7389,7 @@ class _$ProxyStateCopyWithImpl<$Res>
 /// Create a copy of ProxyState
 /// with the given fields replaced by the non-null parameter values.
 @pragma('vm:prefer-inline') @override $Res call({Object? isStart = null,Object? systemProxy = null,Object? bassDomain = null,Object? port = null,}) {
-  return _then(ProxyState(
+  return _then(_self.copyWith(
 isStart: null == isStart ? _self.isStart : isStart // ignore: cast_nullable_to_non_nullable
 as bool,systemProxy: null == systemProxy ? _self.systemProxy : systemProxy // ignore: cast_nullable_to_non_nullable
 as bool,bassDomain: null == bassDomain ? _self.bassDomain : bassDomain // ignore: cast_nullable_to_non_nullable
@@ -7536,7 +7535,7 @@ return $default(_that.isStart,_that.systemProxy,_that.bassDomain,_that.port);cas
 
 
 class _ProxyState implements ProxyState {
-  const _ProxyState({required this.isStart, required this.systemProxy, required  List<String> bassDomain, required this.port}): _bassDomain = bassDomain;
+  const _ProxyState({required this.isStart, required this.systemProxy, required final  List<String> bassDomain, required this.port}): _bassDomain = bassDomain;
   
 
 @override final  bool isStart;
@@ -7662,7 +7661,7 @@ class _$DashboardStateCopyWithImpl<$Res>
 /// Create a copy of DashboardState
 /// with the given fields replaced by the non-null parameter values.
 @pragma('vm:prefer-inline') @override $Res call({Object? dashboardWidgets = null,}) {
-  return _then(DashboardState(
+  return _then(_self.copyWith(
 dashboardWidgets: null == dashboardWidgets ? _self.dashboardWidgets : dashboardWidgets // ignore: cast_nullable_to_non_nullable
 as List<DashboardWidget>,
   ));
@@ -7805,7 +7804,7 @@ return $default(_that.dashboardWidgets);case _:
 
 
 class _DashboardState implements DashboardState {
-  const _DashboardState({required  List<DashboardWidget> dashboardWidgets}): _dashboardWidgets = dashboardWidgets;
+  const _DashboardState({required final  List<DashboardWidget> dashboardWidgets}): _dashboardWidgets = dashboardWidgets;
   
 
  final  List<DashboardWidget> _dashboardWidgets;
@@ -7925,7 +7924,7 @@ class _$SelectedProxyStateCopyWithImpl<$Res>
 /// Create a copy of SelectedProxyState
 /// with the given fields replaced by the non-null parameter values.
 @pragma('vm:prefer-inline') @override $Res call({Object? proxyName = null,Object? group = null,Object? testUrl = freezed,}) {
-  return _then(SelectedProxyState(
+  return _then(_self.copyWith(
 proxyName: null == proxyName ? _self.proxyName : proxyName // ignore: cast_nullable_to_non_nullable
 as String,group: null == group ? _self.group : group // ignore: cast_nullable_to_non_nullable
 as bool,testUrl: freezed == testUrl ? _self.testUrl : testUrl // ignore: cast_nullable_to_non_nullable
@@ -8188,7 +8187,7 @@ class _$VpnStateCopyWithImpl<$Res>
 /// Create a copy of VpnState
 /// with the given fields replaced by the non-null parameter values.
 @pragma('vm:prefer-inline') @override $Res call({Object? stack = null,Object? vpnProps = null,}) {
-  return _then(VpnState(
+  return _then(_self.copyWith(
 stack: null == stack ? _self.stack : stack // ignore: cast_nullable_to_non_nullable
 as TunStack,vpnProps: null == vpnProps ? _self.vpnProps : vpnProps // ignore: cast_nullable_to_non_nullable
 as VpnProps,
@@ -8469,7 +8468,7 @@ class _$SharedStateCopyWithImpl<$Res>
 /// Create a copy of SharedState
 /// with the given fields replaced by the non-null parameter values.
 @pragma('vm:prefer-inline') @override $Res call({Object? setupParams = freezed,Object? vpnOptions = freezed,Object? stopTip = null,Object? startTip = null,Object? currentProfileName = null,Object? stopText = null,Object? onlyStatisticsProxy = null,Object? crashlytics = null,}) {
-  return _then(SharedState(
+  return _then(_self.copyWith(
 setupParams: freezed == setupParams ? _self.setupParams : setupParams // ignore: cast_nullable_to_non_nullable
 as SetupParams?,vpnOptions: freezed == vpnOptions ? _self.vpnOptions : vpnOptions // ignore: cast_nullable_to_non_nullable
 as VpnOptions?,stopTip: null == stopTip ? _self.stopTip : stopTip // ignore: cast_nullable_to_non_nullable
@@ -8798,7 +8797,7 @@ class _$ComputeGroupsStateCopyWithImpl<$Res>
 /// Create a copy of ComputeGroupsState
 /// with the given fields replaced by the non-null parameter values.
 @pragma('vm:prefer-inline') @override $Res call({Object? proxiesData = null,Object? sortType = null,Object? delayMap = null,Object? selectedMap = null,Object? defaultTestUrl = null,}) {
-  return _then(ComputeGroupsState(
+  return _then(_self.copyWith(
 proxiesData: null == proxiesData ? _self.proxiesData : proxiesData // ignore: cast_nullable_to_non_nullable
 as ProxiesData,sortType: null == sortType ? _self.sortType : sortType // ignore: cast_nullable_to_non_nullable
 as ProxiesSortType,delayMap: null == delayMap ? _self.delayMap : delayMap // ignore: cast_nullable_to_non_nullable
@@ -8954,7 +8953,7 @@ return $default(_that.proxiesData,_that.sortType,_that.delayMap,_that.selectedMa
 
 
 class _ComputeGroupsState implements ComputeGroupsState {
-  const _ComputeGroupsState({required this.proxiesData, required this.sortType, required  DelayMap delayMap, required  Map<String, String> selectedMap, required this.defaultTestUrl}): _delayMap = delayMap,_selectedMap = selectedMap;
+  const _ComputeGroupsState({required this.proxiesData, required this.sortType, required final  DelayMap delayMap, required final  Map<String, String> selectedMap, required this.defaultTestUrl}): _delayMap = delayMap,_selectedMap = selectedMap;
   
 
 @override final  ProxiesData proxiesData;
@@ -9097,7 +9096,7 @@ class _$MakeRealProfileStateCopyWithImpl<$Res>
 /// Create a copy of MakeRealProfileState
 /// with the given fields replaced by the non-null parameter values.
 @pragma('vm:prefer-inline') @override $Res call({Object? profilesPath = null,Object? profileId = null,Object? rawConfig = null,Object? realPatchConfig = null,Object? overrideDns = null,Object? appendSystemDns = null,Object? proxyGroups = null,Object? rules = null,Object? addedRules = null,Object? defaultUA = null,}) {
-  return _then(MakeRealProfileState(
+  return _then(_self.copyWith(
 profilesPath: null == profilesPath ? _self.profilesPath : profilesPath // ignore: cast_nullable_to_non_nullable
 as String,profileId: null == profileId ? _self.profileId : profileId // ignore: cast_nullable_to_non_nullable
 as int,rawConfig: null == rawConfig ? _self.rawConfig : rawConfig // ignore: cast_nullable_to_non_nullable
@@ -9258,7 +9257,7 @@ return $default(_that.profilesPath,_that.profileId,_that.rawConfig,_that.realPat
 
 
 class _MakeRealProfileState implements MakeRealProfileState {
-  const _MakeRealProfileState({required this.profilesPath, required this.profileId, required  Map<String, dynamic> rawConfig, required this.realPatchConfig, required this.overrideDns, required this.appendSystemDns, required  List<ProxyGroup> proxyGroups, required  List<Rule> rules, required  List<Rule> addedRules, required this.defaultUA}): _rawConfig = rawConfig,_proxyGroups = proxyGroups,_rules = rules,_addedRules = addedRules;
+  const _MakeRealProfileState({required this.profilesPath, required this.profileId, required final  Map<String, dynamic> rawConfig, required this.realPatchConfig, required this.overrideDns, required this.appendSystemDns, required final  List<ProxyGroup> proxyGroups, required final  List<Rule> rules, required final  List<Rule> addedRules, required this.defaultUA}): _rawConfig = rawConfig,_proxyGroups = proxyGroups,_rules = rules,_addedRules = addedRules;
   
 
 @override final  String profilesPath;
@@ -9423,7 +9422,7 @@ class _$MigrationDataCopyWithImpl<$Res>
 /// Create a copy of MigrationData
 /// with the given fields replaced by the non-null parameter values.
 @pragma('vm:prefer-inline') @override $Res call({Object? configMap = freezed,Object? rules = null,Object? scripts = null,Object? profiles = null,Object? links = null,Object? proxyGroups = null,}) {
-  return _then(MigrationData(
+  return _then(_self.copyWith(
 configMap: freezed == configMap ? _self.configMap : configMap // ignore: cast_nullable_to_non_nullable
 as Map<String, Object?>?,rules: null == rules ? _self.rules : rules // ignore: cast_nullable_to_non_nullable
 as List<Rule>,scripts: null == scripts ? _self.scripts : scripts // ignore: cast_nullable_to_non_nullable
@@ -9571,7 +9570,7 @@ return $default(_that.configMap,_that.rules,_that.scripts,_that.profiles,_that.l
 
 
 class _MigrationData implements MigrationData {
-  const _MigrationData({ Map<String, Object?>? configMap,  List<Rule> rules = const [],  List<Script> scripts = const [],  List<Profile> profiles = const [],  List<ProfileRuleLink> links = const [],  List<ProxyGroup> proxyGroups = const []}): _configMap = configMap,_rules = rules,_scripts = scripts,_profiles = profiles,_links = links,_proxyGroups = proxyGroups;
+  const _MigrationData({final  Map<String, Object?>? configMap, final  List<Rule> rules = const [], final  List<Script> scripts = const [], final  List<Profile> profiles = const [], final  List<ProfileRuleLink> links = const [], final  List<ProxyGroup> proxyGroups = const []}): _configMap = configMap,_rules = rules,_scripts = scripts,_profiles = profiles,_links = links,_proxyGroups = proxyGroups;
   
 
  final  Map<String, Object?>? _configMap;
@@ -9733,7 +9732,7 @@ class _$SetupStateCopyWithImpl<$Res>
 /// Create a copy of SetupState
 /// with the given fields replaced by the non-null parameter values.
 @pragma('vm:prefer-inline') @override $Res call({Object? profileId = freezed,Object? profileLastUpdateDate = freezed,Object? overwriteType = null,Object? rules = null,Object? proxyGroups = null,Object? addedRules = null,Object? script = freezed,Object? overrideDns = null,Object? dns = null,}) {
-  return _then(SetupState(
+  return _then(_self.copyWith(
 profileId: freezed == profileId ? _self.profileId : profileId // ignore: cast_nullable_to_non_nullable
 as int?,profileLastUpdateDate: freezed == profileLastUpdateDate ? _self.profileLastUpdateDate : profileLastUpdateDate // ignore: cast_nullable_to_non_nullable
 as int?,overwriteType: null == overwriteType ? _self.overwriteType : overwriteType // ignore: cast_nullable_to_non_nullable
@@ -9905,7 +9904,7 @@ return $default(_that.profileId,_that.profileLastUpdateDate,_that.overwriteType,
 
 
 class _SetupState implements SetupState {
-  const _SetupState({required this.profileId, required this.profileLastUpdateDate, required this.overwriteType, required  List<Rule> rules, required  List<ProxyGroup> proxyGroups, required  List<Rule> addedRules, required this.script, required this.overrideDns, required this.dns}): _rules = rules,_proxyGroups = proxyGroups,_addedRules = addedRules;
+  const _SetupState({required this.profileId, required this.profileLastUpdateDate, required this.overwriteType, required final  List<Rule> rules, required final  List<ProxyGroup> proxyGroups, required final  List<Rule> addedRules, required this.script, required this.overrideDns, required this.dns}): _rules = rules,_proxyGroups = proxyGroups,_addedRules = addedRules;
   
 
 @override final  int? profileId;

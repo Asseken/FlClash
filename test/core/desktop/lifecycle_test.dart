@@ -508,6 +508,50 @@ void main() {
   });
 
   test(
+    'running intent retries an unconfirmed lease cleanup before starting',
+    () async {
+      final transport = FakeDesktopCoreTransport();
+      final direct = FakeLauncher(owner: CoreProcessOwner.direct, pid: 42);
+      final helper = FakeLauncher(
+        owner: CoreProcessOwner.windowsHelper,
+        pid: 84,
+      );
+      final resolver = MutableLauncherResolver(direct);
+      final lifecycle = _createLifecycle(
+        transport: transport,
+        resolver: resolver,
+      );
+      await _startConnected(lifecycle, transport, direct, pid: 42);
+      resolver.launcher = helper;
+      // An unexpected disconnect whose lease exit cannot be confirmed parks the
+      // lease as `_unconfirmedLease`.
+      direct.lease.stopResult = const CoreProcessStopResult(
+        stopped: true,
+        exitConfirmed: false,
+      );
+      transport.disconnect(1);
+      await pumpEventQueue();
+      expect(lifecycle.state, isA<DesktopCoreFailed>());
+
+      // Once the cleanup can confirm the exit, the next start may proceed.
+      direct.lease.stopResult = const CoreProcessStopResult(
+        stopped: true,
+        exitConfirmed: true,
+      );
+      final start = lifecycle.start();
+      transport.ready();
+      await helper.started;
+      transport.connect(pid: 84, generation: 2);
+      await start;
+
+      expect(direct.lease.stopCount, 2);
+      expect(helper.startCount, 1);
+      expect(lifecycle.state, isA<DesktopCoreRunning>());
+      await _closeRunning(lifecycle, transport, helper.lease, 2);
+    },
+  );
+
+  test(
     'connection timeout cleans the lease returned by the launcher',
     () async {
       final transport = FakeDesktopCoreTransport();

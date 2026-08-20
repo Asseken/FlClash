@@ -353,6 +353,16 @@ class MessageLookup extends MessageLookupByLibrary {
     "inputCorrectHotkey": MessageLookupByLibrary.simpleMessage("请输入正确的快捷键"),
     "inputProxyGroupName": MessageLookupByLibrary.simpleMessage("输入策略组名称"),
     "inputRuleContent": MessageLookupByLibrary.simpleMessage("输入规则内容"),
+    "installService": MessageLookupByLibrary.simpleMessage("安装服务"),
+    "installServiceFailed": MessageLookupByLibrary.simpleMessage(
+      "Helper 服务安装失败",
+    ),
+    "installServiceSuccess": MessageLookupByLibrary.simpleMessage(
+      "Helper 服务安装成功",
+    ),
+    "installServiceTip": MessageLookupByLibrary.simpleMessage(
+      "安装 Helper 服务需要管理员权限，将弹出 UAC 授权窗口。",
+    ),
     "intelligentSelected": MessageLookupByLibrary.simpleMessage("智能选择"),
     "internet": MessageLookupByLibrary.simpleMessage("互联网"),
     "interval": MessageLookupByLibrary.simpleMessage("间隔"),
@@ -739,6 +749,16 @@ class MessageLookup extends MessageLookupByLibrary {
     "undo": MessageLookupByLibrary.simpleMessage("撤销"),
     "unifiedDelay": MessageLookupByLibrary.simpleMessage("统一延迟"),
     "unifiedDelayDesc": MessageLookupByLibrary.simpleMessage("去除握手等额外延迟"),
+    "uninstallService": MessageLookupByLibrary.simpleMessage("卸载服务"),
+    "uninstallServiceFailed": MessageLookupByLibrary.simpleMessage(
+      "Helper 服务卸载失败",
+    ),
+    "uninstallServiceSuccess": MessageLookupByLibrary.simpleMessage(
+      "Helper 服务卸载成功",
+    ),
+    "uninstallServiceTip": MessageLookupByLibrary.simpleMessage(
+      "卸载 Helper 服务将停止并移除 FlClashHelperService，当前由服务托管的 Core 也会停止。",
+    ),
     "unknown": MessageLookupByLibrary.simpleMessage("未知"),
     "unknownNetworkError": MessageLookupByLibrary.simpleMessage("未知网络错误"),
     "unnamed": MessageLookupByLibrary.simpleMessage("未命名"),

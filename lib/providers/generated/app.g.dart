@@ -93,7 +93,7 @@ final class LogsProvider extends $NotifierProvider<Logs, FixedList<Log>> {
   }
 }
 
-String _$logsHash() => r'2f10830d8a103688a59afce45ab6c52a82f38ca2';
+String _$logsHash() => r'b00a5f97567a14394dd90e3b157d0d23359fbd4e';
 
 abstract class _$Logs extends $Notifier<FixedList<Log>> {
   FixedList<Log> build();
@@ -1358,6 +1358,60 @@ abstract class _$CoreStatus extends $Notifier<CoreStatus> {
             as $ClassProviderElement<
               AnyNotifier<CoreStatus, CoreStatus>,
               CoreStatus,
+              Object?,
+              Object?
+            >;
+    return element.handleCreate(ref, build);
+  }
+}
+
+@ProviderFor(WindowsHelperServiceInstalled)
+final windowsHelperServiceInstalledProvider =
+    WindowsHelperServiceInstalledProvider._();
+
+final class WindowsHelperServiceInstalledProvider
+    extends $NotifierProvider<WindowsHelperServiceInstalled, bool?> {
+  WindowsHelperServiceInstalledProvider._()
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'windowsHelperServiceInstalledProvider',
+        isAutoDispose: false,
+        dependencies: null,
+        $allTransitiveDependencies: null,
+      );
+
+  @override
+  String debugGetCreateSourceHash() => _$windowsHelperServiceInstalledHash();
+
+  @$internal
+  @override
+  WindowsHelperServiceInstalled create() => WindowsHelperServiceInstalled();
+
+  /// {@macro riverpod.override_with_value}
+  Override overrideWithValue(bool? value) {
+    return $ProviderOverride(
+      origin: this,
+      providerOverride: $SyncValueProvider<bool?>(value),
+    );
+  }
+}
+
+String _$windowsHelperServiceInstalledHash() =>
+    r'cf14aa7c1f452ded55250cd4e22b8b96fd856eb6';
+
+abstract class _$WindowsHelperServiceInstalled extends $Notifier<bool?> {
+  bool? build();
+  @$mustCallSuper
+  @override
+  WhenComplete runBuild() {
+    final ref = this.ref as $Ref<bool?, bool?>;
+    final element =
+        ref.element
+            as $ClassProviderElement<
+              AnyNotifier<bool?, bool?>,
+              bool?,
               Object?,
               Object?
             >;

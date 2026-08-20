@@ -24,6 +24,8 @@ import 'package:fl_clash/views/theme.dart';
 import 'package:fl_clash/views/views.dart';
 import 'package:fl_clash/widgets/inherited.dart';
 import 'package:fl_clash/widgets/sheet.dart';
+import 'package:fluent_ui/fluent_ui.dart'
+    hide Checkbox, Colors, Divider, IconButton, ListTile, Slider, Tab;
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -512,21 +514,25 @@ class _TestApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      navigatorKey: globalState.navigatorKey,
-      localizationsDelegates: const [
-        AppLocalizations.delegate,
-        GlobalMaterialLocalizations.delegate,
-        GlobalCupertinoLocalizations.delegate,
-        GlobalWidgetsLocalizations.delegate,
-      ],
-      supportedLocales: AppLocalizations.delegate.supportedLocales,
-      builder: (context, child) {
-        globalState.measure = Measure.of(context, 1);
-        globalState.theme = CommonTheme.of(context, 1);
-        return child!;
-      },
-      home: child,
+    return FluentTheme(
+      data: FluentThemeData(brightness: Brightness.light),
+      child: MaterialApp(
+        navigatorKey: globalState.navigatorKey,
+        localizationsDelegates: const [
+          AppLocalizations.delegate,
+          FluentLocalizations.delegate,
+          GlobalMaterialLocalizations.delegate,
+          GlobalCupertinoLocalizations.delegate,
+          GlobalWidgetsLocalizations.delegate,
+        ],
+        supportedLocales: AppLocalizations.delegate.supportedLocales,
+        builder: (context, child) {
+          globalState.measure = Measure.of(context, 1);
+          globalState.theme = CommonTheme.of(context, 1);
+          return child!;
+        },
+        home: child,
+      ),
     );
   }
 }

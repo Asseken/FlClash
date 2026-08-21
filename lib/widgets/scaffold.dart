@@ -302,7 +302,10 @@ class CommonScaffoldState extends State<CommonScaffold> {
             valueListenable: _loadingNotifier,
             builder: (_, value, _) {
               return value == true
-                  ? const LinearProgressIndicator()
+                  ? const SizedBox(
+                      width: double.infinity,
+                      child: ProgressBar(strokeWidth: 3),
+                    )
                   : Container();
             },
           ),

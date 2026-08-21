@@ -177,59 +177,60 @@ class _CommonCircleLoadingState extends State<CommonCircleLoading>
           widget.constraints ?? _defaultConstraints,
         );
         final currentMorphIndex = _currentMorphIndex % shapeSequence.length;
-        return Align(
-          widthFactor: 1,
-          heightFactor: 1,
-          child: Semantics(
-            label: widget.semanticLabel,
-            value: widget.semanticValue,
-            child: DecoratedBox(
-              decoration: BoxDecoration(
-                color: backgroundColor,
-                borderRadius: BorderRadius.circular(999),
-              ),
-              child: Padding(
-                padding: padding,
-                child: RepaintBoundary(
-                  child: SizedBox.square(
-                    dimension: dimension,
-                    child: AnimatedBuilder(
-                      animation: _animation,
-                      builder: (context, child) {
-                        final morphProgress = _morphController.value.clamp(
-                          0.0,
-                          1.0,
-                        );
-                        final rotationDegrees =
-                            morphProgress * _quarterRotation +
-                            _morphRotationTargetAngle +
-                            _globalRotationController.value * _fullRotation;
-                        final shape = _ShapeSpec.lerp(
-                          shapeSequence[currentMorphIndex],
-                          shapeSequence[(currentMorphIndex + 1) %
-                              shapeSequence.length],
-                          morphProgress,
-                        );
-                        return Transform.rotate(
-                          angle: rotationDegrees * math.pi / 180,
-                          child: CustomPaint(
-                            painter: _ShapePainter(
-                              shape: shape,
-                              color: activeColor,
-                              scaleFactor: _activeIndicatorScale,
-                            ),
-                            child: child,
-                          ),
-                        );
-                      },
-                      child: const SizedBox.expand(),
-                    ),
-                  ),
+        Widget loading = DecoratedBox(
+          decoration: BoxDecoration(
+            color: backgroundColor,
+            borderRadius: BorderRadius.circular(999),
+          ),
+          child: Padding(
+            padding: padding,
+            child: RepaintBoundary(
+              child: SizedBox.square(
+                dimension: dimension,
+                child: AnimatedBuilder(
+                  animation: _animation,
+                  builder: (context, child) {
+                    final morphProgress = _morphController.value.clamp(
+                      0.0,
+                      1.0,
+                    );
+                    final rotationDegrees =
+                        morphProgress * _quarterRotation +
+                        _morphRotationTargetAngle +
+                        _globalRotationController.value * _fullRotation;
+                    final shape = _ShapeSpec.lerp(
+                      shapeSequence[currentMorphIndex],
+                      shapeSequence[(currentMorphIndex + 1) %
+                          shapeSequence.length],
+                      morphProgress,
+                    );
+                    return Transform.rotate(
+                      angle: rotationDegrees * math.pi / 180,
+                      child: CustomPaint(
+                        painter: _ShapePainter(
+                          shape: shape,
+                          color: activeColor,
+                          scaleFactor: _activeIndicatorScale,
+                        ),
+                        child: child,
+                      ),
+                    );
+                  },
+                  child: const SizedBox.expand(),
                 ),
               ),
             ),
           ),
         );
+        // 未提供语义标签时不包 Semantics，避免无限动画的语义节点反复重建
+        if (widget.semanticLabel != null || widget.semanticValue != null) {
+          loading = Semantics(
+            label: widget.semanticLabel,
+            value: widget.semanticValue,
+            child: loading,
+          );
+        }
+        return Align(widthFactor: 1, heightFactor: 1, child: loading);
       },
     );
   }

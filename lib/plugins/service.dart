@@ -111,6 +111,22 @@ class Service {
   void removeListener(ServiceListener listener) {
     _listeners.remove(listener);
   }
+
+  Future<String> getRuntimeAbi() async {
+    return await methodChannel.invokeMethod<String>('getRuntimeAbi') ?? '';
+  }
+
+  // 保存为零填充版本化文件名（如 libclashn011930.so），写入同时清理旧版本化文件
+  Future<bool> replaceCoreVersionedFile(
+    String tmpPath,
+    String targetName,
+  ) async {
+    final result = await methodChannel.invokeMethod<bool>(
+      'replaceCoreVersionedFile',
+      {'tmpPath': tmpPath, 'targetName': targetName},
+    );
+    return result ?? false;
+  }
 }
 
 Service? get service => system.isAndroid ? Service() : null;

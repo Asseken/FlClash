@@ -155,16 +155,6 @@ class ApplicationState extends ConsumerState<Application> {
         if (hasBackgroundImage) {
           _lightCs = _makeTransparent(_lightCs);
           _darkCs = _makeTransparent(_darkCs);
-        } else {
-          // Revert to original colors when background is disabled
-          _lightCs = _getAppColorScheme(
-            brightness: Brightness.light,
-            primaryColor: themeProps.primaryColor,
-          );
-          _darkCs = _getAppColorScheme(
-            brightness: Brightness.dark,
-            primaryColor: themeProps.primaryColor,
-          ).toPureBlack(themeProps.pureBlack);
         }
 
         final fluentBrightness = switch (themeProps.themeMode) {

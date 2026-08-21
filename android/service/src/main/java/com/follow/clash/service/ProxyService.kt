@@ -4,12 +4,21 @@ import android.app.Service
 import android.content.Intent
 import android.os.Binder
 import android.os.IBinder
+import com.follow.clash.common.GlobalState
 import com.follow.clash.core.Core
 import com.follow.clash.service.modules.ServiceModules
 
 class ProxyService : Service(), ManagedService {
     private val modules = ServiceModules(this)
     private val binder = LocalBinder()
+
+    override fun onCreate() {
+        super.onCreate()
+        runCatching { Core.initialize(this) }
+            .onFailure { error ->
+                GlobalState.log("Core initialization failed: $error")
+            }
+    }
 
     override fun onDestroy() {
         try {

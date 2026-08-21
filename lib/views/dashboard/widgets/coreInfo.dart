@@ -1,11 +1,15 @@
 import 'package:fl_clash/providers/app.dart';
+import 'package:fluent_ui/fluent_ui.dart' hide Colors;
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../common/constant.dart';
 import '../../../common/context.dart';
 import '../../../common/text.dart';
+import '../../../providers/CoreUpdate.dart';
+import '../../../state.dart';
 import '../../../widgets/card.dart';
+import '../../../widgets/core_update_dialog.dart';
 import '../../../widgets/text.dart';
 
 class ShowCoreInfo extends StatelessWidget {
@@ -20,8 +24,26 @@ class ShowCoreInfo extends StatelessWidget {
       child: Consumer(
         builder: (_, ref, _) {
           final coreInfo = ref.watch(coreVersionInfoDataProvider);
+          final coreUpdateData = ref.watch(coreUpdateProvider);
+          final hasUpdate = coreUpdateData.hasUpdate;
           return CommonCard(
-            onPressed: () {},
+            onPressed: () async {
+              final coreUpdateNotifier = ref.read(coreUpdateProvider.notifier);
+              await coreUpdateNotifier.check();
+              if (!context.mounted) return;
+              final updatedData = ref.read(coreUpdateProvider);
+              if (updatedData.releases.isEmpty) {
+                globalState.showMessage(
+                  title: appLocalizations.tip,
+                  message: const TextSpan(
+                    text: 'Failed to fetch core releases.',
+                  ),
+                  confirmText: appLocalizations.confirm,
+                );
+                return;
+              }
+              await showCoreUpdateDialog(context, updatedData);
+            },
             child: Padding(
               padding: const EdgeInsets.all(10),
               child: Row(
@@ -35,7 +57,7 @@ class ShowCoreInfo extends StatelessWidget {
                       children: [
                         TooltipText(
                           text: Text(
-                            '${appLocalizations.coreName}',
+                            appLocalizations.coreName,
                             style: context.textTheme.bodyMedium?.toLight
                                 .adjustSize(1),
                             maxLines: 1,
@@ -45,7 +67,7 @@ class ShowCoreInfo extends StatelessWidget {
                         TooltipText(
                           text: Text(
                             '${coreInfo?.mihoName}',
-                            style: context.textTheme.bodyMedium?.toLight
+                            style: context.textTheme.bodySmall?.toLight
                                 .adjustSize(1),
                             maxLines: 1,
                             overflow: TextOverflow.ellipsis,
@@ -62,21 +84,26 @@ class ShowCoreInfo extends StatelessWidget {
                       children: [
                         TooltipText(
                           text: Text(
-                            '${appLocalizations.coreVersion}',
+                            appLocalizations.coreVersion,
                             style: context.textTheme.bodyMedium?.toLight
                                 .adjustSize(1),
-                            // maxLines: 1,
                             overflow: TextOverflow.ellipsis,
                           ),
                         ),
-                        TooltipText(
-                          text: Text(
-                            '${coreInfo?.coreVersion}',
-                            style: context.textTheme.bodyMedium?.toLight
-                                .adjustSize(1),
-                            maxLines: 1,
-                            overflow: TextOverflow.ellipsis,
-                          ),
+                        Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            TooltipText(
+                              text: Text(
+                                coreInfo?.coreVersion ?? '',
+                                style: context.textTheme.bodySmall?.toLight
+                                    .adjustSize(1),
+                                maxLines: 1,
+                                overflow: TextOverflow.ellipsis,
+                              ),
+                            ),
+                            if (hasUpdate) const InfoBadge(color: Colors.red),
+                          ],
                         ),
                       ],
                     ),
@@ -89,7 +116,7 @@ class ShowCoreInfo extends StatelessWidget {
                       children: [
                         TooltipText(
                           text: Text(
-                            '${appLocalizations.RunOs}',
+                            appLocalizations.RunOs,
                             style: context.textTheme.bodyMedium?.toLight
                                 .adjustSize(1),
                             // maxLines: 1,
@@ -99,7 +126,7 @@ class ShowCoreInfo extends StatelessWidget {
                         TooltipText(
                           text: Text(
                             '${coreInfo?.goOs}-${coreInfo?.goArch}',
-                            style: context.textTheme.bodyMedium?.toLight
+                            style: context.textTheme.bodySmall?.toLight
                                 .adjustSize(1),
                             maxLines: 1,
                             overflow: TextOverflow.ellipsis,

@@ -25,15 +25,19 @@ class CoreAction extends _$CoreAction {
     }
   }
 
-  Future<void> startCore() async {
+  /// 启动 core 并获取版本信息。
+  /// 失败时内部已提示错误，返回 false 供调用方判断。
+  Future<bool> startCore() async {
     ref.read(coreStatusProvider.notifier).value = CoreStatus.connecting;
     try {
       await coreController.start();
       ref.read(coreStatusProvider.notifier).value = CoreStatus.connected;
       await initCore();
+      return true;
     } catch (error) {
       ref.read(coreStatusProvider.notifier).value = CoreStatus.disconnected;
       globalState.showNotifier(error.toString());
+      return false;
     }
   }
 

@@ -28,6 +28,15 @@ class VpnService : SystemVpnService(), ManagedService {
     private val tunLock = Any()
     private var tunRunning = false
 
+    override fun onCreate() {
+        super.onCreate()
+        // Always-on VPN 可能不经过 Flutter 引擎直接启动，这里确保 core 已加载
+        runCatching { Core.initialize(this) }
+            .onFailure { error ->
+                GlobalState.log("Core initialization failed: $error")
+            }
+    }
+
     override fun onDestroy() {
         try {
             cleanup()

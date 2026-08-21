@@ -43,7 +43,7 @@ object ServiceController {
     }
 
     fun invokeMethod(data: String, callback: (String) -> Unit): Result<Unit> = runCatching {
-        Core.invokeMethod(data) { result ->
+        Core.invokeAction(data) { result ->
             callback(result.orEmpty())
         }
     }
@@ -60,7 +60,7 @@ object ServiceController {
     }
 
     fun setEventListener(callback: ((String?) -> Unit)?): Result<Unit> = runCatching {
-        Core.updateEventListener(callback)
+        Core.callSetEventListener(callback)
     }
 
     suspend fun start(options: VpnOptions): Long = lock.withLock {

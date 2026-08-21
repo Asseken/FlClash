@@ -1,8 +1,11 @@
 package com.follow.clash.plugins
-
+import android.content.Context
 import com.follow.clash.ServiceController
 import com.follow.clash.ServiceState
 import com.follow.clash.common.Components
+import com.follow.clash.common.GlobalState
+import com.follow.clash.core.Core
+import com.follow.clash.core.CoreUpdater
 import com.follow.clash.models.SharedState
 import com.google.gson.Gson
 import io.flutter.embedding.engine.plugins.FlutterPlugin
@@ -13,14 +16,22 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.cancel
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class ServicePlugin : FlutterPlugin, MethodChannel.MethodCallHandler {
     private lateinit var channel: MethodChannel
+    private lateinit var appContext: Context
     private lateinit var scope: CoroutineScope
     private val gson = Gson()
 
     override fun onAttachedToEngine(binding: FlutterPlugin.FlutterPluginBinding) {
         scope = CoroutineScope(SupervisorJob() + Dispatchers.Default)
+        appContext = binding.applicationContext
+        // 加载 core .so（提取 + System.load + dlopen 版本化 libclash）
+        runCatching { Core.initialize(appContext) }
+            .onFailure { error ->
+                GlobalState.log("Core initialization failed: $error")
+            }
         channel = MethodChannel(binding.binaryMessenger, "${Components.PACKAGE_NAME}/service")
         channel.setMethodCallHandler(this)
     }
@@ -40,6 +51,10 @@ class ServicePlugin : FlutterPlugin, MethodChannel.MethodCallHandler {
             "syncState" -> syncState(call, result)
             "start" -> start(result)
             "stop" -> stop(result)
+            "getRuntimeAbi" -> handleGetRuntimeAbi(result)
+            "replaceCoreVersionedFile" -> {
+                handleReplaceCoreVersionedFile(call, result)
+            }
             else -> result.notImplemented()
         }
     }
@@ -106,6 +121,33 @@ class ServicePlugin : FlutterPlugin, MethodChannel.MethodCallHandler {
     private fun sendEvent(value: String?) {
         scope.launch(Dispatchers.Main) {
             channel.invokeMethod("event", value)
+        }
+    }
+    // 返回设备运行时 ABI，用于匹配 Github Releases 中的架构
+    private fun handleGetRuntimeAbi(result: MethodChannel.Result) {
+        result.success(CoreUpdater.getPrimaryAbi())
+    }
+
+    private fun handleReplaceCoreVersionedFile(call: MethodCall, result: MethodChannel.Result) {
+        val args = call.arguments as? Map<*, *>
+        val tmpPath = args?.get("tmpPath") as? String ?: run {
+            result.error("INVALID_ARGS", "tmpPath required", null)
+            return
+        }
+        val targetName = args.get("targetName") as? String ?: run {
+            result.error("INVALID_ARGS", "targetName required", null)
+            return
+        }
+        // .so 拷贝是几十 MB 的 IO，放到后台线程，避免阻塞平台主线程
+        scope.launch {
+            val errMsg = withContext(Dispatchers.IO) {
+                CoreUpdater.replaceCoreVersionedFile(appContext, tmpPath, targetName)
+            }
+            if (errMsg == null) {
+                result.success(true)
+            } else {
+                result.error("REPLACE_FAILED", errMsg, null)
+            }
         }
     }
 }

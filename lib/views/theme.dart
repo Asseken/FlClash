@@ -80,28 +80,25 @@ class _BackgroundImageItemState extends ConsumerState<_BackgroundImageItem> {
   Future<void> _handleAdd() async {
     final image = await ImagePicker().pickImage(source: ImageSource.gallery);
     if (image == null) return;
-    String finalPath = image.path;
-    if (system.isDesktop) {
-      finalPath = await backgroundHelper.persistImage(image.path);
-    }
-    if (!mounted) return;
-    final state = ref.read(themeSettingProvider);
-    if (state.backgroundImages.contains(finalPath)) {
-      ref
-          .read(themeSettingProvider.notifier)
-          .update((s) => s.copyWith(backgroundImage: finalPath));
+    final persisted = await backgroundHelper.persistImage(image.path);
+    if (!mounted) {
+      // 组件已卸载：本次若复制了新文件则清理掉，避免孤儿文件
+      if (persisted.created) {
+        await backgroundHelper.deleteImage(persisted.path);
+      }
       return;
     }
-    final newList = List<String>.from(state.backgroundImages)..add(finalPath);
-    if (state.backgroundImage.isNotEmpty &&
-        !newList.contains(state.backgroundImage)) {
-      newList.insert(0, state.backgroundImage);
-    }
+    final state = ref.read(themeSettingProvider);
+    final newList = List<String>.from(state.backgroundImages)
+      ..remove(persisted.path)
+      ..insert(0, persisted.path);
     ref
         .read(themeSettingProvider.notifier)
         .update(
-          (s) =>
-              s.copyWith(backgroundImage: finalPath, backgroundImages: newList),
+          (s) => s.copyWith(
+            backgroundImage: persisted.path,
+            backgroundImages: newList,
+          ),
         );
   }
 
@@ -114,9 +111,8 @@ class _BackgroundImageItemState extends ConsumerState<_BackgroundImageItem> {
     );
     if (res != true) return;
 
-    if (system.isDesktop) {
-      await backgroundHelper.deleteImage(path);
-    }
+    // deleteImage 内部有目录守卫，仅删除 background 目录内的文件
+    await backgroundHelper.deleteImage(path);
 
     if (!mounted) return;
     setState(() {

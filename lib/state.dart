@@ -21,6 +21,7 @@ import 'database/database.dart';
 import 'enum/enum.dart';
 import 'l10n/l10n.dart';
 import 'models/models.dart';
+import 'providers/CoreUpdate.dart';
 import 'providers/providers.dart';
 
 class GlobalState {
@@ -326,6 +327,7 @@ class GlobalState {
     await _showCrashRecoveryTip();
     await _showCrashlyticsTip();
     await container.read(coreActionProvider.notifier).startCore();
+    await container.read(coreUpdateProvider.notifier).check();
     if (!_didCrashOnPreviousExecution) {
       await container.read(setupActionProvider.notifier).initStatus();
     }

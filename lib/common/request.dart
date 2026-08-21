@@ -142,6 +142,23 @@ class Request {
     token.cancel();
     return res;
   }
+  // 获取 core repository 的发布版本列表（最多 5 个）。
+  // 用于版本选择对话框，允许用户选择特定版本下载。
+  Future<List<Map<String, dynamic>>?> listCoreReleases() async {
+    try {
+      final response = await dio.get(
+        'https://api.github.com/repos/$coreRepository/releases',
+        queryParameters: {'per_page': 5},
+        options: Options(responseType: ResponseType.json),
+      );
+      if (response.statusCode != 200) return null;
+      final data = response.data as List<dynamic>;
+      return data.cast<Map<String, dynamic>>();
+    } catch (e) {
+      commonPrint.log('listCoreReleases failed', logLevel: LogLevel.warning);
+      return null;
+    }
+  }
 }
 
 final request = Request();

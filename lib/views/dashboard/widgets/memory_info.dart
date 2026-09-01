@@ -305,7 +305,7 @@ Future<num> _readTotal() async {
       globalState.container.read(coreStatusProvider) == CoreStatus.connected;
   _coreMemoryStateNotifier.value = await coreController.getMemory();
   if (system.isDesktop && coreConnected) {
-    return _coreMemoryStateNotifier.value + rss;
+    return rss;
   }
   return rss;
 }

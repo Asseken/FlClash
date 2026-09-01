@@ -86,7 +86,35 @@ class _LatencyTestState extends ConsumerState<LatencyTest> {
     }
   }
 
-  // 计算当前选中的真实节点名（isStart=false 时为 null）
+  SelectedProxyState _resolveSelectedProxyState(
+    String proxyName, {
+    required List<Group> groups,
+    String? testUrl,
+  }) {
+    if (proxyName.isEmpty) {
+      return SelectedProxyState(proxyName: '', testUrl: testUrl);
+    }
+    final index = groups.indexWhere((element) => element.name == proxyName);
+    final state = SelectedProxyState(
+      proxyName: proxyName,
+      testUrl: testUrl,
+      group: true,
+    );
+    if (index == -1) {
+      return state;
+    }
+    final group = groups[index];
+    final currentSelectedName = group.now.takeFirstValid([]);
+    if (currentSelectedName.isEmpty) {
+      return state;
+    }
+    return _resolveSelectedProxyState(
+      currentSelectedName,
+      groups: groups,
+      testUrl: group.testUrl.takeFirstValid([testUrl]),
+    );
+  }
+
   String? _getCurrentProxyName() {
     final isStart = ref.read(isStartProvider);
     if (!isStart) {
@@ -97,6 +125,13 @@ class _LatencyTestState extends ConsumerState<LatencyTest> {
     final groupName =
         ref.read(currentProfileProvider)?.currentGroupName ??
         GroupName.GLOBAL.name;
+    final runtimeState = _resolveSelectedProxyState(
+      groupName,
+      groups: groups,
+    );
+    if (runtimeState.proxyName.isNotEmpty) {
+      return runtimeState.proxyName;
+    }
     final state = computeRealSelectedProxyState(
       groupName,
       groups: groups,

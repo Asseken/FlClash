@@ -28,18 +28,22 @@ class CommonAction extends _$CommonAction {
   }
 
   Future<void> updateTraffic() async {
+    if (!ref.read(isStartProvider)) return;
     final onlyStatisticsProxy = ref.read(
       appSettingProvider.select((state) => state.onlyStatisticsProxy),
     );
     try {
       final traffic = await coreController.getTraffic(onlyStatisticsProxy);
+      final total = await coreController.getTotalTraffic(onlyStatisticsProxy);
+      final direct = await coreController.getDirectTraffic();
+      final directTotal = await coreController.getDirectTotalTraffic();
+      // 停止竞态守卫:取数期间用户关闭代理时,丢弃整批结果,
+      // 避免旧值在 _stop 清零之后被写回
+      if (!ref.read(isStartProvider)) return;
       ref.read(trafficsProvider.notifier).addTraffic(traffic);
-      ref.read(totalTrafficProvider.notifier).value = await coreController
-          .getTotalTraffic(onlyStatisticsProxy);
-      final directTraffic = await coreController.getDirectTraffic();
-      ref.read(directTrafficProvider.notifier).addTraffic(directTraffic);
-      ref.read(totalDirectTrafficProviderProvider.notifier).value =
-          await coreController.getDirectTotalTraffic();
+      ref.read(totalTrafficProvider.notifier).value = total;
+      ref.read(directTrafficProvider.notifier).addTraffic(direct);
+      ref.read(totalDirectTrafficProviderProvider.notifier).value = directTotal;
     } catch (error) {
       commonPrint.log(
         'updateTraffic error: $error',

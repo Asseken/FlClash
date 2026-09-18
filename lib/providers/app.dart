@@ -46,6 +46,10 @@ class Logs extends _$Logs with AutoDisposeNotifierMixin {
     res = await picker.saveFileWithPath(logFileName, tempFilePath) != null;
     return res;
   }
+
+  void clear() {
+    value = FixedList(maxLogsLength);
+  }
 }
 
 @Riverpod(keepAlive: true)

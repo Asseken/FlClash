@@ -71,6 +71,12 @@ class _LogsViewState extends ConsumerState<LogsView> {
         },
         icon: const Icon(Icons.save_as_outlined),
       ),
+      IconButton(
+        onPressed: () {
+          _handleClear();
+        },
+        icon: const Icon(Icons.delete),
+      ),
     ];
   }
 
@@ -93,6 +99,12 @@ class _LogsViewState extends ConsumerState<LogsView> {
         message: TextSpan(text: appLocalizations.exportSuccess),
       ),
     );
+  }
+
+  Future<void> _handleClear() async {
+    if (ref.read(logsProvider).list.isEmpty) return;
+    ref.read(logsProvider.notifier).clear();
+    _listController.setLogs([]);
   }
 
   void updateLogsThrottler() {

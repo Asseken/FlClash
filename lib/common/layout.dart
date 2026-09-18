@@ -7,7 +7,7 @@ import 'constant.dart';
 
 double getWindowHeaderHeight({required bool isDesktop, required bool isMacOS}) {
   if (!isDesktop) return 0;
-  return isMacOS ? 28 : 32;
+  return isMacOS ? 28 : 30;
 }
 
 /// Windows 11 draws its caption buttons 46 wide over a 32 tall title bar

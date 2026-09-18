@@ -92,6 +92,8 @@ class _HomeShell extends ConsumerWidget {
               child: NavigationBarTheme(
                 data: _NavigationBarDefaultsM3(context),
                 child: NavigationBar(
+                  height: kBottomNavigationBarHeight,
+                  elevation: 0,
                   destinations: [
                     for (final item in navigationItems)
                       NavigationDestination(

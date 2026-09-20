@@ -2,6 +2,7 @@ import 'package:fl_clash/common/common.dart';
 import 'package:fl_clash/providers/config.dart';
 import 'package:fl_clash/views/config/network.dart';
 import 'package:fl_clash/widgets/widgets.dart';
+import 'package:fluent_ui/fluent_ui.dart';
 import 'package:material_ui/material_ui.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -59,9 +60,8 @@ class _QuickSwitchCard extends StatelessWidget {
               ),
               Consumer(
                 builder: (_, ref, _) {
-                  return Switch(
-                    materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                    value: ref.watch(selector),
+                  return ToggleSwitch(
+                    checked: ref.watch(selector),
                     onChanged: (value) => onChanged(ref, value),
                   );
                 },
@@ -81,7 +81,7 @@ class TUNButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return _QuickSwitchCard(
       label: context.appLocalizations.tun,
-      iconData: Icons.stacked_line_chart,
+      iconData: WindowsIcons.ethernet,
       items: [
         if (system.isDesktop) const TUNItem(),
         if (system.isMacOS) const AutoSetSystemDnsItem(),
@@ -104,7 +104,7 @@ class SystemProxyButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return _QuickSwitchCard(
       label: context.appLocalizations.systemProxy,
-      iconData: Icons.shuffle,
+      iconData: FluentIcons.internet_sharing,
       items: const [SystemProxyItem(), BypassDomainItem()],
       selector: networkSettingProvider.select((state) => state.systemProxy),
       onChanged: (ref, value) {
@@ -123,7 +123,7 @@ class VpnButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return _QuickSwitchCard(
       label: 'VPN',
-      iconData: Icons.stacked_line_chart,
+      iconData: WindowsIcons.vpn,
       items: const [VPNItem(), VpnSystemProxyItem(), TunStackItem()],
       selector: vpnSettingProvider.select((state) => state.enable),
       onChanged: (ref, value) {

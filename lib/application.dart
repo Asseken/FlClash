@@ -12,6 +12,7 @@ import 'package:fl_clash/manager/manager.dart';
 import 'package:fl_clash/plugins/app.dart';
 import 'package:fl_clash/providers/providers.dart';
 import 'package:fl_clash/state.dart';
+import 'package:fluent_ui/fluent_ui.dart';
 import 'package:material_ui/material_ui.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -149,47 +150,50 @@ class ApplicationState extends ConsumerState<Application> {
           appSettingProvider.select((state) => state.locale),
         );
         final themeProps = ref.watch(themeSettingProvider);
-        return MaterialApp(
-          debugShowCheckedModeBanner: false,
-          navigatorKey: globalState.navigatorKey,
-          onNavigationNotification: (_) => true,
-          localizationsDelegates: const [
-            AppLocalizations.delegate,
-            ...GlobalMaterialLocalizations.delegates,
-          ],
-          builder: (context, child) {
-            // The bridge's legacy Theme swaps in its own default IconTheme color,
-            // which material_ui IconButton.filled reads as custom and loses onPrimary.
-            // ignore: deprecated_member_use
-            return MaterialUiCompatibilityBridge(
-              child: IconTheme(
-                data: Theme.of(context).iconTheme,
-                child: buildManagerStack(
-                  isDesktop: system.isDesktop,
-                  onConnectivityChanged: _handleConnectivityChanged,
-                  child: child!,
+        return FluentTheme(
+          data: FluentThemeData(),
+          child: MaterialApp(
+            debugShowCheckedModeBanner: false,
+            navigatorKey: globalState.navigatorKey,
+            onNavigationNotification: (_) => true,
+            localizationsDelegates: const [
+              AppLocalizations.delegate,
+              ...GlobalMaterialLocalizations.delegates,
+            ],
+            builder: (context, child) {
+              // The bridge's legacy Theme swaps in its own default IconTheme color,
+              // which material_ui IconButton.filled reads as custom and loses onPrimary.
+              // ignore: deprecated_member_use
+              return MaterialUiCompatibilityBridge(
+                child: IconTheme(
+                  data: Theme.of(context).iconTheme,
+                  child: buildManagerStack(
+                    isDesktop: system.isDesktop,
+                    onConnectivityChanged: _handleConnectivityChanged,
+                    child: child!,
+                  ),
                 ),
-              ),
-            );
-          },
-          scrollBehavior: const BaseScrollBehavior(),
-          title: appName,
-          locale: getLocaleForString(locale),
-          supportedLocales: AppLocalizations.delegate.supportedLocales,
-          themeMode: themeProps.themeMode,
-          theme: ThemeData(
-            useMaterial3: true,
-            pageTransitionsTheme: _pageTransitionsTheme,
-            colorScheme: _getAppColorScheme(brightness: Brightness.light),
-          ).withAppShapes,
-          darkTheme: ThemeData(
-            useMaterial3: true,
-            pageTransitionsTheme: _pageTransitionsTheme,
-            colorScheme: _getAppColorScheme(
-              brightness: Brightness.dark,
-            ).toPureBlack(themeProps.pureBlack),
-          ).withAppShapes,
-          home: child!,
+              );
+            },
+            scrollBehavior: const BaseScrollBehavior(),
+            title: appName,
+            locale: getLocaleForString(locale),
+            supportedLocales: AppLocalizations.delegate.supportedLocales,
+            themeMode: themeProps.themeMode,
+            theme: ThemeData(
+              useMaterial3: true,
+              pageTransitionsTheme: _pageTransitionsTheme,
+              colorScheme: _getAppColorScheme(brightness: Brightness.light),
+            ).withAppShapes,
+            darkTheme: ThemeData(
+              useMaterial3: true,
+              pageTransitionsTheme: _pageTransitionsTheme,
+              colorScheme: _getAppColorScheme(
+                brightness: Brightness.dark,
+              ).toPureBlack(themeProps.pureBlack),
+            ).withAppShapes,
+            home: child!,
+          ),
         );
       },
       child: const HomePage(),

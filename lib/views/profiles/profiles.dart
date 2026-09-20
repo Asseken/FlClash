@@ -7,6 +7,8 @@ import 'package:fl_clash/providers/providers.dart';
 import 'package:fl_clash/state.dart';
 import 'package:fl_clash/views/profiles/overwrite/overwrite.dart';
 import 'package:fl_clash/widgets/widgets.dart';
+import 'package:fluent_ui/fluent_ui.dart'
+    hide IconButton, VisualDensity, ReorderableListView;
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:material_ui/material_ui.dart';
 import 'package:flutter/services.dart';
@@ -79,7 +81,7 @@ class _ProfilesViewState extends ConsumerState<ProfilesView> {
               onPressed: () {
                 _updateProfiles(profiles);
               },
-              icon: const Icon(Icons.sync),
+              icon: const Icon(WindowsIcons.sync),
             ),
             IconButton(
               tooltip: context.appLocalizations.profilesSort,
@@ -91,7 +93,7 @@ class _ProfilesViewState extends ConsumerState<ProfilesView> {
                   },
                 );
               },
-              icon: const Icon(Icons.sort),
+              icon: const Icon(WindowsIcons.bulleted_list),
               iconSize: 26,
             ),
           ]
@@ -101,7 +103,7 @@ class _ProfilesViewState extends ConsumerState<ProfilesView> {
   Widget _buildFAB() {
     return CommonFloatingActionButton(
       onPressed: _handleShowAddExtendPage,
-      icon: const Icon(Icons.add),
+      icon: const Icon(FluentIcons.add_field),
       label: context.appLocalizations.addProfile,
     );
   }
@@ -331,14 +333,14 @@ class ProfileItem extends ConsumerWidget {
         isUrl && subscriptionInfo != null && subscriptionInfo.total > 0;
     return [
       CommonPopupMenuItem(
-        icon: Icons.edit_outlined,
+        icon: FluentIcons.code_edit,
         label: appLocalizations.edit,
         onPressed: () {
           _handleShowEditExtendPage(context);
         },
       ),
       CommonPopupMenuItem(
-        icon: Icons.visibility_outlined,
+        icon: WindowsIcons.red_eye,
         label: appLocalizations.preview,
         onPressed: () {
           _handlePreview(context);
@@ -346,18 +348,18 @@ class ProfileItem extends ConsumerWidget {
       ),
       if (isUrl)
         CommonPopupMenuItem(
-          icon: Icons.sync_alt_sharp,
+          icon: FluentIcons.cloud_import_export,
           label: appLocalizations.sync,
           onPressed: () {
             updateProfile(ref);
           },
         ),
       CommonPopupMenuItem(
-        icon: Icons.emergency_outlined,
+        icon: WindowsIcons.calculator_equal_to,
         label: appLocalizations.more,
         subItems: [
           CommonPopupMenuItem(
-            icon: Icons.extension_outlined,
+            icon: WindowsIcons.add_remote_device,
             label: appLocalizations.override,
             onPressed: () {
               _handlePushGenProfilePage(context, profile.id);
@@ -365,7 +367,7 @@ class ProfileItem extends ConsumerWidget {
           ),
           if (hasSubscriptionInfo)
             CommonPopupMenuItem(
-              icon: Icons.data_usage,
+              icon: FluentIcons.donut_chart,
               label: appLocalizations.subscriptionInfo,
               onPressed: () {
                 _handleShowSubscriptionInfo(context);
@@ -373,14 +375,14 @@ class ProfileItem extends ConsumerWidget {
             ),
           if (isUrl)
             CommonPopupMenuItem(
-              icon: Icons.copy,
+              icon: FluentIcons.cloud_link,
               label: appLocalizations.copyLink,
               onPressed: () {
                 _handleCopyLink(context);
               },
             ),
           CommonPopupMenuItem(
-            icon: Icons.file_copy_outlined,
+            icon: FluentIcons.download_document,
             label: appLocalizations.exportFile,
             onPressed: () {
               _handleExportFile(context);
@@ -390,7 +392,7 @@ class ProfileItem extends ConsumerWidget {
       ),
       CommonPopupMenuItem(
         danger: true,
-        icon: Icons.delete_outlined,
+        icon: WindowsIcons.delete,
         label: appLocalizations.delete,
         onPressed: () {
           _handleDeleteProfile(context, ref);
@@ -443,7 +445,7 @@ class ProfileItem extends ConsumerWidget {
                             onPressed: () {
                               open();
                             },
-                            icon: const Icon(Icons.more_vert),
+                            icon: const Icon(FluentIcons.more_vertical),
                           );
                         },
                       ),
@@ -545,7 +547,7 @@ class _ReorderableProfilesSheetState
       child: ReorderableDelayedDragStartListener(
         index: index,
         child: DecorationListItem(
-          trailing: const Icon(Icons.drag_handle),
+          trailing: const Icon(WindowsIcons.calculator_equal_to),
           title: Text(profile.realLabel),
         ),
       ),
@@ -564,7 +566,7 @@ class _ReorderableProfilesSheetState
       sheetTransparentToolBar: true,
       actions: [
         IconButtonData(
-          icon: Icons.check,
+          icon: WindowsIcons.accept,
           onPressed: _handleSave,
           tooltip: context.appLocalizations.save,
         ),

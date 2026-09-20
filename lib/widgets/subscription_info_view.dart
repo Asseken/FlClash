@@ -1,5 +1,6 @@
 import 'package:fl_clash/common/common.dart';
 import 'package:fl_clash/models/models.dart';
+import 'package:fluent_ui/fluent_ui.dart' hide SelectionArea;
 import 'package:material_ui/material_ui.dart';
 
 import 'list.dart';
@@ -33,7 +34,7 @@ class SubscriptionInfoView extends StatelessWidget {
     }
     final use = info.upload + info.download;
     final total = info.total;
-    final progress = (use / total).clamp(0.0, 1.0).toDouble();
+    final progress = (use / total * 100).clamp(0.0, 100.0).toDouble();
 
     final useShow = use.traffic.show;
     final totalShow = total.traffic.show;
@@ -79,10 +80,13 @@ class SubscriptionInfoView extends StatelessWidget {
           },
         ),
         const SizedBox(height: 4),
-        LinearProgressIndicator(
-          minHeight: 4,
-          value: progress,
-          backgroundColor: context.colorScheme.primary.opacity15,
+        SizedBox(
+          width: double.infinity,
+          child: ProgressBar(
+            strokeWidth: 5,
+            value: progress,
+            backgroundColor: context.colorScheme.primary.opacity15,
+          ),
         ),
       ],
     );

@@ -9,6 +9,7 @@ import 'package:fl_clash/providers/app.dart';
 import 'package:fl_clash/providers/config.dart';
 import 'package:fl_clash/state.dart';
 import 'package:fl_clash/widgets/widgets.dart';
+import 'package:fluent_ui/fluent_ui.dart' hide IconButton;
 import 'package:material_ui/material_ui.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:path/path.dart' hide context;
@@ -92,8 +93,8 @@ class ResourcesView extends ConsumerWidget {
                 onPressed: () {
                   updateAutoUpdate(!geoSetting.autoUpdate);
                 },
-                trailing: Switch(
-                  value: geoSetting.autoUpdate,
+                trailing: ToggleSwitch(
+                  checked: geoSetting.autoUpdate,
                   onChanged: updateAutoUpdate,
                 ),
               ),
@@ -207,14 +208,14 @@ class _GeoResourceListItemState extends ConsumerState<_GeoResourceListItem> {
     final appLocalizations = context.appLocalizations;
     return [
       CommonPopupMenuItem(
-        icon: Icons.edit_outlined,
+        icon: WindowsIcons.text_edit,
         label: appLocalizations.edit,
         onPressed: () {
           _updateUrl(url);
         },
       ),
       CommonPopupMenuItem(
-        icon: Icons.sync,
+        icon: WindowsIcons.sync,
         label: appLocalizations.sync,
         onPressed: _handleUpdateGeoDataItem,
       ),
@@ -283,7 +284,7 @@ class _GeoResourceListItemState extends ConsumerState<_GeoResourceListItem> {
                               return IconButton(
                                 tooltip: context.appLocalizations.more,
                                 onPressed: open,
-                                icon: const Icon(Icons.more_vert),
+                                icon: const Icon(FluentIcons.more_vertical),
                               );
                             },
                           ),

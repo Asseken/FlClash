@@ -8,7 +8,7 @@ import 'package:fl_clash/providers/app.dart';
 import 'package:fl_clash/providers/core.dart';
 import 'package:fl_clash/state.dart';
 import 'package:fl_clash/widgets/widgets.dart';
-import 'package:material_ui/material_ui.dart';
+import 'package:fluent_ui/fluent_ui.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class MemoryInfo extends ConsumerStatefulWidget {
@@ -75,7 +75,7 @@ class _MemoryInfoState extends ConsumerState<MemoryInfo>
         child: CommonCard(
           radius: AppCorner.lg,
           info: Info(
-            iconData: Icons.memory,
+            iconData: WindowsIcons.cpu,
             label: appLocalizations.memoryInfo,
           ),
           onPressed: () {

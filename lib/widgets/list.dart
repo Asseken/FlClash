@@ -3,6 +3,7 @@ import 'package:fl_clash/common/common.dart';
 import 'package:fl_clash/enum/enum.dart';
 import 'package:fl_clash/state.dart';
 import 'package:fl_clash/widgets/inherited.dart';
+import 'package:fluent_ui/fluent_ui.dart' hide VisualDensity, ListTile, Divider, Colors;
 import 'package:flutter/foundation.dart';
 import 'package:material_ui/material_ui.dart';
 
@@ -455,8 +456,8 @@ class ListItem<T> extends StatelessWidget {
               : () {
                   toggleAction.onChanged!(!toggleAction.value);
                 },
-          trailing: Switch(
-            value: toggleAction.value,
+          trailing: ToggleSwitch(
+            checked: toggleAction.value,
             onChanged: toggleAction.onChanged,
           ),
         );

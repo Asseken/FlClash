@@ -6,6 +6,7 @@ import 'package:fl_clash/models/common.dart';
 import 'package:fl_clash/models/state.dart';
 import 'package:fl_clash/providers/providers.dart';
 import 'package:fl_clash/widgets/widgets.dart';
+import 'package:fluent_ui/fluent_ui.dart' hide IconButton;
 import 'package:material_ui/material_ui.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -187,7 +188,7 @@ class _AddOrEditRuleViewState extends ConsumerState<_AddOrEditRuleView> {
               ),
             ),
           ),
-          const Icon(Icons.arrow_forward_ios),
+          const Icon(WindowsIcons.chevron_right),
         ],
       ),
     );
@@ -270,7 +271,7 @@ class _AddOrEditRuleViewState extends ConsumerState<_AddOrEditRuleView> {
               ),
             ),
           ),
-          const Icon(Icons.arrow_forward_ios),
+          const Icon(WindowsIcons.chevron_right),
         ],
       ),
     );
@@ -351,7 +352,7 @@ class _AddOrEditRuleViewState extends ConsumerState<_AddOrEditRuleView> {
                         ),
                       );
                     },
-                    icon: Icon(Icons.info, size: 16.ap, color: foregroundColor),
+                    icon: Icon(WindowsIcons.info, size: 16.ap, color: foregroundColor),
                   ),
                 ),
               Flexible(
@@ -368,7 +369,7 @@ class _AddOrEditRuleViewState extends ConsumerState<_AddOrEditRuleView> {
                 ),
               ),
               const SizedBox(width: 4),
-              Icon(Icons.arrow_forward_ios, color: foregroundColor),
+              Icon(WindowsIcons.chevron_right, color: foregroundColor),
             ],
           ),
         );
@@ -432,7 +433,7 @@ class _AddOrEditRuleViewState extends ConsumerState<_AddOrEditRuleView> {
               ),
             ),
           ),
-          const Icon(Icons.arrow_forward_ios),
+          const Icon(WindowsIcons.chevron_right),
         ],
       ),
     );
@@ -497,7 +498,7 @@ class _AddOrEditRuleViewState extends ConsumerState<_AddOrEditRuleView> {
     return AdaptiveSheetScaffold(
       actions: [
         IconButtonData(
-          icon: Icons.check,
+          icon: WindowsIcons.accept,
           onPressed: _handleSave,
           tooltip: context.appLocalizations.save,
         ),

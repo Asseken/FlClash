@@ -6,6 +6,7 @@ import 'package:fl_clash/models/models.dart';
 import 'package:fl_clash/providers/providers.dart';
 import 'package:fl_clash/state.dart';
 import 'package:fl_clash/widgets/widgets.dart';
+import 'package:fluent_ui/fluent_ui.dart' hide IconButton, Divider, SelectableText;
 import 'package:material_ui/material_ui.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:super_sliver_list/super_sliver_list.dart';
@@ -69,13 +70,13 @@ class _LogsViewState extends ConsumerState<LogsView> {
         onPressed: () {
           _handleExport();
         },
-        icon: const Icon(Icons.save_as_outlined),
+        icon: const Icon(WindowsIcons.save_local),
       ),
       IconButton(
         onPressed: () {
           _handleClear();
         },
-        icon: const Icon(Icons.delete),
+        icon: const Icon(WindowsIcons.delete),
       ),
     ];
   }
@@ -141,8 +142,8 @@ class _LogsViewState extends ConsumerState<LogsView> {
                 }
               },
               child: autoScrollToEnd
-                  ? const Icon(Icons.block)
-                  : const Icon(Icons.vertical_align_top),
+                  ? const Icon(FluentIcons.blocked)
+                  : const Icon(FluentIcons.upload),
             ),
           );
         },

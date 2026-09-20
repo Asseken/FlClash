@@ -4,6 +4,7 @@ import 'package:fl_clash/common/common.dart';
 import 'package:fl_clash/providers/app.dart';
 import 'package:fl_clash/state.dart';
 import 'package:fl_clash/widgets/widgets.dart';
+import 'package:fluent_ui/fluent_ui.dart';
 import 'package:material_ui/material_ui.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -20,7 +21,7 @@ class TrafficUsage extends StatelessWidget {
           radius: AppCorner.lg,
           info: Info(
             label: appLocalizations.trafficUsage,
-            iconData: Icons.data_saver_off,
+            iconData: FluentIcons.donut_chart,
           ),
           onPressed: () {},
           child: Consumer(

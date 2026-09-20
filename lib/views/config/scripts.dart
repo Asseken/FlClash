@@ -8,6 +8,7 @@ import 'package:fl_clash/pages/editor.dart';
 import 'package:fl_clash/providers/app.dart';
 import 'package:fl_clash/providers/database.dart';
 import 'package:fl_clash/widgets/widgets.dart';
+import 'package:fluent_ui/fluent_ui.dart' hide IconButton, FilledButton;
 import 'package:material_ui/material_ui.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -228,7 +229,7 @@ class _ScriptsViewState extends ConsumerState<ScriptsView> {
               child: IconButton.filledTonal(
                 tooltip: context.appLocalizations.delete,
                 onPressed: _handleDelete,
-                icon: const Icon(Icons.delete),
+                icon: const Icon(WindowsIcons.delete),
               ),
             ),
             const SizedBox(width: 2),

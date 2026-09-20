@@ -6,6 +6,7 @@ import 'package:fl_clash/enum/enum.dart';
 import 'package:fl_clash/models/common.dart';
 import 'package:fl_clash/providers/providers.dart';
 import 'package:fl_clash/widgets/widgets.dart';
+import 'package:fluent_ui/fluent_ui.dart' hide IconButton, Tab, Colors;
 import 'package:material_ui/material_ui.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -91,8 +92,8 @@ class ProxiesTabViewState extends ConsumerState<ProxiesTabView>
           tooltip: context.appLocalizations.more,
           onPressed: _showMoreMenu,
           icon: isMobileView
-              ? const Icon(Icons.expand_more)
-              : const Icon(Icons.chevron_right),
+              ? const Icon(WindowsIcons.chevron_down)
+              : const Icon(WindowsIcons.chevron_right),
         );
       },
     );
@@ -454,7 +455,7 @@ class _DelayTestButtonState extends State<DelayTestButton>
       child: CommonFloatingActionButton(
         onPressed: _healthcheck,
         label: appLocalizations.delayTest,
-        icon: const Icon(Icons.network_ping),
+        icon: const Icon(WindowsIcons.market),
       ),
     );
   }

@@ -4,6 +4,7 @@ import 'package:fl_clash/l10n/l10n.dart';
 import 'package:fl_clash/models/models.dart';
 import 'package:fl_clash/providers/providers.dart';
 import 'package:fl_clash/widgets/widgets.dart';
+import 'package:fluent_ui/fluent_ui.dart' hide IconButton;
 import 'package:material_ui/material_ui.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -16,7 +17,7 @@ class LogLevelItem extends ConsumerWidget {
   @override
   Widget build(BuildContext context, ref) {
     return ConfigOptionsItem<LogLevel>(
-      leading: const Icon(Icons.info_outline),
+      leading: const Icon(WindowsIcons.info),
       title: (l) => l.logLevel,
       options: LogLevel.values,
       textBuilder: (logLevel) => logLevel.name,
@@ -62,7 +63,7 @@ class UaItem extends ConsumerWidget {
       patchClashConfigProvider.select((state) => state.globalUa),
     );
     return ListItem(
-      leading: const Icon(Icons.computer_outlined),
+      leading: const Icon(FluentIcons.devices2),
       title: Text(appLocalizations.userAgent),
       subtitle: Text(globalUa ?? appLocalizations.defaultText),
       onTap: () => _handleShowUaDialog(ref),
@@ -80,7 +81,7 @@ class KeepAliveIntervalItem extends ConsumerWidget {
       patchClashConfigProvider.select((state) => state.keepAliveInterval),
     );
     return ListItem.input(
-      leading: const Icon(Icons.timer_outlined),
+      leading: const Icon(FluentIcons.timer),
       title: Text(appLocalizations.keepAliveIntervalDesc),
       subtitle: Text(appLocalizations.secondsCount(keepAliveInterval)),
       dialogTitle: appLocalizations.keepAliveIntervalDesc,
@@ -121,7 +122,7 @@ class TestUrlItem extends ConsumerWidget {
       appSettingProvider.select((state) => state.testUrl),
     );
     return ListItem.input(
-      leading: const Icon(Icons.timeline),
+      leading: const Icon(WindowsIcons.market),
       title: Text(appLocalizations.testUrl),
       subtitle: Text(testUrl),
       resetValue: defaultTestUrl,
@@ -163,7 +164,7 @@ class PortItem extends ConsumerWidget {
       patchClashConfigProvider.select((state) => state.mixedPort),
     );
     return ListItem(
-      leading: const Icon(Icons.adjust_outlined),
+      leading: const Icon(FluentIcons.location_outline),
       title: Text(appLocalizations.port),
       subtitle: Text('$mixedPort'),
       onTap: () {
@@ -183,7 +184,7 @@ class HostsItem extends ConsumerWidget {
       patchClashConfigProvider.select((state) => state.hosts),
     );
     return ListItem.open(
-      leading: const Icon(Icons.view_list_outlined),
+      leading: const Icon(FluentIcons.server_processes),
       title: const Text('Hosts'),
       subtitle: Text(appLocalizations.hostsDesc),
       blur: false,
@@ -210,7 +211,7 @@ class AuthenticationItem extends ConsumerWidget {
   @override
   Widget build(BuildContext context, ref) {
     return ConfigToggleItem(
-      leading: const Icon(Icons.key_outlined),
+      leading: const Icon(FluentIcons.page_permission),
       title: (l) => l.authentication,
       subtitle: (l) => l.authenticationDesc,
       selector: networkSettingProvider.select(
@@ -237,7 +238,7 @@ class AuthenticationAccountItem extends ConsumerWidget {
   @override
   Widget build(BuildContext context, ref) {
     return ConfigTextItem(
-      leading: const Icon(Icons.person_outline),
+      leading: const Icon(FluentIcons.contact),
       title: (l) => l.account,
       maxLength: TextInputLimits.userName,
       selector: networkSettingProvider.select(
@@ -259,7 +260,7 @@ class AuthenticationPasswordItem extends ConsumerWidget {
   @override
   Widget build(BuildContext context, ref) {
     return ConfigTextItem(
-      leading: const Icon(Icons.password_outlined),
+      leading: const Icon(WindowsIcons.permissions),
       title: (l) => l.password,
       maxLength: TextInputLimits.password,
       selector: networkSettingProvider.select(
@@ -307,14 +308,14 @@ class GeneralListView extends ConsumerWidget {
         items: [
           const PortItem(),
           _clashToggle(
-            icon: Icons.device_hub,
+            icon: FluentIcons.streaming,
             title: (l) => l.allowLan,
             subtitle: (l) => l.allowLanDesc,
             select: (state) => state.allowLan,
             update: (state, value) => state.copyWith(allowLan: value),
           ),
           _clashToggle(
-            icon: Icons.api_outlined,
+            icon: WindowsIcons.dictionary_cloud,
             title: (l) => l.externalController,
             subtitle: (l) => l.externalControllerDesc,
             select: (state) =>
@@ -345,7 +346,7 @@ class GeneralListView extends ConsumerWidget {
           if (system.isDesktop) const KeepAliveIntervalItem(),
           const HostsItem(),
           ConfigToggleItem(
-            leading: const Icon(Icons.dns_outlined),
+            leading: const Icon(FluentIcons.server),
             title: (l) => l.appendSystemDns,
             subtitle: (l) => l.appendSystemDnsTip,
             selector: networkSettingProvider.select(
@@ -356,28 +357,28 @@ class GeneralListView extends ConsumerWidget {
                 .update((state) => state.copyWith(appendSystemDns: value)),
           ),
           _clashToggle(
-            icon: Icons.water_outlined,
+            icon: WindowsIcons.wifi,
             title: (l) => 'IPv6',
             subtitle: (l) => l.ipv6Desc,
             select: (state) => state.ipv6,
             update: (state, value) => state.copyWith(ipv6: value),
           ),
           _clashToggle(
-            icon: Icons.compress_outlined,
+            icon: FluentIcons.chevron_fold10,
             title: (l) => l.unifiedDelay,
             subtitle: (l) => l.unifiedDelayDesc,
             select: (state) => state.unifiedDelay,
             update: (state, value) => state.copyWith(unifiedDelay: value),
           ),
           _clashToggle(
-            icon: Icons.double_arrow_outlined,
+            icon: FluentIcons.double_chevron_right8,
             title: (l) => l.tcpConcurrent,
             subtitle: (l) => l.tcpConcurrentDesc,
             select: (state) => state.tcpConcurrent,
             update: (state, value) => state.copyWith(tcpConcurrent: value),
           ),
           _clashToggle(
-            icon: Icons.polymer_outlined,
+            icon: WindowsIcons.search_and_apps,
             title: (l) => l.findProcessMode,
             subtitle: (l) => l.findProcessModeDesc,
             select: (state) => state.findProcessMode == FindProcessMode.always,
@@ -388,7 +389,7 @@ class GeneralListView extends ConsumerWidget {
             ),
           ),
           _clashToggle(
-            icon: Icons.memory,
+            icon: WindowsIcons.smartcard_virtual,
             title: (l) => l.geodataLoader,
             subtitle: (l) => l.geodataLoaderDesc,
             select: (state) =>

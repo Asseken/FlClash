@@ -10,6 +10,7 @@ import 'package:fl_clash/providers/action.dart';
 import 'package:fl_clash/providers/app.dart';
 import 'package:fl_clash/state.dart';
 import 'package:fl_clash/widgets/widgets.dart';
+import 'package:fluent_ui/fluent_ui.dart' hide IconButton;
 import 'package:material_ui/material_ui.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -96,7 +97,7 @@ class _ProvidersViewState extends ConsumerState<ProvidersView> {
     return AdaptiveSheetScaffold(
       actions: [
         IconButtonData(
-          icon: Icons.sync,
+          icon: WindowsIcons.sync,
           onPressed: _updateProviders,
           tooltip: appLocalizations.update,
         ),
@@ -205,7 +206,7 @@ class ProviderItem extends ConsumerWidget {
     final subscriptionInfo = provider.subscriptionInfo;
     return [
       CommonPopupMenuItem(
-        icon: Icons.upload_outlined,
+        icon: FluentIcons.fabric_folder_upload,
         label: appLocalizations.upload,
         onPressed: () {
           _handleSideLoadProvider(ref);
@@ -213,7 +214,7 @@ class ProviderItem extends ConsumerWidget {
       ),
       if (provider.vehicleType == 'HTTP')
         CommonPopupMenuItem(
-          icon: Icons.sync,
+          icon: WindowsIcons.sync,
           label: appLocalizations.sync,
           onPressed: () {
             _handleUpdateProvider(ref);
@@ -221,7 +222,7 @@ class ProviderItem extends ConsumerWidget {
         ),
       if (subscriptionInfo != null && subscriptionInfo.total > 0)
         CommonPopupMenuItem(
-          icon: Icons.data_usage_outlined,
+          icon: FluentIcons.donut_chart,
           label: appLocalizations.subscriptionInfo,
           onPressed: _handleShowSubscriptionInfo,
         ),
@@ -259,7 +260,7 @@ class ProviderItem extends ConsumerWidget {
                       onPressed: () {
                         open();
                       },
-                      icon: const Icon(Icons.more_vert),
+                      icon: const Icon(FluentIcons.more_vertical),
                     );
                   },
                 ),

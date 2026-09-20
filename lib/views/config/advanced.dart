@@ -7,6 +7,7 @@ import 'package:fl_clash/views/config/on_demand.dart';
 import 'package:fl_clash/views/config/scripts.dart';
 import 'package:fl_clash/widgets/list.dart';
 import 'package:fl_clash/widgets/scaffold.dart';
+import 'package:fluent_ui/fluent_ui.dart' hide Divider, IconButton;
 import 'package:material_ui/material_ui.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -22,7 +23,7 @@ class AdvancedConfigView extends StatelessWidget {
       ListItem.open(
         title: Text(appLocalizations.network),
         subtitle: Text(appLocalizations.networkDesc),
-        leading: const Icon(Icons.vpn_key),
+        leading: const Icon(WindowsIcons.ethernet_v_p_n),
         blur: false,
         widget: BaseScaffold(
           title: appLocalizations.network,
@@ -32,14 +33,14 @@ class AdvancedConfigView extends StatelessWidget {
       ListItem.open(
         title: Text(appLocalizations.onDemand),
         subtitle: Text(appLocalizations.onDemandDesc),
-        leading: const Icon(Icons.ssid_chart, fontWeight: FontWeight.w900),
+        leading: const Icon(WindowsIcons.wifi, fontWeight: FontWeight.w900),
         widget: const OnDemandView(),
         blur: false,
       ),
       ListItem.open(
         title: const Text('DNS'),
         subtitle: Text(appLocalizations.dnsDesc),
-        leading: const Icon(Icons.dns),
+        leading: const Icon(FluentIcons.server),
         widget: BaseScaffold(
           title: 'DNS',
           actions: [
@@ -59,7 +60,7 @@ class AdvancedConfigView extends StatelessWidget {
                         .update((state) => state.copyWith(dns: defaultDns));
                   },
                   tooltip: appLocalizations.reset,
-                  icon: const Icon(Icons.replay),
+                  icon: const Icon(WindowsIcons.update_restore),
                 );
               },
             ),
@@ -71,14 +72,14 @@ class AdvancedConfigView extends StatelessWidget {
       ListItem.open(
         title: Text(appLocalizations.addedRules),
         subtitle: Text(appLocalizations.controlGlobalAddedRules),
-        leading: const Icon(Icons.library_books),
+        leading: const Icon(WindowsIcons.copy_to),
         widget: const AddedRulesView(),
         blur: false,
       ),
       ListItem.open(
         title: Text(appLocalizations.script),
         subtitle: Text(appLocalizations.overrideScript),
-        leading: const Icon(Icons.rocket, fontWeight: FontWeight.w900),
+        leading: const Icon(FluentIcons.js, fontWeight: FontWeight.w900),
         widget: const ScriptsView(),
         blur: false,
       ),

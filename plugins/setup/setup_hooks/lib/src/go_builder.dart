@@ -14,7 +14,7 @@ import 'util.dart';
 
 DateTime nowBuildTime = DateTime.now();
 const String coreVersion =
-    'github.com/metacubex/mihomo/constant.Version=v1.19.29';
+    'github.com/metacubex/mihomo/constant.Version=v1.19.31';
 final String coreBuildTime =
     'github.com/metacubex/mihomo/constant.BuildTime=${nowBuildTime.year}-${nowBuildTime.month}-${nowBuildTime.day}:${nowBuildTime.hour}';
 

@@ -1,4 +1,5 @@
 import 'package:fl_clash/common/common.dart';
+import 'package:fluent_ui/fluent_ui.dart';
 import 'package:material_ui/material_ui.dart';
 
 class CommonChip extends StatelessWidget {
@@ -41,7 +42,7 @@ class CommonChip extends StatelessWidget {
           if (onDeleted != null)
             GestureDetector(
               onTap: onDeleted,
-              child: Icon(Icons.close, size: 14, color: foregroundColor),
+              child: Icon(WindowsIcons.clear, size: 14, color: foregroundColor),
             ),
         ],
       ),

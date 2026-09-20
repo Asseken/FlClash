@@ -7,6 +7,7 @@ import 'package:fl_clash/features/features.dart';
 import 'package:fl_clash/models/models.dart';
 import 'package:fl_clash/providers/providers.dart';
 import 'package:fl_clash/widgets/widgets.dart';
+import 'package:fluent_ui/fluent_ui.dart' hide IconButton, VisualDensity;
 import 'package:material_ui/material_ui.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -37,7 +38,7 @@ class _ConnectionsViewState extends ConsumerState<ConnectionsView>
           unawaited(_core.closeConnections());
           await _refreshConnections();
         },
-        icon: const Icon(Icons.delete_sweep_outlined),
+        icon: const Icon(WindowsIcons.delete),
       ),
     ];
   }
@@ -130,7 +131,7 @@ class _ConnectionsViewState extends ConsumerState<ConnectionsView>
               trailingBuilder: (trackerInfo) => IconButton(
                 tooltip: appLocalizations.blockConnection,
                 visualDensity: VisualDensity.compact,
-                icon: const Icon(Icons.block, size: 20),
+                icon: const Icon(WindowsIcons.blocked, size: 20),
                 onPressed: () {
                   _handleBlockConnection(trackerInfo.id);
                 },

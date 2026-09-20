@@ -4,6 +4,7 @@ import 'package:fl_clash/features/features.dart';
 import 'package:fl_clash/models/models.dart';
 import 'package:fl_clash/providers/providers.dart';
 import 'package:fl_clash/widgets/widgets.dart';
+import 'package:fluent_ui/fluent_ui.dart';
 import 'package:material_ui/material_ui.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -71,8 +72,8 @@ class _RequestsViewState extends ConsumerState<RequestsView> {
                 }
               },
               child: autoScrollToEnd
-                  ? const Icon(Icons.block)
-                  : const Icon(Icons.vertical_align_top),
+                  ? const Icon(FluentIcons.blocked)
+                  : const Icon(FluentIcons.upload),
             ),
           );
         },

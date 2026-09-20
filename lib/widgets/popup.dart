@@ -2,6 +2,7 @@ import 'dart:math' as math;
 import 'dart:ui' show lerpDouble;
 
 import 'package:fl_clash/common/common.dart';
+import 'package:fluent_ui/fluent_ui.dart' hide MaterialLocalizations, Card, Colors, Divider;
 import 'package:material_ui/material_ui.dart';
 
 typedef PopupAnchorResolver = Rect? Function();
@@ -506,7 +507,7 @@ class _CommonPopupMenuState extends State<CommonPopupMenu>
     Widget? arrow;
     if (item.subItems.isNotEmpty) {
       arrow = Icon(
-        Icons.chevron_right,
+        WindowsIcons.back,
         size: _itemIconSize,
         color: foregroundColor,
       );

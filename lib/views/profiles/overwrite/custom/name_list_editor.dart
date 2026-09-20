@@ -4,6 +4,7 @@ import 'package:fl_clash/features/overwrite/overwrite.dart';
 import 'package:fl_clash/models/models.dart' hide FileInfo;
 import 'package:fl_clash/providers/providers.dart';
 import 'package:fl_clash/widgets/widgets.dart';
+import 'package:fluent_ui/fluent_ui.dart' hide IconButton, FilledButton;
 import 'package:material_ui/material_ui.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -249,7 +250,7 @@ class _IncludeAllCard extends StatelessWidget {
                 },
                 icon: Icon(
                   size: 16.ap,
-                  Icons.info_outline,
+                  WindowsIcons.info,
                   color: context.colorScheme.onSurfaceVariant,
                 ),
               ),

@@ -5,6 +5,7 @@ import 'package:fl_clash/enum/enum.dart';
 import 'package:fl_clash/providers/providers.dart';
 import 'package:fl_clash/views/profiles/preview.dart';
 import 'package:fl_clash/widgets/widgets.dart';
+import 'package:fluent_ui/fluent_ui.dart' hide FilledButton;
 import 'package:material_ui/material_ui.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -85,9 +86,9 @@ class _Title extends ConsumerWidget {
 
   IconData _getIcon(OverwriteType type) {
     return switch (type) {
-      OverwriteType.standard => Icons.stars,
-      OverwriteType.script => Icons.rocket,
-      OverwriteType.custom => Icons.dashboard_customize,
+      OverwriteType.standard => WindowsIcons.connected,
+      OverwriteType.script => FluentIcons.js,
+      OverwriteType.custom => FluentIcons.edit_contact,
     };
   }
 

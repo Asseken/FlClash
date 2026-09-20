@@ -1,5 +1,6 @@
 import 'package:fl_clash/common/color.dart';
 import 'package:fl_clash/common/shape.dart';
+import 'package:fluent_ui/fluent_ui.dart' hide SelectableText, Colors;
 import 'package:material_ui/material_ui.dart';
 import 'package:flutter/services.dart';
 
@@ -29,7 +30,7 @@ class InitErrorScreen extends StatelessWidget {
               Row(
                 children: [
                   Icon(
-                    Icons.report_problem,
+                    WindowsIcons.error,
                     color: colorScheme.error,
                     size: 32,
                   ),
@@ -92,7 +93,7 @@ class InitErrorScreen extends StatelessWidget {
       floatingActionButton: FloatingActionButton.extended(
         onPressed: () => _copyToClipboard(context),
         label: const Text('Copy Details'),
-        icon: const Icon(Icons.copy),
+        icon: const Icon(WindowsIcons.copy),
         backgroundColor: colorScheme.error,
         foregroundColor: colorScheme.onError,
       ),

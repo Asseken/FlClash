@@ -4,6 +4,7 @@ import 'package:fl_clash/common/common.dart';
 import 'package:fl_clash/pages/scan.dart';
 import 'package:fl_clash/providers/action.dart';
 import 'package:fl_clash/widgets/widgets.dart';
+import 'package:fluent_ui/fluent_ui.dart';
 import 'package:material_ui/material_ui.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -62,19 +63,19 @@ class AddProfileView extends ConsumerWidget {
     return ListView(
       children: [
         ListItem(
-          leading: const Icon(Icons.qr_code_sharp),
+          leading: const Icon(WindowsIcons.q_r_code),
           title: Text(appLocalizations.qrcode),
           subtitle: Text(appLocalizations.qrcodeDesc),
           onTap: () => _toScan(ref),
         ),
         ListItem(
-          leading: const Icon(Icons.upload_file_sharp),
+          leading: const Icon(FluentIcons.fabric_folder_upload),
           title: Text(appLocalizations.file),
           subtitle: Text(appLocalizations.fileDesc),
           onTap: () => _handleAddProfileFormFile(ref),
         ),
         ListItem(
-          leading: const Icon(Icons.cloud_download_sharp),
+          leading: const Icon(WindowsIcons.cloud_download),
           title: Text(appLocalizations.url),
           subtitle: Text(appLocalizations.urlDesc),
           onTap: () => _toAdd(ref),

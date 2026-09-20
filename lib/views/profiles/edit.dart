@@ -11,6 +11,7 @@ import 'package:fl_clash/providers/action.dart';
 import 'package:fl_clash/providers/core.dart';
 import 'package:fl_clash/state.dart';
 import 'package:fl_clash/widgets/widgets.dart';
+import 'package:fluent_ui/fluent_ui.dart' hide IconButton;
 import 'package:material_ui/material_ui.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -262,7 +263,7 @@ class _EditProfileViewState extends ConsumerState<EditProfileView> {
             floatingWidget: FloatWrapper(
               child: CommonFloatingActionButton(
                 onPressed: _handleConfirm,
-                icon: const Icon(Icons.save),
+                icon: const Icon(WindowsIcons.save),
                 label: appLocalizations.save,
               ),
             ),
@@ -414,12 +415,12 @@ class _ProfileFileItem extends StatelessWidget {
     final appLocalizations = context.appLocalizations;
     return [
       CommonPopupMenuItem(
-        icon: Icons.edit_outlined,
+        icon: FluentIcons.code_edit,
         label: appLocalizations.edit,
         onPressed: onEdit,
       ),
       CommonPopupMenuItem(
-        icon: Icons.upload_outlined,
+        icon: FluentIcons.fabric_folder_upload,
         label: appLocalizations.upload,
         onPressed: onUpload,
       ),
@@ -452,7 +453,7 @@ class _ProfileFileItem extends StatelessWidget {
                           return IconButton(
                             tooltip: appLocalizations.more,
                             onPressed: open,
-                            icon: const Icon(Icons.more_vert),
+                            icon: const Icon(FluentIcons.more_vertical),
                           );
                         },
                       ),

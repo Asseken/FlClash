@@ -256,7 +256,7 @@ class LineChartPainter extends CustomPainter {
   static final Map<int, Shader> _shaderCache = {};
 
   Shader _getShader(Size size, Color color) {
-    final key = Object.hash(size.width, size.height, color.value);
+    final key = Object.hash(size.width, size.height, color.toARGB32());
     final cached = _shaderCache[key];
     if (cached != null) return cached;
 

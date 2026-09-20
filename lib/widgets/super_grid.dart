@@ -5,6 +5,7 @@ import 'package:defer_pointer/defer_pointer.dart';
 import 'package:fl_clash/common/common.dart';
 import 'package:fl_clash/widgets/activate_box.dart';
 import 'package:fl_clash/widgets/grid.dart';
+import 'package:fluent_ui/fluent_ui.dart' hide IconButton, kElevationToShadow;
 import 'package:material_ui/material_ui.dart';
 import 'package:flutter/physics.dart';
 
@@ -745,7 +746,7 @@ class _DeletableContainerState extends State<_DeletableContainer>
                   iconSize: 20,
                   padding: const EdgeInsets.all(2),
                   onPressed: _handleDel,
-                  icon: const Icon(Icons.close),
+                  icon: const Icon(WindowsIcons.clear),
                 ),
               ),
             ),

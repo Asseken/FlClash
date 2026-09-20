@@ -1,6 +1,7 @@
 import 'package:fl_clash/common/common.dart';
 import 'package:fl_clash/models/models.dart';
 import 'package:fl_clash/widgets/pop_scope.dart';
+import 'package:fluent_ui/fluent_ui.dart' hide IconButton, Colors;
 import 'package:material_ui/material_ui.dart';
 import 'package:flutter/rendering.dart';
 
@@ -193,14 +194,14 @@ class CommonScaffoldState extends State<CommonScaffold> {
       return IconButton(
         tooltip: context.appLocalizations.close,
         onPressed: _popAppBarLayer,
-        icon: const Icon(Icons.close),
+        icon: const Icon(WindowsIcons.clear),
       );
     }
     if (_isSearch) {
       return IconButton(
         tooltip: context.appLocalizations.back,
         onPressed: _popAppBarLayer,
-        icon: const Icon(Icons.arrow_back),
+        icon: const Icon(WindowsIcons.back),
       );
     }
     return backAction != null
@@ -245,7 +246,7 @@ class CommonScaffoldState extends State<CommonScaffold> {
         IconButton(
           tooltip: context.appLocalizations.clearSearch,
           onPressed: _handleClear,
-          icon: const Icon(Icons.close),
+          icon: const Icon(WindowsIcons.clear),
         ),
       ]);
     }
@@ -256,7 +257,7 @@ class CommonScaffoldState extends State<CommonScaffold> {
           onPressed: () {
             _updateSearchState((state) => state?.copyWith(query: ''));
           },
-          icon: const Icon(Icons.search),
+          icon: const Icon(WindowsIcons.search),
         ),
       ...actions,
     ]);
@@ -272,7 +273,7 @@ class CommonScaffoldState extends State<CommonScaffold> {
 
   PreferredSizeWidget _buildAppBar(VoidCallback? backAction) {
     return PreferredSize(
-      preferredSize: const Size.fromHeight(kToolbarHeight-20),
+      preferredSize: const Size.fromHeight(kToolbarHeight - 20),
       child: Stack(
         alignment: Alignment.bottomCenter,
         children: [
@@ -286,6 +287,8 @@ class CommonScaffoldState extends State<CommonScaffold> {
                           ? false
                           : true,
                       animateColor: true,
+                      backgroundColor: Colors.transparent,
+                      surfaceTintColor: Colors.transparent,
                       centerTitle: widget.centerTitle ?? false,
                       leading: _buildLeading(backAction),
                       title: _buildTitle(state.searchState),
@@ -303,7 +306,10 @@ class CommonScaffoldState extends State<CommonScaffold> {
             valueListenable: _loadingNotifier,
             builder: (_, value, _) {
               return value == true
-                  ? const LinearProgressIndicator()
+                  ? const SizedBox(
+                      width: double.infinity,
+                      child: ProgressBar(strokeWidth: 3),
+                    )
                   : Container();
             },
           ),

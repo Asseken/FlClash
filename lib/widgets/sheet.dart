@@ -1,6 +1,7 @@
 import 'package:fl_clash/common/common.dart';
 import 'package:fl_clash/models/common.dart';
 import 'package:fl_clash/widgets/inherited.dart';
+import 'package:fluent_ui/fluent_ui.dart' hide IconButton, VisualDensity;
 import 'package:flutter/foundation.dart';
 import 'package:material_ui/material_ui.dart';
 
@@ -68,7 +69,7 @@ Future<T?> showSheet<T>({
       isScrollControlled: props.isScrollControlled,
       context: context,
       backgroundColor: props.backgroundColor,
-      constraints: BoxConstraints(maxWidth: props.maxWidth ?? 360),
+      constraints: BoxConstraints(maxWidth: props.maxWidth ?? 380),
       filter: props.blur ? commonFilter : null,
       builder: (_) {
         return SheetProvider(
@@ -131,17 +132,17 @@ class AdaptiveSheetScaffold extends StatefulWidget {
 class _AdaptiveSheetScaffoldState extends State<AdaptiveSheetScaffold> {
   IconData get backIconData {
     if (kIsWeb) {
-      return Icons.arrow_back;
+      return WindowsIcons.back;
     }
     switch (Theme.of(context).platform) {
       case TargetPlatform.android:
       case TargetPlatform.fuchsia:
       case TargetPlatform.linux:
       case TargetPlatform.windows:
-        return Icons.arrow_back;
+        return WindowsIcons.back;
       case TargetPlatform.iOS:
       case TargetPlatform.macOS:
-        return Icons.arrow_back_ios_new_rounded;
+        return WindowsIcons.chevron_left;
     }
   }
 
@@ -163,7 +164,7 @@ class _AdaptiveSheetScaffoldState extends State<AdaptiveSheetScaffold> {
   }) {
     if (useCloseIcon) {
       return IconButtonData(
-        icon: Icons.close,
+        icon: WindowsIcons.clear,
         onPressed: context.safeNestedPop,
         tooltip: context.appLocalizations.close,
       );

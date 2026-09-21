@@ -3738,4 +3738,292 @@ as List<String>,
 
 }
 
+
+/// @nodoc
+mixin _$CoreVersionInfo {
+
+@JsonKey(name: 'Miho-name') String? get mihoName;@JsonKey(name: 'build-time') String? get buildTime;@JsonKey(name: 'client-version') int? get clientVersion;@JsonKey(name: 'core-version') String? get coreVersion;@JsonKey(name: 'go-arch') String? get goArch;@JsonKey(name: 'go-os') String? get goOs;@JsonKey(name: 'go-version') String? get goVersion;
+/// Create a copy of CoreVersionInfo
+/// with the given fields replaced by the non-null parameter values.
+@JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+$CoreVersionInfoCopyWith<CoreVersionInfo> get copyWith => _$CoreVersionInfoCopyWithImpl<CoreVersionInfo>(this as CoreVersionInfo, _$identity);
+
+  /// Serializes this CoreVersionInfo to a JSON map.
+  Map<String, dynamic> toJson();
+
+
+@override
+bool operator ==(Object other) {
+  final _this = this as CoreVersionInfo;
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is CoreVersionInfo&&(identical(other.mihoName, _this.mihoName) || other.mihoName == _this.mihoName)&&(identical(other.buildTime, _this.buildTime) || other.buildTime == _this.buildTime)&&(identical(other.clientVersion, _this.clientVersion) || other.clientVersion == _this.clientVersion)&&(identical(other.coreVersion, _this.coreVersion) || other.coreVersion == _this.coreVersion)&&(identical(other.goArch, _this.goArch) || other.goArch == _this.goArch)&&(identical(other.goOs, _this.goOs) || other.goOs == _this.goOs)&&(identical(other.goVersion, _this.goVersion) || other.goVersion == _this.goVersion));
+}
+
+@JsonKey(includeFromJson: false, includeToJson: false)
+@override
+int get hashCode {
+  final _this = this as CoreVersionInfo;
+  return Object.hash(runtimeType,_this.mihoName,_this.buildTime,_this.clientVersion,_this.coreVersion,_this.goArch,_this.goOs,_this.goVersion);
+}
+
+@override
+String toString() {
+  final _this = this as CoreVersionInfo;
+  return 'CoreVersionInfo(mihoName: ${_this.mihoName}, buildTime: ${_this.buildTime}, clientVersion: ${_this.clientVersion}, coreVersion: ${_this.coreVersion}, goArch: ${_this.goArch}, goOs: ${_this.goOs}, goVersion: ${_this.goVersion})';
+}
+
+
+}
+
+/// @nodoc
+abstract mixin class $CoreVersionInfoCopyWith<$Res>  {
+  factory $CoreVersionInfoCopyWith(CoreVersionInfo value, $Res Function(CoreVersionInfo) _then) = _$CoreVersionInfoCopyWithImpl;
+@useResult
+$Res call({
+@JsonKey(name: 'Miho-name') String? mihoName,@JsonKey(name: 'build-time') String? buildTime,@JsonKey(name: 'client-version') int? clientVersion,@JsonKey(name: 'core-version') String? coreVersion,@JsonKey(name: 'go-arch') String? goArch,@JsonKey(name: 'go-os') String? goOs,@JsonKey(name: 'go-version') String? goVersion
+});
+
+
+
+
+}
+/// @nodoc
+class _$CoreVersionInfoCopyWithImpl<$Res>
+    implements $CoreVersionInfoCopyWith<$Res> {
+  _$CoreVersionInfoCopyWithImpl(this._self, this._then);
+
+  final CoreVersionInfo _self;
+  final $Res Function(CoreVersionInfo) _then;
+
+/// Create a copy of CoreVersionInfo
+/// with the given fields replaced by the non-null parameter values.
+@pragma('vm:prefer-inline') @override $Res call({Object? mihoName = freezed,Object? buildTime = freezed,Object? clientVersion = freezed,Object? coreVersion = freezed,Object? goArch = freezed,Object? goOs = freezed,Object? goVersion = freezed,}) {
+  return _then(CoreVersionInfo(
+mihoName: freezed == mihoName ? _self.mihoName : mihoName // ignore: cast_nullable_to_non_nullable
+as String?,buildTime: freezed == buildTime ? _self.buildTime : buildTime // ignore: cast_nullable_to_non_nullable
+as String?,clientVersion: freezed == clientVersion ? _self.clientVersion : clientVersion // ignore: cast_nullable_to_non_nullable
+as int?,coreVersion: freezed == coreVersion ? _self.coreVersion : coreVersion // ignore: cast_nullable_to_non_nullable
+as String?,goArch: freezed == goArch ? _self.goArch : goArch // ignore: cast_nullable_to_non_nullable
+as String?,goOs: freezed == goOs ? _self.goOs : goOs // ignore: cast_nullable_to_non_nullable
+as String?,goVersion: freezed == goVersion ? _self.goVersion : goVersion // ignore: cast_nullable_to_non_nullable
+as String?,
+  ));
+}
+
+}
+
+
+/// Adds pattern-matching-related methods to [CoreVersionInfo].
+extension CoreVersionInfoPatterns on CoreVersionInfo {
+/// A variant of `map` that fallback to returning `orElse`.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case _:
+///     return orElse();
+/// }
+/// ```
+
+@optionalTypeArgs TResult maybeMap<TResult extends Object?>(TResult Function( _CoreVersionInfo value)?  $default,{required TResult orElse(),}){
+final _that = this;
+switch (_that) {
+case _CoreVersionInfo() when $default != null:
+return $default(_that);case _:
+  return orElse();
+
+}
+}
+/// A `switch`-like method, using callbacks.
+///
+/// Callbacks receives the raw object, upcasted.
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case final Subclass2 value:
+///     return ...;
+/// }
+/// ```
+
+@optionalTypeArgs TResult map<TResult extends Object?>(TResult Function( _CoreVersionInfo value)  $default,){
+final _that = this;
+switch (_that) {
+case _CoreVersionInfo():
+return $default(_that);case _:
+  throw StateError('Unexpected subclass');
+
+}
+}
+/// A variant of `map` that fallback to returning `null`.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case _:
+///     return null;
+/// }
+/// ```
+
+@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>(TResult? Function( _CoreVersionInfo value)?  $default,){
+final _that = this;
+switch (_that) {
+case _CoreVersionInfo() when $default != null:
+return $default(_that);case _:
+  return null;
+
+}
+}
+/// A variant of `when` that fallback to an `orElse` callback.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case _:
+///     return orElse();
+/// }
+/// ```
+
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function(@JsonKey(name: 'Miho-name')  String? mihoName, @JsonKey(name: 'build-time')  String? buildTime, @JsonKey(name: 'client-version')  int? clientVersion, @JsonKey(name: 'core-version')  String? coreVersion, @JsonKey(name: 'go-arch')  String? goArch, @JsonKey(name: 'go-os')  String? goOs, @JsonKey(name: 'go-version')  String? goVersion)?  $default,{required TResult orElse(),}) {final _that = this;
+switch (_that) {
+case _CoreVersionInfo() when $default != null:
+return $default(_that.mihoName,_that.buildTime,_that.clientVersion,_that.coreVersion,_that.goArch,_that.goOs,_that.goVersion);case _:
+  return orElse();
+
+}
+}
+/// A `switch`-like method, using callbacks.
+///
+/// As opposed to `map`, this offers destructuring.
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case Subclass2(:final field2):
+///     return ...;
+/// }
+/// ```
+
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function(@JsonKey(name: 'Miho-name')  String? mihoName, @JsonKey(name: 'build-time')  String? buildTime, @JsonKey(name: 'client-version')  int? clientVersion, @JsonKey(name: 'core-version')  String? coreVersion, @JsonKey(name: 'go-arch')  String? goArch, @JsonKey(name: 'go-os')  String? goOs, @JsonKey(name: 'go-version')  String? goVersion)  $default,) {final _that = this;
+switch (_that) {
+case _CoreVersionInfo():
+return $default(_that.mihoName,_that.buildTime,_that.clientVersion,_that.coreVersion,_that.goArch,_that.goOs,_that.goVersion);case _:
+  throw StateError('Unexpected subclass');
+
+}
+}
+/// A variant of `when` that fallback to returning `null`
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case _:
+///     return null;
+/// }
+/// ```
+
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function(@JsonKey(name: 'Miho-name')  String? mihoName, @JsonKey(name: 'build-time')  String? buildTime, @JsonKey(name: 'client-version')  int? clientVersion, @JsonKey(name: 'core-version')  String? coreVersion, @JsonKey(name: 'go-arch')  String? goArch, @JsonKey(name: 'go-os')  String? goOs, @JsonKey(name: 'go-version')  String? goVersion)?  $default,) {final _that = this;
+switch (_that) {
+case _CoreVersionInfo() when $default != null:
+return $default(_that.mihoName,_that.buildTime,_that.clientVersion,_that.coreVersion,_that.goArch,_that.goOs,_that.goVersion);case _:
+  return null;
+
+}
+}
+
+}
+
+/// @nodoc
+@JsonSerializable()
+
+class _CoreVersionInfo implements CoreVersionInfo {
+  const _CoreVersionInfo({@JsonKey(name: 'Miho-name') this.mihoName, @JsonKey(name: 'build-time') this.buildTime, @JsonKey(name: 'client-version') this.clientVersion, @JsonKey(name: 'core-version') this.coreVersion, @JsonKey(name: 'go-arch') this.goArch, @JsonKey(name: 'go-os') this.goOs, @JsonKey(name: 'go-version') this.goVersion});
+  factory _CoreVersionInfo.fromJson(Map<String, dynamic> json) => _$CoreVersionInfoFromJson(json);
+
+@override@JsonKey(name: 'Miho-name') final  String? mihoName;
+@override@JsonKey(name: 'build-time') final  String? buildTime;
+@override@JsonKey(name: 'client-version') final  int? clientVersion;
+@override@JsonKey(name: 'core-version') final  String? coreVersion;
+@override@JsonKey(name: 'go-arch') final  String? goArch;
+@override@JsonKey(name: 'go-os') final  String? goOs;
+@override@JsonKey(name: 'go-version') final  String? goVersion;
+
+/// Create a copy of CoreVersionInfo
+/// with the given fields replaced by the non-null parameter values.
+@override @JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+_$CoreVersionInfoCopyWith<_CoreVersionInfo> get copyWith => __$CoreVersionInfoCopyWithImpl<_CoreVersionInfo>(this, _$identity);
+
+@override
+Map<String, dynamic> toJson() {
+  return _$CoreVersionInfoToJson(this, );
+}
+
+@override
+bool operator ==(Object other) {
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _CoreVersionInfo&&(identical(other.mihoName, mihoName) || other.mihoName == mihoName)&&(identical(other.buildTime, buildTime) || other.buildTime == buildTime)&&(identical(other.clientVersion, clientVersion) || other.clientVersion == clientVersion)&&(identical(other.coreVersion, coreVersion) || other.coreVersion == coreVersion)&&(identical(other.goArch, goArch) || other.goArch == goArch)&&(identical(other.goOs, goOs) || other.goOs == goOs)&&(identical(other.goVersion, goVersion) || other.goVersion == goVersion));
+}
+
+@JsonKey(includeFromJson: false, includeToJson: false)
+@override
+int get hashCode {
+    return Object.hash(runtimeType,mihoName,buildTime,clientVersion,coreVersion,goArch,goOs,goVersion);
+}
+
+@override
+String toString() {
+    return 'CoreVersionInfo(mihoName: $mihoName, buildTime: $buildTime, clientVersion: $clientVersion, coreVersion: $coreVersion, goArch: $goArch, goOs: $goOs, goVersion: $goVersion)';
+}
+
+
+}
+
+/// @nodoc
+abstract mixin class _$CoreVersionInfoCopyWith<$Res> implements $CoreVersionInfoCopyWith<$Res> {
+  factory _$CoreVersionInfoCopyWith(_CoreVersionInfo value, $Res Function(_CoreVersionInfo) _then) = __$CoreVersionInfoCopyWithImpl;
+@override @useResult
+$Res call({
+@JsonKey(name: 'Miho-name') String? mihoName,@JsonKey(name: 'build-time') String? buildTime,@JsonKey(name: 'client-version') int? clientVersion,@JsonKey(name: 'core-version') String? coreVersion,@JsonKey(name: 'go-arch') String? goArch,@JsonKey(name: 'go-os') String? goOs,@JsonKey(name: 'go-version') String? goVersion
+});
+
+
+
+
+}
+/// @nodoc
+class __$CoreVersionInfoCopyWithImpl<$Res>
+    implements _$CoreVersionInfoCopyWith<$Res> {
+  __$CoreVersionInfoCopyWithImpl(this._self, this._then);
+
+  final _CoreVersionInfo _self;
+  final $Res Function(_CoreVersionInfo) _then;
+
+/// Create a copy of CoreVersionInfo
+/// with the given fields replaced by the non-null parameter values.
+@override @pragma('vm:prefer-inline') $Res call({Object? mihoName = freezed,Object? buildTime = freezed,Object? clientVersion = freezed,Object? coreVersion = freezed,Object? goArch = freezed,Object? goOs = freezed,Object? goVersion = freezed,}) {
+  return _then(_CoreVersionInfo(
+mihoName: freezed == mihoName ? _self.mihoName : mihoName // ignore: cast_nullable_to_non_nullable
+as String?,buildTime: freezed == buildTime ? _self.buildTime : buildTime // ignore: cast_nullable_to_non_nullable
+as String?,clientVersion: freezed == clientVersion ? _self.clientVersion : clientVersion // ignore: cast_nullable_to_non_nullable
+as int?,coreVersion: freezed == coreVersion ? _self.coreVersion : coreVersion // ignore: cast_nullable_to_non_nullable
+as String?,goArch: freezed == goArch ? _self.goArch : goArch // ignore: cast_nullable_to_non_nullable
+as String?,goOs: freezed == goOs ? _self.goOs : goOs // ignore: cast_nullable_to_non_nullable
+as String?,goVersion: freezed == goVersion ? _self.goVersion : goVersion // ignore: cast_nullable_to_non_nullable
+as String?,
+  ));
+}
+
+
+}
+
 // dart format on

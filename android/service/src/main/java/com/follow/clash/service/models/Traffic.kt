@@ -11,6 +11,11 @@ data class Traffic(
     val down: Long,
 )
 
+data class DirectTraffic(
+    val up: Long,
+    val down: Long,
+)
+
 private val Long.formatBytes: String
     get() {
         val units = arrayOf("B", "KB", "MB", "GB", "TB")
@@ -27,13 +32,37 @@ private val Long.formatBytes: String
         }
     }
 
-val Traffic.speedText: String
-    get() = "${up.formatBytes}/s↑  ${down.formatBytes}/s↓"
+fun Traffic.getSpeedText(isTotal: Boolean): String {
+    return if (isTotal) {
+        "Proxy: ${up.formatBytes}/s↑  ${down.formatBytes}/s↓"
+    } else {
+        "Total: ${up.formatBytes}/s↑  ${down.formatBytes}/s↓"
+    }
+}
+
+fun DirectTraffic.getSpeedText(): String {
+    return "Direct: ${up.formatBytes}/s↑  ${down.formatBytes}/s↓"
+}
 
 fun Core.getSpeedTrafficText(onlyStatisticsProxy: Boolean): String {
     return runCatching {
-        gson.fromJson(getTraffic(onlyStatisticsProxy), Traffic::class.java).speedText
+        gson.fromJson(getTraffic(onlyStatisticsProxy), Traffic::class.java).getSpeedText(onlyStatisticsProxy)
     }.onFailure { error ->
         GlobalState.log("Unable to read traffic: $error")
+    }.getOrDefault("")
+}
+
+fun Core.getSpeedDirectTrafficText(onlyStatisticsProxy: Boolean): String {
+    return runCatching {
+        // onlyStatisticsProxy=true → Direct 直连流量；false → Proxy 代理流量
+        val json = if (onlyStatisticsProxy) getDirectTraffic() else getTraffic(true)
+        val traffic = gson.fromJson(json, DirectTraffic::class.java)
+        if (onlyStatisticsProxy) {
+            traffic.getSpeedText()
+        } else {
+            "Proxy: ${traffic.up.formatBytes}/s↑  ${traffic.down.formatBytes}/s↓"
+        }
+    }.onFailure { error ->
+        GlobalState.log("Unable to read direct traffic: $error")
     }.getOrDefault("")
 }

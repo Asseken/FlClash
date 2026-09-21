@@ -179,3 +179,19 @@ abstract class ProxiesData with _$ProxiesData {
   factory ProxiesData.fromJson(Map<String, Object?> json) =>
       _$ProxiesDataFromJson(json);
 }
+
+@freezed
+abstract class CoreVersionInfo with _$CoreVersionInfo {
+  const factory CoreVersionInfo({
+    @JsonKey(name: 'Miho-name') String? mihoName,
+    @JsonKey(name: 'build-time') String? buildTime,
+    @JsonKey(name: 'client-version') int? clientVersion,
+    @JsonKey(name: 'core-version') String? coreVersion,
+    @JsonKey(name: 'go-arch') String? goArch,
+    @JsonKey(name: 'go-os') String? goOs,
+    @JsonKey(name: 'go-version') String? goVersion,
+  }) = _CoreVersionInfo;
+
+  factory CoreVersionInfo.fromJson(Map<String, Object?> json) =>
+      _$CoreVersionInfoFromJson(json);
+}

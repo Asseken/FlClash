@@ -124,6 +124,33 @@ class Traffics extends _$Traffics with AutoDisposeNotifierMixin {
 }
 
 @Riverpod(keepAlive: true)
+class DirectTraffic extends _$DirectTraffic with AutoDisposeNotifierMixin {
+  @override
+  FixedList<Traffic> build() {
+    return FixedList(trafficSampleLength);
+  }
+
+  void addTraffic(Traffic value) {
+    if (!ref.mounted) {
+      return;
+    }
+    this.value = state.append(value);
+  }
+
+  void clear() {
+    value = state.copyWith()..clear();
+  }
+}
+
+@Riverpod(keepAlive: true)
+class TotalDirectTraffic extends _$TotalDirectTraffic with AutoDisposeNotifierMixin {
+  @override
+  Traffic build() {
+    return const Traffic();
+  }
+}
+
+@Riverpod(keepAlive: true)
 class TotalTraffic extends _$TotalTraffic with AutoDisposeNotifierMixin {
   @override
   Traffic build() {
@@ -610,4 +637,11 @@ List<Override> buildAppStateOverrides(AppState appState) {
     ),
     coreStatusProvider.overrideWithBuild((_, _) => appState.coreStatus),
   ];
+}
+@Riverpod(name: 'coreVersionInfoDataProvider', keepAlive: true)
+class _CoreVersionInfo extends _$CoreVersionInfo with AutoDisposeNotifierMixin {
+  @override
+  CoreVersionInfo? build() {
+    return null;
+  }
 }

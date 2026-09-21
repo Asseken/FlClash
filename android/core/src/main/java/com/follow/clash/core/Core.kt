@@ -129,6 +129,10 @@ object Core {
 
     external fun getTotalTraffic(onlyStatisticsProxy: Boolean): String
 
+    external fun getDirectTraffic(): String
+
+    external fun getDirectTotalTraffic(): String
+
     init {
         System.loadLibrary("core")
     }

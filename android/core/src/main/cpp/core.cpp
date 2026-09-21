@@ -82,6 +82,18 @@ Java_com_follow_clash_core_Core_quickSetup(JNIEnv *env, jobject thiz, jstring in
     quickSetup(interface, get_string(init_params_string), get_string(setup_params_string));
 }
 
+extern "C"
+JNIEXPORT jstring JNICALL
+        Java_com_follow_clash_core_Core_getDirectTraffic(JNIEnv *env, jobject thiz) {
+return new_string(getDirectTraffic());
+}
+
+extern "C"
+JNIEXPORT jstring JNICALL
+        Java_com_follow_clash_core_Core_getDirectTotalTraffic(JNIEnv *env, jobject thiz) {
+return new_string(getDirectTotalTraffic());
+}
+
 
 static jmethodID m_tun_interface_protect;
 static jmethodID m_tun_interface_resolve_uid;

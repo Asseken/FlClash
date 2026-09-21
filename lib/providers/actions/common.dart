@@ -46,15 +46,29 @@ class CommonAction extends _$CommonAction {
       final onlyStatisticsProxy = ref.read(
         appSettingProvider.select((state) => state.onlyStatisticsProxy),
       );
-      final [traffic, totalTraffic] = await Future.wait([
+      final [
+        traffic,
+        totalTraffic,
+        directTraffic,
+        directTotalTraffic,
+      ] = await Future.wait([
         _readTraffic(() => _core.getTraffic(onlyStatisticsProxy)),
         _readTraffic(() => _core.getTotalTraffic(onlyStatisticsProxy)),
+        _readTraffic(() => _core.getDirectTraffic()),
+        _readTraffic(() => _core.getDirectTotalTraffic()),
       ]);
       if (traffic != null) {
         ref.read(trafficsProvider.notifier).addTraffic(traffic);
       }
       if (totalTraffic != null) {
         ref.read(totalTrafficProvider.notifier).value = totalTraffic;
+      }
+      if (directTraffic != null) {
+        ref.read(directTrafficProvider.notifier).addTraffic(directTraffic);
+      }
+      if (directTotalTraffic != null) {
+        ref.read(totalDirectTrafficProvider.notifier).value =
+            directTotalTraffic;
       }
     } finally {
       _isUpdatingTraffic = false;

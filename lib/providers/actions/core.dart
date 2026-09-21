@@ -20,6 +20,11 @@ class CoreAction extends _$CoreAction {
     } else {
       await ref.read(proxiesActionProvider.notifier).updateGroups();
     }
+    final coreVersionInfoData = await coreController.getCoreVersion();
+    if (coreVersionInfoData.isNotEmpty) {
+      ref.read(coreVersionInfoDataProvider.notifier).value = CoreVersionInfo
+          .fromJson(coreVersionInfoData);
+    }
   }
 
   Future<void> startCore() async {

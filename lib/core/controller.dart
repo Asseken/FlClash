@@ -218,6 +218,16 @@ class CoreController {
     return _interface.getTotalTraffic(onlyStatisticsProxy);
   }
 
+  Future<Traffic> getDirectTraffic() async {
+    return _interface.getDirectTraffic();
+  }
+
+  Future<Traffic> getDirectTotalTraffic() async {
+    return _interface.getDirectTotalTraffic();
+  }
+
+  Future<Map<String, dynamic>> getCoreVersion() => _interface.getCoreVersion();
+
   Future<int> getMemory() async {
     return _interface.getMemory();
   }

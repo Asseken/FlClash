@@ -87,6 +87,7 @@ class MessageLookup extends MessageLookupByLibrary {
 
   final messages = _notInlinedMessages(_notInlinedMessages);
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
+    "RunOs": MessageLookupByLibrary.simpleMessage("実行システム"),
     "about": MessageLookupByLibrary.simpleMessage("アプリについて"),
     "accessControl": MessageLookupByLibrary.simpleMessage("アクセス制御"),
     "accessControlAllowDesc": MessageLookupByLibrary.simpleMessage(
@@ -261,7 +262,13 @@ class MessageLookup extends MessageLookupByLibrary {
     "coreBlockedBySmartAppControlTip": MessageLookupByLibrary.simpleMessage(
       "Windows のスマート アプリ コントロールが、署名されていない FlClashCore.exe をブロックしました。Windows セキュリティ → アプリとブラウザーの制御 → スマート アプリ コントロールの設定で「オフ」を選び、FlClash を再起動してください。一度オフにすると、Windows を再インストールしない限り再度オンにはできません。",
     ),
+    "coreBuild": MessageLookupByLibrary.simpleMessage("ビルド時間"),
+    "coreName": MessageLookupByLibrary.simpleMessage("コア名"),
+    "coreRestart": MessageLookupByLibrary.simpleMessage("重启"),
+    "coreStart": MessageLookupByLibrary.simpleMessage("启动"),
     "coreStatus": MessageLookupByLibrary.simpleMessage("コアの状態"),
+    "coreStop": MessageLookupByLibrary.simpleMessage("停止"),
+    "coreVersion": MessageLookupByLibrary.simpleMessage("コアバージョン"),
     "country": MessageLookupByLibrary.simpleMessage("地域"),
     "crashDetected": MessageLookupByLibrary.simpleMessage("クラッシュを検出しました"),
     "crashDetectedTip": m1,

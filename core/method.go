@@ -194,11 +194,20 @@ var methodHandlers = map[CoreMethod]methodHandler{
 			response.success(handleChangeProxy(params))
 		})
 	}),
+	getVersionMethod: withoutArguments(func(response MethodResponse) {
+		response.success(handleGetVersion())
+	}),
 	getTrafficMethod: withArguments(func(onlyStatisticsProxy *bool, response MethodResponse) {
 		response.success(handleGetTraffic(*onlyStatisticsProxy))
 	}),
 	getTotalTrafficMethod: withArguments(func(onlyStatisticsProxy *bool, response MethodResponse) {
 		response.success(handleGetTotalTraffic(*onlyStatisticsProxy))
+	}),
+	getDirectTrafficMethod: withoutArguments(func(response MethodResponse) {
+		response.success(handleGetDirectTraffic())
+	}),
+	getDirectTotalTrafficMethod: withoutArguments(func(response MethodResponse) {
+		response.success(handleGetDirectTotalTraffic())
 	}),
 	resetTrafficMethod: withoutArguments(func(response MethodResponse) {
 		handleResetTraffic()

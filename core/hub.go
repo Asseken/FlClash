@@ -221,6 +221,33 @@ func handleGetTotalTraffic(onlyStatisticsProxy bool) Traffic {
 	}
 }
 
+func handleGetDirectTraffic() Traffic {
+	up, down := statistic.DefaultManager.NowDirectTraffic()
+	return Traffic{
+    		Up:   up,
+    		Down: down,
+    	}
+}
+
+func handleGetDirectTotalTraffic() Traffic {
+	up, down := statistic.DefaultManager.TotalDirectTraffic()
+	return Traffic{
+    		Up:   up,
+    		Down: down,
+    	}
+}
+
+func handleGetVersion() map[string]interface{} {
+	return map[string]interface{}{
+		"Miho-name":      constant.MihomoName,//mihomo名称
+		"core-version":   constant.Version,//核心版本
+		"build-time":     constant.BuildTime,//构建时间
+		"go-version":     runtime.Version(),//运行时Go版本
+		"go-os":          runtime.GOOS, //运行时操作系统
+		"go-arch":        runtime.GOARCH,//运行时架构
+	}
+}
+
 func handleResetTraffic() {
 	statistic.DefaultManager.ResetStatistic()
 }

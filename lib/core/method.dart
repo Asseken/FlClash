@@ -35,6 +35,9 @@ enum CoreMethod {
   setupConfig,
   clearEffect,
   updateDns,
+  getCoreVersion,
+  getDirectTraffic,
+  getDirectTotalTraffic,
 }
 
 class CoreMethodCall {

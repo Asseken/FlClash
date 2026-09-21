@@ -75,6 +75,12 @@ mixin CoreInterface {
   FutureOr<bool> closeConnections();
 
   FutureOr<bool> resetConnections();
+
+  Future<Map<String, dynamic>> getCoreVersion();
+
+  FutureOr<Traffic> getDirectTotalTraffic();
+
+  FutureOr<Traffic> getDirectTraffic();
 }
 
 abstract class CoreHandlerInterface with CoreInterface {
@@ -309,6 +315,30 @@ abstract class CoreHandlerInterface with CoreInterface {
       arguments: onlyStatisticsProxy,
     );
     return data == null ? const Traffic() : Traffic.fromJson(data);
+  }
+
+  @override
+  Future<Traffic> getDirectTotalTraffic() async {
+    final data = await _invokeMethod<Map<String, dynamic>>(
+      method: CoreMethod.getDirectTotalTraffic,
+    );
+    return data == null ? const Traffic() : Traffic.fromJson(data);
+  }
+
+  @override
+  Future<Traffic> getDirectTraffic() async {
+    final data = await _invokeMethod<Map<String, dynamic>>(
+      method: CoreMethod.getDirectTraffic,
+    );
+    return data == null ? const Traffic() : Traffic.fromJson(data);
+  }
+
+  @override
+  Future<Map<String, dynamic>> getCoreVersion() async {
+    final res = await _invokeMethod<Map<String, dynamic>>(
+      method: CoreMethod.getCoreVersion,
+    );
+    return res ?? {};
   }
 
   @override

@@ -4,15 +4,16 @@ import 'package:fl_clash/common/common.dart';
 import 'package:fl_clash/common/permission.dart';
 import 'package:fl_clash/common/system_dns.dart';
 import 'package:fl_clash/enum/enum.dart';
-import 'package:fl_clash/manager/window_manager.dart';
 import 'package:fl_clash/models/models.dart';
 import 'package:fl_clash/providers/providers.dart';
 import 'package:fl_clash/state.dart';
-import 'package:fl_clash/widgets/animated_visibility.dart';
-import 'package:fluent_ui/fluent_ui.dart' hide Colors, IconButton;
+import 'package:fluent_ui/fluent_ui.dart'
+    hide Colors, IconButton, VisualDensity;
 import 'package:flutter/foundation.dart';
+import 'package:intl/intl.dart';
 import 'package:material_ui/material_ui.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:window_manager/window_manager.dart';
 
 class AppStateManager extends ConsumerStatefulWidget {
   final Widget child;
@@ -130,65 +131,12 @@ class AppEnvManager extends StatelessWidget {
   }
 }
 
-class _SidebarRail extends StatelessWidget {
-  const _SidebarRail({
-    required this.items,
-    required this.currentIndex,
-    required this.showLabel,
-    required this.onSelected,
-  });
-
-  final List<NavigationItem> items;
-  final int currentIndex;
-  final bool showLabel;
-  final void Function(int index) onSelected;
-
-  @override
-  Widget build(BuildContext context) {
-    final labelStyle = context.textTheme.labelLarge!.copyWith(
-      color: context.colorScheme.onSurface,
-    );
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Expanded(
-          child: NavigationRail(
-            scrollable: true,
-            minExtendedWidth: 200,
-            backgroundColor: Colors.transparent,
-            selectedLabelTextStyle: labelStyle,
-            unselectedLabelTextStyle: labelStyle,
-            destinations: [
-              for (final item in items)
-                NavigationRailDestination(
-                  icon: item.icon,
-                  label: Text(item.label.label),
-                ),
-            ],
-            onDestinationSelected: onSelected,
-            extended: false,
-            selectedIndex: currentIndex,
-            labelType: showLabel
-                ? NavigationRailLabelType.all
-                : NavigationRailLabelType.none,
-          ),
-        ),
-      ],
-    );
-  }
-}
-
 class AppSidebarContainer extends ConsumerWidget {
   final Widget child;
 
+  // static：跨 build 保留置顶状态，且构造器可恢复 const
+  static final isPinNotifier = ValueNotifier<bool>(false);
   const AppSidebarContainer({super.key, required this.child});
-
-  Widget _buildBackground({
-    required BuildContext context,
-    required Widget child,
-  }) {
-    return Material(color: context.colorScheme.surfaceContainer, child: child);
-  }
 
   void _updateSideBarWidth(WidgetRef ref, double contentWidth) {
     WidgetsBinding.instance.addPostFrameCallback((_) {
@@ -214,79 +162,196 @@ class AppSidebarContainer extends ConsumerWidget {
     });
   }
 
+  Future<void> _updatePin() async {
+    try {
+      final isAlwaysOnTop = await windowManager.isAlwaysOnTop();
+      await windowManager.setAlwaysOnTop(!isAlwaysOnTop);
+      isPinNotifier.value = await windowManager.isAlwaysOnTop();
+    } catch (e) {
+      commonPrint.log('updatePin failed: $e', logLevel: LogLevel.warning);
+    }
+  }
+
+  List<NavigationPaneItem> _buildPaneItems(
+    BuildContext context,
+    List<NavigationItem> items,
+  ) {
+    final cs = Theme.of(context).colorScheme;
+    return items
+        .map(
+          (e) => PaneItem(
+            icon: IconTheme.merge(
+              data: const IconThemeData(size: 22),
+              child: e.icon,
+            ),
+            title: Text(
+              Intl.message(e.label.name),
+              style: context.textTheme.bodyLarge,
+            ),
+            body: const SizedBox.shrink(),
+            tileColor: WidgetStateProperty.resolveWith((states) {
+              if (states.isPressed) {
+                return cs.onSurface.opacity12;
+              }
+              if (states.isHovered) {
+                return cs.onSurface.opacity10;
+              }
+              return Colors.transparent;
+            }),
+            // selectedTileColor: WidgetStatePropertyAll(cs.secondaryContainer),
+          ),
+        )
+        .toList();
+  }
+
+  Widget _wrapContent(WidgetRef ref, Widget content) {
+    return ClipRect(
+      child: LayoutBuilder(
+        builder: (_, constraints) {
+          _updateSideBarWidth(ref, constraints.maxWidth);
+          return content;
+        },
+      ),
+    );
+  }
+
+  Widget _buildFluentShell({
+    required BuildContext context,
+    required WidgetRef ref,
+    required List<NavigationItem> navigationItems,
+    required int currentIndex,
+    required bool showLabel,
+    required Widget child,
+  }) {
+    final cs = Theme.of(context).colorScheme;
+    final textTheme = Theme.of(context).textTheme;
+    return NavigationPaneTheme(
+      data: NavigationPaneThemeData(
+        backgroundColor: cs.surfaceContainer,
+        overlayBackgroundColor: cs.surfaceContainerHigh,
+        highlightColor: cs.secondaryContainer,
+        tileColor: WidgetStateProperty.resolveWith((states) {
+          if (states.isPressed) {
+            return cs.onSurface.opacity12;
+          }
+          if (states.isHovered) {
+            return cs.onSurface.opacity10;
+          }
+          return Colors.transparent;
+        }),
+        selectedIconColor: WidgetStatePropertyAll(cs.onSecondaryContainer),
+        unselectedIconColor: WidgetStatePropertyAll(cs.onSurfaceVariant),
+        selectedTextStyle: WidgetStatePropertyAll(
+          textTheme.labelLarge?.copyWith(color: cs.onSecondaryContainer),
+        ),
+        unselectedTextStyle: WidgetStatePropertyAll(
+          textTheme.labelLarge?.copyWith(color: cs.onSurfaceVariant),
+        ),
+      ),
+      child: NavigationView(
+        titleBar: system.isMacOS
+            ? SizedBox(
+                height: 26,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisSize: MainAxisSize.max,
+                  children: [
+                    IconButton(
+                      visualDensity: VisualDensity.compact,
+                      padding: EdgeInsets.zero,
+                      constraints: const BoxConstraints(),
+                      iconSize: 22,
+                      onPressed: () async {
+                        await _updatePin();
+                      },
+                      icon: ValueListenableBuilder(
+                        valueListenable: isPinNotifier,
+                        builder: (_, value, _) {
+                          return value
+                              ? const Icon(Icons.push_pin)
+                              : const Icon(Icons.push_pin_outlined);
+                        },
+                      ),
+                    ),
+                    const SizedBox(width: 16),
+                  ],
+                ),
+              )
+            : const SizedBox.shrink(),
+        contentShape: const RoundedRectangleBorder(),
+        pane: NavigationPane(
+          displayMode: showLabel
+              ? PaneDisplayMode.expanded
+              : PaneDisplayMode.compact,
+          size: const NavigationPaneSize(compactWidth: 60, openWidth: 130),
+          selected: currentIndex,
+          onChanged: (i) {
+            _handleToPage(ref, navigationItems[i].label);
+          },
+          indicator: StickyNavigationIndicator(
+            indicatorSize: 3,
+            leftPadding: 6,
+            color: Theme.of(context).colorScheme.primary,
+          ),
+          items: [
+            PaneItem(
+              icon: SizedBox(
+                width: 22,
+                height: 22,
+                child: Image.asset(
+                  'assets/images/icon.png',
+                  fit: BoxFit.contain,
+                ),
+              ),
+              title: Text('FlClash', style: context.textTheme.bodyLarge),
+              enabled: false,
+            ),
+            ..._buildPaneItems(context, navigationItems),
+          ],
+          footerItems: [
+            PaneItemAction(
+              icon: const Icon(WindowsIcons.global_nav_button, size: 22),
+              onTap: () {
+                ref
+                    .read(appSettingProvider.notifier)
+                    .update(
+                      (state) => state.copyWith(showLabel: !state.showLabel),
+                    );
+              },
+            ),
+          ],
+        ),
+        paneBodyBuilder: (_, _) => _wrapContent(ref, child),
+        onDisplayModeChanged: (mode) {
+          ref
+              .read(appSettingProvider.notifier)
+              .update(
+                (state) =>
+                    state.copyWith(showLabel: mode == PaneDisplayMode.expanded),
+              );
+        },
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final navigationState = ref.watch(navigationStateProvider);
     final navigationItems = navigationState.navigationItems;
     final isMobileView = navigationState.viewMode == ViewMode.mobile;
+    if (isMobileView) {
+      return child;
+    }
     final currentIndex = navigationState.currentIndex;
     final showLabel = ref.watch(appSettingProvider).showLabel;
-    return Container(
-      color: context.colorScheme.surfaceContainer,
-      child: Row(
-        children: [
-          AnimatedVisibility.sidebar(
-            visible: !isMobileView,
-            child: _buildBackground(
-              context: context,
-              child: SafeArea(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    if (system.isMacOS) const SizedBox(height: 22),
-                    const SizedBox(height: 10),
-                    if (!system.isMacOS) ...[
-                      const ClipRect(child: AppIcon()),
-                      const SizedBox(height: 12),
-                    ],
-                    Expanded(
-                      child: ScrollConfiguration(
-                        behavior: const HiddenBarScrollBehavior(),
-                        child: _SidebarRail(
-                          items: navigationItems,
-                          currentIndex: currentIndex,
-                          showLabel: showLabel,
-                          onSelected: (index) {
-                            _handleToPage(ref, navigationItems[index].label);
-                          },
-                        ),
-                      ),
-                    ),
-                    const SizedBox(height: 16),
-                    IconButton(
-                      tooltip: context.appLocalizations.toggleLabel,
-                      onPressed: () {
-                        ref
-                            .read(appSettingProvider.notifier)
-                            .update(
-                              (state) =>
-                                  state.copyWith(showLabel: !state.showLabel),
-                            );
-                      },
-                      icon: Icon(
-                        WindowsIcons.global_nav_button,
-                        color: context.colorScheme.onSurfaceVariant,
-                      ),
-                    ),
-                    const SizedBox(height: 16),
-                  ],
-                ),
-              ),
-            ),
-          ),
-          Expanded(
-            flex: 1,
-            child: ClipRect(
-              child: LayoutBuilder(
-                builder: (_, constraints) {
-                  _updateSideBarWidth(ref, constraints.maxWidth);
-                  return child;
-                },
-              ),
-            ),
-          ),
-        ],
-      ),
+    return _buildFluentShell(
+      context: context,
+      ref: ref,
+      navigationItems: navigationItems,
+      currentIndex: currentIndex,
+      showLabel: showLabel,
+      child: child,
     );
   }
 }

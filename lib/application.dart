@@ -13,7 +13,7 @@ import 'package:fl_clash/plugins/app.dart';
 import 'package:fl_clash/providers/providers.dart';
 import 'package:fl_clash/state.dart';
 import 'package:fluent_ui/fluent_ui.dart';
-import 'package:material_ui/material_ui.dart';
+import 'package:material_ui/material_ui.dart' hide VisualDensity;
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -151,7 +151,9 @@ class ApplicationState extends ConsumerState<Application> {
         );
         final themeProps = ref.watch(themeSettingProvider);
         return FluentTheme(
-          data: FluentThemeData(),
+          data: FluentThemeData(
+            visualDensity: const VisualDensity(horizontal: 0, vertical: 2),
+          ),
           child: MaterialApp(
             debugShowCheckedModeBanner: false,
             navigatorKey: globalState.navigatorKey,
@@ -159,6 +161,7 @@ class ApplicationState extends ConsumerState<Application> {
             localizationsDelegates: const [
               AppLocalizations.delegate,
               ...GlobalMaterialLocalizations.delegates,
+              FluentLocalizations.delegate,
             ],
             builder: (context, child) {
               // The bridge's legacy Theme swaps in its own default IconTheme color,

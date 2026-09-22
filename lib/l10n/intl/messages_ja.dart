@@ -213,6 +213,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "checkUpdate": MessageLookupByLibrary.simpleMessage("更新を確認"),
     "checkUpdateError": MessageLookupByLibrary.simpleMessage("すでに最新バージョンです"),
     "clearData": MessageLookupByLibrary.simpleMessage("データを消去"),
+    "clearLogs": MessageLookupByLibrary.simpleMessage("ログを消去"),
     "clearSearch": MessageLookupByLibrary.simpleMessage("検索をクリア"),
     "clipboardExport": MessageLookupByLibrary.simpleMessage("クリップボードへエクスポート"),
     "clipboardImport": MessageLookupByLibrary.simpleMessage("クリップボードからインポート"),
@@ -458,6 +459,16 @@ class MessageLookup extends MessageLookupByLibrary {
       "プロキシグループ名を入力してください",
     ),
     "inputRuleContent": MessageLookupByLibrary.simpleMessage("ルールの内容を入力してください"),
+    "installService": MessageLookupByLibrary.simpleMessage("サービスのインストール"),
+    "installServiceFailed": MessageLookupByLibrary.simpleMessage(
+      "Helper サービスのインストールに失敗しました",
+    ),
+    "installServiceSuccess": MessageLookupByLibrary.simpleMessage(
+      "Helper サービスをインストールしました",
+    ),
+    "installServiceTip": MessageLookupByLibrary.simpleMessage(
+      "Helper サービスのインストールには管理者権限が必要です。UAC プロンプトが表示されます。",
+    ),
     "installedAppsPermissionDeniedMessage":
         MessageLookupByLibrary.simpleMessage(
           "アプリ一覧の権限が拒否されたため、インストール済みアプリを取得できません。システム設定から手動で許可してください。",
@@ -969,6 +980,16 @@ class MessageLookup extends MessageLookupByLibrary {
     "unifiedDelay": MessageLookupByLibrary.simpleMessage("統一遅延"),
     "unifiedDelayDesc": MessageLookupByLibrary.simpleMessage(
       "ハンドシェイクなどの余分な遅延を除きます",
+    ),
+    "uninstallService": MessageLookupByLibrary.simpleMessage("サービスのアンインストール"),
+    "uninstallServiceFailed": MessageLookupByLibrary.simpleMessage(
+      "Helper サービスのアンインストールに失敗しました",
+    ),
+    "uninstallServiceSuccess": MessageLookupByLibrary.simpleMessage(
+      "Helper サービスをアンインストールしました",
+    ),
+    "uninstallServiceTip": MessageLookupByLibrary.simpleMessage(
+      "Helper サービスをアンインストールすると FlClashHelperService が停止・削除されます。先に TUN をオフにしてください。",
     ),
     "unknown": MessageLookupByLibrary.simpleMessage("不明"),
     "unknownNetworkError": MessageLookupByLibrary.simpleMessage("不明なネットワークエラー"),

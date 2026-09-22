@@ -249,6 +249,11 @@ enum AuthorizeCode { none, success, error }
 
 enum TunAuthorizationState { none, authorized, unauthorized }
 
+/// The Windows Helper installed by this app, as the Service Control Manager
+/// records it. [unavailable] covers a record pointing at another copy of the
+/// app and a registry this process cannot read at all.
+enum WindowsHelperServiceState { notInstalled, installed, ready, unavailable }
+
 enum FunctionTag {
   updateConfig,
   setupConfig,
@@ -274,6 +279,8 @@ enum FunctionTag {
   removeProxy,
   suspend,
   coreErrorNotifier,
+  installHelperService,
+  uninstallHelperService,
 }
 
 enum DashboardWidget {

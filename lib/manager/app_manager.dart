@@ -10,7 +10,6 @@ import 'package:fl_clash/state.dart';
 import 'package:fluent_ui/fluent_ui.dart'
     hide Colors, IconButton, VisualDensity;
 import 'package:flutter/foundation.dart';
-import 'package:intl/intl.dart';
 import 'package:material_ui/material_ui.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:window_manager/window_manager.dart';
@@ -184,10 +183,7 @@ class AppSidebarContainer extends ConsumerWidget {
               data: const IconThemeData(size: 22),
               child: e.icon,
             ),
-            title: Text(
-              Intl.message(e.label.name),
-              style: context.textTheme.bodyLarge,
-            ),
+            title: Text(e.label.label, style: context.textTheme.bodyLarge),
             body: const SizedBox.shrink(),
             tileColor: WidgetStateProperty.resolveWith((states) {
               if (states.isPressed) {
@@ -258,6 +254,7 @@ class AppSidebarContainer extends ConsumerWidget {
                   mainAxisSize: MainAxisSize.max,
                   children: [
                     IconButton(
+                      tooltip: currentAppLocalizations.pinWindow,
                       visualDensity: VisualDensity.compact,
                       padding: EdgeInsets.zero,
                       constraints: const BoxConstraints(),

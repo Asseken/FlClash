@@ -11,9 +11,24 @@ import 'package:fl_clash/enum/enum.dart';
 import 'package:fl_clash/plugins/app.dart';
 import 'package:flutter/foundation.dart' show visibleForTesting;
 import 'package:flutter/services.dart';
+import 'package:path/path.dart' as p;
 
 typedef ProcessRunner =
     Future<ProcessResult> Function(String executable, List<String> arguments);
+
+/// Where the Service Control Manager holds [appHelperService], which is also
+/// where an elevated `FlClashHelperService.exe uninstall` looks for it.
+const windowsHelperServiceKey =
+    r'HKLM\SYSTEM\CurrentControlSet\Services\' + appHelperService;
+
+/// The SCM is only told about the service by the elevated installer, so its
+/// record is the only evidence that survives an app restart.
+const _serviceRecordTimeout = Duration(seconds: 10);
+const _serviceRecordInterval = Duration(milliseconds: 500);
+
+/// A missing key means the exception was not found, which `reg` reports by
+/// exiting non-zero, so the exit code is deliberately ignored here.
+const _serviceRecordArguments = ['query', windowsHelperServiceKey];
 
 class System {
   static System? _instance;
@@ -32,6 +47,8 @@ class System {
   bool get isDesktop => isWindows || isMacOS || isLinux;
 
   bool get isWindows => Platform.isWindows;
+
+  Windows? get windows => _windows;
 
   bool get isMacOS => Platform.isMacOS;
 
@@ -87,6 +104,38 @@ class System {
   }) {
     final trimmed = output.trim();
     return trimmed.startsWith(ownerPrefix) && trimmed.contains('rws');
+  }
+
+  /// Reads `ImagePath` out of a `reg query` listing. The value name is
+  /// localized, so the command line itself is what gets recognized: it starts
+  /// with the service executable and carries the quoting `reg` emits.
+  @visibleForTesting
+  static String? parseServiceExecutablePath(String output) {
+    final match = RegExp(
+      r'^\s*\S+\s+REG_(?:EXPAND_)?SZ\s+'
+      r'(?:"(?<quoted>[^"]+\.exe)"|(?<plain>[A-Za-z]:\\[^\r\n]*?\.exe))'
+      r'(?:\s+.*)?$',
+      caseSensitive: false,
+      multiLine: true,
+    ).firstMatch(output);
+    return match?.namedGroup('quoted') ?? match?.namedGroup('plain');
+  }
+
+  /// A record this install cannot claim is still a record: it holds the name
+  /// the Helper needs, so the uninstall action has to stay available for it
+  /// while the install action has to stay away from it.
+  @visibleForTesting
+  static WindowsHelperServiceState interpretHelperServiceRecord(
+    String output, {
+    required String helperPath,
+  }) {
+    final executablePath = parseServiceExecutablePath(output);
+    if (executablePath == null) {
+      return WindowsHelperServiceState.notInstalled;
+    }
+    return p.Context(style: p.Style.windows).equals(executablePath, helperPath)
+        ? WindowsHelperServiceState.installed
+        : WindowsHelperServiceState.unavailable;
   }
 
   /// A read-only nosuid mount at a path that changes every run: no elevation sticks.
@@ -250,6 +299,9 @@ class Windows {
   static Windows? _instance;
   late DynamicLibrary _shell32;
 
+  @visibleForTesting
+  ProcessRunner runProcess = Process.run;
+
   Windows._internal() {
     _shell32 = DynamicLibrary.open('shell32.dll');
   }
@@ -312,6 +364,69 @@ class Windows {
     return registerHelperService(
       () async => runas(appPath.helperPath, 'install'),
     );
+  }
+
+  /// The service key outlives the app, so this is what decides whether the
+  /// install and uninstall actions still have work to do.
+  Future<WindowsHelperServiceState> queryHelperService() async {
+    final String output;
+    try {
+      final result = await runProcess('reg', _serviceRecordArguments);
+      output = '${result.stdout}${result.stderr}';
+    } catch (error) {
+      commonPrint.log(
+        'failed to read the helper service record: ${compactError(error)}',
+        logLevel: LogLevel.warning,
+      );
+      return WindowsHelperServiceState.unavailable;
+    }
+    return System.interpretHelperServiceRecord(
+      output,
+      helperPath: appPath.helperPath,
+    );
+  }
+
+  /// The installer starts the service it just registered, but it does so
+  /// elevated and out of process, so the only evidence of the outcome that
+  /// reaches this process is the registry record it writes first.
+  Future<bool> installService() async {
+    final started = runas(appPath.helperPath, 'install');
+    if (!started) {
+      commonPrint.log(
+        'failed to launch elevated helper installation',
+        logLevel: LogLevel.error,
+      );
+      return false;
+    }
+    return _waitForServiceRecord(installed: true);
+  }
+
+  Future<bool> uninstallService() async {
+    if (!runas(appPath.helperPath, 'uninstall')) {
+      commonPrint.log(
+        'failed to launch elevated helper removal',
+        logLevel: LogLevel.error,
+      );
+      return false;
+    }
+    return _waitForServiceRecord(installed: false);
+  }
+
+  Future<bool> _waitForServiceRecord({required bool installed}) async {
+    final stopwatch = Stopwatch()..start();
+    while (stopwatch.elapsed < _serviceRecordTimeout) {
+      final state = await queryHelperService();
+      final matches = switch (state) {
+        WindowsHelperServiceState.notInstalled => !installed,
+        WindowsHelperServiceState.unavailable => false,
+        _ => installed,
+      };
+      if (matches) {
+        return true;
+      }
+      await Future.delayed(_serviceRecordInterval);
+    }
+    return false;
   }
 }
 
@@ -383,6 +498,10 @@ Future<bool> _waitForHelperService() async {
 }
 
 final windows = system.isWindows ? Windows() : null;
+
+// The name the rest of the codebase knows; the getter keeps `windows`
+// reachable from the classes in this file that had it as a global.
+final _windows = windows;
 
 class Linux {
   static Linux? _instance;

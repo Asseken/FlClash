@@ -273,6 +273,7 @@
   "noNetwork": "无网络",
   "ipv6InboundDesc": "允许IPv6入站",
   "exportLogs": "导出日志",
+  "clearLogs": "清空日志",
   "exportSuccess": "导出成功",
   "iconStyle": "图标样式",
   "onlyIcon": "仅图标",
@@ -624,5 +625,13 @@
   "authorize": "授权",
   "installedAppsPermissionRequired": "需要读取应用列表权限",
   "installedAppsPermissionDesc": "当前系统在授权前不会提供已安装的应用列表，授权后即可配置分应用代理。",
-  "installedAppsPermissionDeniedMessage": "读取应用列表权限已被拒绝，无法获取已安装的应用。请前往系统设置手动开启。"
+  "installedAppsPermissionDeniedMessage": "读取应用列表权限已被拒绝，无法获取已安装的应用。请前往系统设置手动开启。",
+  "installService": "安装服务",
+  "uninstallService": "卸载服务",
+  "installServiceTip": "安装 Helper 服务需要管理员权限，将弹出 UAC 授权窗口。",
+  "uninstallServiceTip": "卸载 Helper 服务将停止并移除 FlClashHelperService，请先关闭 TUN。",
+  "installServiceSuccess": "Helper 服务安装成功",
+  "installServiceFailed": "Helper 服务安装失败",
+  "uninstallServiceSuccess": "Helper 服务卸载成功",
+  "uninstallServiceFailed": "Helper 服务卸载失败"
 }

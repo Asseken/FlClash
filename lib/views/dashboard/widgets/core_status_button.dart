@@ -6,7 +6,8 @@ import 'package:fl_clash/enum/enum.dart';
 import 'package:fl_clash/providers/providers.dart';
 import 'package:fl_clash/state.dart';
 import 'package:fl_clash/widgets/widgets.dart';
-import 'package:fluent_ui/fluent_ui.dart' hide FilledButton, VisualDensity, Colors, IconButton, Tooltip;
+import 'package:fluent_ui/fluent_ui.dart'
+    hide FilledButton, VisualDensity, Colors, IconButton, Tooltip;
 import 'package:material_ui/material_ui.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -93,6 +94,7 @@ class _CoreStatusButtonState extends ConsumerState<CoreStatusButton> {
         alignment: Alignment.centerRight,
         child: coreStatus == CoreStatus.connected
             ? IconButton.filled(
+                tooltip: appLocalizations.coreStatus,
                 visualDensity: VisualDensity.compact,
                 iconSize: 20,
                 padding: EdgeInsets.zero,
@@ -107,7 +109,10 @@ class _CoreStatusButtonState extends ConsumerState<CoreStatusButton> {
                   },
                 ),
                 onPressed: _handleConnection,
-                icon: const Icon(WindowsIcons.check_mark, fontWeight: FontWeight.w900),
+                icon: const Icon(
+                  WindowsIcons.check_mark,
+                  fontWeight: FontWeight.w900,
+                ),
               )
             : FilledButton.icon(
                 key: ValueKey(coreStatus),

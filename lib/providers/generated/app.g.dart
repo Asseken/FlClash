@@ -2168,6 +2168,64 @@ abstract class _$LocationPermissions extends $Notifier<WifiSsidPermission> {
   }
 }
 
+@ProviderFor(WindowsHelperService)
+final windowsHelperServiceProvider = WindowsHelperServiceProvider._();
+
+final class WindowsHelperServiceProvider
+    extends
+        $AsyncNotifierProvider<
+          WindowsHelperService,
+          WindowsHelperServiceState
+        > {
+  WindowsHelperServiceProvider._()
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'windowsHelperServiceProvider',
+        isAutoDispose: false,
+        dependencies: null,
+        $allTransitiveDependencies: null,
+      );
+
+  @override
+  String debugGetCreateSourceHash() => _$windowsHelperServiceHash();
+
+  @$internal
+  @override
+  WindowsHelperService create() => WindowsHelperService();
+}
+
+String _$windowsHelperServiceHash() =>
+    r'230fd73ab0137f96fa8bcf50108ca619c0bbceb9';
+
+abstract class _$WindowsHelperService
+    extends $AsyncNotifier<WindowsHelperServiceState> {
+  FutureOr<WindowsHelperServiceState> build();
+  @$mustCallSuper
+  @override
+  WhenComplete runBuild() {
+    final ref =
+        this.ref
+            as $Ref<
+              AsyncValue<WindowsHelperServiceState>,
+              WindowsHelperServiceState
+            >;
+    final element =
+        ref.element
+            as $ClassProviderElement<
+              AnyNotifier<
+                AsyncValue<WindowsHelperServiceState>,
+                WindowsHelperServiceState
+              >,
+              AsyncValue<WindowsHelperServiceState>,
+              Object?,
+              Object?
+            >;
+    return element.handleCreate(ref, build);
+  }
+}
+
 @ProviderFor(_CoreVersionInfo)
 final coreVersionInfoDataProvider = _CoreVersionInfoProvider._();
 

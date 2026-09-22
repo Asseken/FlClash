@@ -44,6 +44,29 @@ class Debouncer {
     });
   }
 
+  /// Runs [func] once [duration] passes with no further call under [tag], and
+  /// completes when it is done; a caller that has to wait for the work can
+  /// await this instead of racing the timer [call] leaves behind.
+  Future<void> callAsync(
+    dynamic tag,
+    Future<void> Function() func, {
+    Duration? duration,
+  }) async {
+    _operations.remove(tag)?.cancel();
+    _pending.remove(tag);
+    final completer = Completer<void>();
+    _operations[tag] = Timer(duration ?? const Duration(milliseconds: 600), () {
+      _operations.remove(tag);
+      Future.sync(func).then<void>(
+        (_) => completer.complete(),
+        onError: (Object error, StackTrace stackTrace) {
+          completer.completeError(error, stackTrace);
+        },
+      );
+    });
+    return completer.future;
+  }
+
   void flush(dynamic tag) {
     final timer = _operations.remove(tag);
     timer?.cancel();

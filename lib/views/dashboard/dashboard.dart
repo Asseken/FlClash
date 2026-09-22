@@ -74,7 +74,7 @@ class _DashboardViewState extends ConsumerState<DashboardView> {
 
   List<Widget> _buildActions(bool isEdit) {
     return [
-      if (!isEdit && coreLib == null) const CoreStatusButton(),
+      if (!isEdit) const CoreStatusButton(),
       if (isEdit)
         ValueListenableBuilder(
           valueListenable: _addedWidgetsNotifier,

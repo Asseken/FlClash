@@ -2100,6 +2100,11 @@ class AppLocalizations {
     return Intl.message('Export logs', name: 'exportLogs', desc: '', args: []);
   }
 
+  /// `Clear logs`
+  String get clearLogs {
+    return Intl.message('Clear logs', name: 'clearLogs', desc: '', args: []);
+  }
+
   /// `Export successful`
   String get exportSuccess {
     return Intl.message(
@@ -5150,6 +5155,86 @@ class AppLocalizations {
     return Intl.message(
       'The app list permission was denied, so installed apps cannot be listed. Please grant it manually in system settings.',
       name: 'installedAppsPermissionDeniedMessage',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Install Service`
+  String get installService {
+    return Intl.message(
+      'Install Service',
+      name: 'installService',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Uninstall Service`
+  String get uninstallService {
+    return Intl.message(
+      'Uninstall Service',
+      name: 'uninstallService',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Installing the Helper service requires administrator privileges. A UAC prompt will appear.`
+  String get installServiceTip {
+    return Intl.message(
+      'Installing the Helper service requires administrator privileges. A UAC prompt will appear.',
+      name: 'installServiceTip',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Uninstalling the Helper service stops and removes FlClashHelperService. Turn off TUN first.`
+  String get uninstallServiceTip {
+    return Intl.message(
+      'Uninstalling the Helper service stops and removes FlClashHelperService. Turn off TUN first.',
+      name: 'uninstallServiceTip',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Helper service installed`
+  String get installServiceSuccess {
+    return Intl.message(
+      'Helper service installed',
+      name: 'installServiceSuccess',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Helper service installation failed`
+  String get installServiceFailed {
+    return Intl.message(
+      'Helper service installation failed',
+      name: 'installServiceFailed',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Helper service uninstalled`
+  String get uninstallServiceSuccess {
+    return Intl.message(
+      'Helper service uninstalled',
+      name: 'uninstallServiceSuccess',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Helper service uninstall failed`
+  String get uninstallServiceFailed {
+    return Intl.message(
+      'Helper service uninstall failed',
+      name: 'uninstallServiceFailed',
       desc: '',
       args: [],
     );

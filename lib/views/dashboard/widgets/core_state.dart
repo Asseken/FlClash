@@ -1,4 +1,3 @@
-import 'package:fl_clash/core/controller.dart';
 import 'package:fluent_ui/fluent_ui.dart';
 import 'package:material_ui/material_ui.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -11,8 +10,8 @@ import '../../../enum/enum.dart';
 import '../../../models/common.dart';
 import '../../../providers/action.dart';
 import '../../../providers/app.dart';
+import '../../../providers/core.dart';
 import '../../../providers/state.dart';
-import '../../../state.dart';
 import '../../../widgets/card.dart';
 import '../../../widgets/text.dart';
 
@@ -59,8 +58,9 @@ class _CoreStateState extends State<CoreState> {
                               }
                             : () async {
                                 try {
-                                  await coreController.stopListener();
-                                  await coreController.stop();
+                                  final core = ref.read(coreHandlerProvider);
+                                  await core.stopListener();
+                                  await core.stop();
                                   ref.read(coreStatusProvider.notifier).value =
                                       CoreStatus.disconnected;
                                   ref.read(trafficsProvider.notifier).clear();
@@ -75,9 +75,7 @@ class _CoreStateState extends State<CoreState> {
                                       .addTraffic(const Traffic());
                                 } catch (error) {
                                   await dialogs.showMessage(
-                                    message: TextSpan(
-                                      text: error.toString(),
-                                    ),
+                                    message: TextSpan(text: error.toString()),
                                   );
                                 }
                               },
@@ -108,7 +106,7 @@ class _CoreStateState extends State<CoreState> {
                                 );
                               }
                             : () async {
-                                await globalState.container
+                                await ref
                                     .read(coreActionProvider.notifier)
                                     .startCore();
                                 if (ref.read(coreStatusProvider) !=
@@ -158,14 +156,12 @@ class _CoreStateState extends State<CoreState> {
                             return;
                           }
                           try {
-                            await globalState.container
+                            await ref
                                 .read(coreActionProvider.notifier)
                                 .restartCore();
                           } catch (error) {
                             await dialogs.showMessage(
-                              message: TextSpan(
-                                text: error.toString(),
-                              ),
+                              message: TextSpan(text: error.toString()),
                             );
                           }
                         },

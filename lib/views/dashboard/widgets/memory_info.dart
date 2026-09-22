@@ -33,6 +33,7 @@ class _MemoryInfoState extends ConsumerState<MemoryInfo>
   @override
   void dispose() {
     _memoryStateNotifier.dispose();
+    _coreMemoryStateNotifier.dispose();
     super.dispose();
   }
 
@@ -60,11 +61,13 @@ class _MemoryInfoState extends ConsumerState<MemoryInfo>
 
   Future<num> _readTotal() async {
     final rss = ProcessInfo.currentRss;
-    final coreConnected = ref.read(coreStatusProvider) == CoreStatus.connected;
-    _coreMemoryStateNotifier.value = await coreController.getMemory();
-    if (system.isDesktop && coreConnected) {
+    // The Core answers only while it is up; asking anyway spends a request
+    // budget on a socket nothing is listening to.
+    if (ref.read(coreStatusProvider) != CoreStatus.connected) {
+      _coreMemoryStateNotifier.value = 0;
       return rss;
     }
+    _coreMemoryStateNotifier.value = await _core.getMemory();
     return rss;
   }
 
@@ -179,11 +182,7 @@ class _MemoryInfoState extends ConsumerState<MemoryInfo>
                                     return view == ViewMode.desktop
                                         ? Row(
                                             children: [
-                                              Image.asset(
-                                                'assets/images/Meta.png',
-                                                width: 16,
-                                                height: 16,
-                                              ),
+                                              const _CoreBrandMark(size: 16),
                                               coreMemory.value == '0'
                                                   ? Container(
                                                       padding:
@@ -219,11 +218,7 @@ class _MemoryInfoState extends ConsumerState<MemoryInfo>
                                             mainAxisAlignment:
                                                 MainAxisAlignment.start,
                                             children: [
-                                              Image.asset(
-                                                'assets/images/Meta.png',
-                                                width: 13,
-                                                height: 13,
-                                              ),
+                                              const _CoreBrandMark(size: 13),
                                               coreMemory.value == '0'
                                                   ? Container(
                                                       padding:
@@ -315,6 +310,27 @@ class _MemoryInfoState extends ConsumerState<MemoryInfo>
           ),
         ),
       ),
+    );
+  }
+}
+
+/// The Core's own brand mark. A desktop bundle built before the image was added
+/// has no entry for it, and an unhandled asset failure would take the whole
+/// dashboard card down with it.
+class _CoreBrandMark extends StatelessWidget {
+  const _CoreBrandMark({required this.size});
+
+  final double size;
+
+  @override
+  Widget build(BuildContext context) {
+    return Image.asset(
+      'assets/images/Meta.png',
+      width: size,
+      height: size,
+      errorBuilder: (context, _, _) {
+        return FlutterLogo(size: size);
+      },
     );
   }
 }

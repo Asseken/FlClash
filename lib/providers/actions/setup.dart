@@ -170,8 +170,7 @@ class SetupAction extends _$SetupAction {
     ref.read(trafficsProvider.notifier).clear();
     ref.read(totalTrafficProvider.notifier).value = const Traffic();
     ref.read(directTrafficProvider.notifier).clear();
-    ref.read(totalDirectTrafficProvider.notifier).value =
-        const Traffic();
+    ref.read(totalDirectTrafficProvider.notifier).value = const Traffic();
     ref.read(checkIpNumProvider.notifier).add();
     return true;
   }
@@ -216,6 +215,12 @@ class SetupAction extends _$SetupAction {
   Future<void> updateConfig() async {
     await globalState.safeRun(() async {
       final updateParams = ref.read(updateParamsProvider);
+      // TUN is the only thing that installs or releases the Helper service on
+      // its own, and the transition is what the dashboard's install and
+      // uninstall actions read; the refresh runs before anything that can fail,
+      // because the registry already changed even when the config push did not
+      // reach a running Core.
+      unawaited(ref.read(windowsHelperServiceProvider.notifier).refresh());
       final shouldContinueSetup = await requestAdmin(updateParams.tun.enable);
       if (!shouldContinueSetup) {
         await _restartCoreAfterAuthorization();
@@ -419,9 +424,13 @@ class SetupAction extends _$SetupAction {
     switch (code) {
       case AuthorizeCode.success:
         authorizationNotifier.value = TunAuthorizationState.authorized;
+        // The elevated installer just registered the service; the dashboard
+        // actions read that record, so they have to be told it changed.
+        unawaited(ref.read(windowsHelperServiceProvider.notifier).refresh());
         return false;
       case AuthorizeCode.none:
         authorizationNotifier.value = TunAuthorizationState.authorized;
+        unawaited(ref.read(windowsHelperServiceProvider.notifier).refresh());
         return true;
       case AuthorizeCode.error:
         return true;

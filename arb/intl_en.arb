@@ -273,6 +273,7 @@
   "noNetwork": "No network",
   "ipv6InboundDesc": "Allow IPv6 inbound",
   "exportLogs": "Export logs",
+  "clearLogs": "Clear logs",
   "exportSuccess": "Export successful",
   "iconStyle": "Icon style",
   "onlyIcon": "Icon only",
@@ -624,5 +625,13 @@
   "authorize": "Authorize",
   "installedAppsPermissionRequired": "App list permission required",
   "installedAppsPermissionDesc": "This system hides the installed app list until the permission is granted. Authorize it to configure the per-app proxy.",
-  "installedAppsPermissionDeniedMessage": "The app list permission was denied, so installed apps cannot be listed. Please grant it manually in system settings."
+  "installedAppsPermissionDeniedMessage": "The app list permission was denied, so installed apps cannot be listed. Please grant it manually in system settings.",
+  "installService": "Install Service",
+  "uninstallService": "Uninstall Service",
+  "installServiceTip": "Installing the Helper service requires administrator privileges. A UAC prompt will appear.",
+  "uninstallServiceTip": "Uninstalling the Helper service stops and removes FlClashHelperService. Turn off TUN first.",
+  "installServiceSuccess": "Helper service installed",
+  "installServiceFailed": "Helper service installation failed",
+  "uninstallServiceSuccess": "Helper service uninstalled",
+  "uninstallServiceFailed": "Helper service uninstall failed"
 }

@@ -267,6 +267,7 @@ class MessageLookup extends MessageLookupByLibrary {
       "The app is already up to date",
     ),
     "clearData": MessageLookupByLibrary.simpleMessage("Clear data"),
+    "clearLogs": MessageLookupByLibrary.simpleMessage("Clear logs"),
     "clearSearch": MessageLookupByLibrary.simpleMessage("Clear search"),
     "clipboardExport": MessageLookupByLibrary.simpleMessage(
       "Export to clipboard",
@@ -558,10 +559,19 @@ class MessageLookup extends MessageLookupByLibrary {
     "inputRuleContent": MessageLookupByLibrary.simpleMessage(
       "Enter the rule content",
     ),
-    "installedAppsPermissionDeniedMessage":
-        MessageLookupByLibrary.simpleMessage(
-          "The app list permission was denied, so installed apps cannot be listed. Please grant it manually in system settings.",
-        ),
+    "installService": MessageLookupByLibrary.simpleMessage("Install Service"),
+    "installServiceFailed": MessageLookupByLibrary.simpleMessage(
+      "Helper service installation failed",
+    ),
+    "installServiceSuccess": MessageLookupByLibrary.simpleMessage(
+      "Helper service installed",
+    ),
+    "installServiceTip": MessageLookupByLibrary.simpleMessage(
+      "Installing the Helper service requires administrator privileges. A UAC prompt will appear.",
+    ),
+    "installedAppsPermissionDeniedMessage": MessageLookupByLibrary.simpleMessage(
+      "The app list permission was denied, so installed apps cannot be listed. Please grant it manually in system settings.",
+    ),
     "installedAppsPermissionDesc": MessageLookupByLibrary.simpleMessage(
       "This system hides the installed app list until the permission is granted. Authorize it to configure the per-app proxy.",
     ),
@@ -1161,6 +1171,18 @@ class MessageLookup extends MessageLookupByLibrary {
     "unifiedDelay": MessageLookupByLibrary.simpleMessage("Unified delay"),
     "unifiedDelayDesc": MessageLookupByLibrary.simpleMessage(
       "Remove extra delays such as handshakes",
+    ),
+    "uninstallService": MessageLookupByLibrary.simpleMessage(
+      "Uninstall Service",
+    ),
+    "uninstallServiceFailed": MessageLookupByLibrary.simpleMessage(
+      "Helper service uninstall failed",
+    ),
+    "uninstallServiceSuccess": MessageLookupByLibrary.simpleMessage(
+      "Helper service uninstalled",
+    ),
+    "uninstallServiceTip": MessageLookupByLibrary.simpleMessage(
+      "Uninstalling the Helper service stops and removes FlClashHelperService. Turn off TUN first.",
     ),
     "unknown": MessageLookupByLibrary.simpleMessage("Unknown"),
     "unknownNetworkError": MessageLookupByLibrary.simpleMessage(

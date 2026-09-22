@@ -197,6 +197,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "checkUpdate": MessageLookupByLibrary.simpleMessage("检查更新"),
     "checkUpdateError": MessageLookupByLibrary.simpleMessage("当前应用已经是最新版了"),
     "clearData": MessageLookupByLibrary.simpleMessage("清除数据"),
+    "clearLogs": MessageLookupByLibrary.simpleMessage("清空日志"),
     "clearSearch": MessageLookupByLibrary.simpleMessage("清除搜索"),
     "clipboardExport": MessageLookupByLibrary.simpleMessage("导出剪贴板"),
     "clipboardImport": MessageLookupByLibrary.simpleMessage("剪贴板导入"),
@@ -400,6 +401,16 @@ class MessageLookup extends MessageLookupByLibrary {
     "inputCorrectHotkey": MessageLookupByLibrary.simpleMessage("请输入正确的快捷键"),
     "inputProxyGroupName": MessageLookupByLibrary.simpleMessage("输入策略组名称"),
     "inputRuleContent": MessageLookupByLibrary.simpleMessage("输入规则内容"),
+    "installService": MessageLookupByLibrary.simpleMessage("安装服务"),
+    "installServiceFailed": MessageLookupByLibrary.simpleMessage(
+      "Helper 服务安装失败",
+    ),
+    "installServiceSuccess": MessageLookupByLibrary.simpleMessage(
+      "Helper 服务安装成功",
+    ),
+    "installServiceTip": MessageLookupByLibrary.simpleMessage(
+      "安装 Helper 服务需要管理员权限，将弹出 UAC 授权窗口。",
+    ),
     "installedAppsPermissionDeniedMessage":
         MessageLookupByLibrary.simpleMessage(
           "读取应用列表权限已被拒绝，无法获取已安装的应用。请前往系统设置手动开启。",
@@ -838,6 +849,16 @@ class MessageLookup extends MessageLookupByLibrary {
     "undo": MessageLookupByLibrary.simpleMessage("撤销"),
     "unifiedDelay": MessageLookupByLibrary.simpleMessage("统一延迟"),
     "unifiedDelayDesc": MessageLookupByLibrary.simpleMessage("去除握手等额外延迟"),
+    "uninstallService": MessageLookupByLibrary.simpleMessage("卸载服务"),
+    "uninstallServiceFailed": MessageLookupByLibrary.simpleMessage(
+      "Helper 服务卸载失败",
+    ),
+    "uninstallServiceSuccess": MessageLookupByLibrary.simpleMessage(
+      "Helper 服务卸载成功",
+    ),
+    "uninstallServiceTip": MessageLookupByLibrary.simpleMessage(
+      "卸载 Helper 服务将停止并移除 FlClashHelperService，请先关闭 TUN。",
+    ),
     "unknown": MessageLookupByLibrary.simpleMessage("未知"),
     "unknownNetworkError": MessageLookupByLibrary.simpleMessage("未知网络错误"),
     "unmaximize": MessageLookupByLibrary.simpleMessage("向下还原"),

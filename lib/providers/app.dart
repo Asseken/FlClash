@@ -4,6 +4,7 @@ import 'dart:ui' show Locale;
 
 import 'package:dio/dio.dart';
 import 'package:fl_clash/common/common.dart';
+import 'package:fl_clash/core/desktop/helper_client.dart';
 import 'package:fl_clash/enum/enum.dart';
 import 'package:fl_clash/models/models.dart';
 import 'package:fl_clash/providers/core.dart';
@@ -143,7 +144,8 @@ class DirectTraffic extends _$DirectTraffic with AutoDisposeNotifierMixin {
 }
 
 @Riverpod(keepAlive: true)
-class TotalDirectTraffic extends _$TotalDirectTraffic with AutoDisposeNotifierMixin {
+class TotalDirectTraffic extends _$TotalDirectTraffic
+    with AutoDisposeNotifierMixin {
   @override
   Traffic build() {
     return const Traffic();
@@ -609,6 +611,164 @@ class LocationPermissions extends _$LocationPermissions
   }
 }
 
+@Riverpod(keepAlive: true)
+class WindowsHelperService extends _$WindowsHelperService
+    with AsyncNotifierMixin {
+  bool _busy = false;
+
+  @override
+  WindowsHelperServiceState get value =>
+      state.value ?? WindowsHelperServiceState.notInstalled;
+
+  /// The record lives in the registry, so it is read rather than awaited: the
+  /// actions stay usable from the first frame, and a scan that finds the
+  /// Helper already there just turns the install action off a moment later.
+  @override
+  WindowsHelperServiceState build() {
+    _busy = false;
+    ref.onDispose(() {
+      debouncer.cancel(FunctionTag.installHelperService);
+      debouncer.cancel(FunctionTag.uninstallHelperService);
+    });
+    unawaited(refresh());
+    return WindowsHelperServiceState.notInstalled;
+  }
+
+  Future<void> refresh() async {
+    if (_busy) {
+      return;
+    }
+    _setState(
+      await _scan().catchError((_) => WindowsHelperServiceState.notInstalled),
+    );
+  }
+
+  void install() {
+    debouncer.call(FunctionTag.installHelperService, () async {
+      if (_busy) {
+        return;
+      }
+      _busy = true;
+      final bool installed;
+      try {
+        final windows = system.windows;
+        installed = windows != null && await windows.installService();
+      } finally {
+        _busy = false;
+      }
+      if (!installed) {
+        dialogs.showNotifier(
+          currentAppLocalizations.installServiceFailed,
+          level: MessageLevel.error,
+        );
+        return;
+      }
+      dialogs.showNotifier(currentAppLocalizations.installServiceSuccess);
+      await refresh();
+    });
+  }
+
+  /// Held open for the caller: the Core the Helper is managing has to be gone
+  /// before the service is removed, so the restart that follows has to wait for
+  /// this instead of starting a Core into a Helper that is about to die.
+  Future<void> uninstall() {
+    return debouncer.callAsync(FunctionTag.uninstallHelperService, () async {
+      if (_busy) {
+        return;
+      }
+      _busy = true;
+      final bool uninstalled;
+      try {
+        // The Helper owns the Core it started, and removing the service kills
+        // that Core without the app's lease: its socket dies with the process,
+        // and the next start would find the Core's endpoint still held by an
+        // orphan nobody can address. Hand it back while there is still a
+        // Helper to ask.
+        await _stopManagedCore();
+        final windows = system.windows;
+        uninstalled = windows != null && await windows.uninstallService();
+      } finally {
+        _busy = false;
+      }
+      if (!uninstalled) {
+        dialogs.showNotifier(
+          currentAppLocalizations.uninstallServiceFailed,
+          level: MessageLevel.error,
+        );
+        return;
+      }
+      dialogs.showNotifier(currentAppLocalizations.uninstallServiceSuccess);
+      await _waitForRemoval();
+    });
+  }
+
+  Future<void> _stopManagedCore() async {
+    final core = ref.read(coreHandlerProvider);
+    try {
+      await core.stopListener();
+      await core.stop();
+    } catch (error) {
+      commonPrint.log(
+        'failed to release the Core before removing the Helper service: '
+        '${compactError(error)}',
+        logLevel: LogLevel.warning,
+      );
+    }
+  }
+
+  /// [Windows.uninstallService] already watched the record disappear, but that
+  /// watch is allowed to expire; reading it once more keeps the enabled action
+  /// on what the registry holds now.
+  Future<void> _waitForRemoval() async {
+    for (var attempt = 0; attempt < _removalAttempts; attempt++) {
+      final state = await _scan();
+      if (state == WindowsHelperServiceState.notInstalled) {
+        _setState(state);
+        return;
+      }
+      await Future.delayed(_removalInterval);
+    }
+  }
+
+  void _setState(WindowsHelperServiceState next) {
+    if (ref.mounted && state.value != next) {
+      value = next;
+    }
+  }
+
+  Future<WindowsHelperServiceState> _scan() async {
+    final windows = system.windows;
+    if (windows == null) {
+      return WindowsHelperServiceState.unavailable;
+    }
+    try {
+      // A running Helper answers over the loopback socket without spawning
+      // anything, so it settles first; the registry is only read when nothing
+      // answered, because that read costs a process launch.
+      final readiness = await helperClient.readiness(logFailure: false);
+      final serviceState = await windows.queryHelperService();
+      if (serviceState != WindowsHelperServiceState.installed) {
+        return serviceState;
+      }
+      return readiness == HelperReadiness.ready
+          ? WindowsHelperServiceState.ready
+          : serviceState;
+    } catch (error) {
+      // The paths this needs are not always resolvable — a host without the
+      // path provider, for one — and an unknown state must not surface as an
+      // unhandled error out of the actions' own scan.
+      commonPrint.log(
+        'failed to read the helper service state: ${compactError(error)}',
+        logLevel: LogLevel.warning,
+      );
+      return WindowsHelperServiceState.unavailable;
+    }
+  }
+}
+
+const _removalAttempts = 4;
+const _removalInterval = Duration(seconds: 1);
+
 List<Override> buildAppStateOverrides(AppState appState) {
   return [
     initProvider.overrideWithBuild((_, _) => appState.isInit),
@@ -638,6 +798,7 @@ List<Override> buildAppStateOverrides(AppState appState) {
     coreStatusProvider.overrideWithBuild((_, _) => appState.coreStatus),
   ];
 }
+
 @Riverpod(name: 'coreVersionInfoDataProvider', keepAlive: true)
 class _CoreVersionInfo extends _$CoreVersionInfo with AutoDisposeNotifierMixin {
   @override

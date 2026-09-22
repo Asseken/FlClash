@@ -275,6 +275,7 @@ class MessageLookup extends MessageLookupByLibrary {
       "У вас уже последняя версия",
     ),
     "clearData": MessageLookupByLibrary.simpleMessage("Очистить данные"),
+    "clearLogs": MessageLookupByLibrary.simpleMessage("Очистить логи"),
     "clearSearch": MessageLookupByLibrary.simpleMessage("Очистить поиск"),
     "clipboardExport": MessageLookupByLibrary.simpleMessage(
       "Экспорт в буфер обмена",
@@ -572,10 +573,19 @@ class MessageLookup extends MessageLookupByLibrary {
     "inputRuleContent": MessageLookupByLibrary.simpleMessage(
       "Введите содержимое правила",
     ),
-    "installedAppsPermissionDeniedMessage":
-        MessageLookupByLibrary.simpleMessage(
-          "Разрешение на список приложений отклонено, поэтому установленные приложения недоступны. Предоставьте его вручную в системных настройках.",
-        ),
+    "installService": MessageLookupByLibrary.simpleMessage("Установить службу"),
+    "installServiceFailed": MessageLookupByLibrary.simpleMessage(
+      "Не удалось установить службу Helper",
+    ),
+    "installServiceSuccess": MessageLookupByLibrary.simpleMessage(
+      "Служба Helper установлена",
+    ),
+    "installServiceTip": MessageLookupByLibrary.simpleMessage(
+      "Для установки службы Helper требуются права администратора. Появится запрос UAC.",
+    ),
+    "installedAppsPermissionDeniedMessage": MessageLookupByLibrary.simpleMessage(
+      "Разрешение на список приложений отклонено, поэтому установленные приложения недоступны. Предоставьте его вручную в системных настройках.",
+    ),
     "installedAppsPermissionDesc": MessageLookupByLibrary.simpleMessage(
       "Эта система не выдаёт список установленных приложений без разрешения. Предоставьте его, чтобы настроить прокси для отдельных приложений.",
     ),
@@ -1215,6 +1225,16 @@ class MessageLookup extends MessageLookupByLibrary {
     "unifiedDelay": MessageLookupByLibrary.simpleMessage("Единая задержка"),
     "unifiedDelayDesc": MessageLookupByLibrary.simpleMessage(
       "Убирает лишние задержки, например рукопожатие",
+    ),
+    "uninstallService": MessageLookupByLibrary.simpleMessage("Удалить службу"),
+    "uninstallServiceFailed": MessageLookupByLibrary.simpleMessage(
+      "Не удалось удалить службу Helper",
+    ),
+    "uninstallServiceSuccess": MessageLookupByLibrary.simpleMessage(
+      "Служба Helper удалена",
+    ),
+    "uninstallServiceTip": MessageLookupByLibrary.simpleMessage(
+      "Удаление службы Helper остановит и удалит FlClashHelperService. Сначала выключите TUN.",
     ),
     "unknown": MessageLookupByLibrary.simpleMessage("Неизвестно"),
     "unknownNetworkError": MessageLookupByLibrary.simpleMessage(

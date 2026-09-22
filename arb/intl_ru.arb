@@ -273,6 +273,7 @@
   "noNetwork": "Нет сети",
   "ipv6InboundDesc": "Разрешить входящий IPv6",
   "exportLogs": "Экспорт логов",
+  "clearLogs": "Очистить логи",
   "exportSuccess": "Экспорт выполнен",
   "iconStyle": "Стиль значков",
   "onlyIcon": "Только значок",
@@ -624,5 +625,13 @@
   "authorize": "Разрешить",
   "installedAppsPermissionRequired": "Требуется разрешение на список приложений",
   "installedAppsPermissionDesc": "Эта система не выдаёт список установленных приложений без разрешения. Предоставьте его, чтобы настроить прокси для отдельных приложений.",
-  "installedAppsPermissionDeniedMessage": "Разрешение на список приложений отклонено, поэтому установленные приложения недоступны. Предоставьте его вручную в системных настройках."
+  "installedAppsPermissionDeniedMessage": "Разрешение на список приложений отклонено, поэтому установленные приложения недоступны. Предоставьте его вручную в системных настройках.",
+  "installService": "Установить службу",
+  "uninstallService": "Удалить службу",
+  "installServiceTip": "Для установки службы Helper требуются права администратора. Появится запрос UAC.",
+  "uninstallServiceTip": "Удаление службы Helper остановит и удалит FlClashHelperService. Сначала выключите TUN.",
+  "installServiceSuccess": "Служба Helper установлена",
+  "installServiceFailed": "Не удалось установить службу Helper",
+  "uninstallServiceSuccess": "Служба Helper удалена",
+  "uninstallServiceFailed": "Не удалось удалить службу Helper"
 }

@@ -41,10 +41,16 @@ abstract mixin class CoreEventListener {
 }
 
 class CoreEventManager {
-  final _controller = StreamController<CoreEvent>();
+  late StreamController<CoreEvent> _controller;
+  StreamSubscription<CoreEvent>? _subscription; // ignore: cancel_subscriptions
 
   CoreEventManager._() {
-    _controller.stream.listen((event) {
+    _subscribe();
+  }
+
+  void _subscribe() {
+    _controller = StreamController<CoreEvent>();
+    _subscription = _controller.stream.listen((event) {
       for (final CoreEventListener listener in List.of(_listeners)) {
         try {
           switch (event.type) {
@@ -84,6 +90,15 @@ class CoreEventManager {
   }
 
   static final CoreEventManager instance = CoreEventManager._();
+
+  /// A Core restart replaces the transport that feeds [sendEvent], but the
+  /// controller and its single subscriber do not survive a client-side close,
+  /// so the long-lived stream has to be rebuilt before the next Core is up.
+  @visibleForTesting
+  static void resetInstance() {
+    instance._subscription?.cancel();
+    instance._subscribe();
+  }
 
   final ObserverList<CoreEventListener> _listeners =
       ObserverList<CoreEventListener>();

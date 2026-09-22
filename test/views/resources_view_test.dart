@@ -7,6 +7,7 @@ import 'package:fl_clash/providers/app.dart';
 import 'package:fl_clash/state.dart';
 import 'package:fl_clash/views/resources.dart';
 import 'package:fl_clash/widgets/widgets.dart';
+import 'package:fluent_ui/fluent_ui.dart' show FluentIcons, ToggleSwitch;
 import 'package:material_ui/material_ui.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -81,8 +82,8 @@ void main() {
 
     expect(find.byType(DecorationListItem), findsNWidgets(6));
     expect(find.byType(ItemPositionProvider), findsNWidgets(4));
-    expect(find.byType(Switch), findsOneWidget);
-    expect(find.byIcon(Icons.more_vert), findsNWidgets(4));
+    expect(find.byType(ToggleSwitch), findsOneWidget);
+    expect(find.byIcon(FluentIcons.more_vertical), findsNWidgets(4));
     expect(find.byType(FutureBuilder<FileInfo?>), findsNWidgets(4));
     for (final url in defaultGeoXUrl.values) {
       expect(find.text(url), findsNothing);
@@ -93,7 +94,10 @@ void main() {
       matching: find.byType(DecorationListItem),
     );
     await tester.tap(
-      find.descendant(of: mmdbItem, matching: find.byIcon(Icons.more_vert)),
+      find.descendant(
+        of: mmdbItem,
+        matching: find.byIcon(FluentIcons.more_vertical),
+      ),
     );
     await tester.pumpAndSettle();
 

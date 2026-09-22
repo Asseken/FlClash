@@ -23,6 +23,10 @@ final _platformImport = RegExp(
   multiLine: true,
 );
 
+/// `_platformModules` and the `/generated/` marker are spelled with `/`, so
+/// paths have to be normalised first: Windows separates with `\`.
+String _posix(String path) => path.replaceAll('\\', '/');
+
 Set<String> _closureOfCommonBarrel() {
   String resolve(String uri, String from) {
     if (uri.startsWith('package:fl_clash/')) {
@@ -62,7 +66,7 @@ Iterable<File> _dartFilesIn(String root) sync* {
   for (final entity in directory.listSync(recursive: true)) {
     if (entity is File &&
         entity.path.endsWith('.dart') &&
-        !entity.path.contains('/generated/')) {
+        !_posix(entity.path).contains('/generated/')) {
       yield entity;
     }
   }
@@ -91,7 +95,7 @@ void main() {
 
     for (final root in ['lib/common', 'lib/enum', 'lib/models']) {
       for (final file in _dartFilesIn(root)) {
-        final relative = p.relative(file.path);
+        final relative = _posix(p.relative(file.path));
         if (_platformModules.contains(relative)) {
           continue;
         }

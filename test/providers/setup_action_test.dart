@@ -122,6 +122,23 @@ class TestSetupAction extends SetupAction {
 
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
+
+  late Directory appPathTempDir;
+  setUpAll(() {
+    // `appPath` is a process-wide singleton resolved on first use, so the fake
+    // provider has to be installed before any test asks for a path: the real
+    // one has no plugin in a unit test, and one rejected lookup there leaves
+    // the singleton's completers pending for every later test in this file.
+    appPathTempDir = Directory.systemTemp.createTempSync('setup_action_app');
+    PathProviderPlatform.instance = _FakePathProvider(appPathTempDir.path);
+  });
+
+  tearDownAll(() {
+    try {
+      appPathTempDir.deleteSync(recursive: true);
+    } catch (_) {}
+  });
+
   setUpAll(() {
     registerFallbackValue(const SetupParams(selectedMap: {}, testUrl: ''));
   });

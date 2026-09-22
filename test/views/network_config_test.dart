@@ -4,6 +4,7 @@ import 'package:fl_clash/providers/config.dart';
 import 'package:fl_clash/providers/database.dart';
 import 'package:fl_clash/state.dart';
 import 'package:fl_clash/views/config/network.dart';
+import 'package:fluent_ui/fluent_ui.dart' show ToggleSwitch;
 import 'package:material_ui/material_ui.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -103,11 +104,11 @@ void main() {
 
         expect(testCase.read(container), testCase.initial);
 
-        await tester.tap(find.byType(Switch));
+        await tester.tap(find.byType(ToggleSwitch));
         await tester.pumpAndSettle();
         expect(testCase.read(container), !testCase.initial);
 
-        await tester.tap(find.byType(Switch));
+        await tester.tap(find.byType(ToggleSwitch));
         await tester.pumpAndSettle();
         expect(testCase.read(container), testCase.initial);
       });

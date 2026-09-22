@@ -5,6 +5,7 @@ import 'package:fl_clash/providers/config.dart';
 import 'package:fl_clash/providers/database.dart';
 import 'package:fl_clash/state.dart';
 import 'package:fl_clash/views/backup_and_restore.dart';
+import 'package:fluent_ui/fluent_ui.dart' show FluentIcons, WindowsIcons;
 import 'package:material_ui/material_ui.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -124,7 +125,7 @@ void main() {
       await pumpDialog(tester, const WebDAVFormDialog());
 
       final toggle = find.descendant(
-        of: find.widgetWithIcon(TextFormField, Icons.password),
+        of: find.widgetWithIcon(TextFormField, WindowsIcons.permissions),
         matching: find.byType(IconButton),
       );
       expect(tester.widget<IconButton>(toggle).tooltip, 'Show password');
@@ -139,15 +140,15 @@ void main() {
       await pumpDialog(tester, const WebDAVFormDialog());
 
       await tester.enterText(
-        find.widgetWithIcon(TextFormField, Icons.link),
+        find.widgetWithIcon(TextFormField, WindowsIcons.link),
         'not-a-url',
       );
       await tester.enterText(
-        find.widgetWithIcon(TextFormField, Icons.account_circle),
+        find.widgetWithIcon(TextFormField, FluentIcons.contact),
         'alice',
       );
       await tester.enterText(
-        find.widgetWithIcon(TextFormField, Icons.password),
+        find.widgetWithIcon(TextFormField, WindowsIcons.permissions),
         'secret',
       );
       await tester.tap(find.widgetWithText(TextButton, 'Save'));
@@ -162,15 +163,15 @@ void main() {
       await pumpDialog(tester, const WebDAVFormDialog());
 
       await tester.enterText(
-        find.widgetWithIcon(TextFormField, Icons.link),
+        find.widgetWithIcon(TextFormField, WindowsIcons.link),
         'https://dav.example.com/remote',
       );
       await tester.enterText(
-        find.widgetWithIcon(TextFormField, Icons.account_circle),
+        find.widgetWithIcon(TextFormField, FluentIcons.contact),
         'alice',
       );
       await tester.enterText(
-        find.widgetWithIcon(TextFormField, Icons.password),
+        find.widgetWithIcon(TextFormField, WindowsIcons.permissions),
         'secret',
       );
       await tester.tap(find.widgetWithText(TextButton, 'Save'));
@@ -190,7 +191,7 @@ void main() {
       await pumpDialog(tester, const WebDAVFormDialog(dav: _existing));
 
       await tester.enterText(
-        find.widgetWithIcon(TextFormField, Icons.account_circle),
+        find.widgetWithIcon(TextFormField, FluentIcons.contact),
         'bob',
       );
       await tester.tap(find.widgetWithText(TextButton, 'Save'));
@@ -224,10 +225,10 @@ void main() {
     testWidgets('toggles password visibility', (tester) async {
       await pumpDialog(tester, const WebDAVFormDialog(dav: _existing));
 
-      expect(find.byIcon(Icons.visibility), findsOneWidget);
-      await tester.tap(find.byIcon(Icons.visibility));
+      expect(find.byIcon(WindowsIcons.hide), findsOneWidget);
+      await tester.tap(find.byIcon(WindowsIcons.hide));
       await tester.pumpAndSettle();
-      expect(find.byIcon(Icons.visibility_off), findsOneWidget);
+      expect(find.byIcon(WindowsIcons.red_eye), findsOneWidget);
     });
   });
 }

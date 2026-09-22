@@ -8,6 +8,7 @@ import 'package:fl_clash/providers/database.dart';
 import 'package:fl_clash/providers/state.dart';
 import 'package:fl_clash/state.dart';
 import 'package:fl_clash/views/profiles/overwrite/custom/rules.dart';
+import 'package:fluent_ui/fluent_ui.dart' show WindowsIcons;
 import 'package:material_ui/material_ui.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -98,7 +99,7 @@ class _Harness {
   }
 
   Future<void> save(WidgetTester tester) async {
-    await tester.tap(find.byIcon(Icons.check));
+    await tester.tap(find.byIcon(WindowsIcons.accept));
     await tester.pumpAndSettle();
   }
 

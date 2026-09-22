@@ -18,6 +18,10 @@ const _forbiddenImports = <String, String>{
 
 const _generatedL10n = ['lib/l10n/l10n.dart', 'lib/l10n/intl/'];
 
+/// `_generatedL10n` and the markers below are spelled with `/`, so a path from
+/// `p.relative` has to be normalised first: on Windows it separates with `\`.
+String _posix(String path) => path.replaceAll('\\', '/');
+
 bool _isGenerated(String path) {
   return path.contains('/generated/') ||
       path.endsWith('.g.dart') ||
@@ -38,7 +42,7 @@ void main() {
         if (entity is! File || !entity.path.endsWith('.dart')) {
           continue;
         }
-        final relative = p.relative(entity.path);
+        final relative = _posix(p.relative(entity.path));
         if (_isGenerated(relative)) {
           continue;
         }

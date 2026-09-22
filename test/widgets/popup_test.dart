@@ -1,4 +1,5 @@
 import 'package:fl_clash/widgets/popup.dart';
+import 'package:fluent_ui/fluent_ui.dart' show WindowsIcons;
 import 'package:material_ui/material_ui.dart';
 import 'package:flutter_test/flutter_test.dart';
 
@@ -146,7 +147,7 @@ void main() {
     open();
     await tester.pumpAndSettle();
 
-    expect(find.byIcon(Icons.chevron_right), findsOneWidget);
+    expect(find.byIcon(WindowsIcons.back), findsOneWidget);
 
     await tester.tap(find.text('parent'));
     await tester.pumpAndSettle();

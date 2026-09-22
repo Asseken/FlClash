@@ -105,11 +105,13 @@ class _LineChartState extends State<LineChart>
     final yRange = maxY - minY;
 
     for (final points in allPoints) {
-      result.add(points.map((e) {
-        final x = xRange == 0 ? 0.0 : (e.x - minX) / xRange;
-        final y = yRange == 0 ? 0.0 : (e.y - minY) / yRange;
-        return Point(x, y);
-      }).toList());
+      result.add(
+        points.map((e) {
+          final x = xRange == 0 ? 0.0 : (e.x - minX) / xRange;
+          final y = yRange == 0 ? 0.0 : (e.y - minY) / yRange;
+          return Point(x, y);
+        }).toList(),
+      );
     }
 
     return result;
@@ -171,14 +173,18 @@ class LineChartPainter extends CustomPainter {
   List<_SeriesRenderData> _buildSeriesData() {
     final result = <_SeriesRenderData>[];
     for (var i = 0; i < series.length; i++) {
-      result.add(_SeriesRenderData(
-        prevRenderPoints:
-        i < prevRenderPoints.length ? prevRenderPoints[i] : [],
-        currentRenderPoints:
-        i < currentRenderPoints.length ? currentRenderPoints[i] : [],
-        color: series[i].color,
-        gradient: series[i].gradient,
-      ));
+      result.add(
+        _SeriesRenderData(
+          prevRenderPoints: i < prevRenderPoints.length
+              ? prevRenderPoints[i]
+              : [],
+          currentRenderPoints: i < currentRenderPoints.length
+              ? currentRenderPoints[i]
+              : [],
+          color: series[i].color,
+          gradient: series[i].gradient,
+        ),
+      );
     }
     return result;
   }
@@ -195,7 +201,10 @@ class LineChartPainter extends CustomPainter {
   }
 
   List<Point> _getInterpolatePoints(
-      double t, List<Point> prev, List<Point> current) {
+    double t,
+    List<Point> prev,
+    List<Point> current,
+  ) {
     if (current.isEmpty) return [];
 
     final length = current.length;
@@ -205,16 +214,8 @@ class LineChartPainter extends CustomPainter {
       if (i > prev.length - 1) {
         result.add(current[i]);
       } else {
-        final x = lerpDouble(
-          prev[i].x,
-          current[i].x,
-          t,
-        )!;
-        final y = lerpDouble(
-          prev[i].y,
-          current[i].y,
-          t,
-        )!;
+        final x = lerpDouble(prev[i].x, current[i].x, t)!;
+        final y = lerpDouble(prev[i].y, current[i].y, t)!;
         result.add(Point(x, y));
       }
     }
@@ -242,14 +243,12 @@ class LineChartPainter extends CustomPainter {
       );
     }
 
-    path.lineTo(
-        points.last.x * size.width, (1 - points.last.y) * size.height);
+    path.lineTo(points.last.x * size.width, (1 - points.last.y) * size.height);
     return path;
   }
 
   Path _getAnimatedPath(Size size, List<Point> prev, List<Point> current) {
-    final interpolatedPoints =
-    _getInterpolatePoints(progress, prev, current);
+    final interpolatedPoints = _getInterpolatePoints(progress, prev, current);
     return _getPath(interpolatedPoints, size);
   }
 
@@ -298,14 +297,17 @@ class LineChartPainter extends CustomPainter {
     for (final data in seriesData) {
       if (data.gradient && data.currentRenderPoints.isNotEmpty) {
         final path = _getAnimatedPath(
-            chartSize, data.prevRenderPoints, data.currentRenderPoints);
+          chartSize,
+          data.prevRenderPoints,
+          data.currentRenderPoints,
+        );
         final fillPath = Path.from(path);
         fillPath.lineTo(size.width, size.height + strokeWidth * 2);
         fillPath.lineTo(0, size.height + strokeWidth * 2);
         fillPath.close();
 
-        final fillPaint =
-        _createFillPaint()..shader = _getShader(size, data.color);
+        final fillPaint = _createFillPaint()
+          ..shader = _getShader(size, data.color);
         canvas.drawPath(fillPath, fillPaint);
       }
     }
@@ -313,7 +315,10 @@ class LineChartPainter extends CustomPainter {
     for (final data in seriesData) {
       if (data.currentRenderPoints.isNotEmpty) {
         final path = _getAnimatedPath(
-            chartSize, data.prevRenderPoints, data.currentRenderPoints);
+          chartSize,
+          data.prevRenderPoints,
+          data.currentRenderPoints,
+        );
         canvas.drawPath(path, _createStrokePaint(data.color));
       }
     }

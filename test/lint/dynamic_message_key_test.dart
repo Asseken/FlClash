@@ -8,6 +8,9 @@ import 'package:flutter_test/flutter_test.dart';
 const _arbDir = 'arb';
 const _libDir = 'lib';
 
+/// The markers below are spelled with `/`; Windows paths separate with `\`.
+String _posix(String path) => path.replaceAll('\\', '/');
+
 Map<String, Set<String>> _arbKeys() {
   final result = <String, Set<String>>{};
   for (final entity in Directory(_arbDir).listSync()) {
@@ -46,7 +49,7 @@ void main() {
     final offenders = <String>[];
     for (final entity in Directory(_libDir).listSync(recursive: true)) {
       if (entity is! File || !entity.path.endsWith('.dart')) continue;
-      final path = entity.path;
+      final path = _posix(entity.path);
       if (path.contains('/generated/') || path.contains('/l10n/')) continue;
       if (entity.readAsStringSync().contains('Intl.message(')) {
         offenders.add(path);

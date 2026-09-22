@@ -22,8 +22,8 @@ class CoreAction extends _$CoreAction {
     }
     final coreVersionInfoData = await coreController.getCoreVersion();
     if (coreVersionInfoData.isNotEmpty) {
-      ref.read(coreVersionInfoDataProvider.notifier).value = CoreVersionInfo
-          .fromJson(coreVersionInfoData);
+      ref.read(coreVersionInfoDataProvider.notifier).value =
+          CoreVersionInfo.fromJson(coreVersionInfoData);
     }
   }
 

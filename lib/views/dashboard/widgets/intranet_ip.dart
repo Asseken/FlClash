@@ -15,7 +15,10 @@ class IntranetIP extends StatelessWidget {
       height: getWidgetHeight(1),
       child: CommonCard(
         radius: AppCorner.lg,
-        info: Info(label: appLocalizations.intranetIP, iconData: WindowsIcons.my_network),
+        info: Info(
+          label: appLocalizations.intranetIP,
+          iconData: WindowsIcons.my_network,
+        ),
         onPressed: () {},
         child: Container(
           padding: baseInfoEdgeInsets.copyWith(top: 0),

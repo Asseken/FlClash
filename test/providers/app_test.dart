@@ -502,9 +502,15 @@ void main() {
         await Future.delayed(commonDuration + const Duration(milliseconds: 50));
 
         notifier.startCheck();
-        await Future.delayed(
-          commonDuration + const Duration(milliseconds: 120),
-        );
+        // The newer check answers in milliseconds in isolation, but the whole
+        // suite runs these files in parallel: wait for the result instead of
+        // assuming the machine answered inside a fixed window.
+        final deadline = DateTime.now().add(const Duration(seconds: 2));
+        while (container.read(networkDetectionProvider).ipInfo?.ip !=
+                '2.2.2.2' &&
+            DateTime.now().isBefore(deadline)) {
+          await Future.delayed(const Duration(milliseconds: 20));
+        }
 
         expect(container.read(networkDetectionProvider).ipInfo?.ip, '2.2.2.2');
         expect(container.read(networkDetectionProvider).isLoading, false);

@@ -32,15 +32,33 @@ class AppPath {
 
   AppPath._internal() {
     appDirPath = join(dirname(Platform.resolvedExecutable));
-    supportDirectory().then((value) {
-      dataDir.complete(value);
-    });
-    temporaryDirectory().then((value) {
-      tempDir.complete(value);
-    });
-    cacheDirectory().then((value) {
-      cacheDir.complete(value);
-    });
+    // A rejected lookup has to reach `dataDir.future` too: swallowing it here
+    // would leave every path (`configFilePath`, `profilesPath`, …) pending
+    // forever instead of failing where the caller can see it.
+    supportDirectory().then(
+      (value) {
+        dataDir.complete(value);
+      },
+      onError: (Object error, StackTrace stackTrace) {
+        dataDir.completeError(error, stackTrace);
+      },
+    );
+    temporaryDirectory().then(
+      (value) {
+        tempDir.complete(value);
+      },
+      onError: (Object error, StackTrace stackTrace) {
+        tempDir.completeError(error, stackTrace);
+      },
+    );
+    cacheDirectory().then(
+      (value) {
+        cacheDir.complete(value);
+      },
+      onError: (Object error, StackTrace stackTrace) {
+        cacheDir.completeError(error, stackTrace);
+      },
+    );
   }
 
   factory AppPath() {

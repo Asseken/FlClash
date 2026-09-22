@@ -74,6 +74,9 @@ class _CommonCircleLoadingState extends State<CommonCircleLoading>
   List<RoundedPolygon>? _cachedPolygons;
   List<Morph>? _cachedMorphs;
 
+  Timer? _morphHold;
+  Completer<void>? _morphHoldDone;
+
   var _currentMorphIndex = 0;
   var _morphRotationTargetAngle = _quarterRotation;
 
@@ -94,6 +97,7 @@ class _CommonCircleLoadingState extends State<CommonCircleLoading>
 
   @override
   void dispose() {
+    _releaseMorphHold();
     _morphController.dispose();
     _globalRotationController.dispose();
     super.dispose();
@@ -232,6 +236,30 @@ class _CommonCircleLoadingState extends State<CommonCircleLoading>
     return CommonCircleLoading.defaultDimension;
   }
 
+  /// The spring can settle well before the morph interval, so the loop holds
+  /// the rest of the interval on a timer. It has to be cancellable: a pending
+  /// `Future.delayed` outlives the disposed state.
+  Future<void> _holdMorphInterval(Duration duration) {
+    final done = Completer<void>();
+    _morphHoldDone = done;
+    _morphHold = Timer(duration, () {
+      if (!done.isCompleted) {
+        done.complete();
+      }
+    });
+    return done.future;
+  }
+
+  void _releaseMorphHold() {
+    _morphHold?.cancel();
+    _morphHold = null;
+    final done = _morphHoldDone;
+    _morphHoldDone = null;
+    if (done != null && !done.isCompleted) {
+      done.complete();
+    }
+  }
+
   Future<void> _runMorphLoop() async {
     while (mounted) {
       final startedAt = DateTime.now();
@@ -243,7 +271,7 @@ class _CommonCircleLoadingState extends State<CommonCircleLoading>
 
       final elapsed = DateTime.now().difference(startedAt);
       if (elapsed < _morphInterval) {
-        await Future<void>.delayed(_morphInterval - elapsed);
+        await _holdMorphInterval(_morphInterval - elapsed);
       }
       if (!mounted) {
         return;

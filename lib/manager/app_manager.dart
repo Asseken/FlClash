@@ -148,7 +148,7 @@ class AppSidebarContainer extends ConsumerWidget {
   void _handleToPage(WidgetRef ref, PageLabel pageLabel) {
     final focusNode = FocusManager.instance.primaryFocus;
     final preserveNavigationFocus =
-        focusNode?.context?.findAncestorWidgetOfExactType<NavigationRail>() !=
+        focusNode?.context?.findAncestorWidgetOfExactType<NavigationView>() !=
         null;
     ref.read(currentPageLabelProvider.notifier).toPage(pageLabel);
     if (!preserveNavigationFocus || focusNode == null) {

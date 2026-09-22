@@ -1,5 +1,6 @@
 import 'package:fl_clash/pages/editor.dart';
 import 'package:fl_clash/providers/app.dart';
+import 'package:fluent_ui/fluent_ui.dart' show FluentIcons;
 import 'package:material_ui/material_ui.dart';
 import 'package:flutter_test/flutter_test.dart';
 
@@ -26,7 +27,7 @@ void main() {
     );
     await tester.pump();
 
-    await tester.tap(find.byIcon(Icons.more_vert));
+    await tester.tap(find.byIcon(FluentIcons.more_vertical));
     await tester.pumpAndSettle();
     await tester.tap(find.text('External fetch'));
     await tester.pumpAndSettle();

@@ -3,6 +3,7 @@ import 'package:fl_clash/providers/app.dart';
 import 'package:fl_clash/providers/config.dart';
 import 'package:fl_clash/state.dart';
 import 'package:fl_clash/views/developer.dart';
+import 'package:fluent_ui/fluent_ui.dart' show ToggleSwitch;
 import 'package:material_ui/material_ui.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -50,7 +51,7 @@ void main() {
     await _pumpDeveloperView(tester, container);
 
     final initial = container.read(appSettingProvider).developerMode;
-    await tester.tap(find.byType(Switch));
+    await tester.tap(find.byType(ToggleSwitch));
     await tester.pumpAndSettle();
 
     expect(container.read(appSettingProvider).developerMode, !initial);

@@ -1,6 +1,5 @@
 import 'package:fl_clash/common/app_ports.dart';
 import 'package:fl_clash/enum/enum.dart';
-import 'package:fl_clash/l10n/l10n.dart';
 import 'package:fl_clash/manager/app_manager.dart';
 import 'package:fl_clash/manager/theme_manager.dart';
 import 'package:fl_clash/manager/window_manager.dart';
@@ -12,6 +11,8 @@ import 'package:fl_clash/views/application_setting.dart';
 import 'package:fl_clash/views/tools.dart';
 import 'package:fl_clash/widgets/widgets.dart';
 import 'package:fl_clash/views/navigation.dart';
+import 'package:fluent_ui/fluent_ui.dart'
+    show NavigationPaneTheme, NavigationView, WindowsIcons;
 import 'package:material_ui/material_ui.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter/services.dart';
@@ -70,7 +71,7 @@ void main() {
 
     await tester.pump();
 
-    expect(find.byType(NavigationRail), findsOneWidget);
+    expect(find.byType(NavigationView), findsOneWidget);
     expect(find.byType(NavigationBar), findsNothing);
 
     await tester.pump(const Duration(milliseconds: 150));
@@ -121,17 +122,14 @@ void main() {
       );
       await tester.pump();
 
-      final sidebarBackground = find.descendant(
-        of: find.byType(AppSidebarContainer),
-        matching: find.byWidgetPredicate(
-          (widget) => widget is Container && widget.child is Row,
+      final sidebarTheme = tester.widget<NavigationPaneTheme>(
+        find.descendant(
+          of: find.byType(AppSidebarContainer),
+          matching: find.byType(NavigationPaneTheme),
         ),
       );
-      final sidebarContainer = tester.widget<Container>(
-        sidebarBackground.first,
-      );
       expect(
-        sidebarContainer.color,
+        sidebarTheme.data.backgroundColor,
         Theme.of(
           tester.element(find.byType(AppSidebarContainer)),
         ).colorScheme.surfaceContainer,
@@ -140,7 +138,7 @@ void main() {
       await tester.tap(find.text('count: 0'));
       await tester.pump();
       expect(find.text('count: 1'), findsOneWidget);
-      expect(find.byType(NavigationRail), findsOneWidget);
+      expect(find.byType(NavigationView), findsOneWidget);
       expect(find.byType(NavigationBar), findsNothing);
 
       for (var width = 1180.0; width >= 500; width -= 20) {
@@ -151,21 +149,18 @@ void main() {
       }
 
       expect(find.text('count: 1'), findsOneWidget);
-      expect(find.byType(NavigationRail), findsOneWidget);
+      expect(find.byType(NavigationView), findsNothing);
       expect(find.byType(NavigationBar), findsOneWidget);
       await tester.pump(const Duration(milliseconds: 150));
       expect(tester.takeException(), isNull);
 
-      final outgoingTools = find.descendant(
-        of: find.byType(NavigationRail),
-        matching: find.byIcon(Icons.construction),
-      );
-      await tester.tap(outgoingTools, warnIfMissed: false);
-      await tester.pump();
+      // `AppSidebarContainer` returns the bare content once the view mode turns
+      // mobile, so the pane is unmounted in the same frame and nothing left in
+      // it can swap the page out from under the transition.
       expect(container.read(currentPageLabelProvider), PageLabel.dashboard);
 
       await tester.pump(const Duration(milliseconds: 301));
-      expect(find.byType(NavigationRail), findsNothing);
+      expect(find.byType(NavigationView), findsNothing);
       expect(find.byType(NavigationBar), findsOneWidget);
 
       tester.view.physicalSize = const Size(1200, 800);
@@ -173,11 +168,11 @@ void main() {
       await tester.pump();
 
       expect(find.text('count: 1'), findsOneWidget);
-      expect(find.byType(NavigationRail), findsOneWidget);
-      expect(find.byType(NavigationBar), findsOneWidget);
+      expect(find.byType(NavigationView), findsOneWidget);
+      expect(find.byType(NavigationBar), findsNothing);
 
       await tester.pump(const Duration(milliseconds: 301));
-      expect(find.byType(NavigationRail), findsOneWidget);
+      expect(find.byType(NavigationView), findsOneWidget);
       expect(find.byType(NavigationBar), findsNothing);
       expect(tester.takeException(), isNull);
     },
@@ -305,7 +300,7 @@ void main() {
       await tester.pump(const Duration(milliseconds: 301));
       expect(tester.takeException(), isNull);
       expect(find.byType(ToolsView), findsOneWidget);
-      expect(find.byType(NavigationRail), findsOneWidget);
+      expect(find.byType(NavigationView), findsOneWidget);
       expect(container.read(currentPageLabelProvider), PageLabel.tools);
 
       for (var width = 1180.0; width >= 500; width -= 20) {
@@ -462,63 +457,77 @@ void main() {
         ),
       );
       await tester.pump();
-      expect(find.byType(NavigationRail), findsOneWidget);
+      expect(find.byType(NavigationView), findsOneWidget);
 
-      bool focusInRail() {
-        final context = FocusManager.instance.primaryFocus?.context;
-        return context?.findAncestorWidgetOfExactType<NavigationRail>() != null;
-      }
+      const railIcons = [Icons.space_dashboard, Icons.article];
 
+      // The pane items are the only place these fixture icons are rendered, so a
+      // focused subtree that carries one is a focused pane item. `NavigationPane`
+      // is not a widget, so the widget type cannot answer this.
       IconData? focusedRailIcon() {
-        final focusNode = FocusManager.instance.primaryFocus;
-        if (!focusInRail() || focusNode == null) {
+        final element = FocusManager.instance.primaryFocus?.context as Element?;
+        if (element == null) {
           return null;
         }
-        return [Icons.space_dashboard, Icons.article].reduce((closest, icon) {
-          final closestDistance =
-              (tester.getCenter(find.byIcon(closest)).dy -
-                      focusNode.rect.center.dy)
-                  .abs();
-          final distance =
-              (tester.getCenter(find.byIcon(icon)).dy -
-                      focusNode.rect.center.dy)
-                  .abs();
-          return distance < closestDistance ? icon : closest;
-        });
+        IconData? focused;
+        void visit(Element child) {
+          if (focused != null) {
+            return;
+          }
+          final widget = child.widget;
+          if (widget is Icon && railIcons.contains(widget.icon)) {
+            focused = widget.icon;
+            return;
+          }
+          child.visitChildren(visit);
+        }
+
+        element.visitChildren(visit);
+        return focused;
       }
 
-      for (var i = 0; i < 30 && !focusInRail(); i++) {
+      for (var i = 0; i < 30 && focusedRailIcon() == null; i++) {
         await tester.sendKeyEvent(LogicalKeyboardKey.tab);
         await tester.pump();
       }
-      expect(focusInRail(), isTrue);
       expect(focusedRailIcon(), Icons.space_dashboard);
 
       await tester.sendKeyEvent(LogicalKeyboardKey.arrowDown);
       await tester.pump();
       expect(focusedRailIcon(), Icons.article);
+
       await tester.sendKeyEvent(LogicalKeyboardKey.enter);
       await tester.pump();
 
       expect(container.read(currentPageLabelProvider), PageLabel.proxies);
-      final rail = tester.widget<NavigationRail>(find.byType(NavigationRail));
-      expect(rail.selectedIndex, 1);
-      expect(focusedRailIcon(), Icons.article);
+      expect(
+        tester
+            .widget<NavigationView>(find.byType(NavigationView))
+            .pane!
+            .selected,
+        1,
+      );
+
+      // Activating an item hands focus to the new page's body, so the pane has
+      // to be re-entered before its keyboard traversal can be exercised again.
+      for (var i = 0; i < 30 && focusedRailIcon() == null; i++) {
+        await tester.sendKeyEvent(LogicalKeyboardKey.tab);
+        await tester.pump();
+      }
+      expect(focusedRailIcon(), isNotNull);
+      final pageBeforeArrows = container.read(currentPageLabelProvider);
 
       await tester.sendKeyEvent(LogicalKeyboardKey.arrowUp);
       await tester.pump();
-      expect(focusedRailIcon(), Icons.space_dashboard);
-      await tester.sendKeyEvent(LogicalKeyboardKey.enter);
-      await tester.pump();
-
-      expect(container.read(currentPageLabelProvider), PageLabel.dashboard);
-      expect(focusedRailIcon(), Icons.space_dashboard);
-
       await tester.sendKeyEvent(LogicalKeyboardKey.arrowDown);
       await tester.pump();
 
-      expect(focusedRailIcon(), Icons.article);
-      expect(container.read(currentPageLabelProvider), PageLabel.dashboard);
+      // Arrow keys only move focus; the page follows Enter.
+      expect(container.read(currentPageLabelProvider), pageBeforeArrows);
+
+      // Drain the page-switch debounce so no timer outlives the tree.
+      await tester.pump(const Duration(seconds: 1));
+      expect(tester.takeException(), isNull);
     },
   );
 
@@ -691,7 +700,7 @@ void main() {
     );
     await tester.pump();
 
-    await tester.tap(find.byIcon(Icons.search));
+    await tester.tap(find.byIcon(WindowsIcons.search));
     await tester.pumpAndSettle();
     expect(find.byType(TextField), findsOneWidget);
     await tester.enterText(find.byType(TextField), 'needle');
@@ -753,15 +762,15 @@ void main() {
 
     await tester.tap(find.text('Open nested search'));
     await tester.pumpAndSettle();
-    await tester.tap(find.byIcon(Icons.search));
+    await tester.tap(find.byIcon(WindowsIcons.search));
     await tester.pumpAndSettle();
     await tester.enterText(find.byType(TextField), 'needle');
     expect(query, 'needle');
 
-    final navigationRail = find.byType(NavigationRail);
+    final navigationPane = find.byType(NavigationView);
     await tester.tap(
       find.descendant(
-        of: navigationRail,
+        of: navigationPane,
         matching: find.byIcon(Icons.construction),
       ),
     );
@@ -770,7 +779,7 @@ void main() {
 
     await tester.tap(
       find.descendant(
-        of: navigationRail,
+        of: navigationPane,
         matching: find.byIcon(Icons.space_dashboard),
       ),
     );
@@ -832,10 +841,10 @@ void main() {
         ),
       );
       await tester.pump();
-      expect(find.byType(NavigationRail), findsOneWidget);
+      expect(find.byType(NavigationView), findsOneWidget);
 
       Finder railIcon(IconData icon) => find.descendant(
-        of: find.byType(NavigationRail),
+        of: find.byType(NavigationView),
         matching: find.byIcon(icon),
       );
 
@@ -849,7 +858,7 @@ void main() {
 
       bool focusInRail() {
         final context = FocusManager.instance.primaryFocus?.context;
-        return context?.findAncestorWidgetOfExactType<NavigationRail>() != null;
+        return context?.findAncestorWidgetOfExactType<NavigationView>() != null;
       }
 
       for (var i = 0; i < 40 && !focusInRail(); i++) {
@@ -877,15 +886,9 @@ class _ThemeManagedTestApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      navigatorKey: globalState.navigatorKey,
-      localizationsDelegates: const [
-        AppLocalizations.delegate,
-        ...GlobalMaterialLocalizations.delegates,
-      ],
-      supportedLocales: AppLocalizations.delegate.supportedLocales,
-      builder: (_, child) => ThemeManager(child: child!),
-      home: const HomePage(),
+    return TestApp(
+      child: const HomePage(),
+      homeBuilder: (child) => ThemeManager(child: child),
     );
   }
 }

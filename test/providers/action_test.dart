@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:io';
 
 import 'package:fl_clash/core/controller.dart';
 import 'package:fl_clash/core/desktop/model.dart';
@@ -13,13 +14,47 @@ import 'package:fl_clash/providers/database.dart';
 import 'package:fl_clash/providers/state.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
+import 'package:path_provider_platform_interface/path_provider_platform_interface.dart';
 import 'package:riverpod/riverpod.dart';
 
 import '../helpers/test_profiles.dart';
 
 class _MockCoreHandlerInterface extends Mock implements CoreHandlerInterface {}
 
+// The Windows helper-service probe the admin hand-off reaches resolves
+// `appPath`; without a plugin in a unit test that lookup has to be faked.
+class _FakePathProvider extends PathProviderPlatform {
+  final String root;
+
+  _FakePathProvider(this.root);
+
+  @override
+  Future<String?> getTemporaryPath() async => root;
+
+  @override
+  Future<String?> getApplicationSupportPath() async => root;
+
+  @override
+  Future<String?> getApplicationCachePath() async => root;
+}
+
 void main() {
+  TestWidgetsFlutterBinding.ensureInitialized();
+
+  late Directory appPathTempDir;
+  setUpAll(() {
+    // `appPath` is a process-wide singleton resolved on first use, so the fake
+    // has to be in place before any test asks for a path.
+    appPathTempDir = Directory.systemTemp.createTempSync('action_test_app');
+    PathProviderPlatform.instance = _FakePathProvider(appPathTempDir.path);
+  });
+
+  tearDownAll(() {
+    try {
+      appPathTempDir.deleteSync(recursive: true);
+    } catch (_) {}
+  });
+
   group('ProfilesAction', () {
     test('keeps edited profile data when remote update fails', () async {
       final original = Profile.normal(label: 'old label', url: 'bad-url');

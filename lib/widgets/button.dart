@@ -85,7 +85,8 @@ class MoreActionButton extends StatelessWidget {
             vertical: 16,
           ),
           title: Text(label, style: context.textTheme.bodyLarge),
-          trailing: trailing ?? const Icon(WindowsIcons.chevron_right, size: 18),
+          trailing:
+              trailing ?? const Icon(WindowsIcons.chevron_right, size: 18),
         ),
       ),
     );

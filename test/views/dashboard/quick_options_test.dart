@@ -4,6 +4,7 @@ import 'package:fl_clash/providers/config.dart';
 import 'package:fl_clash/providers/database.dart';
 import 'package:fl_clash/state.dart';
 import 'package:fl_clash/views/dashboard/widgets/quick_options.dart';
+import 'package:fluent_ui/fluent_ui.dart' show ToggleSwitch;
 import 'package:material_ui/material_ui.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -79,11 +80,11 @@ void main() {
 
         expect(testCase.read(container), testCase.initial);
 
-        await tester.tap(find.byType(Switch));
+        await tester.tap(find.byType(ToggleSwitch));
         await tester.pumpAndSettle();
         expect(testCase.read(container), !testCase.initial);
 
-        await tester.tap(find.byType(Switch));
+        await tester.tap(find.byType(ToggleSwitch));
         await tester.pumpAndSettle();
         expect(testCase.read(container), testCase.initial);
       });
@@ -92,15 +93,15 @@ void main() {
         await pumpCard(tester, testCase.widget);
 
         expect(
-          tester.widget<Switch>(find.byType(Switch)).value,
+          tester.widget<ToggleSwitch>(find.byType(ToggleSwitch)).checked,
           testCase.initial,
         );
 
-        await tester.tap(find.byType(Switch));
+        await tester.tap(find.byType(ToggleSwitch));
         await tester.pumpAndSettle();
 
         expect(
-          tester.widget<Switch>(find.byType(Switch)).value,
+          tester.widget<ToggleSwitch>(find.byType(ToggleSwitch)).checked,
           !testCase.initial,
         );
       });
@@ -108,18 +109,18 @@ void main() {
   });
 
   testWidgets('the three cards stay visually interchangeable', (tester) async {
-    final switches = <Switch>[];
+    final toggleSizes = <Size>[];
     for (final testCase in _cardCases) {
       await pumpCard(tester, testCase.widget);
-      switches.add(tester.widget<Switch>(find.byType(Switch)));
+      toggleSizes.add(tester.getSize(find.byType(ToggleSwitch)));
     }
 
     expect(
-      switches.map((item) => item.materialTapTargetSize).toSet(),
+      toggleSizes.toSet(),
       hasLength(1),
       reason:
           'These cards render side by side on the dashboard. One of them '
-          'carrying a different tap target size is how the copies drifted '
+          'carrying a different toggle size is how the copies drifted '
           'apart before they shared a widget.',
     );
   });

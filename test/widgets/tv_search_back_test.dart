@@ -7,10 +7,13 @@ import 'package:fl_clash/providers/providers.dart';
 import 'package:fl_clash/state.dart';
 import 'package:fl_clash/widgets/widgets.dart';
 import 'package:flutter/foundation.dart';
+import 'package:fluent_ui/fluent_ui.dart' show NavigationView, WindowsIcons;
 import 'package:material_ui/material_ui.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
+
+import '../helpers/test_app.dart';
 
 void main() {
   testWidgets('desktop escape runs the back flow and exits search', (
@@ -47,7 +50,7 @@ void main() {
       ),
     );
 
-    await tester.tap(find.byIcon(Icons.search));
+    await tester.tap(find.byIcon(WindowsIcons.search));
     await tester.pumpAndSettle();
     expect(find.byType(TextField), findsOneWidget);
 
@@ -122,20 +125,13 @@ void main() {
     await tester.pumpWidget(
       UncontrolledProviderScope(
         container: container,
-        child: MaterialApp(
-          localizationsDelegates: const [
-            AppLocalizations.delegate,
-            ...GlobalMaterialLocalizations.delegates,
-          ],
-          supportedLocales: AppLocalizations.delegate.supportedLocales,
-          home: const HomePage(),
-        ),
+        child: const TestApp(includeNavigatorKey: false, child: HomePage()),
       ),
     );
     await tester.pump();
-    expect(find.byType(NavigationRail), findsOneWidget);
+    expect(find.byType(NavigationView), findsOneWidget);
 
-    await tester.tap(find.byIcon(Icons.search));
+    await tester.tap(find.byIcon(WindowsIcons.search));
     await tester.pumpAndSettle();
     expect(find.byType(TextField), findsOneWidget);
     await tester.enterText(find.byType(TextField), 'needle');

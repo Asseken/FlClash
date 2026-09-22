@@ -1,16 +1,16 @@
 import 'package:fl_clash/common/common.dart';
-import 'package:fl_clash/common/theme.dart';
-import 'package:fl_clash/l10n/l10n.dart';
 import 'package:fl_clash/models/models.dart';
 import 'package:fl_clash/providers/providers.dart';
 import 'package:fl_clash/state.dart';
 import 'package:fl_clash/views/profiles/profiles.dart';
 import 'package:fl_clash/widgets/widgets.dart';
+import 'package:fluent_ui/fluent_ui.dart' show FluentIcons;
 import 'package:material_ui/material_ui.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_test/flutter_test.dart';
 
+import '../helpers/test_app.dart';
 import '../helpers/test_profiles.dart';
 
 Profile urlProfile(String label) =>
@@ -45,19 +45,7 @@ Future<ProviderContainer> pumpProfiles(
   await tester.pumpWidget(
     UncontrolledProviderScope(
       container: container,
-      child: MaterialApp(
-        localizationsDelegates: const [
-          AppLocalizations.delegate,
-          ...GlobalMaterialLocalizations.delegates,
-        ],
-        supportedLocales: AppLocalizations.delegate.supportedLocales,
-        builder: (context, child) {
-          globalState.measure = Measure.of(context, 1);
-          globalState.theme = CommonTheme.of(context, 1);
-          return child!;
-        },
-        home: const ProfilesView(),
-      ),
+      child: const TestApp(includeNavigatorKey: false, child: ProfilesView()),
     ),
   );
   await tester.pump();
@@ -120,7 +108,10 @@ void main() {
       matching: find.byType(ListItem),
     );
     await tester.tap(
-      find.descendant(of: profileItem, matching: find.byIcon(Icons.more_vert)),
+      find.descendant(
+        of: profileItem,
+        matching: find.byIcon(FluentIcons.more_vertical),
+      ),
     );
     await tester.pumpAndSettle();
 

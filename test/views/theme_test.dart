@@ -4,6 +4,7 @@ import 'package:fl_clash/providers/config.dart';
 import 'package:fl_clash/providers/database.dart';
 import 'package:fl_clash/state.dart';
 import 'package:fl_clash/views/theme.dart';
+import 'package:fluent_ui/fluent_ui.dart' show ToggleSwitch;
 import 'package:material_ui/material_ui.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -44,10 +45,10 @@ void main() {
   ThemeProps readTheme() => container.read(themeSettingProvider);
 
   group('theme mode', () {
-    testWidgets('defaults to the dark theme', (tester) async {
+    testWidgets('defaults to the light theme', (tester) async {
       await pumpThemeView(tester);
 
-      expect(readTheme().themeMode, ThemeMode.dark);
+      expect(readTheme().themeMode, ThemeMode.light);
     });
 
     testWidgets('switches to light and back to dark', (tester) async {
@@ -70,7 +71,7 @@ void main() {
   group('pure black', () {
     testWidgets('toggles both ways', (tester) async {
       await pumpThemeView(tester);
-      final toggle = find.byType(Switch).first;
+      final toggle = find.byType(ToggleSwitch).first;
 
       expect(readTheme().pureBlack, isFalse);
 
@@ -90,7 +91,7 @@ void main() {
 
       expect(readTheme().textScale.enable, isFalse);
 
-      await tester.tap(find.byType(Switch).last);
+      await tester.tap(find.byType(ToggleSwitch).last);
       await tester.pumpAndSettle();
 
       expect(readTheme().textScale.enable, isTrue);
@@ -98,7 +99,7 @@ void main() {
 
     testWidgets('the slider writes a new scale once enabled', (tester) async {
       await pumpThemeView(tester);
-      await tester.tap(find.byType(Switch).last);
+      await tester.tap(find.byType(ToggleSwitch).last);
       await tester.pumpAndSettle();
       final before = readTheme().textScale.scale;
 

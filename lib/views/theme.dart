@@ -5,7 +5,15 @@ import 'package:fl_clash/enum/enum.dart';
 import 'package:fl_clash/models/models.dart';
 import 'package:fl_clash/providers/config.dart';
 import 'package:fl_clash/widgets/widgets.dart';
-import 'package:fluent_ui/fluent_ui.dart' hide ThemeMode, FilledButton, VisualDensity, IconButton, Colors, SliderTheme, Slider;
+import 'package:fluent_ui/fluent_ui.dart'
+    hide
+        ThemeMode,
+        FilledButton,
+        VisualDensity,
+        IconButton,
+        Colors,
+        SliderTheme,
+        Slider;
 import 'package:material_ui/material_ui.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:material_color_utilities/hct/hct.dart';
@@ -454,7 +462,10 @@ class _PrimaryColorTile extends StatelessWidget {
                 onPressed: onDelete,
                 padding: const EdgeInsets.all(12),
                 iconSize: 30,
-                icon: Icon(color: context.colorScheme.primary, WindowsIcons.delete),
+                icon: Icon(
+                  color: context.colorScheme.primary,
+                  WindowsIcons.delete,
+                ),
               ),
             ),
         ],

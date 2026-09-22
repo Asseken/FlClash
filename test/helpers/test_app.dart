@@ -2,7 +2,9 @@ import 'package:fl_clash/common/common.dart';
 import 'package:fl_clash/common/theme.dart';
 import 'package:fl_clash/l10n/l10n.dart';
 import 'package:fl_clash/state.dart';
-import 'package:material_ui/material_ui.dart';
+import 'package:fluent_ui/fluent_ui.dart'
+    show FluentLocalizations, FluentTheme, FluentThemeData, VisualDensity;
+import 'package:material_ui/material_ui.dart' hide VisualDensity;
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
@@ -36,8 +38,10 @@ class TestApp extends StatelessWidget {
       localizationsDelegates: const [
         AppLocalizations.delegate,
         ...GlobalMaterialLocalizations.delegates,
+        FluentLocalizations.delegate,
       ],
       supportedLocales: AppLocalizations.delegate.supportedLocales,
+      scrollBehavior: const BaseScrollBehavior(),
       builder: (context, child) {
         globalState.measure = Measure.of(context, 1);
         if (setTheme) {
@@ -50,8 +54,16 @@ class TestApp extends StatelessWidget {
       },
       home: homeBuilder(child),
     );
+    // The app mounts fluent widgets, which need FluentTheme above them exactly
+    // as `Application.build` provides it.
+    final themed = FluentTheme(
+      data: FluentThemeData(
+        visualDensity: const VisualDensity(horizontal: 0, vertical: 2),
+      ),
+      child: app,
+    );
     return overrides.isNotEmpty || wrapInProviderScope
-        ? ProviderScope(overrides: overrides, child: app)
-        : app;
+        ? ProviderScope(overrides: overrides, child: themed)
+        : themed;
   }
 }

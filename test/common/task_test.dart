@@ -9,6 +9,10 @@ import 'package:yaml/yaml.dart';
 
 int _double(int value) => value * 2;
 
+/// The provider `path` values in the generated config are written with the
+/// host separator; the assertions below spell them with `/`.
+String _posixPath(Object? path) => (path as String).replaceAll('\\', '/');
+
 void main() {
   test('encoding helpers round-trip structured data', () async {
     final encoded = await encodeJSONTask({
@@ -219,11 +223,11 @@ void main() {
       expect(config['hosts']['router.local'], ['192.168.1.1', '192.168.1.2']);
       expect(config['sniffer']['sniff']['HTTP']['ports'], ['80', '443']);
       expect(
-        config['proxy-providers']['remote']['path'],
+        _posixPath(config['proxy-providers']['remote']['path']),
         startsWith('/profiles/providers/7/proxies/'),
       );
       expect(
-        config['rule-providers']['remote']['path'],
+        _posixPath(config['rule-providers']['remote']['path']),
         startsWith('/profiles/providers/7/rules/'),
       );
       expect(config['rules'], [

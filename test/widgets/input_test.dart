@@ -3,6 +3,7 @@ import 'dart:ui' as ui;
 import 'package:fl_clash/models/common.dart';
 import 'package:fl_clash/providers/app.dart';
 import 'package:fl_clash/widgets/widgets.dart';
+import 'package:fluent_ui/fluent_ui.dart' show ToggleSwitch, WindowsIcons;
 import 'package:material_ui/material_ui.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -48,7 +49,7 @@ void main() {
     );
 
     final tile = tester.widget<ListTile>(find.byType(ListTile));
-    final control = tester.widget<Switch>(find.byType(Switch));
+    final control = tester.widget<ToggleSwitch>(find.byType(ToggleSwitch));
 
     expect(tile.onTap, isNull);
     expect(control.onChanged, isNull);
@@ -362,10 +363,10 @@ void main() {
 
     await tester.tap(find.byType(Checkbox).first);
     await tester.pump();
-    expect(find.byIcon(Icons.delete), findsOneWidget);
+    expect(find.byIcon(WindowsIcons.delete), findsOneWidget);
     await tester.tap(find.text('Select all'));
     await tester.pump();
-    await tester.tap(find.byIcon(Icons.delete));
+    await tester.tap(find.byIcon(WindowsIcons.delete));
     await tester.pump();
     expect(find.text('No data'), findsOneWidget);
   });
@@ -417,7 +418,7 @@ void main() {
     await tester.pump();
     await tester.tap(find.text('Select all'));
     await tester.pump();
-    await tester.tap(find.byIcon(Icons.delete));
+    await tester.tap(find.byIcon(WindowsIcons.delete));
     await tester.pump();
     expect(find.text('No data'), findsOneWidget);
   });

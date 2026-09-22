@@ -1,5 +1,6 @@
 import 'package:fl_clash/widgets/grid.dart';
 import 'package:fl_clash/widgets/super_grid.dart';
+import 'package:fluent_ui/fluent_ui.dart' show WindowsIcons;
 import 'package:material_ui/material_ui.dart';
 import 'package:flutter_test/flutter_test.dart';
 
@@ -46,7 +47,7 @@ void main() {
     await tester.pump();
 
     expect(key.currentState!.length, 3);
-    expect(find.byIcon(Icons.close), findsNWidgets(3));
+    expect(find.byIcon(WindowsIcons.clear), findsNWidgets(3));
 
     key.currentState!.handleAdd(_item('D', crossAxisCellCount: 4));
     await tester.pump();
@@ -55,7 +56,7 @@ void main() {
 
     final deleteButton = tester.widget<IconButton>(
       find.ancestor(
-        of: find.byIcon(Icons.close).at(1),
+        of: find.byIcon(WindowsIcons.clear).at(1),
         matching: find.byType(IconButton),
       ),
     );

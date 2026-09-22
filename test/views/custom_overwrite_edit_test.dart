@@ -8,6 +8,7 @@ import 'package:fl_clash/views/profiles/overwrite/custom/proxies.dart';
 import 'package:fl_clash/views/profiles/overwrite/custom/proxy_providers.dart';
 import 'package:fl_clash/widgets/inherited.dart';
 import 'package:fl_clash/widgets/sheet.dart';
+import 'package:fluent_ui/fluent_ui.dart' show ToggleSwitch;
 import 'package:material_ui/material_ui.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -123,7 +124,10 @@ void main() {
         find.text(currentAppLocalizations.includeAllProxies),
         findsOneWidget,
       );
-      expect(tester.widget<Switch>(find.byType(Switch)).value, isTrue);
+      expect(
+        tester.widget<ToggleSwitch>(find.byType(ToggleSwitch)).checked,
+        isTrue,
+      );
     });
 
     testWidgets('toggling the switch flips includeAllProxies only', (
@@ -134,8 +138,8 @@ void main() {
       );
 
       await pumpEditView(tester, const EditProxiesView());
-      await tester.tap(find.byType(Switch));
-      await tester.pump();
+      await tester.tap(find.byType(ToggleSwitch));
+      await tester.pumpAndSettle();
 
       final group = container.read(proxyGroupProvider);
       expect(group.includeAllProxies, isTrue);
@@ -191,7 +195,10 @@ void main() {
         find.text(currentAppLocalizations.includeAllProxyProviders),
         findsOneWidget,
       );
-      expect(tester.widget<Switch>(find.byType(Switch)).value, isTrue);
+      expect(
+        tester.widget<ToggleSwitch>(find.byType(ToggleSwitch)).checked,
+        isTrue,
+      );
     });
 
     testWidgets('toggling the switch flips includeAllProviders only', (
@@ -202,8 +209,8 @@ void main() {
       );
 
       await pumpEditView(tester, const EditProxyProvidersView());
-      await tester.tap(find.byType(Switch));
-      await tester.pump();
+      await tester.tap(find.byType(ToggleSwitch));
+      await tester.pumpAndSettle();
 
       final group = container.read(proxyGroupProvider);
       expect(group.includeAllProviders, isTrue);

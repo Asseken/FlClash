@@ -4,6 +4,7 @@ import 'package:fl_clash/providers/providers.dart';
 import 'package:fl_clash/state.dart';
 import 'package:fl_clash/views/connection/requests.dart';
 import 'package:fl_clash/widgets/null_status.dart';
+import 'package:fluent_ui/fluent_ui.dart' show FluentIcons;
 import 'package:material_ui/material_ui.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -188,13 +189,13 @@ void main() {
 
     await pumpRequests(tester);
 
-    expect(find.byIcon(Icons.block), findsOneWidget);
-    expect(find.byIcon(Icons.vertical_align_top), findsNothing);
+    expect(find.byIcon(FluentIcons.blocked), findsOneWidget);
+    expect(find.byIcon(FluentIcons.upload), findsNothing);
 
     await tester.tap(find.byType(FloatingActionButton));
     await tester.pumpAndSettle();
 
-    expect(find.byIcon(Icons.vertical_align_top), findsOneWidget);
+    expect(find.byIcon(FluentIcons.upload), findsOneWidget);
 
     await teardownView(tester);
   });

@@ -1,7 +1,8 @@
 import 'package:fl_clash/common/common.dart';
 import 'package:fl_clash/enum/enum.dart';
 import 'package:fl_clash/state.dart';
-import 'package:fluent_ui/fluent_ui.dart' hide FilledButton, OutlinedButton, IconButton, Card;
+import 'package:fluent_ui/fluent_ui.dart'
+    hide FilledButton, OutlinedButton, IconButton, Card;
 import 'package:material_ui/material_ui.dart';
 import 'package:flutter/services.dart';
 

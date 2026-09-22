@@ -115,8 +115,8 @@ const (
 	getConfigMethod                CoreMethod = "getConfig"
 	clearEffectMethod              CoreMethod = "clearEffect"
 	getDirectTrafficMethod         CoreMethod = "getDirectTraffic"
-    getDirectTotalTrafficMethod    CoreMethod = "getDirectTotalTraffic"
-    getVersionMethod               CoreMethod = "getCoreVersion"
+	getDirectTotalTrafficMethod    CoreMethod = "getDirectTotalTraffic"
+	getVersionMethod               CoreMethod = "getCoreVersion"
 )
 
 type CoreMethod string

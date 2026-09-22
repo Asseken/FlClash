@@ -29,11 +29,7 @@ class InitErrorScreen extends StatelessWidget {
             children: [
               Row(
                 children: [
-                  Icon(
-                    WindowsIcons.error,
-                    color: colorScheme.error,
-                    size: 32,
-                  ),
+                  Icon(WindowsIcons.error, color: colorScheme.error, size: 32),
                   const SizedBox(width: 12),
                   const Expanded(
                     child: Text(

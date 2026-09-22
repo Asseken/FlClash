@@ -1,8 +1,5 @@
 import 'dart:io';
 
-import 'package:fl_clash/common/common.dart';
-import 'package:fl_clash/common/theme.dart';
-import 'package:fl_clash/l10n/l10n.dart';
 import 'package:fl_clash/models/models.dart';
 import 'package:fl_clash/providers/providers.dart';
 import 'package:fl_clash/state.dart';
@@ -12,6 +9,8 @@ import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:path_provider_platform_interface/path_provider_platform_interface.dart';
+
+import '../helpers/test_app.dart';
 
 class _FakePathProvider extends PathProviderPlatform {
   final String root;
@@ -67,40 +66,29 @@ Future<FocusNode> pumpEditProfile(
   await tester.pumpWidget(
     UncontrolledProviderScope(
       container: container,
-      child: MaterialApp(
-        localizationsDelegates: const [
-          AppLocalizations.delegate,
-          ...GlobalMaterialLocalizations.delegates,
-        ],
-        supportedLocales: AppLocalizations.delegate.supportedLocales,
-        builder: (context, child) {
-          globalState.measure = Measure.of(context, 1);
-          globalState.theme = CommonTheme.of(context, 1);
-          return child!;
-        },
-        home: Scaffold(
-          body: Column(
-            children: [
-              Focus(focusNode: outsideFocus, child: const SizedBox()),
-              Expanded(
-                child: Navigator(
-                  pages: [
-                    MaterialPage(
-                      child: Builder(
-                        builder: (context) => Scaffold(
-                          body: EditProfileView(
-                            context: context,
-                            profile: profile ?? _urlProfile(),
-                          ),
+      child: TestApp(
+        includeNavigatorKey: false,
+        child: Column(
+          children: [
+            Focus(focusNode: outsideFocus, child: const SizedBox()),
+            Expanded(
+              child: Navigator(
+                pages: [
+                  MaterialPage(
+                    child: Builder(
+                      builder: (context) => Scaffold(
+                        body: EditProfileView(
+                          context: context,
+                          profile: profile ?? _urlProfile(),
                         ),
                       ),
                     ),
-                  ],
-                  onDidRemovePage: (_) {},
-                ),
+                  ),
+                ],
+                onDidRemovePage: (_) {},
               ),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
     ),

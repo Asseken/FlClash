@@ -352,7 +352,11 @@ class _AddOrEditRuleViewState extends ConsumerState<_AddOrEditRuleView> {
                         ),
                       );
                     },
-                    icon: Icon(WindowsIcons.info, size: 16.ap, color: foregroundColor),
+                    icon: Icon(
+                      WindowsIcons.info,
+                      size: 16.ap,
+                      color: foregroundColor,
+                    ),
                   ),
                 ),
               Flexible(

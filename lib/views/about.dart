@@ -57,9 +57,7 @@ class AboutView extends ConsumerWidget {
         ListItem(
           title: Text(appLocalizations.core),
           onTap: () {
-            dialogs.openUrl(
-              'https://github.com/Asseken/mihomo/tree/Meta',
-            );
+            dialogs.openUrl('https://github.com/Asseken/mihomo/tree/Meta');
           },
           trailing: const Icon(WindowsIcons.open_in_new_window),
         ),

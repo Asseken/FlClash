@@ -108,6 +108,11 @@ class AppPath {
     return join(mHomeDirPath, 'restore');
   }
 
+  Future<String> get backgroundDirPath async {
+    final mHomeDirPath = await homeDirPath;
+    return join(mHomeDirPath, backgroundDirectoryName);
+  }
+
   Future<String> get tempFilePath async {
     final mTempDir = await tempDir.future;
     return join(mTempDir.path, 'temp$uniqueId');

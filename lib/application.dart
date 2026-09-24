@@ -12,7 +12,8 @@ import 'package:fl_clash/manager/manager.dart';
 import 'package:fl_clash/plugins/app.dart';
 import 'package:fl_clash/providers/providers.dart';
 import 'package:fl_clash/state.dart';
-import 'package:fluent_ui/fluent_ui.dart';
+import 'package:fl_clash/widgets/widgets.dart';
+import 'package:fluent_ui/fluent_ui.dart' hide Colors;
 import 'package:material_ui/material_ui.dart' hide VisualDensity;
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -150,10 +151,20 @@ class ApplicationState extends ConsumerState<Application> {
           appSettingProvider.select((state) => state.locale),
         );
         final themeProps = ref.watch(themeSettingProvider);
+        final hasBackgroundImage =
+            themeProps.backgroundImageEnabled &&
+            themeProps.backgroundImage.isNotEmpty;
+        final lightColorScheme = _getAppColorScheme(
+          brightness: Brightness.light,
+        );
+        final darkColorScheme = _getAppColorScheme(
+          brightness: Brightness.dark,
+        ).toPureBlack(themeProps.pureBlack);
+        final fluentThemeData = buildFluentThemeData(
+          hasBackgroundImage: hasBackgroundImage,
+        );
         return FluentTheme(
-          data: FluentThemeData(
-            visualDensity: const VisualDensity(horizontal: 0, vertical: 2),
-          ),
+          data: fluentThemeData,
           child: MaterialApp(
             debugShowCheckedModeBanner: false,
             navigatorKey: globalState.navigatorKey,
@@ -167,7 +178,7 @@ class ApplicationState extends ConsumerState<Application> {
               // The bridge's legacy Theme swaps in its own default IconTheme color,
               // which material_ui IconButton.filled reads as custom and loses onPrimary.
               // ignore: deprecated_member_use
-              return MaterialUiCompatibilityBridge(
+              Widget body = MaterialUiCompatibilityBridge(
                 child: IconTheme(
                   data: Theme.of(context).iconTheme,
                   child: buildManagerStack(
@@ -177,6 +188,20 @@ class ApplicationState extends ConsumerState<Application> {
                   ),
                 ),
               );
+              if (hasBackgroundImage) {
+                body = Stack(
+                  children: [
+                    Positioned.fill(
+                      child: BackgroundImage(
+                        path: themeProps.backgroundImage,
+                        opacity: themeProps.backgroundOpacity,
+                      ),
+                    ),
+                    body,
+                  ],
+                );
+              }
+              return body;
             },
             scrollBehavior: const BaseScrollBehavior(),
             title: appName,
@@ -186,14 +211,22 @@ class ApplicationState extends ConsumerState<Application> {
             theme: ThemeData(
               useMaterial3: true,
               pageTransitionsTheme: _pageTransitionsTheme,
-              colorScheme: _getAppColorScheme(brightness: Brightness.light),
+              colorScheme: hasBackgroundImage
+                  ? withTransparentSurfaces(lightColorScheme)
+                  : lightColorScheme,
+              scaffoldBackgroundColor: hasBackgroundImage
+                  ? Colors.transparent
+                  : null,
             ).withAppShapes,
             darkTheme: ThemeData(
               useMaterial3: true,
               pageTransitionsTheme: _pageTransitionsTheme,
-              colorScheme: _getAppColorScheme(
-                brightness: Brightness.dark,
-              ).toPureBlack(themeProps.pureBlack),
+              colorScheme: hasBackgroundImage
+                  ? withTransparentSurfaces(darkColorScheme)
+                  : darkColorScheme,
+              scaffoldBackgroundColor: hasBackgroundImage
+                  ? Colors.transparent
+                  : null,
             ).withAppShapes,
             home: child!,
           ),
@@ -209,4 +242,30 @@ class ApplicationState extends ConsumerState<Application> {
     _autoUpdateProfilesTaskTimer?.cancel();
     super.dispose();
   }
+}
+
+/// Cards, sheets, and scaffolds paint their own fill from these tokens.
+@visibleForTesting
+ColorScheme withTransparentSurfaces(ColorScheme colorScheme) {
+  return colorScheme.copyWith(
+    surface: Colors.transparent,
+    surfaceContainer: Colors.transparent,
+    surfaceContainerLow: Colors.transparent,
+    surfaceContainerHigh: Colors.transparent,
+    surfaceContainerHighest: Colors.transparent,
+    surfaceDim: Colors.transparent,
+    surfaceBright: Colors.transparent,
+  );
+}
+
+/// Fluent paints the content area with its own scaffold color; clear it.
+@visibleForTesting
+FluentThemeData buildFluentThemeData({required bool hasBackgroundImage}) {
+  final themeData = FluentThemeData(
+    visualDensity: const VisualDensity(horizontal: 0, vertical: 2),
+  );
+  if (!hasBackgroundImage) {
+    return themeData;
+  }
+  return themeData.copyWith(scaffoldBackgroundColor: Colors.transparent);
 }

@@ -11,6 +11,11 @@ class Picker {
     return FilePicker.pickFile(initialDirectory: await appPath.downloadDirPath);
   }
 
+  Future<String?> pickerImage() async {
+    final xFile = await ImagePicker().pickImage(source: ImageSource.gallery);
+    return xFile?.path;
+  }
+
   Future<Uri?> saveFile(String fileName, Uint8List bytes) async {
     final uri = await FilePicker.saveFile(
       fileName: fileName,
@@ -40,13 +45,13 @@ class Picker {
   }
 
   Future<String?> pickerConfigQRCode() async {
-    final xFile = await ImagePicker().pickImage(source: ImageSource.gallery);
-    if (xFile == null) {
+    final path = await pickerImage();
+    if (path == null) {
       return null;
     }
     final controller = MobileScannerController();
     final capture = await controller.analyzeImage(
-      xFile.path,
+      path,
       formats: [BarcodeFormat.qrCode],
     );
     final result = capture?.barcodes.first.rawValue;

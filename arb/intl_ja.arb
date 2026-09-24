@@ -633,5 +633,9 @@
   "installServiceSuccess": "Helper サービスをインストールしました",
   "installServiceFailed": "Helper サービスのインストールに失敗しました",
   "uninstallServiceSuccess": "Helper サービスをアンインストールしました",
-  "uninstallServiceFailed": "Helper サービスのアンインストールに失敗しました"
+  "uninstallServiceFailed": "Helper サービスのアンインストールに失敗しました",
+  "backgroundImage": "背景画像",
+  "backgroundImageDesc": "グローバル背景画像を設定",
+  "backgroundOpacity": "不透明度",
+  "noBackgroundImage": "背景画像がありません"
 }

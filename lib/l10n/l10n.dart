@@ -5239,6 +5239,46 @@ class AppLocalizations {
       args: [],
     );
   }
+
+  /// `Background Image`
+  String get backgroundImage {
+    return Intl.message(
+      'Background Image',
+      name: 'backgroundImage',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Set a global background image`
+  String get backgroundImageDesc {
+    return Intl.message(
+      'Set a global background image',
+      name: 'backgroundImageDesc',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Opacity`
+  String get backgroundOpacity {
+    return Intl.message(
+      'Opacity',
+      name: 'backgroundOpacity',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `No background images`
+  String get noBackgroundImage {
+    return Intl.message(
+      'No background images',
+      name: 'noBackgroundImage',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<AppLocalizations> {

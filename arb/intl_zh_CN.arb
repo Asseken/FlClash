@@ -633,5 +633,9 @@
   "installServiceSuccess": "Helper 服务安装成功",
   "installServiceFailed": "Helper 服务安装失败",
   "uninstallServiceSuccess": "Helper 服务卸载成功",
-  "uninstallServiceFailed": "Helper 服务卸载失败"
+  "uninstallServiceFailed": "Helper 服务卸载失败",
+  "backgroundImage": "背景图片",
+  "backgroundImageDesc": "设置全局背景图片",
+  "backgroundOpacity": "透明度",
+  "noBackgroundImage": "暂无背景图片"
 }

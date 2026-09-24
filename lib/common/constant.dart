@@ -24,6 +24,8 @@ const helperProtocolVersionHeader = 'x-flclash-helper-protocol';
 const helperProtocolVersion = '6';
 const maxTextScale = 1.4;
 const minTextScale = 0.8;
+const maxBackgroundOpacity = 1.0;
+const minBackgroundOpacity = 0.0;
 final baseInfoEdgeInsets = EdgeInsets.symmetric(
   vertical: 16.mAp,
   horizontal: 16.mAp,
@@ -77,6 +79,7 @@ const profilesDirectoryName = 'profiles';
 const providersDirectoryName = 'providers';
 const proxiesProviderDirectoryName = 'proxies';
 const rulesProviderDirectoryName = 'rules';
+const backgroundDirectoryName = 'background';
 const localhost = '127.0.0.1';
 const clashConfigKey = 'clash_config';
 const configKey = 'config';

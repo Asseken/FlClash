@@ -633,5 +633,9 @@
   "installServiceSuccess": "Служба Helper установлена",
   "installServiceFailed": "Не удалось установить службу Helper",
   "uninstallServiceSuccess": "Служба Helper удалена",
-  "uninstallServiceFailed": "Не удалось удалить службу Helper"
+  "uninstallServiceFailed": "Не удалось удалить службу Helper",
+  "backgroundImage": "Фоновое изображение",
+  "backgroundImageDesc": "Установить глобальное фоновое изображение",
+  "backgroundOpacity": "Прозрачность",
+  "noBackgroundImage": "Нет фоновых изображений"
 }

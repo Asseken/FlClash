@@ -633,5 +633,9 @@
   "installServiceSuccess": "Helper service installed",
   "installServiceFailed": "Helper service installation failed",
   "uninstallServiceSuccess": "Helper service uninstalled",
-  "uninstallServiceFailed": "Helper service uninstall failed"
+  "uninstallServiceFailed": "Helper service uninstall failed",
+  "backgroundImage": "Background Image",
+  "backgroundImageDesc": "Set a global background image",
+  "backgroundOpacity": "Opacity",
+  "noBackgroundImage": "No background images"
 }

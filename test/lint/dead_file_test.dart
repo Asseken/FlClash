@@ -25,12 +25,17 @@ Iterable<File> _dartFiles({required bool includeGenerated}) sync* {
       final generated =
           entity.path.endsWith('.g.dart') ||
           entity.path.endsWith('.freezed.dart') ||
-          entity.path.contains('/generated/');
+          _posix(entity.path).contains('/generated/');
       if (generated && !includeGenerated) continue;
       yield entity;
     }
   }
 }
+
+/// `_entryPoints`, `lib/` and the `/generated/` marker are spelled with `/`, so
+/// paths are normalised first: Windows separates with `\` and would otherwise
+/// skip every file instead of checking it.
+String _posix(String path) => path.replaceAll('\\', '/');
 
 bool _isBarrel(String source) {
   final lines = source
@@ -49,11 +54,11 @@ void main() {
     // notifier is reached through the provider its annotation generates.
     final consumers = {
       for (final file in _dartFiles(includeGenerated: true))
-        file.path: file.readAsStringSync(),
+        _posix(file.path): file.readAsStringSync(),
     };
     final sources = {
       for (final file in _dartFiles(includeGenerated: false))
-        file.path: consumers[file.path]!,
+        _posix(file.path): consumers[_posix(file.path)]!,
     };
     final barrels = {
       for (final MapEntry(key: path, value: source) in sources.entries)

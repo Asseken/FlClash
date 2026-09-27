@@ -112,8 +112,7 @@ class AndroidCoreUpdate {
   }
 }
 
-AndroidCoreUpdate? get androidCoreUpdate =>
-    system.isAndroid ? AndroidCoreUpdate() : null;
+final androidCoreUpdate = system.isAndroid ? AndroidCoreUpdate() : null;
 
 /// `v1.19.30` becomes `libclashn011930.so`, the only name the native loader
 /// accepts, so every segment is padded to two digits.

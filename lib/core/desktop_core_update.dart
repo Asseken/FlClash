@@ -214,8 +214,7 @@ class DesktopCoreUpdate {
   }
 }
 
-DesktopCoreUpdate? get desktopCoreUpdate =>
-    system.isDesktop ? DesktopCoreUpdate() : null;
+final desktopCoreUpdate = system.isDesktop ? DesktopCoreUpdate() : null;
 
 /// Release asset name for a desktop Core: `{goos}-{goarch}-FlClashCore{ext}`.
 String buildCoreDownloadUrl({

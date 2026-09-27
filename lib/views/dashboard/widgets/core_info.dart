@@ -123,8 +123,9 @@ class ShowCoreInfo extends StatelessWidget {
                             if (hasUpdate)
                               const Padding(
                                 padding: EdgeInsets.only(left: 4),
-                                child: InfoBadge(color: Color.fromARGB(
-                                    255, 248, 6, 6),),
+                                child: InfoBadge(
+                                  color: Color.fromARGB(255, 248, 6, 6),
+                                ),
                               ),
                           ],
                         ),

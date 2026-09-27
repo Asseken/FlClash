@@ -1,23 +1,93 @@
 package com.follow.clash.core
 
+import android.content.Context
+import android.util.Log
+import java.io.File
 import java.net.InetAddress
 import java.net.InetSocketAddress
 import java.net.URI
+import java.util.concurrent.CountDownLatch
+import java.util.concurrent.TimeUnit
 
 object Core {
-    private external fun startTun(
+    private const val TAG = "Core"
+    private const val INIT_TIMEOUT_MS = 15_000L
+
+    private val startLock = Any()
+
+    @Volatile
+    private var initLatch: CountDownLatch? = null
+
+    @Volatile
+    private var loaded = false
+
+    @Volatile
+    private var initError: Throwable? = null
+
+    private external fun nativeInitClash(libPath: String): Boolean
+
+    // Opening the Core starts a Go runtime, so it must not run on the caller's thread.
+    fun initialize(context: Context) {
+        val latch = synchronized(startLock) {
+            if (loaded || initLatch != null) {
+                return
+            }
+            CountDownLatch(1).also { initLatch = it }
+        }
+        Thread {
+            try {
+                loadCore(context.applicationContext)
+            } catch (error: Throwable) {
+                initError = error
+                Log.e(TAG, "Unable to open the Core", error)
+            } finally {
+                latch.countDown()
+            }
+        }.apply { isDaemon = true }.start()
+    }
+
+    private fun loadCore(context: Context) {
+        System.loadLibrary("core")
+        val libDir = CoreUpdater.libsDir(context)
+        val candidates = buildList {
+            CoreUpdater.findVersionedCore(libDir)?.let { add(File(libDir, it)) }
+            add(File(CoreUpdater.bundledCorePath(context)))
+        }
+        for (candidate in candidates) {
+            if (!candidate.isFile) {
+                Log.w(TAG, "No Core at ${candidate.absolutePath}")
+                continue
+            }
+            Log.d(TAG, "Opening Core ${candidate.absolutePath}")
+            if (nativeInitClash(candidate.absolutePath)) {
+                loaded = true
+                Log.d(TAG, "Core ready from ${candidate.name}")
+                return
+            }
+            // A downloaded Core that will not open must not keep the app from starting.
+            if (candidate.parentFile == libDir) {
+                CoreUpdater.deleteVersionedCore(libDir, candidate.name)
+            }
+        }
+        throw IllegalStateException("Unable to open any Core library")
+    }
+
+    private fun ensureLoaded() {
+        if (!loaded) {
+            initLatch?.await(INIT_TIMEOUT_MS, TimeUnit.MILLISECONDS)
+        }
+        if (!loaded) {
+            throw IllegalStateException("Core is not initialized", initError)
+        }
+    }
+
+    private external fun nativeStartTun(
         fd: Int,
         cb: TunInterface,
         stack: String,
         address: String,
         dns: String,
     ): Boolean
-
-    external fun forceGC()
-
-    external fun updateDNS(
-        dns: String,
-    )
 
     private fun parseInetSocketAddress(address: String): InetSocketAddress {
         val uri = URI("tcp://$address")
@@ -35,7 +105,8 @@ object Core {
         address: String,
         dns: String,
     ): Boolean {
-        return startTun(
+        ensureLoaded()
+        return nativeStartTun(
             fd,
             object : TunInterface {
                 override fun protect(fd: Int): Boolean = protect(fd)
@@ -60,11 +131,14 @@ object Core {
         )
     }
 
-    external fun suspended(
-        suspended: Boolean,
-    )
+    private external fun nativeSuspended(suspended: Boolean)
 
-    private external fun invokeMethod(
+    fun suspended(suspended: Boolean) {
+        ensureLoaded()
+        nativeSuspended(suspended)
+    }
+
+    private external fun nativeInvokeMethod(
         data: String,
         cb: InvokeInterface,
     )
@@ -73,7 +147,8 @@ object Core {
         data: String,
         cb: (result: String?) -> Unit,
     ) {
-        invokeMethod(
+        ensureLoaded()
+        nativeInvokeMethod(
             data,
             object : InvokeInterface {
                 override fun onResult(result: String?) {
@@ -83,15 +158,16 @@ object Core {
         )
     }
 
-    private external fun setEventListener(cb: InvokeInterface?)
+    private external fun nativeSetEventListener(cb: InvokeInterface?)
 
     fun updateEventListener(
         callback: ((result: String?) -> Unit)?,
     ) {
+        ensureLoaded()
         if (callback == null) {
-            setEventListener(null)
+            nativeSetEventListener(null)
         } else {
-            setEventListener(
+            nativeSetEventListener(
                 object : InvokeInterface {
                     override fun onResult(result: String?) {
                         callback(result)
@@ -101,12 +177,19 @@ object Core {
         }
     }
 
+    private external fun nativeQuickSetup(
+        initParamsString: String,
+        setupParamsString: String,
+        cb: InvokeInterface,
+    )
+
     fun quickSetup(
         initParamsString: String,
         setupParamsString: String,
         callback: (result: String?) -> Unit,
     ) {
-        quickSetup(
+        ensureLoaded()
+        nativeQuickSetup(
             initParamsString,
             setupParamsString,
             object : InvokeInterface {
@@ -117,23 +200,52 @@ object Core {
         )
     }
 
-    private external fun quickSetup(
-        initParamsString: String,
-        setupParamsString: String,
-        cb: InvokeInterface,
-    )
+    private external fun nativeStopTun()
 
-    external fun stopTun()
+    fun stopTun() {
+        ensureLoaded()
+        nativeStopTun()
+    }
 
-    external fun getTraffic(onlyStatisticsProxy: Boolean): String
+    private external fun nativeForceGC()
 
-    external fun getTotalTraffic(onlyStatisticsProxy: Boolean): String
+    fun forceGC() {
+        ensureLoaded()
+        nativeForceGC()
+    }
 
-    external fun getDirectTraffic(): String
+    private external fun nativeUpdateDNS(dns: String)
 
-    external fun getDirectTotalTraffic(): String
+    fun updateDNS(dns: String) {
+        ensureLoaded()
+        nativeUpdateDNS(dns)
+    }
 
-    init {
-        System.loadLibrary("core")
+    private external fun nativeGetTraffic(onlyStatisticsProxy: Boolean): String
+
+    fun getTraffic(onlyStatisticsProxy: Boolean): String {
+        ensureLoaded()
+        return nativeGetTraffic(onlyStatisticsProxy)
+    }
+
+    private external fun nativeGetTotalTraffic(onlyStatisticsProxy: Boolean): String
+
+    fun getTotalTraffic(onlyStatisticsProxy: Boolean): String {
+        ensureLoaded()
+        return nativeGetTotalTraffic(onlyStatisticsProxy)
+    }
+
+    private external fun nativeGetDirectTraffic(): String
+
+    fun getDirectTraffic(): String {
+        ensureLoaded()
+        return nativeGetDirectTraffic()
+    }
+
+    private external fun nativeGetDirectTotalTraffic(): String
+
+    fun getDirectTotalTraffic(): String {
+        ensureLoaded()
+        return nativeGetDirectTotalTraffic()
     }
 }

@@ -1,8 +1,12 @@
 package com.follow.clash.plugins
 
+import android.content.Context
 import com.follow.clash.ServiceController
 import com.follow.clash.ServiceState
 import com.follow.clash.common.Components
+import com.follow.clash.common.GlobalState
+import com.follow.clash.core.Core
+import com.follow.clash.core.CoreUpdater
 import com.follow.clash.models.SharedState
 import com.google.gson.Gson
 import io.flutter.embedding.engine.plugins.FlutterPlugin
@@ -13,14 +17,20 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.cancel
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class ServicePlugin : FlutterPlugin, MethodChannel.MethodCallHandler {
     private lateinit var channel: MethodChannel
+    private lateinit var appContext: Context
     private lateinit var scope: CoroutineScope
     private val gson = Gson()
 
     override fun onAttachedToEngine(binding: FlutterPlugin.FlutterPluginBinding) {
         scope = CoroutineScope(SupervisorJob() + Dispatchers.Default)
+        appContext = binding.applicationContext
+        runCatching { Core.initialize(appContext) }.onFailure { error ->
+            GlobalState.log("Unable to open the Core: $error")
+        }
         channel = MethodChannel(binding.binaryMessenger, "${Components.PACKAGE_NAME}/service")
         channel.setMethodCallHandler(this)
     }
@@ -44,6 +54,8 @@ class ServicePlugin : FlutterPlugin, MethodChannel.MethodCallHandler {
             "syncState" -> syncState(call, result)
             "start" -> start(result)
             "stop" -> stop(result)
+            "getRuntimeAbi" -> getRuntimeAbi(result)
+            "replaceCoreVersionedFile" -> replaceCoreVersionedFile(call, result)
             else -> result.notImplemented()
         }
     }
@@ -110,6 +122,31 @@ class ServicePlugin : FlutterPlugin, MethodChannel.MethodCallHandler {
     private fun sendEvent(value: String?) {
         scope.launch(Dispatchers.Main) {
             channel.invokeMethod("event", value)
+        }
+    }
+
+    private fun getRuntimeAbi(result: MethodChannel.Result) {
+        result.success(CoreUpdater.getPrimaryAbi())
+    }
+
+    private fun replaceCoreVersionedFile(call: MethodCall, result: MethodChannel.Result) {
+        val args = call.arguments as? Map<*, *>
+        val tmpPath = args?.get("tmpPath") as? String
+        val targetName = args?.get("targetName") as? String
+        if (tmpPath.isNullOrEmpty() || targetName.isNullOrEmpty()) {
+            result.error("INVALID_ARGUMENT", "tmpPath and targetName are required", null)
+            return
+        }
+        // A Core is tens of megabytes, so the copy must not run on the platform thread.
+        scope.launch {
+            val error = withContext(Dispatchers.IO) {
+                CoreUpdater.replaceCoreVersionedFile(appContext, tmpPath, targetName)
+            }
+            if (error == null) {
+                result.success(true)
+            } else {
+                result.error("CORE_REPLACE_FAILED", error, null)
+            }
         }
     }
 }

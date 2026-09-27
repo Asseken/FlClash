@@ -29,6 +29,14 @@ class VpnService : SystemVpnService(), ManagedService {
     private val tunLock = Any()
     private var tunRunning = false
 
+    override fun onCreate() {
+        super.onCreate()
+        // Always-on VPN can start this service without a Flutter engine attached.
+        runCatching { Core.initialize(this) }.onFailure { error ->
+            GlobalState.log("Unable to open the Core: $error")
+        }
+    }
+
     override fun onDestroy() {
         try {
             cleanup()

@@ -38,6 +38,10 @@ android {
         targetCompatibility = JavaVersion.VERSION_17
     }
 
+    sourceSets {
+        // Unit tests live under android/tests/ instead of each module's src/test.
+        getByName("test").java.setSrcDirs(listOf("../tests/core"))
+    }
 }
 
 kotlin {
@@ -48,6 +52,7 @@ kotlin {
 
 dependencies {
     implementation(libs.annotation.jvm)
+    testImplementation(libs.junit)
 }
 
 // Why prefix matching and mustRunAfter: .agents/architecture.md, "Android Native Task Ordering".

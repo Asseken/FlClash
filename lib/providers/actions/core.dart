@@ -38,6 +38,13 @@ class CoreAction extends _$CoreAction {
     }
   }
 
+  /// Releases the running Core so its binary can be replaced, and leaves it
+  /// stopped: [restartCore] is what starts the replacement.
+  Future<void> stopCore() async {
+    ref.read(coreStatusProvider.notifier).value = CoreStatus.disconnected;
+    await _core.stop();
+  }
+
   @protected
   Future<CoreLifecycleResult> startLifecycle() {
     return _core.start();
@@ -48,9 +55,10 @@ class CoreAction extends _$CoreAction {
     return _core.restart();
   }
 
-  // Nothing in lib/ calls CoreController.stop(); only close() (app exit)
-  // supersedes a start/restart. statusFirst lets onCrash catch a crash
-  // during initCore itself (it early-returns unless status is connected).
+  // Only the Core update path and close() (app exit) stop the Core; every other
+  // transition goes through start/restart so intent stays ordered by revision.
+  // statusFirst lets onCrash catch a crash during initCore itself (it
+  // early-returns unless status is connected).
   Future<bool> _applyLifecycleResult(
     CoreLifecycleResult result, {
     bool statusFirst = false,

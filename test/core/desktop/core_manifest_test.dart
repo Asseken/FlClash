@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:io';
 
 import 'package:fl_clash/core/desktop/core_manifest.dart';
@@ -36,6 +37,38 @@ void main() {
         path: '${directory.path}/missing-manifest.json',
       ),
       isNull,
+    );
+  });
+
+  test('records the hash a replaced Core has to match', () async {
+    final hash = List.filled(32, 'ab').join();
+    final file = File('${directory.path}/manifest.json');
+
+    expect(await CoreManifest.writeCoreSha256(hash, path: file.path), isTrue);
+    expect(await CoreManifest.readCoreSha256(path: file.path), hash);
+  });
+
+  test('keeps the other manifest keys', () async {
+    final hash = List.filled(32, 'cd').join();
+    final file = File('${directory.path}/manifest.json')
+      ..writeAsStringSync(
+        '{"coreSha256":"${List.filled(32, 'ab').join()}","other":7}',
+      );
+
+    expect(await CoreManifest.writeCoreSha256(hash, path: file.path), isTrue);
+
+    final values = jsonDecode(file.readAsStringSync()) as Map<String, dynamic>;
+    expect(values['coreSha256'], hash);
+    expect(values['other'], 7);
+  });
+
+  test('refuses a value that is not a SHA256', () async {
+    expect(
+      await CoreManifest.writeCoreSha256(
+        'not-a-sha256',
+        path: '${directory.path}/manifest.json',
+      ),
+      isFalse,
     );
   });
 }

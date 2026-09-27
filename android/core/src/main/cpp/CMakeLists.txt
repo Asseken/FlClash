@@ -15,14 +15,17 @@ endif ()
 
 set(LIB_CLASH_INCLUDE_DIR "${CMAKE_SOURCE_DIR}/../cpp/includes/${ANDROID_ABI}")
 
-# Never make linking libclash conditional on the file existing: AGP's configure
-# fingerprint tracks only CMakeLists.txt, so a configure that ran before the build
-# hook would stay cached and silently drop the Core. Failing at compile or link
-# time is what keeps that decision out of the configure step.
+# core.cpp no longer links the Core through DT_NEEDED: it dlopen()s the versioned
+# libclash*.so the updater installs, so a downloaded Core can replace the bundled
+# one without rebuilding this bridge. Because the link-time dependency is gone,
+# the only thing still tying the build to the Core artifacts is the include
+# below: keep it, so a build that ran before the hook produced the Core fails at
+# compile time instead of shipping an APK without a Core. (AGP's configure
+# fingerprint tracks only this file, so the check must not live in configure.)
 include_directories(${LIB_CLASH_INCLUDE_DIR})
-link_directories(${CMAKE_SOURCE_DIR}/../jniLibs/${ANDROID_ABI})
 add_library(${CMAKE_PROJECT_NAME} SHARED
         jni_helper.cpp
         core.cpp)
 target_link_libraries(${CMAKE_PROJECT_NAME}
-        clash)
+        dl
+        log)

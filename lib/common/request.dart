@@ -89,6 +89,26 @@ class Request {
     }
   }
 
+  Future<List<Map<String, dynamic>>?> listCoreReleases() async {
+    try {
+      final response = await dio.get(
+        'https://api.github.com/repos/$coreRepository/releases',
+        queryParameters: {'per_page': 5},
+        options: Options(responseType: ResponseType.json),
+      );
+      if (response.statusCode != HttpStatus.ok) {
+        return null;
+      }
+      return (response.data as List<dynamic>).cast<Map<String, dynamic>>();
+    } catch (e) {
+      commonPrint.log(
+        'listCoreReleases failed ${compactError(e)}',
+        logLevel: LogLevel.warning,
+      );
+      return null;
+    }
+  }
+
   final Map<String, IpInfo Function(Map<String, dynamic>)> _ipInfoSources = {
     'https://ipwho.is': IpInfo.fromIpWhoIsJson,
     'https://api.myip.com': IpInfo.fromMyIpJson,

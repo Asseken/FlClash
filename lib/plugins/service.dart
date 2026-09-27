@@ -98,6 +98,23 @@ class Service {
     return DateTime.fromMillisecondsSinceEpoch(ms);
   }
 
+  Future<String> getRuntimeAbi() async {
+    return await methodChannel.invokeMethod<String>('getRuntimeAbi') ?? '';
+  }
+
+  /// Stores a downloaded Core as `libclashn<version>.so`, which is the only name
+  /// the native loader picks up, and drops Cores downloaded before it.
+  Future<bool> replaceCoreVersionedFile(
+    String tmpPath,
+    String targetName,
+  ) async {
+    final result = await methodChannel.invokeMethod<bool>(
+      'replaceCoreVersionedFile',
+      {'tmpPath': tmpPath, 'targetName': targetName},
+    );
+    return result ?? false;
+  }
+
   bool get hasListeners {
     return _listeners.isNotEmpty;
   }

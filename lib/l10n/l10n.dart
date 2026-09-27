@@ -860,6 +860,91 @@ class AppLocalizations {
     return Intl.message('Restart', name: 'coreRestart', desc: '', args: []);
   }
 
+  /// `Update Core`
+  String get coreUpdate {
+    return Intl.message('Update Core', name: 'coreUpdate', desc: '', args: []);
+  }
+
+  /// `Downloading Core`
+  String get coreUpdateDownloading {
+    return Intl.message(
+      'Downloading Core',
+      name: 'coreUpdateDownloading',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Failed to load the Core version list`
+  String get coreUpdateListFailed {
+    return Intl.message(
+      'Failed to load the Core version list',
+      name: 'coreUpdateListFailed',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Failed to install the downloaded Core`
+  String get coreUpdateFailed {
+    return Intl.message(
+      'Failed to install the downloaded Core',
+      name: 'coreUpdateFailed',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Core {tag} has been downloaded. Restart the app to apply it.`
+  String coreUpdateRestartTip(Object tag) {
+    return Intl.message(
+      'Core $tag has been downloaded. Restart the app to apply it.',
+      name: 'coreUpdateRestartTip',
+      desc: '',
+      args: [tag],
+    );
+  }
+
+  /// `Core {tag} has been updated and reloaded. Authorize it again if TUN mode stops working.`
+  String coreUpdateReloadedTip(Object tag) {
+    return Intl.message(
+      'Core $tag has been updated and reloaded. Authorize it again if TUN mode stops working.',
+      name: 'coreUpdateReloadedTip',
+      desc: '',
+      args: [tag],
+    );
+  }
+
+  /// `This install keeps the Core on a read-only location; update the app instead.`
+  String get coreUpdateReadonlyTip {
+    return Intl.message(
+      'This install keeps the Core on a read-only location; update the app instead.',
+      name: 'coreUpdateReadonlyTip',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `The Helper service pins the Core to this app version; update the app, or uninstall the service, before updating the Core.`
+  String get coreUpdateHelperTip {
+    return Intl.message(
+      'The Helper service pins the Core to this app version; update the app, or uninstall the service, before updating the Core.',
+      name: 'coreUpdateHelperTip',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `The folder holding the Core is not writable; update the app instead.`
+  String get coreUpdateUnwritableTip {
+    return Intl.message(
+      'The folder holding the Core is not writable; update the app instead.',
+      name: 'coreUpdateUnwritableTip',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Tab animation`
   String get tabAnimation {
     return Intl.message(

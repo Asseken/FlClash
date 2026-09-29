@@ -43,6 +43,25 @@ class BackgroundImageHelper {
     }
     await File(imagePath).safeDelete();
   }
+
+  /// Moves every stored path into the app directory, which is what an Android
+  /// setting picked before the image was copied needs: the picker leaves it in
+  /// the cache. Paths whose file is already gone are dropped.
+  Future<List<String>> persistImages(List<String> imagePaths) async {
+    final dirPath = await appPath.backgroundDirPath;
+    final storedPaths = <String>[];
+    for (final imagePath in imagePaths) {
+      if (p.isWithin(dirPath, imagePath)) {
+        storedPaths.add(imagePath);
+        continue;
+      }
+      final storedPath = await persistImage(imagePath);
+      if (storedPath != imagePath) {
+        storedPaths.add(storedPath);
+      }
+    }
+    return storedPaths;
+  }
 }
 
 final backgroundHelper = BackgroundImageHelper();

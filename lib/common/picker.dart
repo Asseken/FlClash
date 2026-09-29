@@ -3,15 +3,26 @@ import 'dart:typed_data';
 
 import 'package:file_picker/file_picker.dart';
 import 'package:fl_clash/common/common.dart';
+import 'package:flutter/foundation.dart' show visibleForTesting;
 import 'package:image_picker/image_picker.dart';
 import 'package:mobile_scanner/mobile_scanner.dart';
 
 class Picker {
+  /// Swapped in tests: no test can raise the platform's gallery UI.
+  @visibleForTesting
+  static Future<String?> Function()? pickImageOverride;
+
   Future<PlatformFile?> pickerFile() async {
     return FilePicker.pickFile(initialDirectory: await appPath.downloadDirPath);
   }
 
+  /// Android answers with a copy in the app cache directory, which the system
+  /// may delete at any time, so callers have to move it before storing it.
   Future<String?> pickerImage() async {
+    final override = pickImageOverride;
+    if (override != null) {
+      return override();
+    }
     final xFile = await ImagePicker().pickImage(source: ImageSource.gallery);
     return xFile?.path;
   }

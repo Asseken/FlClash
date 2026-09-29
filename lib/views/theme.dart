@@ -5,7 +5,6 @@ import 'package:fl_clash/common/common.dart';
 import 'package:fl_clash/enum/enum.dart';
 import 'package:fl_clash/models/models.dart';
 import 'package:fl_clash/providers/config.dart';
-import 'package:fl_clash/state.dart';
 import 'package:fl_clash/widgets/widgets.dart';
 import 'package:fluent_ui/fluent_ui.dart'
     hide
@@ -81,22 +80,7 @@ class _BackgroundImageItemState extends ConsumerState<_BackgroundImageItem> {
     if (path == null) {
       return;
     }
-    final storedPath = system.isDesktop
-        ? await backgroundHelper.persistImage(path)
-        : path;
-    if (!mounted) {
-      return;
-    }
-    ref.read(themeSettingProvider.notifier).update((state) {
-      final backgroundImages = List<String>.from(state.backgroundImages);
-      if (!backgroundImages.contains(storedPath)) {
-        backgroundImages.add(storedPath);
-      }
-      return state.copyWith(
-        backgroundImage: storedPath,
-        backgroundImages: backgroundImages,
-      );
-    });
+    await ref.read(themeSettingProvider.notifier).addBackgroundImage(path);
   }
 
   Future<void> _handleDel(String imagePath) async {
@@ -113,21 +97,9 @@ class _BackgroundImageItemState extends ConsumerState<_BackgroundImageItem> {
       return;
     }
     _clearRemovable();
-    ref.read(themeSettingProvider.notifier).update((state) {
-      final backgroundImages = List<String>.from(state.backgroundImages)
-        ..remove(imagePath);
-      return state.copyWith(
-        backgroundImages: backgroundImages,
-        backgroundImage: state.backgroundImage == imagePath
-            ? (backgroundImages.isNotEmpty ? backgroundImages.first : '')
-            : state.backgroundImage,
-      );
-    });
-    // The setting is already gone; a file that cannot be removed only leaves a
-    // copy behind, so it must not fail the interaction.
-    if (system.isDesktop) {
-      await globalState.safeRun(() => backgroundHelper.deleteImage(imagePath));
-    }
+    await ref
+        .read(themeSettingProvider.notifier)
+        .removeBackgroundImage(imagePath);
   }
 
   void _handleSelect(String imagePath) {

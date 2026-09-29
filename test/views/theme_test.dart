@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:fl_clash/common/picker.dart';
 import 'package:fl_clash/l10n/l10n.dart';
 import 'package:fl_clash/models/models.dart';
 import 'package:fl_clash/providers/app.dart';
@@ -205,6 +206,24 @@ void main() {
         findsOneWidget,
       );
       expect(find.byType(Image), findsNothing);
+    });
+
+    testWidgets('asks the picker for an image from the background section', (
+      tester,
+    ) async {
+      var picks = 0;
+      Picker.pickImageOverride = () async {
+        picks++;
+        return null;
+      };
+      addTearDown(() => Picker.pickImageOverride = null);
+
+      await pumpThemeView(tester);
+      final backgroundAddTile = find.byIcon(WindowsIcons.add).last;
+      await tester.tap(backgroundAddTile);
+      await tester.pumpAndSettle();
+
+      expect(picks, 1);
     });
 
     testWidgets('the toggle writes backgroundImageEnabled', (tester) async {

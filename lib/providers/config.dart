@@ -1,4 +1,5 @@
 import 'package:fl_clash/common/common.dart';
+import 'package:fl_clash/enum/enum.dart';
 import 'package:fl_clash/models/models.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
@@ -41,6 +42,60 @@ class ThemeSetting extends _$ThemeSetting with AutoDisposeNotifierMixin {
   @override
   ThemeProps build() {
     return const ThemeProps();
+  }
+
+  Future<void> persistBackgroundImages() async {
+    final imagePaths = state.backgroundImages;
+    final storedPaths = await backgroundHelper.persistImages(imagePaths);
+    if (stringListEquality.equals(storedPaths, imagePaths)) {
+      return;
+    }
+    update(
+      (state) => state.copyWith(
+        backgroundImages: storedPaths,
+        backgroundImage: storedPaths.contains(state.backgroundImage)
+            ? state.backgroundImage
+            : storedPaths.firstOrNull ?? '',
+      ),
+    );
+  }
+
+  // The picker hands back a cache file on Android; store a copy the app owns.
+  Future<String> addBackgroundImage(String pickedPath) async {
+    final storedPath = await backgroundHelper.persistImage(pickedPath);
+    update((state) {
+      final backgroundImages = List<String>.from(state.backgroundImages);
+      if (!backgroundImages.contains(storedPath)) {
+        backgroundImages.add(storedPath);
+      }
+      return state.copyWith(
+        backgroundImage: storedPath,
+        backgroundImages: backgroundImages,
+      );
+    });
+    return storedPath;
+  }
+
+  // The setting goes first so an unremovable file cannot fail the interaction.
+  Future<void> removeBackgroundImage(String imagePath) async {
+    update((state) {
+      final backgroundImages = List<String>.from(state.backgroundImages)
+        ..remove(imagePath);
+      return state.copyWith(
+        backgroundImages: backgroundImages,
+        backgroundImage: state.backgroundImage == imagePath
+            ? (backgroundImages.isNotEmpty ? backgroundImages.first : '')
+            : state.backgroundImage,
+      );
+    });
+    try {
+      await backgroundHelper.deleteImage(imagePath);
+    } catch (error) {
+      commonPrint.log(
+        'Unable to delete the background image: ${compactError(error)}',
+        logLevel: LogLevel.warning,
+      );
+    }
   }
 }
 

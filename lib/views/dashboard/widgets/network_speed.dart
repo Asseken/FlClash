@@ -1,16 +1,51 @@
 import 'package:fl_clash/common/common.dart';
-import 'package:fl_clash/icons/icons.dart';
 import 'package:fl_clash/models/models.dart';
 import 'package:fl_clash/providers/app.dart';
-import 'package:fl_clash/views/dashboard/widget_metrics.dart';
 import 'package:fl_clash/widgets/widgets.dart';
 import 'package:material_ui/material_ui.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-const _minSpeedScale = 8 * 1024.0;
+import '../../../icons/app_glyphs.dart';
+import '../widget_metrics.dart';
 
-class NetworkSpeed extends StatelessWidget {
+class NetworkSpeed extends StatefulWidget {
   const NetworkSpeed({super.key});
+
+  @override
+  State<NetworkSpeed> createState() => _NetworkSpeedState();
+}
+
+class _NetworkSpeedState extends State<NetworkSpeed> {
+  final List<Point> initPoints = const [Point(0, 0), Point(1, 0)];
+
+  List<LineSeries> _getSeries(List<Traffic> traffics) {
+    final List<Point> upPoints = [];
+    final List<Point> downPoints = [];
+
+    traffics.toList().asMap().forEach((index, e) {
+      final x = (index + initPoints.length).toDouble();
+      upPoints.add(Point(x, e.up.toDouble()));
+      downPoints.add(Point(x, e.down.toDouble()));
+    });
+
+    return [
+      LineSeries(
+        points: [...initPoints, ...upPoints],
+        color: Theme.of(context).colorScheme.tertiary,
+        gradient: true,
+      ),
+      LineSeries(
+        points: [...initPoints, ...downPoints],
+        color: Theme.of(context).colorScheme.primary,
+        gradient: true,
+      ),
+    ];
+  }
+
+  Traffic _getLastTraffic(List<Traffic> traffics) {
+    if (traffics.isEmpty) return const Traffic();
+    return traffics.last;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -20,17 +55,14 @@ class NetworkSpeed extends StatelessWidget {
       height: DashboardWidgetMetrics.heightOf(context, 2),
       child: RepaintBoundary(
         child: CommonCard(
-          radius: DashboardWidgetMetrics.radiusOf(context),
           onPressed: () {},
           child: Consumer(
             builder: (_, ref, _) {
-              final traffics = ref.watch(trafficsProvider);
+              final traffics = ref.watch(trafficsProvider).list;
               return Column(
                 children: [
                   Padding(
-                    padding: DashboardWidgetMetrics.paddingOf(
-                      context,
-                    ).copyWith(bottom: 0),
+                    padding: baseInfoEdgeInsets.copyWith(bottom: 0),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
@@ -45,7 +77,7 @@ class NetworkSpeed extends StatelessWidget {
                         ),
                         const SizedBox(width: 8),
                         Text(
-                          traffics.list.safeLast(const Traffic()).speedText,
+                          _getLastTraffic(traffics).speedText,
                           style: context.textTheme.bodySmall?.copyWith(
                             color: color,
                           ),
@@ -58,16 +90,7 @@ class NetworkSpeed extends StatelessWidget {
                       padding: const EdgeInsets.all(
                         16,
                       ).copyWith(bottom: 0, left: 0, right: 0),
-                      child: LineChart(
-                        values: [
-                          for (final traffic in traffics.list)
-                            traffic.speed.toDouble(),
-                        ],
-                        revision: traffics.revision,
-                        capacity: traffics.maxLength,
-                        minScale: _minSpeedScale,
-                        color: context.colorScheme.primary,
-                      ),
+                      child: LineChart(series: _getSeries(traffics)),
                     ),
                   ),
                 ],

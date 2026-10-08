@@ -320,6 +320,7 @@
   "noNetwork": "无网络",
   "ipv6InboundDesc": "允许IPv6入站",
   "exportLogs": "导出日志",
+  "deleteLogs": "删除日志",
   "exportSuccess": "导出成功",
   "iconStyle": "图标样式",
   "iconStyleFilled": "色块",

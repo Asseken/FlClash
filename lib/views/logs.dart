@@ -71,6 +71,11 @@ class _LogsViewState extends ConsumerState<LogsView>
         tooltip: context.appLocalizations.exportLogs,
         onPressed: _handleExport,
       ),
+      IconButtonData(
+        onPressed: _handleClear,
+        glyph: AppGlyphs.delete,
+        tooltip: context.appLocalizations.deleteLogs,
+      ),
     ];
   }
 
@@ -104,6 +109,12 @@ class _LogsViewState extends ConsumerState<LogsView>
         () => _listController.setLogs(ref.read(logsProvider).list),
       );
     }, duration: renderThrottleDuration);
+  }
+
+  Future<void> _handleClear() async {
+    if (ref.read(logsProvider).list.isEmpty) return;
+    ref.read(logsProvider.notifier).clear();
+    _listController.setLogs([]);
   }
 
   @override

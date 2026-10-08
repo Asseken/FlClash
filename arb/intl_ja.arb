@@ -320,6 +320,7 @@
   "noNetwork": "ネットワークがありません",
   "ipv6InboundDesc": "IPv6インバウンドを許可します",
   "exportLogs": "ログをエクスポート",
+  "deleteLogs": "ログを削除",
   "exportSuccess": "エクスポートが完了しました",
   "iconStyle": "アイコンスタイル",
   "iconStyleFilled": "背景あり",

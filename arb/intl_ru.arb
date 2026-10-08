@@ -320,6 +320,7 @@
   "noNetwork": "Нет сети",
   "ipv6InboundDesc": "Разрешить входящий IPv6",
   "exportLogs": "Экспорт логов",
+  "deleteLogs": "Удалить логи",
   "exportSuccess": "Экспорт выполнен",
   "iconStyle": "Стиль значков",
   "iconStyleFilled": "С подложкой",

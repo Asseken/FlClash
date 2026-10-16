@@ -594,7 +594,7 @@ class CommonScaffoldState extends State<CommonScaffold> {
     final uncovered = ReverseAnimation(sheetCoverOf(context));
     return PreferredSize(
       preferredSize: Size.fromHeight(
-        isBottomSheet ? sheetToolbarHeight : pageToolbarHeight,
+        isBottomSheet ? sheetToolbarHeight - 20 : pageToolbarHeight - 20,
       ),
       child: Stack(
         alignment: Alignment.bottomCenter,

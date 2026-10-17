@@ -1,9 +1,13 @@
+import 'dart:io';
+import 'dart:math';
+
 import 'package:fl_clash/common/common.dart';
 import 'package:fl_clash/enum/enum.dart';
 import 'package:fl_clash/icons/icons.dart';
 import 'package:fl_clash/models/models.dart';
 import 'package:fl_clash/providers/config.dart';
 import 'package:fl_clash/providers/state.dart';
+import 'package:fl_clash/state.dart';
 import 'package:fl_clash/views/font_family.dart';
 import 'package:fl_clash/views/theme_preview.dart';
 import 'package:fl_clash/widgets/widgets.dart';
@@ -38,6 +42,8 @@ class ThemeView extends StatelessWidget {
           const _FontFamilyItem(),
           const SliverToBoxAdapter(child: SizedBox(height: 16)),
           const _TextScaleFactorItem(),
+          const SliverToBoxAdapter(child: SizedBox(height: 16)),
+          const _BackgroundImageItem(),
           const SliverToBoxAdapter(child: SizedBox(height: 32)),
         ],
       ),
@@ -1034,6 +1040,331 @@ class _PaletteDialogState extends State<_PaletteDialog> {
         children: [
           SizedBox(width: 300, child: Palette(controller: _controller)),
         ],
+      ),
+    );
+  }
+}
+
+class _BackgroundImageItem extends ConsumerStatefulWidget {
+  const _BackgroundImageItem();
+
+  @override
+  ConsumerState<_BackgroundImageItem> createState() =>
+      _BackgroundImageItemState();
+}
+
+class _BackgroundImageItemState extends ConsumerState<_BackgroundImageItem> {
+  String? _removableImage;
+
+  Future<void> _handleAdd() async {
+    final path = await picker.pickerImage();
+    if (path == null) {
+      return;
+    }
+    // The picker hands over a path inside its own cache, which the system may
+    // clear between launches; only the copy survives that.
+    final storedPath = await globalState.safeRun(
+      () => backgroundHelper.persistImage(path),
+    );
+    if (storedPath == null || !mounted) {
+      return;
+    }
+    ref.read(themeSettingProvider.notifier).update((state) {
+      final backgroundImages = List<String>.from(state.backgroundImages);
+      if (!backgroundImages.contains(storedPath)) {
+        backgroundImages.add(storedPath);
+      }
+      return state.copyWith(
+        backgroundImage: storedPath,
+        backgroundImages: backgroundImages,
+      );
+    });
+  }
+
+  Future<void> _handleDel(String imagePath) async {
+    final appLocalizations = context.appLocalizations;
+    final res = await dialogs.showMessage(
+      message: TextSpan(
+        text: appLocalizations.deleteTip(appLocalizations.backgroundImage),
+      ),
+    );
+    if (res != true || !mounted) {
+      return;
+    }
+    _clearRemovable();
+    ref.read(themeSettingProvider.notifier).update((state) {
+      final backgroundImages = List<String>.from(state.backgroundImages)
+        ..remove(imagePath);
+      return state.copyWith(
+        backgroundImages: backgroundImages,
+        backgroundImage: state.backgroundImage == imagePath
+            ? (backgroundImages.isNotEmpty ? backgroundImages.first : '')
+            : state.backgroundImage,
+      );
+    });
+    // The setting is already gone; a file that cannot be removed only leaves a
+    // copy behind, so it must not fail the interaction.
+    await globalState.safeRun(() => backgroundHelper.deleteImage(imagePath));
+  }
+
+  void _handleSelect(String imagePath) {
+    _clearRemovable();
+    ref.read(themeSettingProvider.notifier).update((state) {
+      if (state.backgroundImage == imagePath) {
+        return state;
+      }
+      return state.copyWith(backgroundImage: imagePath);
+    });
+  }
+
+  void _markRemovable(String imagePath) {
+    setState(() {
+      _removableImage = imagePath;
+    });
+  }
+
+  void _clearRemovable() {
+    setState(() {
+      _removableImage = null;
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final appLocalizations = context.appLocalizations;
+    final colorScheme = context.colorScheme;
+    final textTheme = Theme.of(context).textTheme;
+    final themeProps = ref.watch(themeSettingProvider);
+    final backgroundImages = themeProps.backgroundImages;
+    final percent = '${(themeProps.backgroundOpacity * 100).round()}%';
+    return SliverToBoxAdapter(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          ListItem.toggle(
+            leading: const GlyphIcon(AppGlyphs.photos),
+            horizontalTitleGap: 12,
+            title: Text(
+              appLocalizations.backgroundImage,
+              style: textTheme.titleSmall?.copyWith(
+                color: colorScheme.onSurfaceVariant,
+              ),
+            ),
+            subtitle: Text(appLocalizations.backgroundImageDesc),
+            value: themeProps.backgroundImageEnabled,
+            onChanged: (value) {
+              ref
+                  .read(themeSettingProvider.notifier)
+                  .update(
+                    (state) => state.copyWith(backgroundImageEnabled: value),
+                  );
+            },
+          ),
+          if (backgroundImages.isEmpty)
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+              child: Text(
+                appLocalizations.noBackgroundImage,
+                style: textTheme.bodyMedium?.copyWith(
+                  color: colorScheme.onSurfaceVariant,
+                ),
+              ),
+            ),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16),
+            child: _BackgroundImageGrid(
+              images: backgroundImages,
+              selectedImage: themeProps.backgroundImage,
+              removableImage: _removableImage,
+              onSelect: _handleSelect,
+              onRequestRemove: _markRemovable,
+              onDelete: _handleDel,
+              onAdd: _handleAdd,
+            ),
+          ),
+          if (backgroundImages.isNotEmpty)
+            Padding(
+              padding: const EdgeInsets.only(top: 16, left: 16, right: 16),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    appLocalizations.backgroundOpacity,
+                    style: textTheme.titleSmall?.copyWith(
+                      color: colorScheme.onSurfaceVariant,
+                    ),
+                  ),
+                  const SizedBox(height: 8),
+                  Row(
+                    spacing: 32,
+                    children: [
+                      Expanded(
+                        child: DisabledMask(
+                          status: !themeProps.backgroundImageEnabled,
+                          child: ActivateBox(
+                            active: themeProps.backgroundImageEnabled,
+                            child: Slider(
+                              min: minBackgroundOpacity,
+                              max: maxBackgroundOpacity,
+                              value: themeProps.backgroundOpacity,
+                              onChanged: (value) {
+                                ref
+                                    .read(themeSettingProvider.notifier)
+                                    .update(
+                                      (state) => state.copyWith(
+                                        backgroundOpacity: value,
+                                      ),
+                                    );
+                              },
+                            ),
+                          ),
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.only(right: 4),
+                        child: Text(percent, style: textTheme.titleMedium),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+            ),
+        ],
+      ),
+    );
+  }
+}
+
+class _BackgroundImageGrid extends StatelessWidget {
+  const _BackgroundImageGrid({
+    required this.images,
+    required this.selectedImage,
+    required this.removableImage,
+    required this.onSelect,
+    required this.onRequestRemove,
+    required this.onDelete,
+    required this.onAdd,
+  });
+
+  final List<String> images;
+  final String selectedImage;
+  final String? removableImage;
+  final void Function(String imagePath) onSelect;
+  final void Function(String imagePath) onRequestRemove;
+  final void Function(String imagePath) onDelete;
+  final VoidCallback onAdd;
+
+  @override
+  Widget build(BuildContext context) {
+    return LayoutBuilder(
+      builder: (_, constraints) {
+        final columns = max((constraints.maxWidth / 96).ceil(), 3);
+        final itemWidth = (constraints.maxWidth - (columns - 1) * 16) / columns;
+        return Wrap(
+          spacing: 16,
+          runSpacing: 16,
+          children: [
+            for (final imagePath in images)
+              _BackgroundImageTile(
+                imagePath: imagePath,
+                width: itemWidth,
+                isSelected: imagePath == selectedImage,
+                isRemovable: removableImage == imagePath,
+                onSelect: () => onSelect(imagePath),
+                onRequestRemove: () => onRequestRemove(imagePath),
+                onDelete: () => onDelete(imagePath),
+              ),
+            if (removableImage == null)
+              _AddBackgroundTile(width: itemWidth, onPressed: onAdd),
+          ],
+        );
+      },
+    );
+  }
+}
+
+class _BackgroundImageTile extends StatelessWidget {
+  const _BackgroundImageTile({
+    required this.imagePath,
+    required this.width,
+    required this.isSelected,
+    required this.isRemovable,
+    required this.onSelect,
+    required this.onRequestRemove,
+    required this.onDelete,
+  });
+
+  final String imagePath;
+  final double width;
+  final bool isSelected;
+  final bool isRemovable;
+  final VoidCallback onSelect;
+  final VoidCallback onRequestRemove;
+  final VoidCallback onDelete;
+
+  @override
+  Widget build(BuildContext context) {
+    final colorScheme = context.colorScheme;
+    return SizedBox.square(
+      dimension: width,
+      child: Stack(
+        fit: StackFit.expand,
+        children: [
+          CommonCard(
+            isSelected: isSelected,
+            onPressed: onSelect,
+            onLongPress: onRequestRemove,
+            child: SizedBox.expand(
+              child: Image.file(
+                File(imagePath),
+                fit: BoxFit.cover,
+                cacheWidth: 200,
+                errorBuilder: (_, _, _) => ColoredBox(
+                  color: colorScheme.errorContainer,
+                  child: Center(
+                    child: GlyphIcon(
+                      AppGlyphs.error,
+                      color: colorScheme.onErrorContainer,
+                    ),
+                  ),
+                ),
+              ),
+            ),
+          ),
+          if (isSelected)
+            const Positioned(
+              top: 4,
+              right: 4,
+              child: SizedBox.square(dimension: 24, child: SelectIcon()),
+            ),
+          if (isRemovable)
+            Center(
+              child: IconButton.filledTonal(
+                tooltip: context.appLocalizations.delete,
+                onPressed: onDelete,
+                icon: const GlyphIcon(AppGlyphs.delete, fill: 1),
+              ),
+            ),
+        ],
+      ),
+    );
+  }
+}
+
+class _AddBackgroundTile extends StatelessWidget {
+  const _AddBackgroundTile({required this.width, required this.onPressed});
+
+  final double width;
+  final VoidCallback onPressed;
+
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox.square(
+      dimension: width,
+      child: IconButton.filledTonal(
+        tooltip: context.appLocalizations.add,
+        onPressed: onPressed,
+        icon: const GlyphIcon(AppGlyphs.addCircle, fill: 1),
       ),
     );
   }

@@ -80,6 +80,13 @@ class AppPath {
     return join(mHomeDirPath, 'database.sqlite');
   }
 
+  /// Lives beside `config.yaml`, not under the cache: the theme keeps pointing
+  /// at these files, so only clearing the app's data may remove them.
+  Future<String> get backgroundDirPath async {
+    final mHomeDirPath = await homeDirPath;
+    return join(mHomeDirPath, backgroundDirectoryName);
+  }
+
   Future<String> get tempFilePath async {
     final mTempDir = await tempDir.future;
     return join(mTempDir.path, 'temp$uniqueId');

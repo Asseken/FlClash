@@ -141,4 +141,27 @@ void main() {
       );
     }
   });
+
+  test('transparent surfaces leave only the accents opaque', () {
+    final colorScheme = ColorScheme.fromSeed(
+      seedColor: const Color(0xFF00FF00),
+    );
+    final transparent = withTransparentSurfaces(colorScheme);
+
+    expect(
+      [
+        transparent.surface,
+        transparent.surfaceContainer,
+        transparent.surfaceContainerLow,
+        transparent.surfaceContainerHigh,
+        transparent.surfaceContainerHighest,
+        transparent.surfaceDim,
+        transparent.surfaceBright,
+      ],
+      everyElement(Colors.transparent),
+      reason: 'a filled container would hide the background image',
+    );
+    expect(transparent.primary, colorScheme.primary);
+    expect(transparent.onSurface, colorScheme.onSurface);
+  });
 }

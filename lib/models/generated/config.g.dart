@@ -365,6 +365,14 @@ _ThemeProps _$ThemePropsFromJson(Map<String, dynamic> json) => _ThemeProps(
       ? const TextScale()
       : TextScale.fromJson(json['textScale'] as Map<String, dynamic>),
   fontFamily: json['systemFontFamily'] as String?,
+  backgroundImage: json['backgroundImage'] as String? ?? '',
+  backgroundOpacity: (json['backgroundOpacity'] as num?)?.toDouble() ?? 1.0,
+  backgroundImages:
+      (json['backgroundImages'] as List<dynamic>?)
+          ?.map((e) => e as String)
+          .toList() ??
+      const [],
+  backgroundImageEnabled: json['backgroundImageEnabled'] as bool? ?? true,
 );
 
 Map<String, dynamic> _$ThemePropsToJson(_ThemeProps instance) =>
@@ -377,6 +385,10 @@ Map<String, dynamic> _$ThemePropsToJson(_ThemeProps instance) =>
       'sidebarBlur': instance.sidebarBlur,
       'textScale': instance.textScale,
       'systemFontFamily': instance.fontFamily,
+      'backgroundImage': instance.backgroundImage,
+      'backgroundOpacity': instance.backgroundOpacity,
+      'backgroundImages': instance.backgroundImages,
+      'backgroundImageEnabled': instance.backgroundImageEnabled,
     };
 
 const _$ThemeModeEnumMap = {

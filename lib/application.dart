@@ -13,10 +13,12 @@ import 'package:fl_clash/manager/manager.dart';
 import 'package:fl_clash/plugins/app.dart';
 import 'package:fl_clash/providers/providers.dart';
 import 'package:fl_clash/state.dart';
+import 'package:fl_clash/widgets/background_image.dart';
 import 'package:fl_clash/widgets/focus.dart';
 import 'package:fl_clash/widgets/keyboard_inset_hold.dart';
 import 'package:material_ui/material_ui.dart';
-import 'package:flutter/foundation.dart' show defaultTargetPlatform;
+import 'package:flutter/foundation.dart'
+    show defaultTargetPlatform, visibleForTesting;
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -173,6 +175,13 @@ class ApplicationState extends ConsumerState<Application> {
           appSettingProvider.select((state) => state.locale),
         );
         final themeProps = ref.watch(themeSettingProvider);
+        final hasBackgroundImage =
+            themeProps.backgroundImageEnabled &&
+            themeProps.backgroundImage.isNotEmpty;
+        final lightColorScheme = _getAppColorScheme(
+          brightness: Brightness.light,
+        );
+        final darkColorScheme = _getAppColorScheme(brightness: Brightness.dark);
         final fontFamilyFallback = appFontFamilyFallback(
           platform: defaultTargetPlatform,
           locales: [
@@ -190,11 +199,24 @@ class ApplicationState extends ConsumerState<Application> {
             ...GlobalMaterialLocalizations.delegates,
           ],
           builder: (context, child) {
-            return buildManagerStack(
+            final content = buildManagerStack(
               isDesktop: system.isDesktop,
               onConnectivityChanged: _handleConnectivityChanged,
               terminateSignals: _terminateSignals,
               child: RemoteFocusAdapter(enabled: system.isTV, child: child!),
+            );
+            if (!hasBackgroundImage) {
+              return content;
+            }
+            return Stack(
+              fit: StackFit.expand,
+              children: [
+                BackgroundImage(
+                  path: themeProps.backgroundImage,
+                  opacity: themeProps.backgroundOpacity,
+                ),
+                content,
+              ],
             );
           },
           scrollBehavior: const BaseScrollBehavior(),
@@ -206,7 +228,12 @@ class ApplicationState extends ConsumerState<Application> {
             useMaterial3: true,
             pageTransitionsTheme: _pageTransitionsTheme,
             actionIconTheme: _actionIconTheme,
-            colorScheme: _getAppColorScheme(brightness: Brightness.light),
+            colorScheme: hasBackgroundImage
+                ? withTransparentSurfaces(lightColorScheme)
+                : lightColorScheme,
+            scaffoldBackgroundColor: hasBackgroundImage
+                ? Colors.transparent
+                : null,
             fontFamily: themeProps.fontFamily,
             fontFamilyFallback: fontFamilyFallback,
           ).withAppShapes,
@@ -214,7 +241,12 @@ class ApplicationState extends ConsumerState<Application> {
             useMaterial3: true,
             pageTransitionsTheme: _pageTransitionsTheme,
             actionIconTheme: _actionIconTheme,
-            colorScheme: _getAppColorScheme(brightness: Brightness.dark),
+            colorScheme: hasBackgroundImage
+                ? withTransparentSurfaces(darkColorScheme)
+                : darkColorScheme,
+            scaffoldBackgroundColor: hasBackgroundImage
+                ? Colors.transparent
+                : null,
             fontFamily: themeProps.fontFamily,
             fontFamilyFallback: fontFamilyFallback,
           ).withAppShapes,
@@ -231,4 +263,19 @@ class ApplicationState extends ConsumerState<Application> {
     _autoUpdateProfilesTaskTimer?.cancel();
     super.dispose();
   }
+}
+
+/// Cards, sheets, and scaffolds paint their own fill from these tokens, which
+/// would hide the wallpaper behind them.
+@visibleForTesting
+ColorScheme withTransparentSurfaces(ColorScheme colorScheme) {
+  return colorScheme.copyWith(
+    surface: Colors.transparent,
+    surfaceContainer: Colors.transparent,
+    surfaceContainerLow: Colors.transparent,
+    surfaceContainerHigh: Colors.transparent,
+    surfaceContainerHighest: Colors.transparent,
+    surfaceDim: Colors.transparent,
+    surfaceBright: Colors.transparent,
+  );
 }

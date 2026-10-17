@@ -1,8 +1,10 @@
+import 'dart:convert';
 import 'dart:io';
 
 import 'package:fl_clash/common/feature.dart';
 import 'package:fl_clash/common/system_fonts.dart';
 import 'package:fl_clash/enum/enum.dart';
+import 'package:fl_clash/l10n/l10n.dart';
 import 'package:fl_clash/models/models.dart';
 import 'package:fl_clash/providers/app.dart';
 import 'package:fl_clash/providers/config.dart';
@@ -15,9 +17,33 @@ import 'package:fl_clash/widgets/widgets.dart';
 import 'package:material_ui/material_ui.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:path_provider_platform_interface/path_provider_platform_interface.dart';
 
 import '../helpers/test_app.dart';
 import '../helpers/test_profiles.dart';
+
+/// A 1x1 PNG, so the tiles decode instead of falling into their error builder.
+final _imageBytes = base64Decode(
+  'iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mP8z8DwHwAFAAH/q842'
+  'iQAAAABJRU5ErkJggg==',
+);
+
+/// The background section copies and removes files through `appPath`, which no
+/// plugin answers for in a widget test.
+class _FakePathProvider extends PathProviderPlatform {
+  _FakePathProvider(this.root);
+
+  final String root;
+
+  @override
+  Future<String?> getTemporaryPath() async => root;
+
+  @override
+  Future<String?> getApplicationSupportPath() async => root;
+
+  @override
+  Future<String?> getApplicationCachePath() async => root;
+}
 
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
@@ -389,6 +415,179 @@ void main() {
 
       expect(readTheme().textScale.scale, 1);
       expect(find.text('100%'), findsOneWidget);
+    });
+  });
+
+  group('background image', () {
+    late Directory dir;
+
+    setUpAll(() {
+      dir = Directory.systemTemp.createTempSync('theme_background_test');
+      PathProviderPlatform.instance = _FakePathProvider(dir.path);
+    });
+
+    tearDownAll(() {
+      if (dir.existsSync()) {
+        dir.deleteSync(recursive: true);
+      }
+    });
+
+    File imageFile(String name) {
+      final file = File('${dir.path}${Platform.pathSeparator}$name.png');
+      file.writeAsBytesSync(_imageBytes);
+      return file;
+    }
+
+    /// `Image.file` with a `cacheWidth` wraps its provider in `ResizeImage`.
+    Finder thumbnails() => find.byWidgetPredicate(
+      (widget) =>
+          widget is Image &&
+          switch (widget.image) {
+            FileImage() => true,
+            ResizeImage(imageProvider: FileImage()) => true,
+            _ => false,
+          },
+    );
+
+    /// The section sits below the fold of the default view, so it is measured
+    /// in a viewport tall enough to build it.
+    Future<void> pumpBackgroundView(WidgetTester tester) async {
+      tester.view.physicalSize = const Size(1400, 4000);
+      tester.view.devicePixelRatio = 1;
+      addTearDown(tester.view.resetPhysicalSize);
+      addTearDown(tester.view.resetDevicePixelRatio);
+      await tester.pumpWidget(
+        UncontrolledProviderScope(
+          container: container,
+          child: const TestApp(child: ThemeView()),
+        ),
+      );
+      await tester.pumpAndSettle();
+    }
+
+    Finder backgroundToggle() => find.descendant(
+      of: find.ancestor(
+        of: find.text(AppLocalizations.current.backgroundImage),
+        matching: find.byType(ListTile),
+      ),
+      matching: find.byType(Switch),
+    );
+
+    testWidgets('says so before an image is picked', (tester) async {
+      await pumpBackgroundView(tester);
+
+      expect(
+        find.text(AppLocalizations.current.noBackgroundImage),
+        findsOneWidget,
+      );
+      expect(thumbnails(), findsNothing);
+      expect(readTheme().backgroundImages, isEmpty);
+      expect(backgroundToggle(), findsOneWidget);
+    });
+
+    testWidgets('the toggle writes backgroundImageEnabled', (tester) async {
+      await pumpBackgroundView(tester);
+
+      expect(readTheme().backgroundImageEnabled, isTrue);
+
+      await tester.tap(backgroundToggle());
+      await tester.pumpAndSettle();
+
+      expect(readTheme().backgroundImageEnabled, isFalse);
+    });
+
+    testWidgets('the opacity slider writes a new opacity', (tester) async {
+      final first = imageFile('first');
+      container
+          .read(themeSettingProvider.notifier)
+          .update(
+            (state) => state.copyWith(
+              backgroundImages: [first.path],
+              backgroundImage: first.path,
+            ),
+          );
+
+      await pumpBackgroundView(tester);
+
+      final label = find.text(AppLocalizations.current.backgroundOpacity);
+      expect(label, findsOneWidget);
+
+      final slider = find.byType(Slider).last;
+      expect(
+        tester.getBottomLeft(label).dy,
+        lessThan(tester.getTopLeft(slider).dy),
+        reason: 'the label belongs on its own line above the slider',
+      );
+
+      final sliderWidget = tester.widget<Slider>(slider);
+      expect(sliderWidget.min, 0.0);
+      expect(sliderWidget.max, 1.0);
+
+      await tester.drag(slider, const Offset(-120, 0));
+      await tester.pumpAndSettle();
+
+      expect(readTheme().backgroundOpacity, isNot(1.0));
+      expect(readTheme().backgroundOpacity, inInclusiveRange(0.0, 1.0));
+    });
+
+    testWidgets('selecting a stored image makes it the active background', (
+      tester,
+    ) async {
+      final first = imageFile('first');
+      final second = imageFile('second');
+      container
+          .read(themeSettingProvider.notifier)
+          .update(
+            (state) => state.copyWith(
+              backgroundImages: [first.path, second.path],
+              backgroundImage: first.path,
+            ),
+          );
+
+      await pumpBackgroundView(tester);
+
+      expect(thumbnails(), findsNWidgets(2));
+      expect(readTheme().backgroundImage, first.path);
+
+      await tester.tap(thumbnails().last);
+      await tester.pumpAndSettle();
+
+      expect(readTheme().backgroundImage, second.path);
+
+      final thumbnail = tester.getSize(thumbnails().last);
+      final badge = tester.getSize(find.byType(SelectIcon).first);
+      expect(
+        badge.width,
+        lessThan(thumbnail.width / 2),
+        reason: 'the check badge must not cover the thumbnail',
+      );
+    });
+
+    testWidgets('deleting the active image falls back to the next one', (
+      tester,
+    ) async {
+      final first = imageFile('first');
+      final second = imageFile('second');
+      container
+          .read(themeSettingProvider.notifier)
+          .update(
+            (state) => state.copyWith(
+              backgroundImages: [first.path, second.path],
+              backgroundImage: first.path,
+            ),
+          );
+
+      await pumpBackgroundView(tester);
+      await tester.longPress(thumbnails().first);
+      await tester.pumpAndSettle();
+
+      await tester.tap(find.byTooltip(AppLocalizations.current.delete).first);
+      await tester.pumpAndSettle();
+      await tester.tap(find.text(AppLocalizations.current.confirm).last);
+      await tester.pumpAndSettle();
+
+      expect(readTheme().backgroundImages, [second.path]);
+      expect(readTheme().backgroundImage, second.path);
     });
   });
 }

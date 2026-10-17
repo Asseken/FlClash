@@ -95,24 +95,28 @@ class FloatingHeader extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // A transparent fill, such as the app's own under a wallpaper, has nothing
+    // to fade; raising its alpha would fade in the black of `Colors.transparent`.
+    final fades = backgroundColor.a > 0;
     return Stack(
       clipBehavior: Clip.none,
       children: [
-        Positioned(
-          top: 0,
-          left: 0,
-          right: 0,
-          bottom: -overhang,
-          child: IgnorePointer(
-            child: LayoutBuilder(
-              builder: (_, constraints) => DecoratedBox(
-                decoration: BoxDecoration(
-                  gradient: _scrimOf(constraints.maxHeight),
+        if (fades)
+          Positioned(
+            top: 0,
+            left: 0,
+            right: 0,
+            bottom: -overhang,
+            child: IgnorePointer(
+              child: LayoutBuilder(
+                builder: (_, constraints) => DecoratedBox(
+                  decoration: BoxDecoration(
+                    gradient: _scrimOf(constraints.maxHeight),
+                  ),
                 ),
               ),
             ),
           ),
-        ),
         child,
       ],
     );

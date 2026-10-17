@@ -4,22 +4,31 @@ import 'package:material_ui/material_ui.dart';
 
 const _color = Color(0xFF3366FF);
 
+const _secondaryColor = Color(0xFFFF6633);
+
 final _canvas = find.descendant(
   of: find.byType(LineChart),
   matching: find.byType(CustomPaint),
 );
 
-Widget _chart(List<double> values, {required int revision}) {
+Widget _chart(
+  List<double> values, {
+  required int revision,
+  List<double> secondary = const [],
+  Color? secondaryColor,
+}) {
   return Center(
     child: SizedBox(
       width: 290,
       height: 100,
       child: LineChart(
         values: values,
+        secondaryValues: secondary,
         revision: revision,
         capacity: 30,
         minScale: 1,
         color: _color,
+        secondaryColor: secondaryColor,
       ),
     ),
   );
@@ -32,6 +41,23 @@ Rect _lineBounds(WidgetTester tester) {
     paints..something((method, arguments) {
       if (method != #drawPath ||
           (arguments[1] as Paint).style != PaintingStyle.stroke) {
+        return false;
+      }
+      bounds = (arguments[0] as Path).getBounds();
+      return true;
+    }),
+  );
+  return bounds;
+}
+
+Rect _boundsOf(WidgetTester tester, Color color) {
+  late Rect bounds;
+  expect(
+    tester.renderObject(_canvas),
+    paints..something((method, arguments) {
+      if (method != #drawPath ||
+          (arguments[1] as Paint).style != PaintingStyle.stroke ||
+          (arguments[1] as Paint).color.toARGB32() != color.toARGB32()) {
         return false;
       }
       bounds = (arguments[0] as Path).getBounds();
@@ -76,5 +102,79 @@ void main() {
 
     await tester.pumpWidget(_chart(const [], revision: 0));
     expect(_lineBounds(tester).height, 0);
+  });
+
+  testWidgets('a second series draws its own line under the first', (
+    tester,
+  ) async {
+    await tester.pumpWidget(
+      _chart(
+        const [1, 2, 3],
+        revision: 3,
+        secondary: const [3, 2, 1],
+        secondaryColor: _secondaryColor,
+      ),
+    );
+
+    expect(
+      tester.renderObject(_canvas),
+      paints
+        ..path(style: PaintingStyle.fill)
+        ..path(color: _secondaryColor, style: PaintingStyle.stroke)
+        ..path(style: PaintingStyle.fill)
+        ..path(color: _color, style: PaintingStyle.stroke),
+    );
+  });
+
+  testWidgets('both lines share one scale', (tester) async {
+    final idle = List.filled(20, 0.0);
+    await tester.pumpWidget(
+      _chart(
+        [...idle, 10],
+        revision: 21,
+        secondary: [...idle, 2],
+        secondaryColor: _secondaryColor,
+      ),
+    );
+
+    final primary = _boundsOf(tester, _color);
+    final secondary = _boundsOf(tester, _secondaryColor);
+
+    expect(secondary.height, greaterThan(0));
+    expect(
+      primary.height,
+      greaterThan(secondary.height * 2),
+      reason: 'the taller sample must not be flattened to the smaller scale',
+    );
+    expect(primary.top, greaterThan(0));
+  });
+
+  testWidgets('a secondary series advances with the primary one', (
+    tester,
+  ) async {
+    await tester.pumpWidget(
+      _chart(
+        const [1, 2, 3],
+        revision: 3,
+        secondary: const [1, 1, 1],
+        secondaryColor: _secondaryColor,
+      ),
+    );
+    final before = _boundsOf(tester, _secondaryColor);
+
+    await tester.pumpWidget(
+      _chart(
+        const [1, 2, 3, 40],
+        revision: 4,
+        secondary: const [1, 1, 1, 40],
+        secondaryColor: _secondaryColor,
+      ),
+    );
+
+    expect(
+      _boundsOf(tester, _secondaryColor),
+      isNot(before),
+      reason: 'the new sample has to reach the secondary line too',
+    );
   });
 }

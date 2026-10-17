@@ -906,5 +906,9 @@
   "required": "Обязательно",
   "ageSecretKey": "Секретный ключ age",
   "ageEncryptedProfile": "Зашифрованный профиль",
-  "ageSecretKeyRequiredTip": "Профиль зашифрован с помощью age, для расшифровки нужен секретный ключ age"
+  "ageSecretKeyRequiredTip": "Профиль зашифрован с помощью age, для расшифровки нужен секретный ключ age",
+  "backgroundImage": "Фоновое изображение",
+  "backgroundImageDesc": "Задать глобальное фоновое изображение",
+  "backgroundOpacity": "Непрозрачность",
+  "noBackgroundImage": "Нет фоновых изображений"
 }

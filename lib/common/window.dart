@@ -139,9 +139,7 @@ class Window implements WindowPort {
     final effect = enabled ? await _resolveBlurEffect() : WindowEffect.none;
     await desktopWindow.setEffect(
       effect,
-      tint: system.isWindows
-          ? tint.withValues(alpha: kSidebarBlurOpacity)
-          : null,
+      tint: system.isWindows ? tint.scaledAlpha(kSidebarBlurOpacity) : null,
       brightness: brightness,
     );
     return effect != WindowEffect.none;

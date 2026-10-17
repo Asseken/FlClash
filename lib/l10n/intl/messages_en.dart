@@ -326,6 +326,11 @@ class MessageLookup extends MessageLookupByLibrary {
       "Auto-update interval (minutes)",
     ),
     "back": MessageLookupByLibrary.simpleMessage("Back"),
+    "backgroundImage": MessageLookupByLibrary.simpleMessage("Background Image"),
+    "backgroundImageDesc": MessageLookupByLibrary.simpleMessage(
+      "Set a global background image",
+    ),
+    "backgroundOpacity": MessageLookupByLibrary.simpleMessage("Opacity"),
     "backup": MessageLookupByLibrary.simpleMessage("Backup"),
     "backupAndRestore": MessageLookupByLibrary.simpleMessage(
       "Backup and restore",
@@ -1148,6 +1153,9 @@ class MessageLookup extends MessageLookupByLibrary {
     "neutralScheme": MessageLookupByLibrary.simpleMessage("Neutral"),
     "nextMatch": MessageLookupByLibrary.simpleMessage("Next match"),
     "no": MessageLookupByLibrary.simpleMessage("No"),
+    "noBackgroundImage": MessageLookupByLibrary.simpleMessage(
+      "No background images",
+    ),
     "noData": MessageLookupByLibrary.simpleMessage("No data"),
     "noInfo": MessageLookupByLibrary.simpleMessage("No info"),
     "noLongerRemind": MessageLookupByLibrary.simpleMessage(

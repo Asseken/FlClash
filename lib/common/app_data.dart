@@ -17,4 +17,7 @@ Future<void> clearAppData() async {
   }
   await File(await appPath.databasePath).safeDelete(recursive: true);
   await Directory(await appPath.profilesPath).safeDelete(recursive: true);
+  // The theme that referenced these copies is gone with the preferences, so
+  // leaving them behind would only orphan files the app never reads again.
+  await Directory(await appPath.backgroundDirPath).safeDelete(recursive: true);
 }

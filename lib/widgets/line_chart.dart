@@ -7,17 +7,24 @@ class LineChart extends StatefulWidget {
   const LineChart({
     super.key,
     required this.values,
+    this.secondaryValues = const [],
     required this.revision,
     required this.capacity,
     required this.minScale,
     required this.color,
+    this.secondaryColor,
   }) : assert(capacity > 1),
        assert(minScale > 0);
 
   final List<double> values;
 
-  /// Advances by one for each sample appended to [values]. Any other change,
-  /// such as a clear, starts the chart over.
+  /// A second series, such as upload beside download, drawn on the same scale
+  /// so the two lines stay comparable.
+  final List<double> secondaryValues;
+
+  /// Advances by one for each sample appended to [values] and
+  /// [secondaryValues]. Any other change, such as a clear, starts the chart
+  /// over.
   final int revision;
 
   final int capacity;
@@ -27,46 +34,76 @@ class LineChart extends StatefulWidget {
 
   final Color color;
 
+  final Color? secondaryColor;
+
   @override
   State<LineChart> createState() => _LineChartState();
 }
 
 class _LineChartState extends State<LineChart> {
   late _Series _series;
+  late _Series _secondarySeries;
+
+  int get _seriesLength => widget.capacity + _Series.radius + 1;
 
   @override
   void initState() {
     super.initState();
     _series = _Series.of(widget.values, _seriesLength);
+    _secondarySeries = _Series.of(widget.secondaryValues, _seriesLength);
   }
-
-  int get _seriesLength => widget.capacity + _Series.radius + 1;
 
   @override
   void didUpdateWidget(LineChart oldWidget) {
     super.didUpdateWidget(oldWidget);
-    final appended = widget.revision - oldWidget.revision;
-    if (widget.capacity != oldWidget.capacity ||
+    _series = _advance(
+      previous: _series,
+      values: widget.values,
+      revision: widget.revision,
+      oldRevision: oldWidget.revision,
+      oldCapacity: oldWidget.capacity,
+    );
+    _secondarySeries = _advance(
+      previous: _secondarySeries,
+      values: widget.secondaryValues,
+      revision: widget.revision,
+      oldRevision: oldWidget.revision,
+      oldCapacity: oldWidget.capacity,
+    );
+  }
+
+  _Series _advance({
+    required _Series previous,
+    required List<double> values,
+    required int revision,
+    required int oldRevision,
+    required int oldCapacity,
+  }) {
+    final appended = revision - oldRevision;
+    if (widget.capacity != oldCapacity ||
         appended < 0 ||
-        appended > widget.values.length) {
-      _series = _Series.of(widget.values, _seriesLength);
-    } else if (appended > 0) {
-      _series = _series.append(
-        widget.values.sublist(widget.values.length - appended),
-      );
+        appended > values.length) {
+      return _Series.of(values, _seriesLength);
     }
+    if (appended == 0) {
+      return previous;
+    }
+    return previous.append(values.sublist(values.length - appended));
   }
 
   @override
   Widget build(BuildContext context) {
+    final secondaryColor = widget.secondaryColor;
     return RepaintBoundary(
       child: SizedBox.expand(
         child: CustomPaint(
           painter: _LineChartPainter(
             series: _series,
+            secondarySeries: secondaryColor == null ? null : _secondarySeries,
             capacity: widget.capacity,
             minScale: widget.minScale,
             color: widget.color,
+            secondaryColor: secondaryColor,
           ),
         ),
       ),
@@ -136,15 +173,16 @@ class _Series {
 class _LineChartPainter extends CustomPainter {
   _LineChartPainter({
     required this.series,
+    required this.secondarySeries,
     required this.capacity,
     required this.minScale,
     required this.color,
-  }) : _strokePaint = Paint()
-         ..color = color
-         ..strokeWidth = _strokeWidth
-         ..strokeCap = StrokeCap.round
-         ..strokeJoin = StrokeJoin.round
-         ..style = PaintingStyle.stroke;
+    required this.secondaryColor,
+  }) : _strokePaint = _strokePaintOf(color),
+       _secondaryStrokePaint = switch (secondaryColor) {
+         final color? => _strokePaintOf(color),
+         _ => null,
+       };
 
   static const _strokeWidth = 2.0;
 
@@ -152,20 +190,24 @@ class _LineChartPainter extends CustomPainter {
   static const _baselineRatio = 0.7;
 
   final _Series series;
+  final _Series? secondarySeries;
   final int capacity;
   final double minScale;
   final Color color;
+  final Color? secondaryColor;
 
   final Paint _strokePaint;
+  final Paint? _secondaryStrokePaint;
 
-  @override
-  void paint(Canvas canvas, Size size) {
-    final step = size.width / (capacity - 1);
-    final baseline = size.height * _baselineRatio;
-    final heights = series.heights;
+  static Paint _strokePaintOf(Color color) => Paint()
+    ..color = color
+    ..strokeWidth = _strokeWidth
+    ..strokeCap = StrokeCap.round
+    ..strokeJoin = StrokeJoin.round
+    ..style = PaintingStyle.stroke;
+
+  static Path _curveOf(List<double> heights, double step, double firstX) {
     final slopes = _Series.slopesOf(heights);
-    final firstX = size.width - (heights.length - 1) * step;
-
     var x = firstX;
     var y = -heights[0];
     final curve = Path()..moveTo(x, y);
@@ -183,37 +225,69 @@ class _LineChartPainter extends CustomPainter {
       x = nextX;
       y = nextY;
     }
-    final top = math.max(minScale, -curve.getBounds().top);
+    return curve;
+  }
+
+  @override
+  void paint(Canvas canvas, Size size) {
+    final step = size.width / (capacity - 1);
+    final baseline = size.height * _baselineRatio;
+    final firstX = size.width - (series.heights.length - 1) * step;
+    final curve = _curveOf(series.heights, step, firstX);
+    final secondary = switch (secondarySeries) {
+      final series? => _curveOf(series.heights, step, firstX),
+      _ => null,
+    };
+    var top = math.max(minScale, -curve.getBounds().top);
+    if (secondary != null) {
+      top = math.max(top, -secondary.getBounds().top);
+    }
     final yScale = (baseline - _strokeWidth) / top;
-    final line = curve.transform(
-      (Matrix4.identity()
-            ..translateByDouble(0, baseline, 0, 1)
-            ..scaleByDouble(1, yScale, 1, 1))
-          .storage,
-    );
-    final area = Path.from(line)
-      ..lineTo(x, size.height)
-      ..lineTo(firstX, size.height)
-      ..close();
-    final fillPaint = Paint()
-      ..shader = LinearGradient(
-        begin: Alignment.topCenter,
-        end: Alignment.bottomCenter,
-        colors: [color.opacity38, color.opacity10],
-      ).createShader(Offset.zero & size);
+    final matrix =
+        (Matrix4.identity()
+              ..translateByDouble(0, baseline, 0, 1)
+              ..scaleByDouble(1, yScale, 1, 1))
+            .storage;
+
+    void draw(Path path, Color fillColor, Paint stroke) {
+      final line = path.transform(matrix);
+      final bounds = line.getBounds();
+      final area = Path.from(line)
+        ..lineTo(bounds.right, size.height)
+        ..lineTo(bounds.left, size.height)
+        ..close();
+      canvas
+        ..drawPath(
+          area,
+          Paint()
+            ..shader = LinearGradient(
+              begin: Alignment.topCenter,
+              end: Alignment.bottomCenter,
+              colors: [fillColor.opacity38, fillColor.opacity10],
+            ).createShader(Offset.zero & size),
+        )
+        ..drawPath(line, stroke);
+    }
+
     canvas
       ..save()
-      ..clipRect(Offset.zero & size)
-      ..drawPath(area, fillPaint)
-      ..drawPath(line, _strokePaint)
-      ..restore();
+      ..clipRect(Offset.zero & size);
+    // The second line sits underneath, so the first reads as the main one.
+    final secondaryStrokePaint = _secondaryStrokePaint;
+    if (secondary != null && secondaryStrokePaint != null) {
+      draw(secondary, secondaryColor!, secondaryStrokePaint);
+    }
+    draw(curve, color, _strokePaint);
+    canvas.restore();
   }
 
   @override
   bool shouldRepaint(_LineChartPainter oldDelegate) {
     return oldDelegate.series != series ||
+        oldDelegate.secondarySeries != secondarySeries ||
         oldDelegate.capacity != capacity ||
         oldDelegate.minScale != minScale ||
-        oldDelegate.color != color;
+        oldDelegate.color != color ||
+        oldDelegate.secondaryColor != secondaryColor;
   }
 }

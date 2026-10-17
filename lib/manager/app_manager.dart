@@ -250,7 +250,7 @@ class AppSidebarContainer extends ConsumerWidget {
             visible: hasSidebar,
             child: _buildBackground(
               color: blur
-                  ? surfaceContainer.withValues(alpha: kSidebarBlurOpacity)
+                  ? surfaceContainer.scaledAlpha(kSidebarBlurOpacity)
                   : surfaceContainer,
               edge: colorScheme.outlineVariant,
               child: MediaQuery.removePadding(

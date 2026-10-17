@@ -906,5 +906,9 @@
   "required": "必填",
   "ageSecretKey": "age 私钥",
   "ageEncryptedProfile": "配置已加密",
-  "ageSecretKeyRequiredTip": "该配置已用 age 加密，需要 age 私钥才能解密"
+  "ageSecretKeyRequiredTip": "该配置已用 age 加密，需要 age 私钥才能解密",
+  "backgroundImage": "背景图片",
+  "backgroundImageDesc": "设置全局背景图片",
+  "backgroundOpacity": "透明度",
+  "noBackgroundImage": "暂无背景图片"
 }

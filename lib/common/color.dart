@@ -45,6 +45,12 @@ extension ColorExtension on Color {
     return withValues(alpha: 0);
   }
 
+  /// Keeps a transparent origin transparent: raising its alpha the usual way
+  /// would paint the black behind `Colors.transparent`.
+  Color scaledAlpha(double factor) {
+    return withValues(alpha: a * factor);
+  }
+
   int get value32bit {
     return _floatToInt8(a) << 24 |
         _floatToInt8(r) << 16 |

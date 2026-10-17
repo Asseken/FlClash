@@ -25,6 +25,8 @@ class NetworkSpeed extends StatelessWidget {
           child: Consumer(
             builder: (_, ref, _) {
               final traffics = ref.watch(trafficsProvider);
+              final traffic = traffics.list.safeLast(const Traffic());
+              final colorScheme = context.colorScheme;
               return Column(
                 children: [
                   Padding(
@@ -44,8 +46,19 @@ class NetworkSpeed extends StatelessWidget {
                           ),
                         ),
                         const SizedBox(width: 8),
-                        Text(
-                          traffics.list.safeLast(const Traffic()).speedText,
+                        Text.rich(
+                          TextSpan(
+                            children: [
+                              TextSpan(
+                                text: '↑ ${traffic.up.traffic.show}/s',
+                                style: TextStyle(color: colorScheme.tertiary),
+                              ),
+                              TextSpan(
+                                text: '   ↓ ${traffic.down.traffic.show}/s',
+                                style: TextStyle(color: colorScheme.primary),
+                              ),
+                            ],
+                          ),
                           style: context.textTheme.bodySmall?.copyWith(
                             color: color,
                           ),
@@ -61,12 +74,17 @@ class NetworkSpeed extends StatelessWidget {
                       child: LineChart(
                         values: [
                           for (final traffic in traffics.list)
-                            traffic.speed.toDouble(),
+                            traffic.down.toDouble(),
+                        ],
+                        secondaryValues: [
+                          for (final traffic in traffics.list)
+                            traffic.up.toDouble(),
                         ],
                         revision: traffics.revision,
                         capacity: traffics.maxLength,
                         minScale: _minSpeedScale,
-                        color: context.colorScheme.primary,
+                        color: colorScheme.primary,
+                        secondaryColor: colorScheme.tertiary,
                       ),
                     ),
                   ),

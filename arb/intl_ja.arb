@@ -906,5 +906,9 @@
   "required": "必須",
   "ageSecretKey": "age 秘密鍵",
   "ageEncryptedProfile": "暗号化されたプロファイル",
-  "ageSecretKeyRequiredTip": "このプロファイルは age で暗号化されており、復号には age 秘密鍵が必要です"
+  "ageSecretKeyRequiredTip": "このプロファイルは age で暗号化されており、復号には age 秘密鍵が必要です",
+  "backgroundImage": "背景画像",
+  "backgroundImageDesc": "グローバル背景画像を設定",
+  "backgroundOpacity": "不透明度",
+  "noBackgroundImage": "背景画像がありません"
 }

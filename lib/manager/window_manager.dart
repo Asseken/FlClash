@@ -460,8 +460,8 @@ class WindowHeaderBar extends StatelessWidget {
                 onDoubleTap: onDoubleTap,
                 child: ColoredBox(
                   color: translucent
-                      ? colorScheme.surfaceContainer.withValues(
-                          alpha: kSidebarBlurOpacity,
+                      ? colorScheme.surfaceContainer.scaledAlpha(
+                          kSidebarBlurOpacity,
                         )
                       : colorScheme.surfaceContainerHighest,
                 ),

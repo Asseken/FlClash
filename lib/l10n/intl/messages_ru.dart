@@ -339,6 +339,13 @@ class MessageLookup extends MessageLookupByLibrary {
       "Интервал автообновления (минуты)",
     ),
     "back": MessageLookupByLibrary.simpleMessage("Назад"),
+    "backgroundImage": MessageLookupByLibrary.simpleMessage(
+      "Фоновое изображение",
+    ),
+    "backgroundImageDesc": MessageLookupByLibrary.simpleMessage(
+      "Задать глобальное фоновое изображение",
+    ),
+    "backgroundOpacity": MessageLookupByLibrary.simpleMessage("Непрозрачность"),
     "backup": MessageLookupByLibrary.simpleMessage("Резервное копирование"),
     "backupAndRestore": MessageLookupByLibrary.simpleMessage(
       "Резервное копирование и восстановление",
@@ -1199,6 +1206,9 @@ class MessageLookup extends MessageLookupByLibrary {
     "neutralScheme": MessageLookupByLibrary.simpleMessage("Нейтральная"),
     "nextMatch": MessageLookupByLibrary.simpleMessage("Следующее совпадение"),
     "no": MessageLookupByLibrary.simpleMessage("Нет"),
+    "noBackgroundImage": MessageLookupByLibrary.simpleMessage(
+      "Нет фоновых изображений",
+    ),
     "noData": MessageLookupByLibrary.simpleMessage("Нет данных"),
     "noInfo": MessageLookupByLibrary.simpleMessage("Нет информации"),
     "noLongerRemind": MessageLookupByLibrary.simpleMessage(

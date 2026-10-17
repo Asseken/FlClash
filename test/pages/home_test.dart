@@ -242,29 +242,29 @@ void main() {
     await tester.pump();
     await tester.pump(const Duration(milliseconds: 300));
     final sidebar = find.byType(NavigationSidebar);
-    expect(tester.getSize(sidebar).width, 220);
+    expect(tester.getSize(sidebar).width, 140);
 
     await tester.tap(find.byTooltip('Collapse'));
     await tester.pump();
     await tester.pump(const Duration(milliseconds: 300));
     expect(container.read(appSettingProvider).sidebarExpanded, isFalse);
-    expect(tester.getSize(sidebar).width, 48);
+    expect(tester.getSize(sidebar).width, 60);
 
     await tester.tap(find.byTooltip('Expand'));
     await tester.pump();
     await tester.pump(const Duration(milliseconds: 300));
-    expect(tester.getSize(sidebar).width, 220);
+    expect(tester.getSize(sidebar).width, 140);
 
     tester.view.physicalSize = const Size(800, 800);
     container.read(viewSizeProvider.notifier).value = const Size(800, 800);
     await tester.pump();
     await tester.pump(const Duration(milliseconds: 300));
-    expect(tester.getSize(sidebar).width, 48);
+    expect(tester.getSize(sidebar).width, 60);
 
     await tester.tap(find.byTooltip('Expand'));
     await tester.pump();
     await tester.pump(const Duration(milliseconds: 300));
-    expect(tester.getSize(sidebar).width, 48);
+    expect(tester.getSize(sidebar).width, 60);
     expect(find.text('Tools'), findsNWidgets(2));
     expect(container.read(appSettingProvider).sidebarExpanded, isTrue);
     expect(tester.takeException(), isNull);

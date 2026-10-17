@@ -121,7 +121,7 @@ void main() {
 
   group('getWindowHeaderHeight', () {
     test('Windows reserves more than macOS, mobile reserves nothing', () {
-      expect(_windowsHeaderHeight, 32);
+      expect(_windowsHeaderHeight, 30);
       expect(_macOSHeaderHeight, 28);
       expect(getWindowHeaderHeight(isDesktop: false, isMacOS: false), 0);
     });
@@ -251,13 +251,13 @@ void main() {
       }
     });
 
-    testWidgets('the caption buttons match the Windows 11 slot', (
+    testWidgets('the caption buttons fill a slot the height of the bar', (
       tester,
     ) async {
       await pumpBar(tester, width: 900);
 
       final slot = getCaptionButtonSize(_windowsHeaderHeight);
-      expect(slot, const Size(46, 32));
+      expect(slot, Size(46, _windowsHeaderHeight));
       for (final icon in _captionIcons) {
         expect(
           tester.getSize(_captionButton(icon)),

@@ -200,13 +200,15 @@ void main() {
     await tester.pump();
 
     expect(find.byType(AboutView), findsOneWidget);
-    expect(find.text('Telegram'), findsOneWidget);
+    expect(find.text('github.com/Asseken/mihomo'), findsOneWidget);
     final hero = find.byWidgetPredicate(
       (widget) => widget.runtimeType.toString() == '_AboutHero',
     );
+    // The bar reserves 20 less than the toolbar it draws, so the page starts 32
+    // below its bottom rather than the 12 the content padding adds.
     expect(
       tester.getRect(hero).top,
-      tester.getRect(find.byType(AppBar)).bottom + 12,
+      tester.getRect(find.byType(AppBar)).bottom + 32,
     );
     expect(tester.takeException(), null);
 

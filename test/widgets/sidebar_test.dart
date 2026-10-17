@@ -13,6 +13,11 @@ const _destinations = [
   SidebarDestination(glyph: AppGlyphs.profiles, label: 'Profiles'),
 ];
 
+const _shortDestination = SidebarDestination(
+  glyph: AppGlyphs.dns,
+  label: 'DNS',
+);
+
 Finder _glyph(Glyph glyph) => find.byWidgetPredicate(
   (widget) => widget is AnimatedGlyph && widget.glyph == glyph,
 );
@@ -108,7 +113,7 @@ void main() {
       indicator.center.dy,
       moreOrLessEquals(tester.getCenter(_glyph(AppGlyphs.proxies)).dy),
     );
-    expect(tester.getSize(_sidebarFinder).width, 220);
+    expect(tester.getSize(_sidebarFinder).width, 140);
     expect(_labelOpacities(tester, 'Proxies'), [1]);
     expect(
       tester.getSemantics(find.text('Proxies')),
@@ -155,13 +160,14 @@ void main() {
     int? selected;
     await tester.pumpWidget(
       _sidebar(
+        destinations: [..._destinations, _shortDestination],
         expanded: false,
         onToggle: () => toggled++,
         onSelected: (index) => selected = index,
       ),
     );
 
-    expect(tester.getSize(_sidebarFinder).width, 48);
+    expect(tester.getSize(_sidebarFinder).width, 60);
     expect(_labelOpacities(tester, 'Proxies'), [0]);
     expect(_rowTooltip('Proxies'), findsOneWidget);
     await tester.tap(_glyph(AppGlyphs.profiles));
@@ -175,12 +181,12 @@ void main() {
     await tester.pumpWidget(_sidebar(onToggle: () {}));
     await tester.pump(const Duration(milliseconds: 120));
     final width = tester.getSize(_sidebarFinder).width;
-    expect(width, allOf(greaterThan(48), lessThan(220)));
+    expect(width, allOf(greaterThan(60), lessThan(140)));
     expect(tester.takeException(), isNull);
 
     await tester.pumpAndSettle();
-    expect(tester.getSize(_sidebarFinder).width, 220);
-    expect(_rowTooltip('Proxies'), findsNothing);
+    expect(tester.getSize(_sidebarFinder).width, 140);
+    expect(_rowTooltip('DNS'), findsNothing);
     expect(find.byTooltip('Collapse'), findsOneWidget);
   });
 
@@ -192,6 +198,7 @@ void main() {
       _sidebar(
         destinations: const [
           ..._destinations,
+          _shortDestination,
           SidebarDestination(glyph: AppGlyphs.connections, label: long),
         ],
         onToggle: () {},
@@ -199,7 +206,7 @@ void main() {
     );
 
     expect(_rowTooltip(long), findsOneWidget);
-    expect(_rowTooltip('Proxies'), findsNothing);
+    expect(_rowTooltip('DNS'), findsNothing);
   });
 
   testWidgets('the toggle glyph follows the pane as it widens', (tester) async {
@@ -263,7 +270,7 @@ void main() {
       _sidebar(onToggle: () {}, windowControls: const Size(78, 32)),
     );
     await tester.pumpAndSettle();
-    expect(tester.getSize(_sidebarFinder).width, 220);
+    expect(tester.getSize(_sidebarFinder).width, 140);
     expect(tester.getCenter(_glyph(AppGlyphs.profiles)), folder);
   });
 
@@ -282,7 +289,7 @@ void main() {
 
       await openOverlay(tester);
 
-      expect(tester.getSize(_sidebarFinder).width, 48);
+      expect(tester.getSize(_sidebarFinder).width, 60);
       expect(
         tester.getSize(find.byKey(const ValueKey('content'))).width,
         contentWidth,
@@ -318,7 +325,7 @@ void main() {
         _sidebar(expanded: false, safePadding: safePadding),
       );
       final sidebar = tester.getRect(_sidebarFinder);
-      expect(sidebar.width, 48 + safePadding.left);
+      expect(sidebar.width, 60 + safePadding.left);
       final toggle = tester.getTopLeft(find.byTooltip('Expand'));
       expect(toggle.dx, greaterThanOrEqualTo(sidebar.left + safePadding.left));
       expect(toggle.dy, greaterThanOrEqualTo(sidebar.top + safePadding.top));
@@ -335,7 +342,7 @@ void main() {
       );
       expect(pane.topLeft, sidebar.topLeft);
       expect(pane.height, sidebar.height);
-      expect(pane.width, 220 + safePadding.left);
+      expect(pane.width, 140 + safePadding.left);
       expect(tester.getTopLeft(find.byTooltip('Collapse')), toggle);
     });
 

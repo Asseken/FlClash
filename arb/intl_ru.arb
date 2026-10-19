@@ -910,5 +910,7 @@
   "backgroundImage": "Фоновое изображение",
   "backgroundImageDesc": "Задать глобальное фоновое изображение",
   "backgroundOpacity": "Непрозрачность",
-  "noBackgroundImage": "Нет фоновых изображений"
+  "noBackgroundImage": "Нет фоновых изображений",
+  "proxyTraffic": "Прокси:",
+  "directTraffic": "Прямой:"
 }

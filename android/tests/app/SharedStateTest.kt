@@ -48,6 +48,8 @@ class SharedStateTest {
               "crashlytics": false,
               "currentProfileName": "Work",
               "stopText": "Halt",
+              "proxyTraffic": "Proxy traffic",
+              "directTraffic": "Direct traffic",
               "onlyStatisticsProxy": true,
               "showStopAction": false,
               "vpnOptions": {
@@ -78,6 +80,8 @@ class SharedStateTest {
 
         assertEquals("Starting", state.startTip)
         assertEquals("Work", state.currentProfileName)
+        assertEquals("Proxy traffic", state.proxyTraffic)
+        assertEquals("Direct traffic", state.directTraffic)
         assertEquals(false, state.crashlytics)
         assertEquals(true, state.onlyStatisticsProxy)
         assertEquals(false, state.showStopAction)
@@ -97,6 +101,8 @@ class SharedStateTest {
 
         assertEquals("FlClash", defaults.currentProfileName)
         assertEquals("Stop", defaults.stopText)
+        assertEquals("Proxy", defaults.proxyTraffic)
+        assertEquals("Direct", defaults.directTraffic)
         assertEquals(true, defaults.crashlytics)
         assertEquals(false, defaults.onlyStatisticsProxy)
         assertEquals(true, defaults.showStopAction)
@@ -125,6 +131,7 @@ class SharedStateTest {
 
         assertEquals("Work", state.currentProfileName)
         assertEquals("Stop", state.stopText)
+        assertEquals("Proxy", state.proxyTraffic)
         assertEquals("Stopping VPN...", state.stopTip)
     }
 

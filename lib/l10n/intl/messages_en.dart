@@ -575,6 +575,7 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "dialerProxyLoopStopped": m21,
     "direct": MessageLookupByLibrary.simpleMessage("Direct"),
+    "directTraffic": MessageLookupByLibrary.simpleMessage("Direct:"),
     "disableIcmpForwarding": MessageLookupByLibrary.simpleMessage(
       "Disable ICMP forwarding",
     ),
@@ -1317,6 +1318,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "proxyProvidersNotEmpty": MessageLookupByLibrary.simpleMessage(
       "Proxy providers cannot be empty",
     ),
+    "proxyTraffic": MessageLookupByLibrary.simpleMessage("Proxy:"),
     "proxyType": MessageLookupByLibrary.simpleMessage("Proxy type"),
     "pruneCache": MessageLookupByLibrary.simpleMessage("Prune cache"),
     "publicKey": MessageLookupByLibrary.simpleMessage("Public key"),

@@ -600,6 +600,7 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "dialerProxyLoopStopped": m21,
     "direct": MessageLookupByLibrary.simpleMessage("Прямой"),
+    "directTraffic": MessageLookupByLibrary.simpleMessage("Прямой:"),
     "disableIcmpForwarding": MessageLookupByLibrary.simpleMessage(
       "Отключить пересылку ICMP",
     ),
@@ -1376,6 +1377,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "proxyProvidersNotEmpty": MessageLookupByLibrary.simpleMessage(
       "Провайдеры прокси не могут быть пустыми",
     ),
+    "proxyTraffic": MessageLookupByLibrary.simpleMessage("Прокси:"),
     "proxyType": MessageLookupByLibrary.simpleMessage("Тип прокси"),
     "pruneCache": MessageLookupByLibrary.simpleMessage("Очистить кэш"),
     "publicKey": MessageLookupByLibrary.simpleMessage("Открытый ключ"),

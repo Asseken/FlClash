@@ -910,5 +910,7 @@
   "backgroundImage": "Background Image",
   "backgroundImageDesc": "Set a global background image",
   "backgroundOpacity": "Opacity",
-  "noBackgroundImage": "No background images"
+  "noBackgroundImage": "No background images",
+  "proxyTraffic": "Proxy:",
+  "directTraffic": "Direct:"
 }

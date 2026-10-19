@@ -910,5 +910,7 @@
   "backgroundImage": "背景画像",
   "backgroundImageDesc": "グローバル背景画像を設定",
   "backgroundOpacity": "不透明度",
-  "noBackgroundImage": "背景画像がありません"
+  "noBackgroundImage": "背景画像がありません",
+  "proxyTraffic": "プロキシ:",
+  "directTraffic": "ダイレクト:"
 }

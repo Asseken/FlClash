@@ -7631,6 +7631,16 @@ class AppLocalizations {
       args: [],
     );
   }
+
+  /// `Proxy:`
+  String get proxyTraffic {
+    return Intl.message('Proxy:', name: 'proxyTraffic', desc: '', args: []);
+  }
+
+  /// `Direct:`
+  String get directTraffic {
+    return Intl.message('Direct:', name: 'directTraffic', desc: '', args: []);
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<AppLocalizations> {

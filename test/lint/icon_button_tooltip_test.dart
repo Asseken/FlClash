@@ -2,6 +2,8 @@ import 'dart:io';
 
 import 'package:test/test.dart';
 
+import '../helpers/posix_path.dart';
+
 /// The one button that carries its label on an enclosing [Tooltip] instead of
 /// its own `tooltip:`. Nesting a second tooltip inside would fight it.
 const _wrappedInTooltip = 'lib/views/dashboard/widgets/core_status_button.dart';
@@ -20,7 +22,7 @@ Iterable<File> _dartFilesIn(String root) sync* {
         entity.path.endsWith('.dart') &&
         !entity.path.endsWith('.g.dart') &&
         !entity.path.endsWith('.freezed.dart') &&
-        !entity.path.contains('/generated/')) {
+        !posixPath(entity.path).contains('/generated/')) {
       yield entity;
     }
   }
@@ -43,7 +45,7 @@ void main() {
 
     for (final file in _dartFilesIn('lib')) {
       final source = file.readAsStringSync();
-      if (file.path == _wrappedInTooltip) continue;
+      if (posixPath(file.path) == _wrappedInTooltip) continue;
 
       for (final match in _iconButton.allMatches(source)) {
         final arguments = _arguments(source, match.end);

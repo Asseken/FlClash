@@ -910,5 +910,7 @@
   "backgroundImage": "背景图片",
   "backgroundImageDesc": "设置全局背景图片",
   "backgroundOpacity": "透明度",
-  "noBackgroundImage": "暂无背景图片"
+  "noBackgroundImage": "暂无背景图片",
+  "proxyTraffic": "代理:",
+  "directTraffic": "直连:"
 }

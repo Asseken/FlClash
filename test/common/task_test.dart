@@ -7,6 +7,8 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:path/path.dart';
 import 'package:yaml/yaml.dart';
 
+import '../helpers/posix_path.dart';
+
 int _double(int value) => value * 2;
 
 void main() {
@@ -238,11 +240,11 @@ void main() {
       expect(config['hosts']['router.local'], ['192.168.1.1', '192.168.1.2']);
       expect(config['sniffer']['sniff']['HTTP']['ports'], ['80', '443']);
       expect(
-        config['proxy-providers']['remote']['path'],
+        posixPath('${config['proxy-providers']['remote']['path']}'),
         startsWith('/profiles/providers/7/proxies/'),
       );
       expect(
-        config['rule-providers']['remote']['path'],
+        posixPath('${config['rule-providers']['remote']['path']}'),
         startsWith('/profiles/providers/7/rules/'),
       );
       expect(config['rules'], [

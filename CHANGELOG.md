@@ -1,5 +1,55 @@
 # Changelog
 
+## v0.9.1 (2026-10-17)
+
+**Breaking Changes**
+
+- **network** Desktop TUN keys follow the profile unless picked; changed values carry over (cb08088)
+
+**Features**
+
+- **l10n** French, Spanish and Korean translations (f43755c)
+- **android** No more Firebase analytics or crash reporting (bc72bba)
+- **network** Per-key desktop TUN settings; system proxy and tray fixes (cb08088)
+- **theme** Redesigned theme colors and color styles (5eafd7a)
+- **dashboard** A redesigned dashboard around the current exit (9bd258f)
+- **profiles** Profile-detail resources and include-all in custom groups (0bac500)
+- **proxies** Proxy groups as cards, group tabs as chips (2ea52fd)
+- **views** Sortable tables for connections, requests and DNS (da6fb0a)
+- **ui** Optional two-tier Liquid Glass and slide-to-pick menus (7c9627f)
+- **ui** iOS-style surfaces, alerts and sheets; clearer TV focus (9bd2286)
+
+**Bug Fixes**
+
+- **ui** Fix pasting and Chinese input in text fields (5607f70)
+- **core** Large profiles no longer crash; downloads trust core CAs (5984c16)
+
+**Performance**
+
+- **android** Smoother Android UI while the proxy is busy (2201c19)
+
+## v0.9.0 (2026-10-14)
+
+**Breaking Changes**
+
+- **views** DNS and NTP override toggles are removed; picked keys apply to every profile (491fae1)
+- **database** Custom overwrites are removed; rebuild them as custom profiles (1677024)
+
+**Features**
+
+- **views** Per-key DNS, NTP, sniffer and TUN settings (491fae1)
+- **profiles** Custom profiles (3abda78)
+- **ui** Stacked sheets, context menus and a sort mode (8c43053)
+- **providers** DNS, Hosts and ports apply without a restart (532ebf0)
+- **android** Launcher shortcuts and one-step on-demand access (d3fa225)
+- **core** Share link import and mrs rule sets (2fa2f7f)
+
+**Bug Fixes**
+
+- **database** Unreadable settings no longer block startup or restores (1677024)
+- **desktop** Windows and Linux desktop fixes (94a25f4)
+- **core,helper** The elevated Core only answers its owner (d780cb8)
+
 ## v0.8.99 (2026-10-03)
 
 **Features**

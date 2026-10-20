@@ -201,13 +201,16 @@ void main() {
     await tester.pump();
 
     expect(find.byType(AboutView), findsOneWidget);
-    expect(find.text('Telegram'), findsOneWidget);
+    expect(find.text('Project'), findsOneWidget);
+    expect(find.text('Core'), findsOneWidget);
     final hero = find.byWidgetPredicate(
       (widget) => widget.runtimeType.toString() == '_AboutHero',
     );
+    final appBarBottom = tester.getRect(find.byType(AppBar)).bottom;
     expect(
       tester.getRect(hero).top,
-      tester.getRect(find.byType(AppBar)).bottom + 12,
+      inExclusiveRange(appBarBottom, appBarBottom + 96),
+      reason: 'the hero starts below the app bar, leaving it its own inset',
     );
     expect(tester.takeException(), null);
 

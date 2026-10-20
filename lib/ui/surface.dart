@@ -60,6 +60,27 @@ extension SurfaceContext on BuildContext {
   SurfaceLevel get surfaceLevel => SurfaceScope.of(this);
 
   SurfaceLevel get raisedSurfaceLevel => surfaceLevel.next;
+
+  bool get isOverWallpaper => WallpaperScope.of(this);
+}
+
+/// Marks content a wallpaper shows behind, whose clear fills expose shadows.
+class WallpaperScope extends InheritedWidget {
+  const WallpaperScope({
+    super.key,
+    required this.enabled,
+    required super.child,
+  });
+
+  final bool enabled;
+
+  static bool of(BuildContext context) =>
+      context.dependOnInheritedWidgetOfExactType<WallpaperScope>()?.enabled ??
+      false;
+
+  @override
+  bool updateShouldNotify(WallpaperScope oldWidget) =>
+      enabled != oldWidget.enabled;
 }
 
 extension ChromeSurfaceExt on ColorScheme {

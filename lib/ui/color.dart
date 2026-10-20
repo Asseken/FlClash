@@ -224,6 +224,10 @@ final _warningPalette = TonalPalette.fromHct(
 );
 
 extension ColorExtension on Color {
+  Color scaledAlpha(double factor) {
+    return withValues(alpha: a * factor);
+  }
+
   Color get opacity80 {
     return withValues(alpha: 0.8);
   }
@@ -286,6 +290,19 @@ extension ColorExtension on Color {
 }
 
 extension ColorSchemeExtension on ColorScheme {
+  /// A wallpaper supplies every fill, and its shadow would show through them.
+  ColorScheme get withTransparentSurfaces => copyWith(
+    surface: Colors.transparent,
+    surfaceDim: Colors.transparent,
+    surfaceBright: Colors.transparent,
+    surfaceContainerLowest: Colors.transparent,
+    surfaceContainerLow: Colors.transparent,
+    surfaceContainer: Colors.transparent,
+    surfaceContainerHigh: Colors.transparent,
+    surfaceContainerHighest: Colors.transparent,
+    shadow: Colors.transparent,
+  );
+
   ColorScheme toPureBlack(bool isPureBlack) {
     if (!isPureBlack || brightness != Brightness.dark) {
       return this;

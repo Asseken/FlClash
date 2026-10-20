@@ -31,6 +31,9 @@ void main() {
       ..writeAsStringSync('not a database');
     final profilesDir = Directory(join(await appPath.profilesPath, '1'))
       ..createSync(recursive: true);
+    final backgroundDir = Directory(await appPath.backgroundDirPath)
+      ..createSync(recursive: true);
+    File(join(backgroundDir.path, 'background_1.png')).writeAsBytesSync([1]);
     final broken = db.Database(
       LazyDatabase(() async => throw const FileSystemException('corrupt')),
     );
@@ -50,5 +53,10 @@ void main() {
           'the file most likely to be why startup failed',
     );
     expect(profilesDir.parent.existsSync(), isFalse);
+    expect(
+      backgroundDir.existsSync(),
+      isFalse,
+      reason: 'a copied wallpaper has no setting left to point at it',
+    );
   });
 }

@@ -290,6 +290,9 @@ class MessageLookup extends MessageLookupByLibrary {
     "autoUpdate": MessageLookupByLibrary.simpleMessage("自动更新"),
     "autoUpdateInterval": MessageLookupByLibrary.simpleMessage("自动更新间隔"),
     "back": MessageLookupByLibrary.simpleMessage("返回"),
+    "backgroundImage": MessageLookupByLibrary.simpleMessage("背景图片"),
+    "backgroundImageDesc": MessageLookupByLibrary.simpleMessage("设置全局背景图片"),
+    "backgroundOpacity": MessageLookupByLibrary.simpleMessage("不透明度"),
     "backup": MessageLookupByLibrary.simpleMessage("备份"),
     "backupAndRestore": MessageLookupByLibrary.simpleMessage("备份与恢复"),
     "backupFromNewerVersion": MessageLookupByLibrary.simpleMessage(
@@ -943,6 +946,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "networkType": MessageLookupByLibrary.simpleMessage("网络类型"),
     "nextMatch": MessageLookupByLibrary.simpleMessage("下一个匹配"),
     "no": MessageLookupByLibrary.simpleMessage("否"),
+    "noBackgroundImage": MessageLookupByLibrary.simpleMessage("暂无背景图片"),
     "noData": MessageLookupByLibrary.simpleMessage("暂无数据"),
     "noInfo": MessageLookupByLibrary.simpleMessage("暂无信息"),
     "noLongerRemind": MessageLookupByLibrary.simpleMessage("不再提示"),

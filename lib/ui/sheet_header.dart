@@ -1,3 +1,4 @@
+import 'package:fl_clash/ui/color.dart';
 import 'package:fl_clash/ui/context.dart';
 import 'package:fl_clash/ui/metrics.dart';
 import 'package:fl_clash/ui/scroll_behavior.dart';
@@ -82,13 +83,13 @@ class FloatingHeader extends StatelessWidget {
   Gradient _scrimOf(double height) {
     final start = (height - overhang) * fadeStart / height;
     final stops = <double>[0];
-    final colors = <Color>[backgroundColor.withValues(alpha: _alpha)];
+    final colors = <Color>[backgroundColor.scaledAlpha(_alpha)];
     for (var i = 0; i <= _fadeSteps; i++) {
       final t = i / _fadeSteps;
       stops.add(start + (1 - start) * t);
       colors.add(
-        backgroundColor.withValues(
-          alpha: _alpha * (1 - Curves.easeInOut.transform(t)),
+        backgroundColor.scaledAlpha(
+          _alpha * (1 - Curves.easeInOut.transform(t)),
         ),
       );
     }

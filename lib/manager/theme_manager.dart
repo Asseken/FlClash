@@ -45,7 +45,16 @@ ThemeData watchAppTheme(WidgetRef ref, Brightness brightness) {
       (state) => (fontFamily: state.fontFamily, pureBlack: state.pureBlack),
     ),
   );
+  final hasBackgroundImage = ref.watch(
+    themeSettingProvider.select(
+      (state) =>
+          state.backgroundImageEnabled && state.backgroundImage.isNotEmpty,
+    ),
+  );
   final colorScheme = ref.watch(genColorSchemeProvider(brightness));
+  final scheme = hasBackgroundImage
+      ? colorScheme.withTransparentSurfaces
+      : colorScheme;
   final plainDark = brightness == Brightness.dark && themeSetting.pureBlack
       ? ref.watch(genColorSchemeProvider(brightness, pureBlack: false))
       : null;
@@ -58,6 +67,7 @@ ThemeData watchAppTheme(WidgetRef ref, Brightness brightness) {
     themeSetting: themeSetting,
     colorScheme: colorScheme,
     plainDark: plainDark,
+    hasBackgroundImage: hasBackgroundImage,
     locales: locales.join(','),
   );
   if (_appThemes[brightness] case (
@@ -70,7 +80,7 @@ ThemeData watchAppTheme(WidgetRef ref, Brightness brightness) {
     useMaterial3: true,
     pageTransitionsTheme: _pageTransitionsTheme,
     actionIconTheme: _actionIconTheme,
-    colorScheme: colorScheme,
+    colorScheme: scheme,
     fontFamily: themeSetting.fontFamily,
     fontFamilyFallback: appFontFamilyFallback(
       platform: defaultTargetPlatform,
@@ -78,7 +88,8 @@ ThemeData watchAppTheme(WidgetRef ref, Brightness brightness) {
       fontFamily: themeSetting.fontFamily,
     ),
     extensions: [
-      if (brightness == Brightness.dark)
+      // A sheet lifted off a surface the wallpaper shows would cover it.
+      if (brightness == Brightness.dark && !hasBackgroundImage)
         ElevatedColorScheme(
           // Plain dark is pure black a level up, with the seed's tint that a
           // lift from black would lose.

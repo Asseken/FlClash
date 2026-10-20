@@ -236,9 +236,7 @@ class AppSidebarContainer extends ConsumerWidget {
           AnimatedVisibility.sidebar(
             visible: hasSidebar,
             child: Material(
-              color: blur
-                  ? chrome.withValues(alpha: kSidebarBlurOpacity)
-                  : chrome,
+              color: blur ? chrome.scaledAlpha(kSidebarBlurOpacity) : chrome,
               shape: BorderDirectional(end: Divider.createBorderSide(context)),
               child: MediaQuery.removePadding(
                 context: context,

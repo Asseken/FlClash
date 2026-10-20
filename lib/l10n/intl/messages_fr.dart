@@ -376,6 +376,13 @@ class MessageLookup extends MessageLookupByLibrary {
       "Intervalle de mise à jour automatique",
     ),
     "back": MessageLookupByLibrary.simpleMessage("Retour"),
+    "backgroundImage": MessageLookupByLibrary.simpleMessage(
+      "Image d\'arrière-plan",
+    ),
+    "backgroundImageDesc": MessageLookupByLibrary.simpleMessage(
+      "Définir une image d\'arrière-plan globale",
+    ),
+    "backgroundOpacity": MessageLookupByLibrary.simpleMessage("Opacité"),
     "backup": MessageLookupByLibrary.simpleMessage("Sauvegarde"),
     "backupAndRestore": MessageLookupByLibrary.simpleMessage(
       "Sauvegarde et restauration",
@@ -1294,6 +1301,9 @@ class MessageLookup extends MessageLookupByLibrary {
     "networkType": MessageLookupByLibrary.simpleMessage("Type de réseau"),
     "nextMatch": MessageLookupByLibrary.simpleMessage("Résultat suivant"),
     "no": MessageLookupByLibrary.simpleMessage("Non"),
+    "noBackgroundImage": MessageLookupByLibrary.simpleMessage(
+      "Aucune image d\'arrière-plan",
+    ),
     "noData": MessageLookupByLibrary.simpleMessage("Aucune donnée"),
     "noInfo": MessageLookupByLibrary.simpleMessage("Aucune information"),
     "noLongerRemind": MessageLookupByLibrary.simpleMessage(

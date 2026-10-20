@@ -29,7 +29,7 @@ enum TrafficDirection {
       : context.colorScheme.primary;
 
   Color glyphColorOf(BuildContext context) => this == upload
-      ? context.colorScheme.onSurfaceVariant
+      ? context.colorScheme.tertiary
       : context.colorScheme.primary;
 
   String labelOf(BuildContext context) => this == upload

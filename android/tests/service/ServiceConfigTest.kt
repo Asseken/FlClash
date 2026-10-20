@@ -35,7 +35,8 @@ class ServiceConfigTest {
 
         assertEquals("FlClash", defaults.title)
         assertEquals("STOP", defaults.stopText)
-        assertEquals(false, defaults.onlyStatisticsProxy)
+        assertEquals("Proxy", defaults.proxyTraffic)
+        assertEquals("Direct", defaults.directTraffic)
         assertEquals(true, defaults.showStopAction)
     }
 
@@ -55,7 +56,7 @@ class ServiceConfigTest {
         val params = NotificationParams(
             title = "Profile",
             stopText = "Halt",
-            onlyStatisticsProxy = true,
+            proxyTraffic = "Proxy traffic",
         )
 
         ServiceConfig.updateNotificationParams(params)

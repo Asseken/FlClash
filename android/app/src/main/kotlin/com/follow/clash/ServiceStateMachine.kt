@@ -375,7 +375,8 @@ internal class ServiceStateMachine(private val host: ServiceStateHost) {
         fun notificationParams(state: SharedState): NotificationParams = NotificationParams(
             title = state.currentProfileName,
             stopText = state.stopText,
-            onlyStatisticsProxy = state.onlyStatisticsProxy,
+            proxyTraffic = state.proxyTraffic,
+            directTraffic = state.directTraffic,
             showStopAction = state.showStopAction,
         )
     }

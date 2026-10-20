@@ -1735,6 +1735,16 @@ class AppLocalizations {
     return Intl.message('Stop', name: 'stop', desc: '', args: []);
   }
 
+  /// `Proxy:`
+  String get proxyTraffic {
+    return Intl.message('Proxy:', name: 'proxyTraffic', desc: '', args: []);
+  }
+
+  /// `Direct:`
+  String get directTraffic {
+    return Intl.message('Direct:', name: 'directTraffic', desc: '', args: []);
+  }
+
   /// `Key`
   String get key {
     return Intl.message('Key', name: 'key', desc: '', args: []);

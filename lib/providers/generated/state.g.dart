@@ -437,7 +437,7 @@ final class SharedStateProvider
   }
 }
 
-String _$sharedStateHash() => r'c78c01097468ec6de887e0c94a9d5432403730a1';
+String _$sharedStateHash() => r'5c52eacec7d8755d39180c70d01b69f882c9c977';
 
 @ProviderFor(vpnRouteAddress)
 final vpnRouteAddressProvider = VpnRouteAddressProvider._();

@@ -182,11 +182,20 @@ class ServiceStateMachineTest {
             SharedState(
                 currentProfileName = "Work",
                 stopText = "Disconnect",
-                onlyStatisticsProxy = true,
+                proxyTraffic = "Proxy traffic",
+                directTraffic = "Direct traffic",
             ),
         )
 
-        assertEquals(NotificationParams("Work", "Disconnect", true), params)
+        assertEquals(
+            NotificationParams(
+                title = "Work",
+                stopText = "Disconnect",
+                proxyTraffic = "Proxy traffic",
+                directTraffic = "Direct traffic",
+            ),
+            params,
+        )
     }
 
     @Test
@@ -764,11 +773,18 @@ class ServiceStateMachineTest {
             SharedState(
                 currentProfileName = "Work",
                 stopText = "Disconnect",
-                onlyStatisticsProxy = true,
             ),
         )
 
-        assertEquals(listOf(NotificationParams("Work", "Disconnect", true)), host.notificationParams)
+        assertEquals(
+            listOf(
+                NotificationParams(
+                    title = "Work",
+                    stopText = "Disconnect",
+                ),
+            ),
+            host.notificationParams,
+        )
     }
 
     @Test

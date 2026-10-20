@@ -64,4 +64,37 @@ class TrafficTest {
         assertTrue(text.indexOf("↑") < text.indexOf("↓"))
         assertEquals("1B/s↑  2B/s↓", text)
     }
+
+    @Test
+    fun `the direct share is what the proxy share left over`() {
+        val direct = directTrafficOf(
+            all = Traffic(up = 4096, down = 8192),
+            proxy = Traffic(up = 1024, down = 2048),
+        )
+
+        assertEquals(Traffic(up = 3072, down = 6144), direct)
+    }
+
+    @Test
+    fun `a direct share never goes negative`() {
+        val direct = directTrafficOf(
+            all = Traffic(up = 1024, down = 0),
+            proxy = Traffic(up = 2048, down = 1024),
+        )
+
+        assertEquals(Traffic(up = 0, down = 0), direct)
+    }
+
+    @Test
+    fun `each line carries its own label and its own speeds`() {
+        val text = splitSpeedText(
+            proxy = Traffic(up = 1024, down = 2048),
+            all = Traffic(up = 2048, down = 4096),
+            proxyLabel = "Proxy",
+            directLabel = "Direct",
+        )
+
+        assertEquals("Proxy 1.0KB/s↑  2.0KB/s↓", text.proxy)
+        assertEquals("Direct 1.0KB/s↑  2.0KB/s↓", text.direct)
+    }
 }

@@ -226,6 +226,8 @@
   "start": "Démarrer",
   "runTime": "Durée d’exécution",
   "stop": "Arrêter",
+  "proxyTraffic": "Proxy :",
+  "directTraffic": "Direct :",
   "key": "Clé",
   "value": "Valeur",
   "vpnEnableDesc": "Le VPN fait passer automatiquement tout le trafic du système par VpnService.",

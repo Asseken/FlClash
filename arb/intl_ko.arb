@@ -226,6 +226,8 @@
   "start": "시작",
   "runTime": "실행 시간",
   "stop": "중지",
+  "proxyTraffic": "프록시:",
+  "directTraffic": "다이렉트:",
   "key": "키",
   "value": "값",
   "vpnEnableDesc": "VPN은 VpnService를 통해 모든 시스템 트래픽을 자동으로 라우팅합니다.",

@@ -342,6 +342,7 @@
   "noNetwork": "Aucun réseau",
   "ipv6InboundDesc": "Avec IPv6 activé, le VPN autorise le trafic IPv6 entrant.",
   "exportLogs": "Exporter les journaux",
+  "deleteLogs": "Supprimer les journaux",
   "exportSuccess": "Exportation réussie",
   "iconStyle": "Style des icônes",
   "iconStyleFilled": "Pleines",

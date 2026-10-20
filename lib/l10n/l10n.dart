@@ -2755,6 +2755,11 @@ class AppLocalizations {
     return Intl.message('Export logs', name: 'exportLogs', desc: '', args: []);
   }
 
+  /// `Delete logs`
+  String get deleteLogs {
+    return Intl.message('Delete logs', name: 'deleteLogs', desc: '', args: []);
+  }
+
   /// `Export successful`
   String get exportSuccess {
     return Intl.message(

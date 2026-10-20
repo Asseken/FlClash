@@ -613,6 +613,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "delayFailed": MessageLookupByLibrary.simpleMessage("Fallido"),
     "delayTest": MessageLookupByLibrary.simpleMessage("Prueba de latencia"),
     "delete": MessageLookupByLibrary.simpleMessage("Eliminar"),
+    "deleteLogs": MessageLookupByLibrary.simpleMessage("Eliminar registros"),
     "deleteMultipTip": m19,
     "deleteTip": m20,
     "desc": MessageLookupByLibrary.simpleMessage(

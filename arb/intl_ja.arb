@@ -342,6 +342,7 @@
   "noNetwork": "ネットワークがありません",
   "ipv6InboundDesc": "IPv6 を有効にすると、VPN で IPv6 インバウンドを許可します。",
   "exportLogs": "ログをエクスポート",
+  "deleteLogs": "ログの削除",
   "exportSuccess": "エクスポートが完了しました",
   "iconStyle": "アイコンスタイル",
   "iconStyleFilled": "背景あり",

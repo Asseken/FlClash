@@ -489,6 +489,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "delayFailed": MessageLookupByLibrary.simpleMessage("失敗"),
     "delayTest": MessageLookupByLibrary.simpleMessage("遅延テスト"),
     "delete": MessageLookupByLibrary.simpleMessage("削除"),
+    "deleteLogs": MessageLookupByLibrary.simpleMessage("ログの削除"),
     "deleteMultipTip": m19,
     "deleteTip": m20,
     "desc": MessageLookupByLibrary.simpleMessage(

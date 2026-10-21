@@ -121,19 +121,18 @@ Generated output paths, configured in `build.yaml`:
 - `lib/providers/generated/*.g.dart`.
 - `lib/database/generated/*.g.dart`.
 
-Tray and Windows app icons are generated, not hand-edited. `assets_source/images/icon/*.svg` is
-the source of truth; the script needs `rsvg-convert` (librsvg) on `PATH`:
+Safe mode's bug icon is generated, not hand-edited. `assets_source/images/icon/status_4.svg` is its
+source; the script needs `rsvg-convert` (librsvg) on `PATH`:
 
 ```bash
 dart run tool/generate_status_icons.dart
 ```
 
-It writes the tray PNGs with Flutter `2.0x/`–`4.0x/` resolution variants to `assets/images/tray/unix/`,
-multi-size tray `.ico` files to `assets/images/tray/windows/`, and `windows/runner/resources/app_icon.ico`
-from `assets/images/icon.png`. macOS draws its menu bar icon as a template, so it skips the ringed color
-icons, whose logo shrinks to a small glyph once only alpha shows: `status_1` renders the bare logo from
-`assets_source/images/icon/glyph.svg` and `status_4` reuses `status_4.svg`, both recolored to black into
-`assets/images/tray/macos/`; the sources keep their colors. `glyph.svg` is also the geometry of the Android notification drawables
+It writes `status_4` with the Flutter `2.0x/`–`4.0x/` resolution variants to `assets/images/tray/unix/`,
+its multi-size `.ico` to `assets/images/tray/windows/`, and the black template macOS shows to
+`assets/images/tray/macos/`. The logo states (`status_1` idle, `status_2` running, `status_3` with TUN)
+and every platform's app icon come from `appicon/icon.png` through `appicon/generate_icons.py` instead,
+which `appicon/README.md` documents. `glyph.svg` is also the geometry of the Android notification drawables
 `android/service/src/main/res/drawable/ic.xml` and `ic_service.xml`; change them together. `pubspec.yaml` declares the three tray directories with `platforms:` so each
 build only bundles the format its tray loads; a new status icon needs a source SVG and an entry in the
 script's `statusIconNames`, nothing in `pubspec.yaml`.

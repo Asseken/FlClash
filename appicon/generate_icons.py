@@ -43,6 +43,10 @@ ICO_SMALL_FILL = 0.92
 ICO_SHARPEN_MAX = 96
 MACOS_SIZES = [16, 32, 64, 128, 256, 512, 1024]
 
+# Android's notification small icon and Quick Settings tile both draw at 24dp;
+# the status bar keeps only the mark's alpha, so the tile ships a white copy.
+NOTIFICATION_DP = 24
+
 # The tray shows one icon per state: the logo greyed out while the app is idle,
 # in color once it runs, and with the amber ring the old set used for TUN.
 TRAY_BASE = 18
@@ -296,6 +300,15 @@ def main() -> None:
             compose(adaptive, art, FOREGROUND_FILL),
             res / f'mipmap-television-{density}/ic_launcher_foreground_tv.webp',
         )
+
+    # The service's notification icon (`setSmallIcon`, and the document
+    # provider's root) and the Quick Settings tile, both at 24dp.
+    service = ROOT / 'android/service/src/main/res'
+    for density, scale in ANDROID_DENSITIES.items():
+        size = round(NOTIFICATION_DP * scale)
+        frame = icon_frame(art, size)
+        save_png(frame, service / f'drawable-{density}/ic_service.png')
+        save_png(silhouette(frame), service / f'drawable-{density}/ic.png')
 
 
 if __name__ == '__main__':

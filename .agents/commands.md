@@ -130,10 +130,10 @@ dart run tool/generate_status_icons.dart
 
 It writes `status_4` with the Flutter `2.0x/`–`4.0x/` resolution variants to `assets/images/tray/unix/`,
 its multi-size `.ico` to `assets/images/tray/windows/`, and the black template macOS shows to
-`assets/images/tray/macos/`. The logo states (`status_1` idle, `status_2` running, `status_3` with TUN)
-and every platform's app icon come from `appicon/icon.png` through `appicon/generate_icons.py` instead,
-which `appicon/README.md` documents. `glyph.svg` is also the geometry of the Android notification drawables
-`android/service/src/main/res/drawable/ic.xml` and `ic_service.xml`; change them together. `pubspec.yaml` declares the three tray directories with `platforms:` so each
+`assets/images/tray/macos/`. The logo states (`status_1` idle, `status_2` running, `status_3` with TUN),
+the Android notification and Quick Settings icons, and every platform's app icon come from
+`appicon/icon.png` through `appicon/generate_icons.py` instead, which `appicon/README.md` documents.
+`glyph.svg` is the site favicon `tool/build_site.sh` copies. `pubspec.yaml` declares the three tray directories with `platforms:` so each
 build only bundles the format its tray loads; a new status icon needs a source SVG and an entry in the
 script's `statusIconNames`, nothing in `pubspec.yaml`.
 

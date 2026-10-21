@@ -17,6 +17,8 @@ It needs Pillow (`pip install Pillow`) and writes, from the repository root:
 | Android | `res/mipmap-<density>/ic_launcher.webp`, `ic_launcher_round.webp` | 48–192 px |
 | Android 8+ | `res/mipmap-<density>/ic_launcher_foreground.webp`, `ic_launcher_monochrome.webp` | 108–432 px, art inside the 72 dp safe zone |
 | Android TV | `res/mipmap-television-<density>/ic_launcher.webp`, `ic_launcher_foreground_tv.webp` | 80–320 px, and 108–432 px for the adaptive foreground |
+| Android notification | `service/src/main/res/drawable-<density>/ic_service.png` | 24 dp (24–96 px), the status bar keeps its alpha |
+| Android Quick Settings | `service/src/main/res/drawable-<density>/ic.png` | 24 dp (24–96 px), white |
 | Tray (Linux, Windows) | `assets/images/tray/unix/status_{1,2,3}.png` at `1x`–`4x`, `assets/images/tray/windows/status_{1,2,3}.ico` | 18–72 px, and 16–64 px for the ICO |
 | Tray (macOS) | `assets/images/tray/macos/status_1.png` | 18–72 px, a black template |
 | Android TV banner | `res/mipmap-xhdpi/ic_banner.png` | 320×180, the logo beside `banner-title.png` |

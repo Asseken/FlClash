@@ -218,4 +218,50 @@ void main() {
       );
     }
   });
+
+  test('the notification and tile icons are drawn at 24dp', () async {
+    const service = 'android/service/src/main/res';
+    for (final MapEntry(key: density, value: scale) in _densities.entries) {
+      final size = (24 * scale).round();
+      for (final name in ['ic_service.png', 'ic.png']) {
+        final file = File('$service/drawable-$density/$name');
+        expect(file.existsSync(), isTrue, reason: 'missing ${file.path}');
+        expect(await _size(file), (
+          width: size,
+          height: size,
+        ), reason: file.path);
+      }
+
+      // The status bar keeps only the alpha of its small icon, so a copy that
+      // is not a flat silhouette would lose the mark the plane is drawn with.
+      // `rawRgba` is premultiplied, which makes a white pixel read as alpha.
+      final tile = await _decode(File('$service/drawable-$density/ic.png'));
+      final data = await tile.toByteData(format: ui.ImageByteFormat.rawRgba);
+      final bytes = data!.buffer.asUint8List();
+      tile.dispose();
+      for (var index = 0; index < bytes.length; index += 4) {
+        final alpha = bytes[index + 3];
+        if (alpha == 0) {
+          continue;
+        }
+        expect(
+          [bytes[index], bytes[index + 1], bytes[index + 2]],
+          [alpha, alpha, alpha],
+          reason: 'drawable-$density/ic.png is not white',
+        );
+      }
+    }
+  });
+
+  test('the service posts its notification from that drawable', () {
+    final module = File(
+      'android/service/src/main/java/com/follow/clash/service/'
+      'modules/NotificationModule.kt',
+    ).readAsStringSync();
+    expect(module, contains('setSmallIcon(R.drawable.ic_service)'));
+    expect(
+      File('android/app/src/main/AndroidManifest.xml').readAsStringSync(),
+      contains('android:icon="@drawable/ic"'),
+    );
+  });
 }

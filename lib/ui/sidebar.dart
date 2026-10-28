@@ -11,7 +11,7 @@ import 'package:fl_clash/ui/typography.dart';
 import 'package:flutter/services.dart';
 import 'package:material_ui/material_ui.dart';
 
-const _compactWidth = 48.0;
+const _compactWidth = 60.0;
 const _expandedWidth = 220.0;
 const _itemSize = 40.0;
 const _itemGap = 4.0;
@@ -296,22 +296,10 @@ class _SidebarPane extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           SizedBox(height: windowControls.height + _verticalInset),
-          Align(
-            alignment: AlignmentDirectional.centerStart,
-            child: _SidebarButton(
-              colors: colors,
-              height: itemHeight,
-              sideInset: sideInset,
-              tooltip: expanded
-                  ? UiLocalizations.of(context).showLess
-                  : UiLocalizations.of(context).showMore,
-              tooltipIsLabel: true,
-              onTap: onToggle,
-              child: SizedBox(
-                width: itemWidth,
-                child: Center(child: GlyphIcon(AppGlyphs.sidebar(progress))),
-              ),
-            ),
+          SizedBox(
+            width: _iconSize + 10,
+            height: _iconSize + 10,
+            child: Image.asset('assets/images/icon.png', fit: BoxFit.contain),
           ),
           const SizedBox(height: _toggleGap),
           Expanded(
@@ -352,6 +340,23 @@ class _SidebarPane extends StatelessWidget {
                       ),
                   ],
                 ),
+              ),
+            ),
+          ),
+          Align(
+            alignment: AlignmentDirectional.centerStart,
+            child: _SidebarButton(
+              colors: colors,
+              height: itemHeight,
+              sideInset: sideInset,
+              tooltip: expanded
+                  ? UiLocalizations.of(context).showLess
+                  : UiLocalizations.of(context).showMore,
+              tooltipIsLabel: true,
+              onTap: onToggle,
+              child: SizedBox(
+                width: itemWidth,
+                child: Center(child: GlyphIcon(AppGlyphs.sidebar(progress))),
               ),
             ),
           ),

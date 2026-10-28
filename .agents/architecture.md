@@ -1492,8 +1492,8 @@ that asks the OS for a permission, a global shortcut or a registration, must con
 ## Build System
 
 `setup.dart` is the release build orchestrator: it writes `env.json` (`APP_ENV`), activates `flutter_distributor` from
-the `chen08209/flutter_distributor` fork pinned to a `v<version>-flclash.<n>` tag (cut a new tag there and bump
-`--git-ref` when the fork changes), and leaves the Core artifacts to the build hook.
+the `Asseken/fastforge` fork's `new-version` branch (bump `--git-ref` when that branch changes), and leaves the Core
+artifacts to the build hook.
 
 The desktop Go core and the Rust helper are built by a Dart build hook; Android's Core is built by Gradle (see Android
 Core Build). `plugins/setup/hook/build.dart` only constructs

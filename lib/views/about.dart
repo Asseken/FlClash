@@ -20,11 +20,6 @@ class Contributor {
 class AboutView extends ConsumerWidget {
   const AboutView({super.key});
 
-  static const _contributors = [
-    Contributor(avatar: 'assets/images/avatar/june2.jpg', name: 'June2'),
-    Contributor(avatar: 'assets/images/avatar/arue.jpg', name: 'Arue'),
-  ];
-
   Future<void> _checkUpdate(BuildContext context, WidgetRef ref) async {
     if (ref.read(loadingProvider(LoadingTag.checkUpdate))) return;
     final commonAction = ref.read(commonActionProvider.notifier);
@@ -97,28 +92,9 @@ class AboutView extends ConsumerWidget {
               _buildLinkItem(
                 glyph: AppGlyphs.cpu,
                 title: appLocalizations.core,
-                url: 'https://github.com/chen08209/Clash.Meta/tree/FlClash',
-                label: 'github.com/chen08209/Clash.Meta',
+                url: 'https://github.com/Asseken/mihomo',
+                label: 'github.com/Asseken/mihomo',
               ),
-              _buildLinkItem(
-                glyph: AppGlyphs.send,
-                title: 'Telegram',
-                url: 'https://t.me/FlClash',
-                label: 't.me/FlClash',
-              ),
-            ],
-          ),
-          generateSection(
-            title: appLocalizations.otherContributors,
-            items: [
-              for (final contributor in _contributors)
-                ListItem(
-                  leading: CircleAvatar(
-                    foregroundImage: AssetImage(contributor.avatar),
-                  ),
-                  title: Text(contributor.name),
-                  subtitle: Text(appLocalizations.appIconDesign),
-                ),
             ],
           ),
         ],

@@ -235,6 +235,8 @@
   "start": "Start",
   "runTime": "Run time",
   "stop": "Stop",
+  "proxyTraffic": "Proxy:",
+  "directTraffic": "Direct:",
   "key": "Key",
   "value": "Value",
   "vpnEnableDesc": "VPN routes all system traffic through VpnService automatically.",

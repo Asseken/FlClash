@@ -235,6 +235,8 @@
   "start": "Iniciar",
   "runTime": "Tiempo de ejecución",
   "stop": "Detener",
+  "proxyTraffic": "Proxy:",
+  "directTraffic": "Direct:",
   "key": "Clave",
   "value": "Valor",
   "vpnEnableDesc": "La VPN enruta automáticamente todo el tráfico del sistema a través de VpnService.",

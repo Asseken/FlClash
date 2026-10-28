@@ -235,6 +235,8 @@
   "start": "启动",
   "runTime": "运行时长",
   "stop": "暂停",
+  "proxyTraffic": "代理:",
+  "directTraffic": "直连:",
   "key": "键",
   "value": "值",
   "vpnEnableDesc": "VPN 通过 VpnService 自动路由系统所有流量。",

@@ -486,6 +486,7 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "dialerProxyLoopStopped": m25,
     "direct": MessageLookupByLibrary.simpleMessage("直连"),
+    "directTraffic": MessageLookupByLibrary.simpleMessage("直连:"),
     "disableIcmpForwarding": MessageLookupByLibrary.simpleMessage("禁用ICMP转发"),
     "disableIcmpForwardingDesc": MessageLookupByLibrary.simpleMessage(
       "禁用 ICMP 转发后由虚拟网卡直接应答 ping，ping 将不再显示真实延迟。",
@@ -1088,6 +1089,7 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "proxyGroupsCount": m71,
     "proxyProviders": MessageLookupByLibrary.simpleMessage("代理集"),
+    "proxyTraffic": MessageLookupByLibrary.simpleMessage("代理:"),
     "proxyType": MessageLookupByLibrary.simpleMessage("代理类型"),
     "pruneCache": MessageLookupByLibrary.simpleMessage("修剪缓存"),
     "publicKey": MessageLookupByLibrary.simpleMessage("公钥"),

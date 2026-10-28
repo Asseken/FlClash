@@ -531,6 +531,7 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "dialerProxyLoopStopped": m25,
     "direct": MessageLookupByLibrary.simpleMessage("ダイレクト"),
+    "directTraffic": MessageLookupByLibrary.simpleMessage("ダイレクト:"),
     "disableIcmpForwarding": MessageLookupByLibrary.simpleMessage(
       "ICMP 転送を無効化",
     ),
@@ -1191,6 +1192,7 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "proxyGroupsCount": m71,
     "proxyProviders": MessageLookupByLibrary.simpleMessage("プロキシプロバイダー"),
+    "proxyTraffic": MessageLookupByLibrary.simpleMessage("プロキシ:"),
     "proxyType": MessageLookupByLibrary.simpleMessage("プロキシタイプ"),
     "pruneCache": MessageLookupByLibrary.simpleMessage("キャッシュを整理"),
     "publicKey": MessageLookupByLibrary.simpleMessage("公開鍵"),

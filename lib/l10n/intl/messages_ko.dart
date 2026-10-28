@@ -516,6 +516,7 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "dialerProxyLoopStopped": m25,
     "direct": MessageLookupByLibrary.simpleMessage("직접"),
+    "directTraffic": MessageLookupByLibrary.simpleMessage("다이렉트:"),
     "disableIcmpForwarding": MessageLookupByLibrary.simpleMessage(
       "ICMP 전달 사용 안 함",
     ),
@@ -1170,6 +1171,7 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "proxyGroupsCount": m71,
     "proxyProviders": MessageLookupByLibrary.simpleMessage("프록시 공급자"),
+    "proxyTraffic": MessageLookupByLibrary.simpleMessage("프록시:"),
     "proxyType": MessageLookupByLibrary.simpleMessage("프록시 유형"),
     "pruneCache": MessageLookupByLibrary.simpleMessage("캐시 정리"),
     "publicKey": MessageLookupByLibrary.simpleMessage("공개 키"),

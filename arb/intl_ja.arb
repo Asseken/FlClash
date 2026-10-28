@@ -235,6 +235,8 @@
   "start": "開始",
   "runTime": "稼働時間",
   "stop": "停止",
+  "proxyTraffic": "プロキシ:",
+  "directTraffic": "ダイレクト:",
   "key": "キー",
   "value": "値",
   "vpnEnableDesc": "VPN は VpnService でシステムの全トラフィックを自動的にルーティングします。",

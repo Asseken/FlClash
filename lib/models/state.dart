@@ -188,6 +188,8 @@ abstract class SharedState with _$SharedState {
     required String localNetworkTip,
     required String currentProfileName,
     required String stopText,
+    @Default('') String proxyTraffic,
+    @Default('') String directTraffic,
     required bool onlyStatisticsProxy,
     @Default(true) bool showStopAction,
   }) = _SharedState;

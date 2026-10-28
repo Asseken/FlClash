@@ -337,6 +337,7 @@
   "remove": "Remove",
   "noNetwork": "No network",
   "exportLogs": "Export logs",
+  "deleteLogs": "Delete logs",
   "exportSuccess": "Export successful",
   "iconStyle": "Icon style",
   "iconStyleFilled": "Filled",

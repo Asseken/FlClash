@@ -337,6 +337,7 @@
   "remove": "削除",
   "noNetwork": "ネットワークがありません",
   "exportLogs": "ログをエクスポート",
+  "deleteLogs": "ログの削除",
   "exportSuccess": "エクスポートが完了しました",
   "iconStyle": "アイコンスタイル",
   "iconStyleFilled": "背景あり",

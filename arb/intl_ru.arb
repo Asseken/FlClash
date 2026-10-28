@@ -337,6 +337,7 @@
   "remove": "Убрать",
   "noNetwork": "Нет сети",
   "exportLogs": "Экспорт логов",
+  "deleteLogs": "Удалить логи",
   "exportSuccess": "Экспорт выполнен",
   "iconStyle": "Стиль значков",
   "iconStyleFilled": "С подложкой",

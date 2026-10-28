@@ -562,6 +562,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "directNameserverDesc": MessageLookupByLibrary.simpleMessage(
       "直接接続する通信のドメイン名を解決します。",
     ),
+    "directTraffic": MessageLookupByLibrary.simpleMessage("ダイレクト:"),
     "disableIcmpForwarding": MessageLookupByLibrary.simpleMessage(
       "ICMP 転送を無効化",
     ),
@@ -1380,6 +1381,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "proxyServerNameserverPolicyDesc": MessageLookupByLibrary.simpleMessage(
       "一致したプロキシサーバーのドメイン名は、Proxy Server Nameserver より優先してここで指定した DNS サーバーを使います。",
     ),
+    "proxyTraffic": MessageLookupByLibrary.simpleMessage("プロキシ:"),
     "proxyType": MessageLookupByLibrary.simpleMessage("プロキシタイプ"),
     "pruneCache": MessageLookupByLibrary.simpleMessage("キャッシュを整理"),
     "publicKey": MessageLookupByLibrary.simpleMessage("公開鍵"),

@@ -548,6 +548,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "directNameserverDesc": MessageLookupByLibrary.simpleMessage(
       "직접 연결의 도메인을 확인합니다.",
     ),
+    "directTraffic": MessageLookupByLibrary.simpleMessage("다이렉트:"),
     "disableIcmpForwarding": MessageLookupByLibrary.simpleMessage(
       "ICMP 전달 사용 안 함",
     ),
@@ -1358,6 +1359,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "proxyServerNameserverPolicyDesc": MessageLookupByLibrary.simpleMessage(
       "일치하는 프록시 서버 도메인은 Proxy Server Nameserver 대신 여기서 지정한 DNS 서버를 사용합니다.",
     ),
+    "proxyTraffic": MessageLookupByLibrary.simpleMessage("프록시:"),
     "proxyType": MessageLookupByLibrary.simpleMessage("프록시 유형"),
     "pruneCache": MessageLookupByLibrary.simpleMessage("캐시 정리"),
     "publicKey": MessageLookupByLibrary.simpleMessage("공개 키"),

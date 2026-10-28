@@ -230,6 +230,8 @@
   "start": "Старт",
   "runTime": "Время работы",
   "stop": "Стоп",
+  "proxyTraffic": "Прокси:",
+  "directTraffic": "Прямой:",
   "key": "Ключ",
   "value": "Значение",
   "options": "Опции",

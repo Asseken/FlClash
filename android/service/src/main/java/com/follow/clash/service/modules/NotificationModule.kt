@@ -20,7 +20,7 @@ import com.follow.clash.core.Core
 import com.follow.clash.service.R
 import com.follow.clash.service.ServiceConfig
 import com.follow.clash.service.models.NotificationParams
-import com.follow.clash.service.models.getSpeedTrafficText
+import com.follow.clash.service.models.getSplitTrafficText
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.collectLatest
@@ -36,15 +36,20 @@ private data class ExtendedNotificationParams(
     val stopText: String,
     val showStopAction: Boolean,
     val contentText: String,
+    val directText: String,
 )
 
 private val NotificationParams.extended: ExtendedNotificationParams
-    get() = ExtendedNotificationParams(
-        title,
-        stopText,
-        showStopAction,
-        Core.getSpeedTrafficText(onlyStatisticsProxy),
-    )
+    get() {
+        val traffic = Core.getSplitTrafficText(proxyTraffic, directTraffic)
+        return ExtendedNotificationParams(
+            title,
+            stopText,
+            showStopAction,
+            traffic.proxy,
+            traffic.direct,
+        )
+    }
 
 internal class NotificationModule(
     private val service: Service,
@@ -111,10 +116,14 @@ internal class NotificationModule(
     private val stopIntent by lazy { QuickAction.STOP.quickIntent.toPendingIntent }
 
     private fun update(params: ExtendedNotificationParams) {
+        val text = listOf(params.contentText, params.directText)
+            .filter { it.isNotEmpty() }
+            .joinToString("\n")
         service.startForeground(
             with(notificationBuilder) {
                 setContentTitle(params.title)
-                setContentText(params.contentText)
+                setContentText(text)
+                setStyle(NotificationCompat.BigTextStyle().bigText(text))
                 clearActions()
                 if (params.showStopAction) {
                     addAction(0, params.stopText, stopIntent)

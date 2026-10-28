@@ -1776,6 +1776,16 @@ class AppLocalizations {
     return Intl.message('Stop', name: 'stop', desc: '', args: []);
   }
 
+  /// `Proxy:`
+  String get proxyTraffic {
+    return Intl.message('Proxy:', name: 'proxyTraffic', desc: '', args: []);
+  }
+
+  /// `Direct:`
+  String get directTraffic {
+    return Intl.message('Direct:', name: 'directTraffic', desc: '', args: []);
+  }
+
   /// `Key`
   String get key {
     return Intl.message('Key', name: 'key', desc: '', args: []);
@@ -7708,8 +7718,7 @@ class AppLocalizations {
   String customImportDroppedSubRules(num count, Object label) {
     return Intl.plural(
       count,
-      one:
-          '1 SUB-RULE rule was dropped, since custom profiles do not support sub-rules',
+      one: '1 SUB-RULE rule was dropped, since custom profiles do not support sub-rules',
       other:
           '$label SUB-RULE rules were dropped, since custom profiles do not support sub-rules',
       name: 'customImportDroppedSubRules',

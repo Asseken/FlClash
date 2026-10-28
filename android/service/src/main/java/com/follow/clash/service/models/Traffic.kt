@@ -30,10 +30,36 @@ private val Long.formatBytes: String
 val Traffic.speedText: String
     get() = "${up.formatBytes}/s↑  ${down.formatBytes}/s↓"
 
-fun Core.getSpeedTrafficText(onlyStatisticsProxy: Boolean): String {
+data class SplitTrafficText(
+    val proxy: String,
+    val direct: String,
+)
+
+// Sampled a moment apart, so the direct share can come out slightly negative.
+fun directTrafficOf(all: Traffic, proxy: Traffic): Traffic = Traffic(
+    up = (all.up - proxy.up).coerceAtLeast(0),
+    down = (all.down - proxy.down).coerceAtLeast(0),
+)
+
+fun splitSpeedText(
+    proxy: Traffic,
+    all: Traffic,
+    proxyLabel: String,
+    directLabel: String,
+): SplitTrafficText = SplitTrafficText(
+    proxy = "$proxyLabel ${proxy.speedText}",
+    direct = "$directLabel ${directTrafficOf(all, proxy).speedText}",
+)
+
+fun Core.getSplitTrafficText(proxyLabel: String, directLabel: String): SplitTrafficText {
     return runCatching {
-        gson.fromJson(getTraffic(onlyStatisticsProxy), Traffic::class.java).speedText
+        splitSpeedText(
+            proxy = gson.fromJson(getTraffic(true), Traffic::class.java),
+            all = gson.fromJson(getTraffic(false), Traffic::class.java),
+            proxyLabel = proxyLabel,
+            directLabel = directLabel,
+        )
     }.onFailure { error ->
         GlobalState.log("Unable to read traffic: $error")
-    }.getOrDefault("")
+    }.getOrDefault(SplitTrafficText("", ""))
 }

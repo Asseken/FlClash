@@ -2136,6 +2136,12 @@ abstract class AppLocalizations {
   /// **'Export logs'**
   String get exportLogs;
 
+  /// No description provided for @deleteLogs.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete logs'**
+  String get deleteLogs;
+
   /// No description provided for @exportSuccess.
   ///
   /// In en, this message translates to:

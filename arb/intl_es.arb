@@ -337,6 +337,7 @@
   "remove": "Quitar",
   "noNetwork": "Sin red",
   "exportLogs": "Exportar registros",
+  "deleteLogs": "Eliminar registros",
   "exportSuccess": "Exportación completada",
   "iconStyle": "Estilo de icono",
   "iconStyleFilled": "Relleno",

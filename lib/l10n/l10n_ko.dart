@@ -1054,6 +1054,9 @@ class AppLocalizationsKo extends AppLocalizations {
   String get exportLogs => '로그 내보내기';
 
   @override
+  String get deleteLogs => '로그 삭제';
+
+  @override
   String get exportSuccess => '내보내기 완료';
 
   @override

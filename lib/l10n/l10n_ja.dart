@@ -1057,6 +1057,9 @@ class AppLocalizationsJa extends AppLocalizations {
   String get exportLogs => 'ログをエクスポート';
 
   @override
+  String get deleteLogs => 'ログの削除';
+
+  @override
   String get exportSuccess => 'エクスポートが完了しました';
 
   @override

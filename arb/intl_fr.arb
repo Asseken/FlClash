@@ -337,6 +337,7 @@
   "remove": "Retirer",
   "noNetwork": "Aucun réseau",
   "exportLogs": "Exporter les journaux",
+  "deleteLogs": "Supprimer les journaux",
   "exportSuccess": "Exportation réussie",
   "iconStyle": "Style des icônes",
   "iconStyleFilled": "Pleines",

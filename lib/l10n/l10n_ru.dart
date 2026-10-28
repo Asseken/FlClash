@@ -1081,6 +1081,9 @@ class AppLocalizationsRu extends AppLocalizations {
   String get exportLogs => 'Экспорт логов';
 
   @override
+  String get deleteLogs => 'Удалить логи';
+
+  @override
   String get exportSuccess => 'Экспорт выполнен';
 
   @override

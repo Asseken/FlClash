@@ -337,6 +337,7 @@
   "remove": "제거",
   "noNetwork": "네트워크 없음",
   "exportLogs": "로그 내보내기",
+  "deleteLogs": "로그 삭제",
   "exportSuccess": "내보내기 완료",
   "iconStyle": "아이콘 스타일",
   "iconStyleFilled": "채움",

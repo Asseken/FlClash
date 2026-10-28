@@ -1047,6 +1047,9 @@ class AppLocalizationsZh extends AppLocalizations {
   String get exportLogs => '导出日志';
 
   @override
+  String get deleteLogs => '删除日志';
+
+  @override
   String get exportSuccess => '导出成功';
 
   @override

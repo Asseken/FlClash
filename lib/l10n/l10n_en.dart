@@ -1082,6 +1082,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get exportLogs => 'Export logs';
 
   @override
+  String get deleteLogs => 'Delete logs';
+
+  @override
   String get exportSuccess => 'Export successful';
 
   @override

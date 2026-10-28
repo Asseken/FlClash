@@ -1094,6 +1094,9 @@ class AppLocalizationsFr extends AppLocalizations {
   String get exportLogs => 'Exporter les journaux';
 
   @override
+  String get deleteLogs => 'Supprimer les journaux';
+
+  @override
   String get exportSuccess => 'Exportation réussie';
 
   @override

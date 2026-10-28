@@ -3,6 +3,8 @@ import 'dart:io';
 import 'package:path/path.dart' as p;
 import 'package:test/test.dart';
 
+import '../helpers/posix_path.dart';
+
 const _typography = 'lib/ui/typography.dart';
 
 // The code editor sizes its text from the editor font-size setting.
@@ -22,7 +24,7 @@ void main() {
     final offenders = <String>[];
 
     for (final entity in Directory('lib').listSync(recursive: true)) {
-      final path = p.relative(entity.path);
+      final path = posixPath(p.relative(entity.path));
       if (entity is! File || !path.endsWith('.dart') || _isGenerated(path)) {
         continue;
       }

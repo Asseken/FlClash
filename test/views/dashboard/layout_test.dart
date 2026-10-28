@@ -248,9 +248,9 @@ void main() {
     expect(find.byType(Scrollable), findsOneWidget);
     expect(tester.takeException(), isNull);
 
-    await pumpDashboard(tester, const Size(1220, 700));
-    expect(find.byType(ConnectionsTableCard), findsNothing);
-    expect(find.byType(ConnectionStatsCard), findsOneWidget);
+    await pumpDashboard(tester, const Size(1220, 900));
+    expect(find.byType(ConnectionsTableCard), findsOneWidget);
+    expect(find.byType(ConnectionStatsCard), findsNothing);
 
     await pumpDashboard(tester, const Size(1000, 560));
     expect(rectOf(tester, ConnectionStatsCard).height, 112);

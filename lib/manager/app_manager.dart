@@ -237,7 +237,7 @@ class AppSidebarContainer extends ConsumerWidget {
             visible: hasSidebar,
             child: Material(
               color: backdropOpacity != null
-                  ? chrome.withValues(alpha: backdropOpacity)
+                  ? chrome.scaledAlpha(backdropOpacity)
                   : chrome,
               shape: BorderDirectional(end: Divider.createBorderSide(context)),
               child: MediaQuery.removePadding(

@@ -26,6 +26,8 @@ const helperProtocolVersionHeader = 'x-flclash-helper-protocol';
 final helperProtocolVersion = Platform.isWindows ? '8' : '6';
 const maxTextScale = 1.4;
 const minTextScale = 0.8;
+const maxBackgroundOpacity = 1.0;
+const minBackgroundOpacity = 0.0;
 
 const watchExecution = false;
 
@@ -113,6 +115,7 @@ const profilesDirectoryName = 'profiles';
 const providersDirectoryName = 'providers';
 const proxiesProviderDirectoryName = 'proxies';
 const rulesProviderDirectoryName = 'rules';
+const backgroundDirectoryName = 'background';
 
 const localhost = '127.0.0.1';
 const clashConfigKey = 'clash_config';

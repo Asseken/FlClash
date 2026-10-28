@@ -30,10 +30,9 @@ class DashboardColors {
       tone2: SurfaceLevel.inset.colorOf(colorScheme),
       track: colorScheme.surfaceContainerHighest,
       thumb: colorScheme.outline,
-      series2: Color.alphaBlend(
-        colorScheme.primary.withValues(alpha: 0.45),
-        card,
-      ),
+      // A second series takes the scheme's other hue: blending primary into the
+      // card left the upload line reading as the download one.
+      series2: colorScheme.tertiary,
       ok: colorScheme.success,
       okContainer: colorScheme.successContainer,
       onOkContainer: colorScheme.onSuccessContainer,
@@ -65,10 +64,24 @@ class DashboardColors {
 /// goes through [_blur] or it renders a third heavier.
 abstract final class DashboardShadows {
   static List<BoxShadow> e1(BuildContext context) =>
-      context.colorScheme.brightness == Brightness.dark ? _e1Dark : _e1Light;
+      _for(context, _e1Dark, _e1Light);
 
   static List<BoxShadow> e2(BuildContext context) =>
-      context.colorScheme.brightness == Brightness.dark ? _e2Dark : _e2Light;
+      _for(context, _e2Dark, _e2Light);
+
+  /// A wallpaper shows through a card whose fill it made transparent, and dark
+  /// mode's first shadow is nearly opaque at almost no blur: the card read as
+  /// a black block.
+  static List<BoxShadow> _for(
+    BuildContext context,
+    List<BoxShadow> dark,
+    List<BoxShadow> light,
+  ) {
+    if (context.isOverWallpaper) {
+      return const [];
+    }
+    return context.colorScheme.brightness == Brightness.dark ? dark : light;
+  }
 
   static BoxShadow _shadow(
     int alpha,

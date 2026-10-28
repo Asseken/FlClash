@@ -1,7 +1,9 @@
 import 'dart:async';
+import 'dart:convert';
 import 'dart:io';
 
 import 'package:fl_clash/common/constant.dart';
+import 'package:fl_clash/common/path.dart';
 import 'package:fl_clash/common/system_fonts.dart';
 import 'package:fl_clash/enum/enum.dart';
 import 'package:fl_clash/models/models.dart';
@@ -16,7 +18,9 @@ import 'package:fl_clash/widgets/widgets.dart';
 import 'package:material_ui/material_ui.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:path/path.dart';
 
+import '../helpers/app_paths.dart';
 import '../helpers/test_app.dart';
 import '../helpers/test_profiles.dart';
 
@@ -578,4 +582,157 @@ void main() {
       expect(find.text('100%'), findsOneWidget);
     });
   });
+
+  group('background image', () {
+    late Directory root;
+
+    setUp(() async {
+      root = Directory.systemTemp.createTempSync('theme_background');
+      await useAppPaths(root);
+    });
+
+    tearDown(() {
+      imageCache.clear();
+      imageCache.clearLiveImages();
+      try {
+        root.deleteSync(recursive: true);
+      } on FileSystemException {
+        // Windows releases the decoded file handle a moment after the tree
+        // goes; the temp directory is the OS's to reclaim then.
+      }
+    });
+
+    Future<File> image(String name) async {
+      final dir = Directory(await appPath.backgroundDirPath)
+        ..createSync(recursive: true);
+      return File(join(dir.path, name))
+        ..writeAsBytesSync(base64Decode(_onePixelPng));
+    }
+
+    void store(List<File> files, {String? selected}) {
+      container
+          .read(themeSettingProvider.notifier)
+          .update(
+            (state) => state.copyWith(
+              backgroundImages: [for (final file in files) file.path],
+              backgroundImage: selected ?? files.first.path,
+            ),
+          );
+    }
+
+    Finder thumbnails() => find.byWidgetPredicate(
+      (widget) =>
+          widget is Image &&
+          widget.image is ResizeImage &&
+          (widget.image as ResizeImage).imageProvider is FileImage,
+    );
+
+    Finder opacitySlider() => find.byWidgetPredicate(
+      (widget) =>
+          widget is Slider &&
+          widget.min == minBackgroundOpacity &&
+          widget.max == maxBackgroundOpacity,
+    );
+
+    testWidgets('offers the toggle and says when nothing is stored', (
+      tester,
+    ) async {
+      await pumpThemeView(tester);
+
+      expect(readTheme().backgroundImageEnabled, isTrue);
+      expect(readTheme().backgroundImages, isEmpty);
+      expect(find.text('Background Image'), findsOneWidget);
+      expect(find.text('No background images'), findsOneWidget);
+      expect(thumbnails(), findsNothing);
+      expect(opacitySlider(), findsNothing);
+    });
+
+    testWidgets('shows a thumbnail per stored image and marks the selected', (
+      tester,
+    ) async {
+      final first = await image('first.png');
+      final second = await image('second.png');
+      store([first, second], selected: second.path);
+
+      await pumpThemeView(tester);
+
+      expect(find.text('No background images'), findsNothing);
+      expect(thumbnails(), findsNWidgets(2));
+      expect(find.byType(SelectionBadge), findsOneWidget);
+      expect(find.text('Opacity'), findsOneWidget);
+    });
+
+    testWidgets('selects the image a tap lands on', (tester) async {
+      final first = await image('first.png');
+      final second = await image('second.png');
+      store([first, second], selected: first.path);
+
+      await pumpThemeView(tester);
+      await tester.tap(thumbnails().at(1));
+      await tester.pumpAndSettle();
+
+      expect(readTheme().backgroundImage, second.path);
+    });
+
+    testWidgets('keeps the stored images while the wallpaper is off', (
+      tester,
+    ) async {
+      final first = await image('first.png');
+      container
+          .read(themeSettingProvider.notifier)
+          .update(
+            (state) => state.copyWith(
+              backgroundImages: [first.path],
+              backgroundImage: first.path,
+              backgroundImageEnabled: false,
+            ),
+          );
+
+      await pumpThemeView(tester);
+
+      expect(thumbnails(), findsOneWidget);
+      expect(tester.widget<Slider>(opacitySlider()).onChanged, isNull);
+    });
+
+    testWidgets('writes the opacity only when the drag ends', (tester) async {
+      final first = await image('first.png');
+      store([first]);
+
+      await pumpThemeView(tester);
+      await tester.ensureVisible(opacitySlider());
+      await tester.pumpAndSettle();
+      final gesture = await tester.startGesture(
+        tester.getCenter(opacitySlider()),
+      );
+      await gesture.moveBy(const Offset(-80, 0));
+      await tester.pump();
+      expect(readTheme().backgroundOpacity, 1);
+
+      await gesture.up();
+      await tester.pumpAndSettle();
+      expect(readTheme().backgroundOpacity, lessThan(1));
+    });
+
+    testWidgets('deletes an image from its context menu', (tester) async {
+      final first = await image('first.png');
+      final second = await image('second.png');
+      store([first, second], selected: first.path);
+
+      await pumpThemeView(tester);
+      await tester.longPress(thumbnails().first);
+      await tester.pumpAndSettle();
+      await tester.tap(find.text('Delete'));
+      await tester.pumpAndSettle();
+      await tester.tap(find.text('Delete'));
+      await tester.pumpAndSettle();
+
+      expect(readTheme().backgroundImages, [second.path]);
+      expect(readTheme().backgroundImage, second.path);
+      expect(thumbnails(), findsOneWidget);
+    });
+  });
 }
+
+/// A 1x1 transparent PNG, enough for the thumbnail's own decode not to fail.
+const _onePixelPng =
+    'iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAACklEQVR4nGMAAQAABQABDQottAAAAABJRU5ErkJggg==';

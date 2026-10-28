@@ -375,6 +375,13 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "back": MessageLookupByLibrary.simpleMessage("Назад"),
     "backgroundBlur": MessageLookupByLibrary.simpleMessage("Размытие фона"),
+    "backgroundImage": MessageLookupByLibrary.simpleMessage(
+      "Фоновое изображение",
+    ),
+    "backgroundImageDesc": MessageLookupByLibrary.simpleMessage(
+      "Задать общее фоновое изображение",
+    ),
+    "backgroundOpacity": MessageLookupByLibrary.simpleMessage("Непрозрачность"),
     "backup": MessageLookupByLibrary.simpleMessage("Резервное копирование"),
     "backupAndRestore": MessageLookupByLibrary.simpleMessage(
       "Резервное копирование и восстановление",
@@ -1269,6 +1276,9 @@ class MessageLookup extends MessageLookupByLibrary {
     "networkType": MessageLookupByLibrary.simpleMessage("Тип сети"),
     "nextMatch": MessageLookupByLibrary.simpleMessage("Следующее совпадение"),
     "no": MessageLookupByLibrary.simpleMessage("Нет"),
+    "noBackgroundImage": MessageLookupByLibrary.simpleMessage(
+      "Нет фоновых изображений",
+    ),
     "noData": MessageLookupByLibrary.simpleMessage("Нет данных"),
     "noInfo": MessageLookupByLibrary.simpleMessage("Нет информации"),
     "noLongerRemind": MessageLookupByLibrary.simpleMessage(

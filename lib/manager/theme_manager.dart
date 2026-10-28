@@ -43,7 +43,22 @@ ThemeData watchAppTheme(WidgetRef ref, Brightness brightness) {
   final fontFamily = ref.watch(
     themeSettingProvider.select((state) => state.fontFamily),
   );
+  final pureBlack = ref.watch(
+    themeSettingProvider.select((state) => state.pureBlack),
+  );
+  final hasBackgroundImage = ref.watch(
+    themeSettingProvider.select(
+      (state) =>
+          state.backgroundImageEnabled && state.backgroundImage.isNotEmpty,
+    ),
+  );
   final colorScheme = ref.watch(genColorSchemeProvider(brightness));
+  final scheme = hasBackgroundImage
+      ? colorScheme.withTransparentSurfaces
+      : colorScheme;
+  final plainDark = brightness == Brightness.dark && pureBlack
+      ? ref.watch(genColorSchemeProvider(brightness, pureBlack: false))
+      : null;
   final locales = [
     ?getLocaleForString(locale),
     ...WidgetsBinding.instance.platformDispatcher.locales,
@@ -52,6 +67,8 @@ ThemeData watchAppTheme(WidgetRef ref, Brightness brightness) {
     platform: defaultTargetPlatform,
     fontFamily: fontFamily,
     colorScheme: colorScheme,
+    plainDark: plainDark,
+    hasBackgroundImage: hasBackgroundImage,
     locales: locales.join(','),
   );
   if (_appThemes[brightness] case (
@@ -64,7 +81,7 @@ ThemeData watchAppTheme(WidgetRef ref, Brightness brightness) {
     useMaterial3: true,
     pageTransitionsTheme: _pageTransitionsTheme,
     actionIconTheme: _actionIconTheme,
-    colorScheme: colorScheme,
+    colorScheme: scheme,
     fontFamily: fontFamily,
     fontFamilyFallback: appFontFamilyFallback(
       platform: defaultTargetPlatform,
@@ -72,8 +89,13 @@ ThemeData watchAppTheme(WidgetRef ref, Brightness brightness) {
       fontFamily: fontFamily,
     ),
     extensions: [
-      if (brightness == Brightness.dark)
-        ElevatedColorScheme(colorScheme.elevated),
+      // A sheet lifted off a surface the wallpaper shows would cover it.
+      if (brightness == Brightness.dark && !hasBackgroundImage)
+        ElevatedColorScheme(
+          // Plain dark is pure black a level up, with the seed's tint that a
+          // lift from black would lose.
+          plainDark ?? colorScheme.elevated,
+        ),
     ],
   ).withAppShapes.withAppSurfaces.withAppTypography;
   _appThemes[brightness] = (inputs: inputs, theme: theme);

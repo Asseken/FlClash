@@ -308,6 +308,9 @@ class MessageLookup extends MessageLookupByLibrary {
     "autoUpdateInterval": MessageLookupByLibrary.simpleMessage("자동 업데이트 간격"),
     "back": MessageLookupByLibrary.simpleMessage("뒤로"),
     "backgroundBlur": MessageLookupByLibrary.simpleMessage("배경 흐림"),
+    "backgroundImage": MessageLookupByLibrary.simpleMessage("배경 이미지"),
+    "backgroundImageDesc": MessageLookupByLibrary.simpleMessage("전역 배경 이미지 설정"),
+    "backgroundOpacity": MessageLookupByLibrary.simpleMessage("불투명도"),
     "backup": MessageLookupByLibrary.simpleMessage("백업"),
     "backupAndRestore": MessageLookupByLibrary.simpleMessage("백업 및 복원"),
     "backupFromNewerVersion": MessageLookupByLibrary.simpleMessage(
@@ -1031,6 +1034,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "networkType": MessageLookupByLibrary.simpleMessage("네트워크 유형"),
     "nextMatch": MessageLookupByLibrary.simpleMessage("다음 결과"),
     "no": MessageLookupByLibrary.simpleMessage("아니요"),
+    "noBackgroundImage": MessageLookupByLibrary.simpleMessage("배경 이미지 없음"),
     "noData": MessageLookupByLibrary.simpleMessage("데이터 없음"),
     "noInfo": MessageLookupByLibrary.simpleMessage("정보 없음"),
     "noLongerRemind": MessageLookupByLibrary.simpleMessage("다시 알리지 않음"),

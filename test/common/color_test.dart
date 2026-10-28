@@ -242,4 +242,42 @@ void main() {
     expect(rose.delayColor(800), rose.warning);
     expect(rose.delayColor(-1), rose.error);
   });
+
+  test('transparent surfaces leave only the accents opaque', () {
+    final colorScheme = ColorScheme.fromSeed(
+      seedColor: const Color(0xFF00FF00),
+    );
+    final transparent = colorScheme.withTransparentSurfaces;
+
+    expect(
+      [
+        transparent.surface,
+        transparent.surfaceContainer,
+        transparent.surfaceContainerLow,
+        transparent.surfaceContainerHigh,
+        transparent.surfaceContainerHighest,
+        transparent.surfaceDim,
+        transparent.surfaceBright,
+      ],
+      everyElement(Colors.transparent),
+      reason: 'a filled container would hide the background image',
+    );
+    expect(
+      transparent.shadow,
+      Colors.transparent,
+      reason: 'a shadow shows through the transparent fill that sits on it',
+    );
+    expect(transparent.primary, colorScheme.primary);
+    expect(transparent.onSurface, colorScheme.onSurface);
+  });
+
+  test('scaling alpha keeps a transparent surface transparent', () {
+    expect(Colors.transparent.scaledAlpha(0.5).a, 0);
+    expect(const Color(0xFF123456).scaledAlpha(0.5).a, closeTo(0.5, 0.01));
+    expect(
+      const Color(0xFF123456).scaledAlpha(0.5).toARGB32() & 0xFFFFFF,
+      0x123456,
+      reason: 'only the alpha may move; the veil came from the RGB black',
+    );
+  });
 }

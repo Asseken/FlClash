@@ -5,6 +5,7 @@ import 'dart:math' as math;
 import 'package:fl_clash/common/common.dart';
 import 'package:fl_clash/enum/enum.dart';
 import 'package:fl_clash/models/config.dart';
+import 'package:fl_clash/ui/color.dart';
 import 'package:flutter/foundation.dart';
 import 'package:material_ui/material_ui.dart';
 import 'package:screen_retriever/screen_retriever.dart';
@@ -153,7 +154,7 @@ class Window implements WindowPort {
     final effect = enabled ? await _resolveBlurEffect() : WindowEffect.none;
     await desktopWindow.setEffect(
       effect,
-      tint: system.isWindows ? tint.withValues(alpha: _tintOpacity) : null,
+      tint: system.isWindows ? tint.scaledAlpha(_tintOpacity) : null,
       brightness: brightness,
     );
     return effect == WindowEffect.none ? null : _tintOpacity;

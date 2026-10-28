@@ -165,17 +165,36 @@ class ApplicationState extends ConsumerState<Application> {
             ...GlobalMaterialLocalizations.delegates,
           ],
           builder: (context, child) {
-            return ThemeCrossFade(
-              child: buildManagerStack(
-                isDesktop: system.isDesktop,
-                onConnectivityChanged: _handleConnectivityChanged,
-                terminateSignals: _terminateSignals,
-                child: RemoteFocusAdapter(
-                  enabled: system.isTV,
-                  floatingKeyboard: app?.floatingKeyboard,
-                  child: child!,
+            final hasBackgroundImage =
+                themeProps.backgroundImageEnabled &&
+                themeProps.backgroundImage.isNotEmpty;
+            final content = WallpaperScope(
+              enabled: hasBackgroundImage,
+              child: ThemeCrossFade(
+                child: buildManagerStack(
+                  isDesktop: system.isDesktop,
+                  onConnectivityChanged: _handleConnectivityChanged,
+                  terminateSignals: _terminateSignals,
+                  child: RemoteFocusAdapter(
+                    enabled: system.isTV,
+                    floatingKeyboard: app?.floatingKeyboard,
+                    child: child!,
+                  ),
                 ),
               ),
+            );
+            if (!hasBackgroundImage) {
+              return content;
+            }
+            return Stack(
+              fit: StackFit.expand,
+              children: [
+                BackgroundImage(
+                  path: themeProps.backgroundImage,
+                  opacity: themeProps.backgroundOpacity,
+                ),
+                content,
+              ],
             );
           },
           scrollBehavior: const BaseScrollBehavior(),

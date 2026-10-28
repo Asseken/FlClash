@@ -390,6 +390,11 @@ class MessageLookup extends MessageLookupByLibrary {
     "backgroundBlur": MessageLookupByLibrary.simpleMessage(
       "Desenfoque de fondo",
     ),
+    "backgroundImage": MessageLookupByLibrary.simpleMessage("Imagen de fondo"),
+    "backgroundImageDesc": MessageLookupByLibrary.simpleMessage(
+      "Establecer una imagen de fondo global",
+    ),
+    "backgroundOpacity": MessageLookupByLibrary.simpleMessage("Opacidad"),
     "backup": MessageLookupByLibrary.simpleMessage("Copia de seguridad"),
     "backupAndRestore": MessageLookupByLibrary.simpleMessage(
       "Copia de seguridad y restauración",
@@ -1310,6 +1315,9 @@ class MessageLookup extends MessageLookupByLibrary {
     "networkType": MessageLookupByLibrary.simpleMessage("Tipo de red"),
     "nextMatch": MessageLookupByLibrary.simpleMessage("Coincidencia siguiente"),
     "no": MessageLookupByLibrary.simpleMessage("No"),
+    "noBackgroundImage": MessageLookupByLibrary.simpleMessage(
+      "Sin imágenes de fondo",
+    ),
     "noData": MessageLookupByLibrary.simpleMessage("Sin datos"),
     "noInfo": MessageLookupByLibrary.simpleMessage("Sin información"),
     "noLongerRemind": MessageLookupByLibrary.simpleMessage(

@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:io';
 import 'dart:math';
 
 import 'package:fl_clash/common/common.dart';
@@ -6,6 +7,7 @@ import 'package:fl_clash/enum/enum.dart';
 import 'package:fl_clash/models/models.dart';
 import 'package:fl_clash/providers/config.dart';
 import 'package:fl_clash/providers/state.dart';
+import 'package:fl_clash/state.dart';
 import 'package:fl_clash/ui/icons/icons.dart';
 import 'package:fl_clash/views/font_family.dart';
 import 'package:fl_clash/views/theme_preview.dart';
@@ -48,6 +50,8 @@ class ThemeView extends StatelessWidget {
           const _FontFamilyItem(),
           const SizedBox(height: 16),
           const _TextScaleFactorItem(),
+          const SizedBox(height: 16),
+          const _BackgroundImageItem(),
         ],
       ),
     );
@@ -1212,6 +1216,427 @@ class _CustomColorPreview extends ConsumerWidget {
             ),
           ],
         ),
+      ),
+    );
+  }
+}
+
+class _BackgroundImageItem extends ConsumerStatefulWidget {
+  const _BackgroundImageItem();
+
+  @override
+  ConsumerState<_BackgroundImageItem> createState() =>
+      _BackgroundImageItemState();
+}
+
+class _BackgroundImageItemState extends ConsumerState<_BackgroundImageItem> {
+  Future<void> _handleAdd() async {
+    final path = await picker.pickerImage();
+    if (path == null) {
+      return;
+    }
+    // The picker hands over a path inside its own cache, which the system may
+    // clear between launches; only the copy survives that.
+    final storedPath = await globalState.safeRun(
+      () => backgroundHelper.persistImage(path),
+    );
+    if (storedPath == null || !mounted) {
+      return;
+    }
+    ref.read(themeSettingProvider.notifier).update((state) {
+      final backgroundImages = List<String>.from(state.backgroundImages);
+      if (!backgroundImages.contains(storedPath)) {
+        backgroundImages.add(storedPath);
+      }
+      return state.copyWith(
+        backgroundImage: storedPath,
+        backgroundImages: backgroundImages,
+      );
+    });
+  }
+
+  Future<void> _handleDel(String imagePath) async {
+    final appLocalizations = context.appLocalizations;
+    final res = await dialogs.showMessage(
+      message: TextSpan(
+        text: appLocalizations.deleteTip(appLocalizations.backgroundImage),
+      ),
+      destructive: true,
+      confirmText: appLocalizations.delete,
+    );
+    if (res != true || !mounted) {
+      return;
+    }
+    ref.read(themeSettingProvider.notifier).update((state) {
+      final backgroundImages = List<String>.from(state.backgroundImages)
+        ..remove(imagePath);
+      return state.copyWith(
+        backgroundImages: backgroundImages,
+        backgroundImage: state.backgroundImage == imagePath
+            ? (backgroundImages.isNotEmpty ? backgroundImages.first : '')
+            : state.backgroundImage,
+      );
+    });
+    // The setting is already gone; a file that cannot be removed only leaves a
+    // copy behind, so it must not fail the interaction.
+    await globalState.safeRun(() => backgroundHelper.deleteImage(imagePath));
+  }
+
+  void _handleSelect(String imagePath) {
+    ref.read(themeSettingProvider.notifier).update((state) {
+      if (state.backgroundImage == imagePath) {
+        return state;
+      }
+      return state.copyWith(backgroundImage: imagePath);
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final appLocalizations = context.appLocalizations;
+    final colorScheme = context.colorScheme;
+    final themeProps = ref.watch(themeSettingProvider);
+    final backgroundImages = themeProps.backgroundImages;
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        ListItem.toggle(
+          leading: const GlyphIcon(AppGlyphs.photos),
+          horizontalTitleGap: 12,
+          title: Text(
+            appLocalizations.backgroundImage,
+            style: AppTextStyle.subheadline
+                .of(context, emphasized: true)
+                .copyWith(color: colorScheme.onSurfaceVariant),
+          ),
+          subtitle: Text(appLocalizations.backgroundImageDesc),
+          value: themeProps.backgroundImageEnabled,
+          onChanged: (value) {
+            ref
+                .read(themeSettingProvider.notifier)
+                .update(
+                  (state) => state.copyWith(backgroundImageEnabled: value),
+                );
+          },
+        ),
+        if (backgroundImages.isEmpty)
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+            child: Text(
+              appLocalizations.noBackgroundImage,
+              style: AppTextStyle.footnote
+                  .of(context)
+                  .copyWith(color: colorScheme.onSurfaceVariant),
+            ),
+          ),
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 16),
+          child: _BackgroundImageGrid(
+            images: backgroundImages,
+            selectedImage: themeProps.backgroundImage,
+            onSelect: _handleSelect,
+            onDelete: _handleDel,
+            onAdd: _handleAdd,
+          ),
+        ),
+        if (backgroundImages.isNotEmpty) ...[
+          const SizedBox(height: 16),
+          _BackgroundOpacityItem(
+            opacity: themeProps.backgroundOpacity,
+            enabled: themeProps.backgroundImageEnabled,
+          ),
+        ],
+      ],
+    );
+  }
+}
+
+class _BackgroundImageGrid extends StatelessWidget {
+  const _BackgroundImageGrid({
+    required this.images,
+    required this.selectedImage,
+    required this.onSelect,
+    required this.onDelete,
+    required this.onAdd,
+  });
+
+  static const double tile = 88;
+  static const double _gap = 8;
+
+  final List<String> images;
+  final String selectedImage;
+  final ValueChanged<String> onSelect;
+  final ValueChanged<String> onDelete;
+  final VoidCallback onAdd;
+
+  @override
+  Widget build(BuildContext context) {
+    final colorScheme = context.colorScheme;
+    final level = context.raisedSurfaceLevel;
+    return Container(
+      padding: const EdgeInsets.all(12),
+      decoration: ShapeDecoration(
+        color: level.colorOf(colorScheme),
+        shape: AppShape.xl,
+      ),
+      child: SurfaceScope(
+        level: level,
+        child: LayoutBuilder(
+          builder: (_, constraints) {
+            final width = constraints.maxWidth;
+            final columns = max(1, ((width + _gap) / (tile + _gap)).floor());
+            final spacing = columns > 1
+                ? ((width - columns * tile) / (columns - 1)).floorToDouble()
+                : 0.0;
+            return Wrap(
+              spacing: spacing,
+              runSpacing: _gap,
+              children: [
+                for (final imagePath in images)
+                  _BackgroundImageTile(
+                    imagePath: imagePath,
+                    isSelected: imagePath == selectedImage,
+                    onSelect: () => onSelect(imagePath),
+                    onDelete: () => onDelete(imagePath),
+                  ),
+                _AddBackgroundTile(onPressed: onAdd),
+              ],
+            );
+          },
+        ),
+      ),
+    );
+  }
+}
+
+class _BackgroundImageTile extends StatefulWidget {
+  const _BackgroundImageTile({
+    required this.imagePath,
+    required this.isSelected,
+    required this.onSelect,
+    required this.onDelete,
+  });
+
+  final String imagePath;
+  final bool isSelected;
+  final VoidCallback onSelect;
+  final VoidCallback onDelete;
+
+  @override
+  State<_BackgroundImageTile> createState() => _BackgroundImageTileState();
+}
+
+class _BackgroundImageTileState extends State<_BackgroundImageTile> {
+  static const double _ring = 2.5;
+  static const _duration = Duration(milliseconds: 200);
+
+  bool _focused = false;
+
+  @override
+  Widget build(BuildContext context) {
+    final appLocalizations = context.appLocalizations;
+    final colorScheme = context.colorScheme;
+    // A thumbnail decodes to its own box; a wallpaper-sized bitmap per tile
+    // would stall the frame it appears in.
+    final cacheWidth =
+        (_BackgroundImageGrid.tile * MediaQuery.devicePixelRatioOf(context))
+            .round();
+    return ContextMenuRegion(
+      menuItems: [
+        CommonPopupMenuItem(
+          danger: true,
+          glyph: AppGlyphs.delete,
+          label: appLocalizations.delete,
+          onPressed: widget.onDelete,
+        ),
+      ],
+      child: Semantics(
+        button: true,
+        selected: widget.isSelected,
+        label: appLocalizations.backgroundImage,
+        child: SizedBox.square(
+          dimension: _BackgroundImageGrid.tile,
+          child: Material(
+            type: MaterialType.transparency,
+            shape: AppShape.lg,
+            clipBehavior: Clip.antiAlias,
+            child: InkWell(
+              customBorder: AppShape.lg,
+              onTap: widget.onSelect,
+              onFocusChange: (value) => setState(() => _focused = value),
+              child: Stack(
+                fit: StackFit.expand,
+                children: [
+                  Image.file(
+                    File(widget.imagePath),
+                    fit: BoxFit.cover,
+                    cacheWidth: cacheWidth,
+                    errorBuilder: (_, _, _) => ColoredBox(
+                      color: colorScheme.errorContainer,
+                      child: Center(
+                        child: GlyphIcon(
+                          AppGlyphs.error,
+                          color: colorScheme.onErrorContainer,
+                        ),
+                      ),
+                    ),
+                  ),
+                  AnimatedOpacity(
+                    opacity: widget.isSelected || _focused ? 1 : 0,
+                    duration: _duration,
+                    child: DecoratedBox(
+                      decoration: ShapeDecoration(
+                        shape: AppShape.lg.copyWith(
+                          side: BorderSide(
+                            color: colorScheme.primary,
+                            width: _ring,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                  if (widget.isSelected)
+                    const Positioned(
+                      top: 4,
+                      right: 4,
+                      child: SelectionBadge(size: 22),
+                    ),
+                ],
+              ),
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class _AddBackgroundTile extends StatelessWidget {
+  const _AddBackgroundTile({required this.onPressed});
+
+  final VoidCallback onPressed;
+
+  @override
+  Widget build(BuildContext context) {
+    final colorScheme = context.colorScheme;
+    return Semantics(
+      button: true,
+      label: context.appLocalizations.add,
+      child: SizedBox.square(
+        dimension: _BackgroundImageGrid.tile,
+        child: Material(
+          type: MaterialType.transparency,
+          shape: AppShape.lg,
+          clipBehavior: Clip.antiAlias,
+          child: InkWell(
+            customBorder: AppShape.lg,
+            onTap: onPressed,
+            child: Center(
+              child: Container(
+                width: 40,
+                height: 40,
+                decoration: ShapeDecoration(
+                  color: context.raisedSurfaceLevel.colorOf(colorScheme),
+                  shape: AppShape.circle,
+                ),
+                child: GlyphIcon(
+                  AppGlyphs.add,
+                  size: 20,
+                  color: colorScheme.onSurfaceVariant,
+                ),
+              ),
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class _BackgroundOpacityItem extends ConsumerStatefulWidget {
+  const _BackgroundOpacityItem({required this.opacity, required this.enabled});
+
+  final double opacity;
+  final bool enabled;
+
+  @override
+  ConsumerState<_BackgroundOpacityItem> createState() =>
+      _BackgroundOpacityItemState();
+}
+
+class _BackgroundOpacityItemState
+    extends ConsumerState<_BackgroundOpacityItem> {
+  double? _draft;
+
+  @override
+  Widget build(BuildContext context) {
+    final appLocalizations = context.appLocalizations;
+    final colorScheme = context.colorScheme;
+    final value = _draft ?? widget.opacity;
+    final percent = '${(value * 100).round()}%';
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 16),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            appLocalizations.backgroundOpacity,
+            style: AppTextStyle.subheadline
+                .of(context, emphasized: true)
+                .copyWith(color: colorScheme.onSurfaceVariant),
+          ),
+          const SizedBox(height: 8),
+          MediaQuery.withNoTextScaling(
+            child: Row(
+              spacing: 12,
+              children: [
+                Expanded(
+                  child: DisabledMask(
+                    status: !widget.enabled,
+                    child: ActivateBox(
+                      active: widget.enabled,
+                      child: SliderTheme(
+                        data: SliderDefaultsM3(context),
+                        child: Slider(
+                          padding: EdgeInsets.zero,
+                          min: minBackgroundOpacity,
+                          max: maxBackgroundOpacity,
+                          divisions: 20,
+                          value: value,
+                          label: percent,
+                          onChanged: widget.enabled
+                              ? (value) => setState(() => _draft = value)
+                              : null,
+                          onChangeEnd: (value) {
+                            ref
+                                .read(themeSettingProvider.notifier)
+                                .update(
+                                  (state) =>
+                                      state.copyWith(backgroundOpacity: value),
+                                );
+                            setState(() => _draft = null);
+                          },
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+                ExcludeSemantics(
+                  child: SizedBox(
+                    width: 44,
+                    child: Text(
+                      percent,
+                      textAlign: TextAlign.end,
+                      style: AppTextStyle.footnote
+                          .of(context)
+                          .copyWith(color: colorScheme.onSurfaceVariant),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ],
       ),
     );
   }

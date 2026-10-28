@@ -166,11 +166,30 @@ class ApplicationState extends ConsumerState<Application> {
             GlobalWidgetsLocalizations.delegate,
           ],
           builder: (context, child) {
-            return buildManagerStack(
-              isDesktop: system.isDesktop,
-              onConnectivityChanged: _handleConnectivityChanged,
-              terminateSignals: _terminateSignals,
-              child: child!,
+            final hasBackgroundImage =
+                themeProps.backgroundImageEnabled &&
+                themeProps.backgroundImage.isNotEmpty;
+            final content = WallpaperScope(
+              enabled: hasBackgroundImage,
+              child: buildManagerStack(
+                isDesktop: system.isDesktop,
+                onConnectivityChanged: _handleConnectivityChanged,
+                terminateSignals: _terminateSignals,
+                child: child!,
+              ),
+            );
+            if (!hasBackgroundImage) {
+              return content;
+            }
+            return Stack(
+              fit: StackFit.expand,
+              children: [
+                BackgroundImage(
+                  path: themeProps.backgroundImage,
+                  opacity: themeProps.backgroundOpacity,
+                ),
+                content,
+              ],
             );
           },
           title: appName,

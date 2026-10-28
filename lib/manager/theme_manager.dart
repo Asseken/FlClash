@@ -19,7 +19,22 @@ ThemeData watchAppTheme(WidgetRef ref, Brightness brightness) {
   final fontFamily = ref.watch(
     themeSettingProvider.select((state) => state.fontFamily),
   );
+  final pureBlack = ref.watch(
+    themeSettingProvider.select((state) => state.pureBlack),
+  );
+  final hasBackgroundImage = ref.watch(
+    themeSettingProvider.select(
+      (state) =>
+          state.backgroundImageEnabled && state.backgroundImage.isNotEmpty,
+    ),
+  );
   final colorScheme = ref.watch(genColorSchemeProvider(brightness));
+  final scheme = hasBackgroundImage
+      ? colorScheme.withTransparentSurfaces
+      : colorScheme;
+  final plainDark = brightness == Brightness.dark && pureBlack
+      ? ref.watch(genColorSchemeProvider(brightness, pureBlack: false))
+      : null;
   final locales = [
     ?getLocaleForString(locale),
     ...WidgetsBinding.instance.platformDispatcher.locales,
@@ -28,6 +43,8 @@ ThemeData watchAppTheme(WidgetRef ref, Brightness brightness) {
     platform: defaultTargetPlatform,
     fontFamily: fontFamily,
     colorScheme: colorScheme,
+    plainDark: plainDark,
+    hasBackgroundImage: hasBackgroundImage,
     locales: locales.join(','),
   );
   if (_appThemes[brightness] case (
@@ -37,15 +54,15 @@ ThemeData watchAppTheme(WidgetRef ref, Brightness brightness) {
     return theme;
   }
   final theme = ThemeData(
-    colorScheme: colorScheme,
+    colorScheme: scheme,
     fontFamily: fontFamily,
     fontFamilyFallback: appFontFamilyFallback(
       platform: defaultTargetPlatform,
       locales: locales,
       fontFamily: fontFamily,
     ),
-    elevatedColorScheme: brightness == Brightness.dark
-        ? colorScheme.elevated
+    elevatedColorScheme: brightness == Brightness.dark && !hasBackgroundImage
+        ? plainDark ?? colorScheme.elevated
         : null,
   );
   _appThemes[brightness] = (inputs: inputs, theme: theme);

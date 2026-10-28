@@ -609,6 +609,7 @@ class MessageLookup extends MessageLookupByLibrary {
       "Тайм-аут теста задержки",
     ),
     "delete": MessageLookupByLibrary.simpleMessage("Удалить"),
+    "deleteLogs": MessageLookupByLibrary.simpleMessage("Удалить логи"),
     "deleteMultipTip": m22,
     "deleteTip": m23,
     "desc": MessageLookupByLibrary.simpleMessage(

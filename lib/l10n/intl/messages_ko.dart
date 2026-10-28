@@ -490,6 +490,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "delayTest": MessageLookupByLibrary.simpleMessage("지연 테스트"),
     "delayTestTimeout": MessageLookupByLibrary.simpleMessage("지연 테스트 시간 제한"),
     "delete": MessageLookupByLibrary.simpleMessage("삭제"),
+    "deleteLogs": MessageLookupByLibrary.simpleMessage("로그 삭제"),
     "deleteMultipTip": m22,
     "deleteTip": m23,
     "desc": MessageLookupByLibrary.simpleMessage(

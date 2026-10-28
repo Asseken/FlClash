@@ -633,6 +633,9 @@ class MessageLookup extends MessageLookupByLibrary {
       "Délai d’expiration du test de latence",
     ),
     "delete": MessageLookupByLibrary.simpleMessage("Supprimer"),
+    "deleteLogs": MessageLookupByLibrary.simpleMessage(
+      "Supprimer les journaux",
+    ),
     "deleteMultipTip": m22,
     "deleteTip": m23,
     "desc": MessageLookupByLibrary.simpleMessage(

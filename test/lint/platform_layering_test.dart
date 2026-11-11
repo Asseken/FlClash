@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:path/path.dart' as p;
 import 'package:test/test.dart';
+import '../helpers/posix_path.dart';
 
 const _platformPackages = [
   'tray',
@@ -90,7 +91,7 @@ void main() {
 
     for (final root in ['lib/common', 'lib/enum', 'lib/models']) {
       for (final file in _dartFilesIn(root)) {
-        final relative = p.relative(file.path);
+        final relative = posixPath(p.relative(file.path));
         if (_platformModules.contains(relative)) {
           continue;
         }
@@ -148,7 +149,7 @@ void main() {
         "import 'package:fl_clash/manager/manager.dart';",
       )) {
         offenders.add(
-          '${p.relative(file.path)} — import the one manager it needs, not the '
+          '${posixPath(p.relative(file.path))} — import the one manager it needs, not the '
           'barrel that reaches every platform manager',
         );
       }

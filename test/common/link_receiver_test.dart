@@ -120,9 +120,11 @@ void main() {
       expect(page, contains('Sent'));
       expect(await receiver.link, link);
 
+      // A closed listener refuses the connection, which Windows reports as an
+      // HTTP error rather than the Unix socket one.
       await expectLater(
         _request(receiver.address),
-        throwsA(isA<SocketException>()),
+        throwsA(anyOf(isA<SocketException>(), isA<HttpException>())),
       );
     });
 

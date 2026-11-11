@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:test/test.dart';
 
+import '../helpers/posix_path.dart';
 import 'sources.dart';
 
 /// The one button that carries its label on an enclosing [Tooltip] instead of
@@ -45,7 +46,7 @@ void main() {
       for (final root in sourceRoots) ..._dartFilesIn(root),
     ]) {
       final source = file.readAsStringSync();
-      if (file.path == _wrappedInTooltip) continue;
+      if (posixPath(file.path) == _wrappedInTooltip) continue;
 
       for (final match in _iconButton.allMatches(source)) {
         final arguments = _arguments(source, match.end);

@@ -95,8 +95,7 @@ class GoBuilder {
 
   List<String> _buildArguments(Target target, {String? outFile}) => [
     'build',
-    '-ldflags=${_ldflags()}',
-    '-ldflags=${_ldflags()} -X ${coreBuildTime}',
+    '-ldflags=${_ldflags()} -X $coreBuildTime',
     if (outFile != null) ...['-o', outFile],
     _mainPackage,
   ];

@@ -11,7 +11,7 @@ import 'package:fl_clash/enum/enum.dart';
 import 'package:fl_clash/models/models.dart';
 import 'package:fl_clash/plugins/app.dart';
 import 'package:flutter/services.dart' show PlatformException;
-import 'package:path/path.dart';
+import 'package:path/path.dart' show posix;
 
 /// The name of the leaf the Core signs for a trust store to verify.
 const mitmCheckHost = 'mitm-check.flclash.invalid';
@@ -450,7 +450,7 @@ fi
       if (directory.isEmpty) {
         continue;
       }
-      final candidate = join(directory, name);
+      final candidate = posix.join(directory, name);
       if (File(candidate).existsSync()) {
         return candidate;
       }
@@ -480,22 +480,22 @@ fi
   Future<Map<String, String>> nssDatabases() async {
     final databases = <String, String>{};
     Future<void> addIfDatabase(String directory, String browser) async {
-      if (await File(join(directory, 'cert9.db')).exists()) {
+      if (await File(posix.join(directory, 'cert9.db')).exists()) {
         databases[directory] = browser;
       }
     }
 
-    await addIfDatabase(join(home, '.pki', 'nssdb'), 'Chrome');
+    await addIfDatabase(posix.join(home, '.pki', 'nssdb'), 'Chrome');
     await addIfDatabase(
-      join(home, 'snap', 'chromium', 'current', '.pki', 'nssdb'),
+      posix.join(home, 'snap', 'chromium', 'current', '.pki', 'nssdb'),
       'Chrome',
     );
     for (final profiles in [
-      join(home, '.mozilla', 'firefox'),
-      join(home, 'snap', 'firefox', 'common', '.mozilla', 'firefox'),
+      posix.join(home, '.mozilla', 'firefox'),
+      posix.join(home, 'snap', 'firefox', 'common', '.mozilla', 'firefox'),
     ]) {
       for (final profile in await listDirectory(profiles)) {
-        await addIfDatabase(profile, 'Firefox (${basename(profile)})');
+        await addIfDatabase(profile, 'Firefox (${posix.basename(profile)})');
       }
     }
     return databases;

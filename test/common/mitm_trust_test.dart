@@ -10,6 +10,8 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 
+import '../helpers/posix_path.dart';
+
 const _pem = '''-----BEGIN CERTIFICATE-----
 MIIBxjCCAW2gAwIBAgIUE7mKNCkR6iuATGzZPqCqjJNFbKswCgYIKoZIzj0EAwIw
 MDEQMA4GA1UECgwHRmxDbGFzaDEcMBoGA1UEAwwTRmxDbGFzaCBDQSBURVNUMDAw
@@ -100,7 +102,9 @@ void main() {
   tearDown(() => root.delete(recursive: true));
 
   Future<String> writeTemp(String content) async {
-    final file = File('${root.path}/temp-${written.length}.pem');
+    // One spelling for the temp file, so the commands a store runs match the
+    // paths the expectations build on either platform.
+    final file = File(posixPath('${root.path}/temp-${written.length}.pem'));
     await file.writeAsString(content);
     written.add(content);
     return file.path;
@@ -236,7 +240,7 @@ void main() {
       expect(processes.argumentsOf('/usr/bin/security').single, [
         'verify-cert',
         '-c',
-        '${root.path}/temp-0.pem',
+        posixPath('${root.path}/temp-0.pem'),
         '-p',
         'ssl',
         '-n',
@@ -292,9 +296,12 @@ void main() {
           'trustRoot',
           '-k',
           '/Users/someone/Library/Keychains/login.keychain-db',
-          '${root.path}/temp-0.pem',
+          posixPath('${root.path}/temp-0.pem'),
         ]);
-        expect(File('${root.path}/temp-0.pem').existsSync(), isFalse);
+        expect(
+          File(posixPath('${root.path}/temp-0.pem')).existsSync(),
+          isFalse,
+        );
       },
     );
 
@@ -328,7 +335,7 @@ void main() {
         '-addstore',
         '-user',
         'Root',
-        '${root.path}/temp-0.pem',
+        posixPath('${root.path}/temp-0.pem'),
       ]);
     });
 
@@ -350,25 +357,35 @@ void main() {
     late List<List<String>> elevated;
     late bool elevation;
 
+    late String base;
+    late String previousDirectory;
+
     setUp(() {
+      base = posixPath(root.path);
+      previousDirectory = Directory.current.path;
+      Directory.current = root.path;
       files = {};
       directories = {};
       elevated = [];
       elevation = true;
     });
 
+    tearDown(() {
+      Directory.current = previousDirectory;
+    });
+
     Future<void> touch(String path) async {
-      await File('${root.path}$path').create(recursive: true);
+      await File('$base$path').create(recursive: true);
     }
 
     LinuxMitmTrustStore store({bool certutil = true}) {
-      final bin = Directory('${root.path}/bin')..createSync(recursive: true);
+      final bin = Directory('$base/bin')..createSync(recursive: true);
       if (certutil) {
         File('${bin.path}/certutil').createSync();
       }
       return LinuxMitmTrustStore(
-        home: '${root.path}/home',
-        searchPath: '/nonexistent:${bin.path}',
+        home: '$base/home',
+        searchPath: '/nonexistent:bin',
         run: processes.run,
         elevate: (command) async {
           elevated.add(command);
@@ -380,12 +397,12 @@ void main() {
       );
     }
 
-    String database(String path) => '${root.path}/home$path';
+    String database(String path) => '$base/home$path';
 
     group('removing', () {
       void listDatabases({required bool stays}) {
         var deleted = false;
-        processes.handle('${root.path}/bin/certutil', (arguments) {
+        processes.handle('bin/certutil', (arguments) {
           if (arguments.contains('-D')) {
             deleted = true;
             return ProcessResult(0, 0, '', '');
@@ -438,13 +455,13 @@ void main() {
     test('a CA in the system bundle and every browser is trusted', () async {
       files[LinuxMitmTrustStore.bundles.first] = 'other\n$_pem';
       await touch('/home/.pki/nssdb/cert9.db');
-      processes.stub('${root.path}/bin/certutil', stdout: _pem);
+      processes.stub('bin/certutil', stdout: _pem);
 
       final check = await store().check(_ca, issueLeaf);
 
       expect(check.trust, MitmTrust.ready);
       expect(check.missingStores, isEmpty);
-      expect(processes.argumentsOf('${root.path}/bin/certutil').single, [
+      expect(processes.argumentsOf('bin/certutil').single, [
         '-d',
         'sql:${database('/.pki/nssdb')}',
         '-L',
@@ -459,7 +476,7 @@ void main() {
       final profiles = database('/.mozilla/firefox');
       directories[profiles] = ['$profiles/abc.default-release'];
       await touch('/home/.mozilla/firefox/abc.default-release/cert9.db');
-      processes.stub('${root.path}/bin/certutil', exitCode: 255);
+      processes.stub('bin/certutil', exitCode: 255);
 
       final check = await store().check(_ca, issueLeaf);
 
@@ -491,7 +508,7 @@ void main() {
 
       expect(await store().install(_ca), MitmInstallOutcome.installed);
 
-      final pemPath = '${root.path}/temp-0.pem';
+      final pemPath = '$base/temp-0.pem';
       expect(elevated, [
         [
           '/bin/sh',
@@ -502,7 +519,7 @@ void main() {
         ],
       ]);
       final db = 'sql:${database('/.pki/nssdb')}';
-      expect(processes.argumentsOf('${root.path}/bin/certutil'), [
+      expect(processes.argumentsOf('bin/certutil'), [
         ['-d', db, '-D', '-n', LinuxMitmTrustStore.nickname],
         [
           '-d',

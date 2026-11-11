@@ -12,6 +12,9 @@ mkdir -p "$repo"
 git -C "$repo" init --quiet
 git -C "$repo" config user.email 'test@example.com'
 git -C "$repo" config user.name 'Test'
+# A global autocrlf would have the checker's own git calls warn on stderr, which
+# the cases below read as a complaint.
+git -C "$repo" config core.autocrlf false
 printf 'void main() {}\n' >"$repo/tracked.dart"
 git -C "$repo" add tracked.dart
 git -C "$repo" commit --quiet -m 'seed'

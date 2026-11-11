@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:test/test.dart';
 
+import '../helpers/posix_path.dart';
 import 'sources.dart';
 
 final _passwordInputType = RegExp(
@@ -18,7 +19,7 @@ void main() {
       if (entity is! File ||
           !entity.path.endsWith('.dart') ||
           entity.path.contains('/generated/') ||
-          _secretFields.contains(entity.path)) {
+          _secretFields.contains(posixPath(entity.path))) {
         continue;
       }
       final lines = entity.readAsLinesSync();

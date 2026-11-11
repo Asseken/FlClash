@@ -4,6 +4,7 @@ import 'package:path/path.dart' as p;
 import 'package:test/test.dart';
 
 import 'sources.dart';
+import '../helpers/posix_path.dart';
 
 const _typography = 'package:prism_ui/typography.dart';
 
@@ -24,7 +25,7 @@ void main() {
     final offenders = <String>[];
 
     for (final entity in sourceEntities()) {
-      final path = p.relative(entity.path);
+      final path = posixPath(p.relative(entity.path));
       if (entity is! File || !path.endsWith('.dart') || _isGenerated(path)) {
         continue;
       }

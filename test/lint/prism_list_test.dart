@@ -4,6 +4,7 @@ import 'package:path/path.dart' as p;
 import 'package:test/test.dart';
 
 import 'sources.dart';
+import '../helpers/posix_path.dart';
 
 final _flutterList = RegExp(
   r'\b(?:ListView\.(?:builder|separated)|SliverList\.(?:builder|separated)|'
@@ -24,7 +25,7 @@ void main() {
       if (entity is! File || !entity.path.endsWith('.dart')) {
         continue;
       }
-      final path = p.relative(entity.path);
+      final path = posixPath(p.relative(entity.path));
       if (_allowed.containsKey(path)) {
         continue;
       }

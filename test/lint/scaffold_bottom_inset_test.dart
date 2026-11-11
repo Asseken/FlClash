@@ -4,6 +4,7 @@ import 'package:path/path.dart' as p;
 import 'package:test/test.dart';
 
 import 'sources.dart';
+import '../helpers/posix_path.dart';
 
 final _scopeRead = RegExp(r'BottomInsetScope\.of\(');
 
@@ -72,7 +73,7 @@ void main() {
           entity.path.contains('/generated/')) {
         continue;
       }
-      final path = p.relative(entity.path);
+      final path = posixPath(p.relative(entity.path));
       final lines = entity.readAsLinesSync();
       for (final (index, line) in lines.indexed) {
         if (_scopeRead.hasMatch(line)) {

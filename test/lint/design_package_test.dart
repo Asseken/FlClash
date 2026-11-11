@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:path/path.dart' as p;
 import 'package:test/test.dart';
+import '../helpers/posix_path.dart';
 
 const _roots = ['lib', 'test', 'tool', 'plugins'];
 
@@ -42,7 +43,7 @@ void main() {
         if (entity is! File || !entity.path.endsWith('.dart')) {
           continue;
         }
-        final relative = p.relative(entity.path);
+        final relative = posixPath(p.relative(entity.path));
         if (_isGenerated(relative)) {
           continue;
         }

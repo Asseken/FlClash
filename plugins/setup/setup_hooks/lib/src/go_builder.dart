@@ -12,6 +12,10 @@ import 'util.dart';
 
 final _log = Logger('go_builder');
 
+DateTime nowBuildTime = DateTime.now();
+final String coreBuildTime =
+    'github.com/metacubex/mihomo/constant.BuildTime=${nowBuildTime.year}-${nowBuildTime.month}-${nowBuildTime.day}:${nowBuildTime.hour}';
+
 class GoBuilder {
   GoBuilder({
     required this.rootDir,
@@ -87,6 +91,7 @@ class GoBuilder {
     config.goLdflags,
     if (config.coreVersion.isNotEmpty)
       '-X $_versionSymbol=${config.coreVersion}',
+    '-X $coreBuildTime',
   ].join(' ');
 
   List<String> _buildArguments(Target target, {String? outFile}) => [

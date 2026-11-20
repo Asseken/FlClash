@@ -6,6 +6,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:rust_api/tray.dart';
 
 import '../../helpers/fake_tray_host.dart';
+import '../../helpers/posix_path.dart';
 
 const _asset = 'assets/images/tray/unix/status_1.png';
 
@@ -340,7 +341,7 @@ void main() {
       await Tray.instance.show(_spec());
 
       expect(
-        host.lastShown!.image.path,
+        posixPath(host.lastShown!.image.path),
         endsWith('flutter_assets/assets/images/tray/unix/3.0x/status_1.png'),
       );
     });
@@ -351,7 +352,7 @@ void main() {
       await Tray.instance.show(_spec());
 
       expect(
-        host.lastShown!.image.path,
+        posixPath(host.lastShown!.image.path),
         endsWith('flutter_assets/assets/images/tray/unix/status_1.png'),
       );
     });

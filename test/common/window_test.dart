@@ -89,7 +89,7 @@ void main() {
     expect(second, 0.5);
     expect(
       fake.calls.where((call) => call.method == 'isEffectSupported'),
-      hasLength(Platform.isWindows ? 4 : 3),
+      hasLength(3),
     );
     expect(fake.calls.last.arguments['effect'], isNot('none'));
   });

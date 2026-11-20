@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:test/test.dart';
 
 import 'sources.dart';
+import '../helpers/posix_path.dart';
 
 final _passwordInputType = RegExp(
   r'\benableSuggestions:\s*false\b|\bTextInputType\.visiblePassword\b',
@@ -18,7 +19,7 @@ void main() {
       if (entity is! File ||
           !entity.path.endsWith('.dart') ||
           entity.path.contains('/generated/') ||
-          _secretFields.contains(entity.path)) {
+          _secretFields.contains(posixPath(entity.path))) {
         continue;
       }
       final lines = entity.readAsLinesSync();

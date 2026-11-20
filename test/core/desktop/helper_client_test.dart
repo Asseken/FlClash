@@ -9,6 +9,8 @@ import 'package:fl_clash/core/desktop/helper_client.dart';
 import 'package:fl_clash/core/desktop/launcher.dart';
 import 'package:fl_clash/core/desktop/model.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:mocktail/mocktail.dart';
+import 'package:rust_api/rust_api.dart';
 
 import 'fakes.dart';
 
@@ -16,7 +18,13 @@ const _sessionId = '0123456789abcdef0123456789abcdef';
 const _coreSha256 =
     '0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef';
 
+class _MockRustApi extends Mock implements RustLibApi {}
+
 void main() {
+  TestWidgetsFlutterBinding.ensureInitialized();
+  setUpAll(() {
+    RustLib.initMock(api: _MockRustApi());
+  });
   test('reads the port from the key the Windows service publishes it in', () {
     final peer = File('services/helper/src/service/peer.rs').readAsStringSync();
 

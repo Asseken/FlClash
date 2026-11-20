@@ -11,6 +11,9 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 import '../helpers/test_profiles.dart';
 
+String _readGoSource(String path) =>
+    File(path).readAsStringSync().replaceAll('\r\n', '\n');
+
 class _TestClashProviders extends ClashProviders {
   final List<ClashProvider> initial;
 
@@ -933,7 +936,7 @@ void main() {
   });
 
   test('customProxyTypes lists every type the core parses', () {
-    final source = File('core/Clash.Meta/adapter/parser.go').readAsStringSync();
+    final source = _readGoSource('core/Clash.Meta/adapter/parser.go');
     expect(customProxyTypes, [
       for (final match in RegExp(
         r'^\tcase "([^"]+)":',
@@ -953,7 +956,7 @@ void main() {
           for (final match in RegExp(
             r'^type (\w+) struct \{\n([\s\S]*?)\n\}',
             multiLine: true,
-          ).allMatches(file.readAsStringSync()))
+          ).allMatches(_readGoSource(file.path)))
             match.group(1)!: match.group(2)!,
     };
     final keyPattern = RegExp(r'proxy:"([^",]+)(,omitempty)?"');
@@ -966,7 +969,7 @@ void main() {
       for (final match in RegExp(
         r'^\tcase "([^"]+)":\n\t\t\w+ := &outbound\.(\w+)\{',
         multiLine: true,
-      ).allMatches(File('$root/parser.go').readAsStringSync()))
+      ).allMatches(_readGoSource('$root/parser.go')))
         match.group(1)!: [
           structs[match.group(2)]!,
           for (final embedded in embeddedPattern.allMatches(
@@ -1142,7 +1145,7 @@ void main() {
             'core/Clash.Meta/$directory',
           ).listSync(recursive: true).whereType<File>())
             if (file.path.endsWith('.go') && !file.path.endsWith('_test.go'))
-              file.readAsStringSync().toLowerCase(),
+              _readGoSource(file.path).toLowerCase(),
       ].join('\n');
       // These fields take their values from modules outside the submodule.
       const elsewhere = {

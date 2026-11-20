@@ -709,6 +709,12 @@ class AppLocalizationsZh extends AppLocalizations {
   String get stop => '暂停';
 
   @override
+  String get proxyTraffic => '代理:';
+
+  @override
+  String get directTraffic => '直连:';
+
+  @override
   String get key => '键';
 
   @override

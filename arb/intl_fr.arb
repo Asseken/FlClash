@@ -230,6 +230,8 @@
   "start": "Démarrer",
   "runTime": "Durée d’exécution",
   "stop": "Arrêter",
+  "proxyTraffic": "Proxy :",
+  "directTraffic": "Direct :",
   "key": "Clé",
   "value": "Valeur",
   "options": "Options",

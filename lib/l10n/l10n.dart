@@ -1494,6 +1494,18 @@ abstract class AppLocalizations {
   /// **'Stop'**
   String get stop;
 
+  /// No description provided for @proxyTraffic.
+  ///
+  /// In en, this message translates to:
+  /// **'Proxy:'**
+  String get proxyTraffic;
+
+  /// No description provided for @directTraffic.
+  ///
+  /// In en, this message translates to:
+  /// **'Direct:'**
+  String get directTraffic;
+
   /// No description provided for @key.
   ///
   /// In en, this message translates to:

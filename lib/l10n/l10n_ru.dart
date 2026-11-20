@@ -731,6 +731,12 @@ class AppLocalizationsRu extends AppLocalizations {
   String get stop => 'Стоп';
 
   @override
+  String get proxyTraffic => 'Прокси:';
+
+  @override
+  String get directTraffic => 'Прямой:';
+
+  @override
   String get key => 'Ключ';
 
   @override

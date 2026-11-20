@@ -713,6 +713,12 @@ class AppLocalizationsKo extends AppLocalizations {
   String get stop => '중지';
 
   @override
+  String get proxyTraffic => '프록시:';
+
+  @override
+  String get directTraffic => '다이렉트:';
+
+  @override
   String get key => '키';
 
   @override

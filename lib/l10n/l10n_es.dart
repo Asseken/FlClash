@@ -742,6 +742,12 @@ class AppLocalizationsEs extends AppLocalizations {
   String get stop => 'Detener';
 
   @override
+  String get proxyTraffic => 'Proxy:';
+
+  @override
+  String get directTraffic => 'Direct:';
+
+  @override
   String get key => 'Clave';
 
   @override

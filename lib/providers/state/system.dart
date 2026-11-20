@@ -201,6 +201,8 @@ SharedState sharedState(Ref ref) {
     onlyStatisticsProxy: onlyStatisticsProxy,
     showStopAction: appSetting.showStopAction,
     stopText: currentAppLocalizations.stop,
+    proxyTraffic: currentAppLocalizations.proxyTraffic,
+    directTraffic: currentAppLocalizations.directTraffic,
     stopTip: currentAppLocalizations.stopVpn,
     startTip: currentAppLocalizations.startVpn,
     localNetworkTip: currentAppLocalizations.localNetworkDeniedTip,

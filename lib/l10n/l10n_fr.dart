@@ -741,6 +741,12 @@ class AppLocalizationsFr extends AppLocalizations {
   String get stop => 'Arrêter';
 
   @override
+  String get proxyTraffic => 'Proxy :';
+
+  @override
+  String get directTraffic => 'Direct :';
+
+  @override
   String get key => 'Clé';
 
   @override

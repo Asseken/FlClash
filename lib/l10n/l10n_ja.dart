@@ -713,6 +713,12 @@ class AppLocalizationsJa extends AppLocalizations {
   String get stop => '停止';
 
   @override
+  String get proxyTraffic => 'プロキシ:';
+
+  @override
+  String get directTraffic => 'ダイレクト:';
+
+  @override
   String get key => 'キー';
 
   @override

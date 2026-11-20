@@ -448,6 +448,18 @@ class AppLocalizationsEs extends AppLocalizations {
   String get account => 'Cuenta';
 
   @override
+  String get backgroundImage => 'Imagen de fondo';
+
+  @override
+  String get backgroundImageDesc => 'Establecer una imagen de fondo global';
+
+  @override
+  String get backgroundOpacity => 'Opacidad';
+
+  @override
+  String get noBackgroundImage => 'No hay imágenes de fondo';
+
+  @override
   String get backup => 'Copia de seguridad';
 
   @override

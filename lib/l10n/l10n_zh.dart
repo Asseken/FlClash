@@ -421,6 +421,18 @@ class AppLocalizationsZh extends AppLocalizations {
   String get account => '账号';
 
   @override
+  String get backgroundImage => '背景图片';
+
+  @override
+  String get backgroundImageDesc => '设置全局背景图片';
+
+  @override
+  String get backgroundOpacity => '不透明度';
+
+  @override
+  String get noBackgroundImage => '暂无背景图片';
+
+  @override
   String get backup => '备份';
 
   @override

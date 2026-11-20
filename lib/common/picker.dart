@@ -11,6 +11,11 @@ class Picker {
     return FilePicker.pickFile(initialDirectory: await appPath.downloadDirPath);
   }
 
+  Future<String?> pickerImage() async {
+    final xFile = await ImagePicker().pickImage(source: ImageSource.gallery);
+    return xFile?.path;
+  }
+
   Future<Uri?> saveFile(String fileName, Uint8List bytes) async {
     final uri = await FilePicker.saveFile(
       fileName: fileName,

@@ -424,6 +424,18 @@ class AppLocalizationsKo extends AppLocalizations {
   String get account => '계정';
 
   @override
+  String get backgroundImage => '배경 이미지';
+
+  @override
+  String get backgroundImageDesc => '전역 배경 이미지를 설정';
+
+  @override
+  String get backgroundOpacity => '불투명도';
+
+  @override
+  String get noBackgroundImage => '배경 이미지가 없습니다';
+
+  @override
   String get backup => '백업';
 
   @override

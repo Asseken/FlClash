@@ -439,6 +439,18 @@ class AppLocalizationsRu extends AppLocalizations {
   String get account => 'Аккаунт';
 
   @override
+  String get backgroundImage => 'Фоновое изображение';
+
+  @override
+  String get backgroundImageDesc => 'Установить глобальное фоновое изображение';
+
+  @override
+  String get backgroundOpacity => 'Непрозрачность';
+
+  @override
+  String get noBackgroundImage => 'Нет фоновых изображений';
+
+  @override
   String get backup => 'Резервное копирование';
 
   @override

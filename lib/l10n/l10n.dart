@@ -918,6 +918,30 @@ abstract class AppLocalizations {
   /// **'Account'**
   String get account;
 
+  /// No description provided for @backgroundImage.
+  ///
+  /// In en, this message translates to:
+  /// **'Background Image'**
+  String get backgroundImage;
+
+  /// No description provided for @backgroundImageDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'Set a global background image'**
+  String get backgroundImageDesc;
+
+  /// No description provided for @backgroundOpacity.
+  ///
+  /// In en, this message translates to:
+  /// **'Opacity'**
+  String get backgroundOpacity;
+
+  /// No description provided for @noBackgroundImage.
+  ///
+  /// In en, this message translates to:
+  /// **'No background images'**
+  String get noBackgroundImage;
+
   /// No description provided for @backup.
   ///
   /// In en, this message translates to:

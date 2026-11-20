@@ -425,6 +425,18 @@ class AppLocalizationsJa extends AppLocalizations {
   String get account => 'アカウント';
 
   @override
+  String get backgroundImage => '背景画像';
+
+  @override
+  String get backgroundImageDesc => 'グローバル背景画像を設定';
+
+  @override
+  String get backgroundOpacity => '不透明度';
+
+  @override
+  String get noBackgroundImage => '背景画像がありません';
+
+  @override
   String get backup => 'バックアップ';
 
   @override

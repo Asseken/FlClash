@@ -2725,7 +2725,7 @@ as double,
 /// @nodoc
 mixin _$ThemeProps {
 
- int? get primaryColor; List<int> get primaryColors; ThemeMode get themeMode;@JsonKey(readValue: _readColorStyle) ColorStyle get colorStyle; bool get pureBlack; bool get sidebarBlur;@JsonKey(readValue: _readLiquidGlass) LiquidGlassMode get liquidGlass; TextScale get textScale;@JsonKey(name: 'systemFontFamily') String? get fontFamily;
+ int? get primaryColor; List<int> get primaryColors; ThemeMode get themeMode;@JsonKey(readValue: _readColorStyle) ColorStyle get colorStyle; bool get pureBlack; bool get sidebarBlur;@JsonKey(readValue: _readLiquidGlass) LiquidGlassMode get liquidGlass; TextScale get textScale;@JsonKey(name: 'systemFontFamily') String? get fontFamily; String get backgroundImage; double get backgroundOpacity; List<String> get backgroundImages; bool get backgroundImageEnabled;
 /// Create a copy of ThemeProps
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -2739,20 +2739,20 @@ $ThemePropsCopyWith<ThemeProps> get copyWith => _$ThemePropsCopyWithImpl<ThemePr
 @override
 bool operator ==(Object other) {
   final _this = this as ThemeProps;
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is ThemeProps&&(identical(other.primaryColor, _this.primaryColor) || other.primaryColor == _this.primaryColor)&&const DeepCollectionEquality().equals(other.primaryColors, _this.primaryColors)&&(identical(other.themeMode, _this.themeMode) || other.themeMode == _this.themeMode)&&(identical(other.colorStyle, _this.colorStyle) || other.colorStyle == _this.colorStyle)&&(identical(other.pureBlack, _this.pureBlack) || other.pureBlack == _this.pureBlack)&&(identical(other.sidebarBlur, _this.sidebarBlur) || other.sidebarBlur == _this.sidebarBlur)&&(identical(other.liquidGlass, _this.liquidGlass) || other.liquidGlass == _this.liquidGlass)&&(identical(other.textScale, _this.textScale) || other.textScale == _this.textScale)&&(identical(other.fontFamily, _this.fontFamily) || other.fontFamily == _this.fontFamily));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is ThemeProps&&(identical(other.primaryColor, _this.primaryColor) || other.primaryColor == _this.primaryColor)&&const DeepCollectionEquality().equals(other.primaryColors, _this.primaryColors)&&(identical(other.themeMode, _this.themeMode) || other.themeMode == _this.themeMode)&&(identical(other.colorStyle, _this.colorStyle) || other.colorStyle == _this.colorStyle)&&(identical(other.pureBlack, _this.pureBlack) || other.pureBlack == _this.pureBlack)&&(identical(other.sidebarBlur, _this.sidebarBlur) || other.sidebarBlur == _this.sidebarBlur)&&(identical(other.liquidGlass, _this.liquidGlass) || other.liquidGlass == _this.liquidGlass)&&(identical(other.textScale, _this.textScale) || other.textScale == _this.textScale)&&(identical(other.fontFamily, _this.fontFamily) || other.fontFamily == _this.fontFamily)&&(identical(other.backgroundImage, _this.backgroundImage) || other.backgroundImage == _this.backgroundImage)&&(identical(other.backgroundOpacity, _this.backgroundOpacity) || other.backgroundOpacity == _this.backgroundOpacity)&&const DeepCollectionEquality().equals(other.backgroundImages, _this.backgroundImages)&&(identical(other.backgroundImageEnabled, _this.backgroundImageEnabled) || other.backgroundImageEnabled == _this.backgroundImageEnabled));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
 int get hashCode {
   final _this = this as ThemeProps;
-  return Object.hash(runtimeType,_this.primaryColor,const DeepCollectionEquality().hash(_this.primaryColors),_this.themeMode,_this.colorStyle,_this.pureBlack,_this.sidebarBlur,_this.liquidGlass,_this.textScale,_this.fontFamily);
+  return Object.hash(runtimeType,_this.primaryColor,const DeepCollectionEquality().hash(_this.primaryColors),_this.themeMode,_this.colorStyle,_this.pureBlack,_this.sidebarBlur,_this.liquidGlass,_this.textScale,_this.fontFamily,_this.backgroundImage,_this.backgroundOpacity,const DeepCollectionEquality().hash(_this.backgroundImages),_this.backgroundImageEnabled);
 }
 
 @override
 String toString() {
   final _this = this as ThemeProps;
-  return 'ThemeProps(primaryColor: ${_this.primaryColor}, primaryColors: ${_this.primaryColors}, themeMode: ${_this.themeMode}, colorStyle: ${_this.colorStyle}, pureBlack: ${_this.pureBlack}, sidebarBlur: ${_this.sidebarBlur}, liquidGlass: ${_this.liquidGlass}, textScale: ${_this.textScale}, fontFamily: ${_this.fontFamily})';
+  return 'ThemeProps(primaryColor: ${_this.primaryColor}, primaryColors: ${_this.primaryColors}, themeMode: ${_this.themeMode}, colorStyle: ${_this.colorStyle}, pureBlack: ${_this.pureBlack}, sidebarBlur: ${_this.sidebarBlur}, liquidGlass: ${_this.liquidGlass}, textScale: ${_this.textScale}, fontFamily: ${_this.fontFamily}, backgroundImage: ${_this.backgroundImage}, backgroundOpacity: ${_this.backgroundOpacity}, backgroundImages: ${_this.backgroundImages}, backgroundImageEnabled: ${_this.backgroundImageEnabled})';
 }
 
 
@@ -2763,7 +2763,7 @@ abstract mixin class $ThemePropsCopyWith<$Res>  {
   factory $ThemePropsCopyWith(ThemeProps value, $Res Function(ThemeProps) _then) = _$ThemePropsCopyWithImpl;
 @useResult
 $Res call({
- int? primaryColor, List<int> primaryColors, ThemeMode themeMode,@JsonKey(readValue: _readColorStyle) ColorStyle colorStyle, bool pureBlack, bool sidebarBlur,@JsonKey(readValue: _readLiquidGlass) LiquidGlassMode liquidGlass, TextScale textScale,@JsonKey(name: 'systemFontFamily') String? fontFamily
+ int? primaryColor, List<int> primaryColors, ThemeMode themeMode,@JsonKey(readValue: _readColorStyle) ColorStyle colorStyle, bool pureBlack, bool sidebarBlur,@JsonKey(readValue: _readLiquidGlass) LiquidGlassMode liquidGlass, TextScale textScale,@JsonKey(name: 'systemFontFamily') String? fontFamily, String backgroundImage, double backgroundOpacity, List<String> backgroundImages, bool backgroundImageEnabled
 });
 
 
@@ -2780,7 +2780,7 @@ class _$ThemePropsCopyWithImpl<$Res>
 
 /// Create a copy of ThemeProps
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? primaryColor = freezed,Object? primaryColors = null,Object? themeMode = null,Object? colorStyle = null,Object? pureBlack = null,Object? sidebarBlur = null,Object? liquidGlass = null,Object? textScale = null,Object? fontFamily = freezed,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? primaryColor = freezed,Object? primaryColors = null,Object? themeMode = null,Object? colorStyle = null,Object? pureBlack = null,Object? sidebarBlur = null,Object? liquidGlass = null,Object? textScale = null,Object? fontFamily = freezed,Object? backgroundImage = null,Object? backgroundOpacity = null,Object? backgroundImages = null,Object? backgroundImageEnabled = null,}) {
   return _then(ThemeProps(
 primaryColor: freezed == primaryColor ? _self.primaryColor : primaryColor // ignore: cast_nullable_to_non_nullable
 as int?,primaryColors: null == primaryColors ? _self.primaryColors : primaryColors // ignore: cast_nullable_to_non_nullable
@@ -2791,7 +2791,11 @@ as bool,sidebarBlur: null == sidebarBlur ? _self.sidebarBlur : sidebarBlur // ig
 as bool,liquidGlass: null == liquidGlass ? _self.liquidGlass : liquidGlass // ignore: cast_nullable_to_non_nullable
 as LiquidGlassMode,textScale: null == textScale ? _self.textScale : textScale // ignore: cast_nullable_to_non_nullable
 as TextScale,fontFamily: freezed == fontFamily ? _self.fontFamily : fontFamily // ignore: cast_nullable_to_non_nullable
-as String?,
+as String?,backgroundImage: null == backgroundImage ? _self.backgroundImage : backgroundImage // ignore: cast_nullable_to_non_nullable
+as String,backgroundOpacity: null == backgroundOpacity ? _self.backgroundOpacity : backgroundOpacity // ignore: cast_nullable_to_non_nullable
+as double,backgroundImages: null == backgroundImages ? _self.backgroundImages : backgroundImages // ignore: cast_nullable_to_non_nullable
+as List<String>,backgroundImageEnabled: null == backgroundImageEnabled ? _self.backgroundImageEnabled : backgroundImageEnabled // ignore: cast_nullable_to_non_nullable
+as bool,
   ));
 }
 /// Create a copy of ThemeProps
@@ -2885,10 +2889,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( int? primaryColor,  List<int> primaryColors,  ThemeMode themeMode, @JsonKey(readValue: _readColorStyle)  ColorStyle colorStyle,  bool pureBlack,  bool sidebarBlur, @JsonKey(readValue: _readLiquidGlass)  LiquidGlassMode liquidGlass,  TextScale textScale, @JsonKey(name: 'systemFontFamily')  String? fontFamily)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( int? primaryColor,  List<int> primaryColors,  ThemeMode themeMode, @JsonKey(readValue: _readColorStyle)  ColorStyle colorStyle,  bool pureBlack,  bool sidebarBlur, @JsonKey(readValue: _readLiquidGlass)  LiquidGlassMode liquidGlass,  TextScale textScale, @JsonKey(name: 'systemFontFamily')  String? fontFamily,  String backgroundImage,  double backgroundOpacity,  List<String> backgroundImages,  bool backgroundImageEnabled)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _ThemeProps() when $default != null:
-return $default(_that.primaryColor,_that.primaryColors,_that.themeMode,_that.colorStyle,_that.pureBlack,_that.sidebarBlur,_that.liquidGlass,_that.textScale,_that.fontFamily);case _:
+return $default(_that.primaryColor,_that.primaryColors,_that.themeMode,_that.colorStyle,_that.pureBlack,_that.sidebarBlur,_that.liquidGlass,_that.textScale,_that.fontFamily,_that.backgroundImage,_that.backgroundOpacity,_that.backgroundImages,_that.backgroundImageEnabled);case _:
   return orElse();
 
 }
@@ -2906,10 +2910,10 @@ return $default(_that.primaryColor,_that.primaryColors,_that.themeMode,_that.col
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( int? primaryColor,  List<int> primaryColors,  ThemeMode themeMode, @JsonKey(readValue: _readColorStyle)  ColorStyle colorStyle,  bool pureBlack,  bool sidebarBlur, @JsonKey(readValue: _readLiquidGlass)  LiquidGlassMode liquidGlass,  TextScale textScale, @JsonKey(name: 'systemFontFamily')  String? fontFamily)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( int? primaryColor,  List<int> primaryColors,  ThemeMode themeMode, @JsonKey(readValue: _readColorStyle)  ColorStyle colorStyle,  bool pureBlack,  bool sidebarBlur, @JsonKey(readValue: _readLiquidGlass)  LiquidGlassMode liquidGlass,  TextScale textScale, @JsonKey(name: 'systemFontFamily')  String? fontFamily,  String backgroundImage,  double backgroundOpacity,  List<String> backgroundImages,  bool backgroundImageEnabled)  $default,) {final _that = this;
 switch (_that) {
 case _ThemeProps():
-return $default(_that.primaryColor,_that.primaryColors,_that.themeMode,_that.colorStyle,_that.pureBlack,_that.sidebarBlur,_that.liquidGlass,_that.textScale,_that.fontFamily);case _:
+return $default(_that.primaryColor,_that.primaryColors,_that.themeMode,_that.colorStyle,_that.pureBlack,_that.sidebarBlur,_that.liquidGlass,_that.textScale,_that.fontFamily,_that.backgroundImage,_that.backgroundOpacity,_that.backgroundImages,_that.backgroundImageEnabled);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -2926,10 +2930,10 @@ return $default(_that.primaryColor,_that.primaryColors,_that.themeMode,_that.col
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( int? primaryColor,  List<int> primaryColors,  ThemeMode themeMode, @JsonKey(readValue: _readColorStyle)  ColorStyle colorStyle,  bool pureBlack,  bool sidebarBlur, @JsonKey(readValue: _readLiquidGlass)  LiquidGlassMode liquidGlass,  TextScale textScale, @JsonKey(name: 'systemFontFamily')  String? fontFamily)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( int? primaryColor,  List<int> primaryColors,  ThemeMode themeMode, @JsonKey(readValue: _readColorStyle)  ColorStyle colorStyle,  bool pureBlack,  bool sidebarBlur, @JsonKey(readValue: _readLiquidGlass)  LiquidGlassMode liquidGlass,  TextScale textScale, @JsonKey(name: 'systemFontFamily')  String? fontFamily,  String backgroundImage,  double backgroundOpacity,  List<String> backgroundImages,  bool backgroundImageEnabled)?  $default,) {final _that = this;
 switch (_that) {
 case _ThemeProps() when $default != null:
-return $default(_that.primaryColor,_that.primaryColors,_that.themeMode,_that.colorStyle,_that.pureBlack,_that.sidebarBlur,_that.liquidGlass,_that.textScale,_that.fontFamily);case _:
+return $default(_that.primaryColor,_that.primaryColors,_that.themeMode,_that.colorStyle,_that.pureBlack,_that.sidebarBlur,_that.liquidGlass,_that.textScale,_that.fontFamily,_that.backgroundImage,_that.backgroundOpacity,_that.backgroundImages,_that.backgroundImageEnabled);case _:
   return null;
 
 }
@@ -2941,7 +2945,7 @@ return $default(_that.primaryColor,_that.primaryColors,_that.themeMode,_that.col
 @JsonSerializable()
 
 class _ThemeProps implements ThemeProps {
-  const _ThemeProps({this.primaryColor,  List<int> primaryColors = defaultPrimaryColors, this.themeMode = ThemeMode.system, @JsonKey(readValue: _readColorStyle) this.colorStyle = ColorStyle.vivid, this.pureBlack = false, this.sidebarBlur = false, @JsonKey(readValue: _readLiquidGlass) this.liquidGlass = LiquidGlassMode.none, this.textScale = const TextScale(), @JsonKey(name: 'systemFontFamily') this.fontFamily}): _primaryColors = primaryColors;
+  const _ThemeProps({this.primaryColor,  List<int> primaryColors = defaultPrimaryColors, this.themeMode = ThemeMode.system, @JsonKey(readValue: _readColorStyle) this.colorStyle = ColorStyle.vivid, this.pureBlack = false, this.sidebarBlur = false, @JsonKey(readValue: _readLiquidGlass) this.liquidGlass = LiquidGlassMode.none, this.textScale = const TextScale(), @JsonKey(name: 'systemFontFamily') this.fontFamily, this.backgroundImage = '', this.backgroundOpacity = 1.0,  List<String> backgroundImages = const [], this.backgroundImageEnabled = true}): _primaryColors = primaryColors,_backgroundImages = backgroundImages;
   factory _ThemeProps.fromJson(Map<String, dynamic> json) => _$ThemePropsFromJson(json);
 
 @override final  int? primaryColor;
@@ -2959,6 +2963,16 @@ class _ThemeProps implements ThemeProps {
 @override@JsonKey(readValue: _readLiquidGlass) final  LiquidGlassMode liquidGlass;
 @override@JsonKey() final  TextScale textScale;
 @override@JsonKey(name: 'systemFontFamily') final  String? fontFamily;
+@override@JsonKey() final  String backgroundImage;
+@override@JsonKey() final  double backgroundOpacity;
+ final  List<String> _backgroundImages;
+@override@JsonKey() List<String> get backgroundImages {
+  if (_backgroundImages is EqualUnmodifiableListView) return _backgroundImages;
+  // ignore: implicit_dynamic_type
+  return EqualUnmodifiableListView(_backgroundImages);
+}
+
+@override@JsonKey() final  bool backgroundImageEnabled;
 
 /// Create a copy of ThemeProps
 /// with the given fields replaced by the non-null parameter values.
@@ -2973,18 +2987,18 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-    return identical(this, other) || (other.runtimeType == runtimeType&&other is _ThemeProps&&(identical(other.primaryColor, primaryColor) || other.primaryColor == primaryColor)&&const DeepCollectionEquality().equals(other.primaryColors, _primaryColors)&&(identical(other.themeMode, themeMode) || other.themeMode == themeMode)&&(identical(other.colorStyle, colorStyle) || other.colorStyle == colorStyle)&&(identical(other.pureBlack, pureBlack) || other.pureBlack == pureBlack)&&(identical(other.sidebarBlur, sidebarBlur) || other.sidebarBlur == sidebarBlur)&&(identical(other.liquidGlass, liquidGlass) || other.liquidGlass == liquidGlass)&&(identical(other.textScale, textScale) || other.textScale == textScale)&&(identical(other.fontFamily, fontFamily) || other.fontFamily == fontFamily));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _ThemeProps&&(identical(other.primaryColor, primaryColor) || other.primaryColor == primaryColor)&&const DeepCollectionEquality().equals(other.primaryColors, _primaryColors)&&(identical(other.themeMode, themeMode) || other.themeMode == themeMode)&&(identical(other.colorStyle, colorStyle) || other.colorStyle == colorStyle)&&(identical(other.pureBlack, pureBlack) || other.pureBlack == pureBlack)&&(identical(other.sidebarBlur, sidebarBlur) || other.sidebarBlur == sidebarBlur)&&(identical(other.liquidGlass, liquidGlass) || other.liquidGlass == liquidGlass)&&(identical(other.textScale, textScale) || other.textScale == textScale)&&(identical(other.fontFamily, fontFamily) || other.fontFamily == fontFamily)&&(identical(other.backgroundImage, backgroundImage) || other.backgroundImage == backgroundImage)&&(identical(other.backgroundOpacity, backgroundOpacity) || other.backgroundOpacity == backgroundOpacity)&&const DeepCollectionEquality().equals(other.backgroundImages, _backgroundImages)&&(identical(other.backgroundImageEnabled, backgroundImageEnabled) || other.backgroundImageEnabled == backgroundImageEnabled));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
 int get hashCode {
-    return Object.hash(runtimeType,primaryColor,const DeepCollectionEquality().hash(_primaryColors),themeMode,colorStyle,pureBlack,sidebarBlur,liquidGlass,textScale,fontFamily);
+    return Object.hash(runtimeType,primaryColor,const DeepCollectionEquality().hash(_primaryColors),themeMode,colorStyle,pureBlack,sidebarBlur,liquidGlass,textScale,fontFamily,backgroundImage,backgroundOpacity,const DeepCollectionEquality().hash(_backgroundImages),backgroundImageEnabled);
 }
 
 @override
 String toString() {
-    return 'ThemeProps(primaryColor: $primaryColor, primaryColors: $primaryColors, themeMode: $themeMode, colorStyle: $colorStyle, pureBlack: $pureBlack, sidebarBlur: $sidebarBlur, liquidGlass: $liquidGlass, textScale: $textScale, fontFamily: $fontFamily)';
+    return 'ThemeProps(primaryColor: $primaryColor, primaryColors: $primaryColors, themeMode: $themeMode, colorStyle: $colorStyle, pureBlack: $pureBlack, sidebarBlur: $sidebarBlur, liquidGlass: $liquidGlass, textScale: $textScale, fontFamily: $fontFamily, backgroundImage: $backgroundImage, backgroundOpacity: $backgroundOpacity, backgroundImages: $backgroundImages, backgroundImageEnabled: $backgroundImageEnabled)';
 }
 
 
@@ -2995,7 +3009,7 @@ abstract mixin class _$ThemePropsCopyWith<$Res> implements $ThemePropsCopyWith<$
   factory _$ThemePropsCopyWith(_ThemeProps value, $Res Function(_ThemeProps) _then) = __$ThemePropsCopyWithImpl;
 @override @useResult
 $Res call({
- int? primaryColor, List<int> primaryColors, ThemeMode themeMode,@JsonKey(readValue: _readColorStyle) ColorStyle colorStyle, bool pureBlack, bool sidebarBlur,@JsonKey(readValue: _readLiquidGlass) LiquidGlassMode liquidGlass, TextScale textScale,@JsonKey(name: 'systemFontFamily') String? fontFamily
+ int? primaryColor, List<int> primaryColors, ThemeMode themeMode,@JsonKey(readValue: _readColorStyle) ColorStyle colorStyle, bool pureBlack, bool sidebarBlur,@JsonKey(readValue: _readLiquidGlass) LiquidGlassMode liquidGlass, TextScale textScale,@JsonKey(name: 'systemFontFamily') String? fontFamily, String backgroundImage, double backgroundOpacity, List<String> backgroundImages, bool backgroundImageEnabled
 });
 
 
@@ -3012,7 +3026,7 @@ class __$ThemePropsCopyWithImpl<$Res>
 
 /// Create a copy of ThemeProps
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? primaryColor = freezed,Object? primaryColors = null,Object? themeMode = null,Object? colorStyle = null,Object? pureBlack = null,Object? sidebarBlur = null,Object? liquidGlass = null,Object? textScale = null,Object? fontFamily = freezed,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? primaryColor = freezed,Object? primaryColors = null,Object? themeMode = null,Object? colorStyle = null,Object? pureBlack = null,Object? sidebarBlur = null,Object? liquidGlass = null,Object? textScale = null,Object? fontFamily = freezed,Object? backgroundImage = null,Object? backgroundOpacity = null,Object? backgroundImages = null,Object? backgroundImageEnabled = null,}) {
   return _then(_ThemeProps(
 primaryColor: freezed == primaryColor ? _self.primaryColor : primaryColor // ignore: cast_nullable_to_non_nullable
 as int?,primaryColors: null == primaryColors ? _self._primaryColors : primaryColors // ignore: cast_nullable_to_non_nullable
@@ -3023,7 +3037,11 @@ as bool,sidebarBlur: null == sidebarBlur ? _self.sidebarBlur : sidebarBlur // ig
 as bool,liquidGlass: null == liquidGlass ? _self.liquidGlass : liquidGlass // ignore: cast_nullable_to_non_nullable
 as LiquidGlassMode,textScale: null == textScale ? _self.textScale : textScale // ignore: cast_nullable_to_non_nullable
 as TextScale,fontFamily: freezed == fontFamily ? _self.fontFamily : fontFamily // ignore: cast_nullable_to_non_nullable
-as String?,
+as String?,backgroundImage: null == backgroundImage ? _self.backgroundImage : backgroundImage // ignore: cast_nullable_to_non_nullable
+as String,backgroundOpacity: null == backgroundOpacity ? _self.backgroundOpacity : backgroundOpacity // ignore: cast_nullable_to_non_nullable
+as double,backgroundImages: null == backgroundImages ? _self._backgroundImages : backgroundImages // ignore: cast_nullable_to_non_nullable
+as List<String>,backgroundImageEnabled: null == backgroundImageEnabled ? _self.backgroundImageEnabled : backgroundImageEnabled // ignore: cast_nullable_to_non_nullable
+as bool,
   ));
 }
 
